@@ -26,7 +26,32 @@ class Access extends CI_Controller {
 						break;
 
 					case "dashboard":
-						$this->load->view("Dashboard");
+						$data["SlipType"] = json_encode($this->db->query("Select * from StoreType")->result());
+
+						if($this->db->query("Select COUNT(*) as x from Store")->result()[0]->x == "0") $data["isStoreEmpty"] = true;
+						else {
+							$temp = array();
+
+							foreach ($this->db->query("Select * from Store Order by StoreID DESC")->result() as $value) {
+								array_push($temp, array(
+									"StoreID" => $value->StoreID,
+									"StoreTitle" => $value->StoreTitle,
+									"StoreType" => $value->StoreType,
+									"isOthers" => $value->isOthers,
+									"isPurchasable" => $value->isPurchasable,
+									"isPhysical" => $value->isPhysical,
+									"StorePrice" => $value->StorePrice,
+									"StoreIcon" => $value->StoreIcon,
+									"TimeRegister" => $value->TimeRegister,
+									"DateRegister" => $value->DateRegister
+								));
+							}
+
+							$data["Store"] = $temp;
+							$data["isStoreEmpty"] = false;
+						}
+
+						$this->load->view("Dashboard", $data);
 						break;
 
 					case "records":
@@ -49,6 +74,7 @@ class Access extends CI_Controller {
 									"isPurchasable" => $value->isPurchasable,
 									"isPhysical" => $value->isPhysical,
 									"StorePrice" => $value->StorePrice,
+									"StoreIcon" => $value->StoreIcon,
 									"TimeRegister" => $value->TimeRegister,
 									"DateRegister" => $value->DateRegister
 								));
@@ -58,10 +84,7 @@ class Access extends CI_Controller {
 							$data["isStoreEmpty"] = false;
 						}
 
-						// echo json_encode($data);
-
 						$this->load->view("Admin", $data);
-
 						break;
 							
 					default:

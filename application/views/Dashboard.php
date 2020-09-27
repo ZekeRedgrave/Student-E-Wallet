@@ -24,31 +24,19 @@
 			<!-- Payments Area -->
 			<h4 class="border-bottom mt-4 pb-1">Payments</h4>
 			<div class="d-flex justify-content-center row ml-1 mr-1" style="width: 100%">
-				<button class="d-flex flex-column form-control m-1" style="height: 90px; width: 200px;">
-					<div class="d-flex justify-content-center" style="width: 100%">
-						<div class="material-icons rounded-circle border p-2">school</div>
-					</div>
-					<div class="d-flex justify-content-center mt-2" style="width: 100%">School Fee</div>
-				</button>
-				<button class="d-flex flex-column form-control m-1" style="height: 90px; width: 200px;">
-					<div class="d-flex justify-content-center" style="width: 100%">
-						<div class="material-icons rounded-circle border p-2">grading</div>
-					</div>
-					<div class="d-flex justify-content-center mt-2" style="width: 100%">Grade Slip</div>
-				</button>
-				<button class="d-flex flex-column form-control m-1" style="height: 90px; width: 200px;">
-					<div class="d-flex justify-content-center" style="width: 100%">
-						<div class="material-icons rounded-circle border p-2">receipt_long</div>
-					</div>
-					<div class="d-flex justify-content-center mt-2" style="width: 100%">Evaluation Grades</div>
-				</button>
+				<?php
 
-				<button class="d-flex flex-column form-control m-1" style="height: 90px; width: 200px;">
-					<div class="d-flex justify-content-center" style="width: 100%">
-						<div class="material-icons rounded-circle border p-2">list</div>
-					</div>
-					<div class="d-flex justify-content-center mt-2" style="width: 100%">Others</div>
-				</button>
+					if($isStoreEmpty == true) echo '<div class="d-flex align-items-center justify-content-center mt-3 mb-5" style="min-width: 100px; height: 100%"><h4>Not Available Yet!</h4></div>';
+					else {
+						foreach ($Store as $value) {
+							echo '<button id="HomeView_ItemID' .$value['StoreID']. '" onclick="new Home().View_ItemButton(' .$value['StoreID']. ')" class="d-flex flex-column form-control rounded mr-3 mb-3" style="background-color: white; width: 175px; min-height: 125px;">
+									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
+									<div class="d-flex justify-content-center p-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
+								</button>';								
+						}
+					}
+
+				?>
 
 			</div>
 			<!-- End of Payments Area -->
@@ -78,4 +66,10 @@
 	$(document).ready(function() {
 		$("title").text("E-Student Wallet Access - Dashboard")	
 	})
+
+	function Home() {
+		this.View_ItemButton = function(id) {
+
+		}
+	}
 </script>
