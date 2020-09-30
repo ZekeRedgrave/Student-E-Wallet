@@ -25,7 +25,7 @@ class Access extends CI_Controller {
 						$this->load->view("Sidebar");
 						break;
 
-					case "dashboard":
+					case "store":
 						$data["SlipType"] = json_encode($this->db->query("Select * from StoreType")->result());
 
 						if($this->db->query("Select COUNT(*) as x from Store")->result()[0]->x == "0") $data["isStoreEmpty"] = true;
@@ -51,14 +51,14 @@ class Access extends CI_Controller {
 							$data["isStoreEmpty"] = false;
 						}
 
-						$this->load->view("Dashboard", $data);
+						$this->load->view("Store", $data);
 						break;
 
 					case "records":
 						$this->load->view("Records");
 						break;
 
-					case "admin":
+					case "payment":
 						$data["SlipType"] = json_encode($this->db->query("Select * from StoreType")->result());
 
 						if($this->db->query("Select COUNT(*) as x from Store")->result()[0]->x == "0") $data["isStoreEmpty"] = true;
@@ -84,7 +84,11 @@ class Access extends CI_Controller {
 							$data["isStoreEmpty"] = false;
 						}
 
-						$this->load->view("Admin", $data);
+						$this->load->view("Payment", $data);
+						break;
+
+					case "timeline":
+						$this->load->view("Timeline");
 						break;
 							
 					default:

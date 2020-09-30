@@ -129,7 +129,7 @@ class Payment extends CI_Controller {
 	}
 
 	function Edit_DoneButton() {
-		if(isset($_POST['Package']) && !empty($_POST['Package']) && isset($_GET['StoreID']) && !empty($_POST['StoreID'])) {
+		if(isset($_POST['Package']) && isset($_GET['StoreID']) && !empty($_POST['Package']) && !empty($_GET['StoreID'])) {
 			try {
 				$Package = json_decode($_POST['Package']);
 
@@ -145,7 +145,7 @@ class Payment extends CI_Controller {
 						"StoreIcon" => $Package->Icon,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
-					), "StoreID = ". $_POST['StoreID']);
+					), "StoreID = ". $_GET['StoreID']);
 
 				else $this->db->update("Store", array(
 						"UserID" => "15730500",
@@ -159,11 +159,11 @@ class Payment extends CI_Controller {
 						"StoreIcon" => $Package->Icon,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
-					), "StoreID = ". $_POST['StoreID']);
+					), "StoreID = ". $_GET['StoreID']);
 
 				$data["isError"] = false;
 
-				foreach ($this->db->query("Select * from Store where StoreID=". $_POST['StoreID'])->result()[0] as $key => $value) $data[$key] = $value;
+				foreach ($this->db->query("Select * from Store where StoreID=". $_GET['StoreID'])->result()[0] as $key => $value) $data[$key] = $value;
 
 				echo json_encode($data);
 

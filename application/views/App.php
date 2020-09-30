@@ -27,7 +27,7 @@
 		$("title").text("E-Student Wallet Access - Loading....")
 
 		$("#App_SidebarArea").load(window.location + "/LoadView?Load=views&Name=sidebar", function() {
-			var DownloadBlob = ["dashboard", "records", "admin"]
+			var DownloadBlob = ["store", "records", "payment", "timeline"]
 
 			for (var i = 0; i < DownloadBlob.length; i++) {
 				$.get(window.location +"/LoadView?Load=views&Name="+ DownloadBlob[i], function(data) {

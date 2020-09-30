@@ -4,7 +4,9 @@
 	<!-- Menu List Area -->
 	<button id="App_HomeButton" class="material-icons form-control mb-1" title="Home">home</button>
 	<button id="App_RecordsButton" class="material-icons form-control mb-1" title="Records">receipt_long</button>
-	<button id="App_AdminButton" class="material-icons form-control" title="Admin">admin_panel_settings</button>
+	<div style="height: 100%"></div>
+	<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>
+	<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>
 	<!-- End of Menu List Area -->
 	<div style="height: 100%"></div>
 	<button class="material-icons form-control mb-1" title="Z. Redgrave ID#1234567890" style="background: center no-repeat url('http://localhost/Ewallet/avatar.png'); background-size: 80% auto; min-height: 40px;"></button>
@@ -14,25 +16,36 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#App_HomeButton").click(function() {
-			$("#App_DashboardArea").removeClass('hide')
+			$("#App_HomeArea").removeClass('hide')
 			$("#App_RecordsArea").addClass('hide')
-			$("#App_AdminArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Home")
 		})
 		$("#App_RecordsButton").click(function() {
-			$("#App_DashboardArea").addClass('hide')
+			$("#App_HomeArea").addClass('hide')
 			$("#App_RecordsArea").removeClass('hide')
-			$("#App_AdminArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Records")
 		})
-		$("#App_AdminButton").click(function() {
-			$("#App_DashboardArea").addClass('hide')
+		$("#App_PaymentButton").click(function() {
+			$("#App_HomeArea").addClass('hide')
 			$("#App_RecordsArea").addClass('hide')
-			$("#App_AdminArea").removeClass('hide')
+			$("#App_TimelineArea").addClass('hide')
+			$("#App_PaymentArea").removeClass('hide')
 
-			$("title").text("E-Student Wallet Access - Admin")
+			$("title").text("E-Student Wallet Access - Generate Store")
+		})
+		$("#App_TimelineButton").click(function() {
+			$("#App_HomeArea").addClass('hide')
+			$("#App_RecordsArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").removeClass('hide')
+
+			$("title").text("E-Student Wallet Access - News and Announcement")
 		})
 
 		$("#App_LogoutButton").click(function() {
