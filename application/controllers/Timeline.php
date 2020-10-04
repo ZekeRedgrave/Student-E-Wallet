@@ -8,12 +8,63 @@ class Timeline extends CI_Controller {
           $this->load->database('default');
     }
 
+    function View_PostLoad() {
+    	$TimelineQuery = $this->db->query("Select * from Timeline Order by TimelineID DESC")->result();
+    	$data['isError'] = false;
+    	$data['TimelineArray'] = array();
+
+    	if(json_encode($TimelineQuery) != null) {
+    		foreach ($TimelineQuery as $value) array_push($data["TimelineArray"], $value->TimelineID);
+
+	    	echo json_encode($data);
+    	}
+    	else echo json_encode(array(
+    		"isError" => false,
+    		"TimelineCount" => 0
+    	));
+    }
+
     function View_ItemLoad() {
     	if(isset($_GET['TimelineID']) && !empty($_GET['TimelineID'])) {
     		$TimelineQuery = $this->db->query("Select * from Timeline where TimelineID=". $_GET["TimelineID"])->result()[0];
     		$data["isError"] = false;
 
-    		if(json_encode($TimelineQuery) != null) foreach ($TimelineQuery as $key => $value) $data[$key] = $value;
+    		if(json_encode($TimelineQuery) != null) {
+    			$AccountQuery = $this->db->query("Select * from Account where AccountID=". $TimelineQuery->AccountID)->result()[0];
+
+    			$data['TimelineName'] = $AccountQuery->AccountUsername. " [". $AccountQuery->AccountType ."]";
+    			$data['TimelineImage'] = $AccountQuery->AccountImage;
+
+    			foreach ($TimelineQuery as $key => $value) $data[$key] = $value;
+    		}
+    		else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: 404 Not Found!"
+			));
+
+    		echo json_encode($data);
+    	}
+    	else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: 404 Not Found!"
+		));
+    }
+
+    function View_PostButton() {
+    	if(isset($_GET['TimelineID']) && !empty($_GET['TimelineID'])) {
+    		$TimelineQuery = $this->db->query("Select * from Timeline where TimelineID=". $_GET["TimelineID"])->result()[0];
+    		$data["isError"] = false;
+
+    		if(json_encode($TimelineQuery) != null) {
+    			$AccountQuery = $this->db->query("Select * from Account where AccountID=". $TimelineQuery->AccountID)->result()[0];
+
+    			$data["PostID"] = $TimelineQuery->TimelineID;
+    			$data["PostHostname"] = $AccountQuery->AccountUsername. ' [' .$AccountQuery->AccountType. ']';
+    			$data["PostHostimage"] = $AccountQuery->AccountImage;
+    			$data["PostDT"] = $TimelineQuery->DateRegister. " " .$TimelineQuery->TimeRegister;
+    			$data["PostText"] = json_decode($TimelineQuery->TimelineDescription)->Text;
+    			$data["PostImage"] = json_decode($TimelineQuery->TimelineDescription)->Image;
+    		}
     		else echo json_encode(array(
 				"isError" => true,
 				"ErrorDisplay" => "Error: 404 Not Found!"
@@ -40,6 +91,23 @@ class Timeline extends CI_Controller {
 				"isError" => true,
 				"ErrorDisplay" => "Error: 404 Not Found!"
 			));
+    	}
+    	else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: 404 Not Found!"
+		));
+    }
+
+    function View_CommentLoad() {
+    	if(isset($_GET['TimelineID']) && !empty($_GET['TimelineID'])) {
+    		$CommentQuery = $this->db->query("Select * from Comment where TimelineID=". $_GET['TimelineID'] ." Order by CommentID DESC")->result();
+    		$data['isError'] = false;
+    		$data['CommentID'] = [];
+
+    		foreach ($CommentQuery as $value) array_push($data['CommentID'], $value->CommentID);
+
+    		echo json_encode($data);
+
     	}
     	else echo json_encode(array(
 			"isError" => true,
@@ -81,7 +149,7 @@ class Timeline extends CI_Controller {
 				$this->db->insert("Timeline", array(
 					"TimelineID" => "null",
 					"UserID" => 15730500,
-					"AccountID" => 0,
+					"AccountID" => 1,
 					"TimelineDescription" => json_encode(array(
 						"Text" => $Package->TimelineDescription,
 						"Image" => $temp

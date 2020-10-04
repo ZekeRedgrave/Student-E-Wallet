@@ -2,13 +2,19 @@
 class Access extends CI_Controller {
 	function __construct()
 	{
-          parent::__construct();
-          $this->load->database('default');
+        parent::__construct();
+        $this->load->database('default');
+        $this->load->library('email');
     }
 
 	function index() {
 		$this->load->view("Index");
 	}
+
+	function Register_DoneButton() {
+		
+	}
+
 	function LoadView() {
 		if(isset($_GET["Load"]) && isset($_GET["Name"])) {
 			if($_GET["Load"] == "views") {
