@@ -478,14 +478,14 @@
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		new StoreComment().View_ItemLoad(id)
+			 		// new StoreComment().View_ItemLoad(id)
 				}
 			})
 		}
 
 		this.Create_SendButton = function(id) {
 			var StoreComment_Writebox = $("#StoreComment_Writebox")
-			var StoreComment_SendButton = $("#StoreComment_SendButton")
+			var StorePost_CommentLoader = $("#StorePost_CommentLoader")
 
 			if(StoreComment_Writebox.val() != "") {
 				$.ajax({
@@ -497,7 +497,7 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							if(data.isNew) StoreComment_SendButton.html('')
+							if(data.isNew) StorePost_CommentLoader.html('')
 
 							var HTML = `
 								<div id="StoreComment_ItemID` +data.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
@@ -515,7 +515,7 @@
 									</div>
 								</div>
 							`
-							StoreComment_SendButton.prepend(HTML)
+							StorePost_CommentLoader.prepend(HTML)
 							StoreComment_Writebox.val('')
 
 							new StoreComment().View_ItemLoad(data.CommentID)

@@ -4,31 +4,54 @@ class Access extends CI_Controller {
 	{
         parent::__construct();
         $this->load->database('default');
-        $this->load->library('email');
+        
+        session_start();
     }
 
 	function index() {
-		$this->load->view("Index");
-	}
+		$x = include APPPATH.'third_party/AdminConfig.php';
 
-	function Register_DoneButton() {
-		
+		if($_SESSION['AccountID'] != null) {
+			if($_SESSION['AccountID'] == $x['Username']) {
+				$data["QueryParam"] = "Load=views&Name=admin";
+
+				$this->load->view("Index", $data);
+			}
+			else {
+				$data["QueryParam"] = "Load=views&Name=app";
+
+				$this->load->view("Index", $data);
+			}
+		}
+		else {
+			$data["QueryParam"] = "Load=views&Name=entrance";
+
+			$this->load->view("Index", $data);
+		}
 	}
 
 	function LoadView() {
 		if(isset($_GET["Load"]) && isset($_GET["Name"])) {
 			if($_GET["Load"] == "views") {
+				$data["AccountType"] = $_SESSION["AccountType"];
+
 				switch ($_GET["Name"]) {
-					case "login":
-						$this->load->view("Login");
+					case "admin":
+						$this->load->view("Admin");
 						break;
 
 					case "app":
-						$this->load->view("App");
+						$this->load->view("App", $data);
+						break;
+
+					case "entrance":
+						$_SESSION["AccountType"] = $_SESSION['AccountID'] = "";
+
+						$this->load->view("Entrance");
 						break;
 
 					case "sidebar":
-						$this->load->view("Sidebar");
+						$this->load->view("Sidebar", $data);
 						break;
 
 					case "store":
@@ -96,6 +119,10 @@ class Access extends CI_Controller {
 					case "timeline":
 						$this->load->view("Timeline");
 						break;
+
+					case "account":
+						$this->load->view("Account");
+						break;
 							
 					default:
 						echo "Error Code : 404";
@@ -105,26 +132,6 @@ class Access extends CI_Controller {
 			else echo "Error Code : 404";
 		}  
 		else echo "Error Code : 404";
-	}
-
-	function LoginAccess() {
-		if(isset($_GET["formType"])) {
-			switch ($_GET["formType"]) {
-				case "login":
-					$StudentID = "15730500";
-					$Password = "1234";
-
-					echo json_encode(array(
-						"isError" => false,
-						"QueryParam" => "Load=views&Name=app" 
-					));
-					break;
-				
-				default:
-					// code...
-					break;
-			}
-		}
 	}
 }
 

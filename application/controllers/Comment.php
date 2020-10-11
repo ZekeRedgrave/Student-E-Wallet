@@ -6,6 +6,8 @@ class Comment extends CI_Controller {
 	{
           parent::__construct();
           $this->load->database('default');
+
+          session_start();
     }
 
     function Create_SendButton() {
@@ -17,8 +19,7 @@ class Comment extends CI_Controller {
     				$this->db->insert("comment", array(
 		    			"CommentID" => null,
 		    			"TimelineID" => $_GET['TimelineID'],
-		    			"UserID" => 15730500,
-		    			"AccountID" => 1,
+		    			"AccountID" => $_SESSION["AccountID"],
 		    			"CommentDescription" => json_encode(array(
 		    				"Text" => $_POST['CommentDescription'],
 		    				"Image"=> []
@@ -38,8 +39,7 @@ class Comment extends CI_Controller {
     				$this->db->insert("comment", array(
 		    			"CommentID" => null,
 		    			"TimelineID" => $_GET['TimelineID'],
-		    			"UserID" => 15730500,
-		    			"AccountID" => 1,
+		    			"AccountID" => $_SESSION["AccountID"],
 		    			"CommentDescription" => json_encode(array(
 		    				"Text" => $_POST['CommentDescription'],
 		    				"Image"=> []

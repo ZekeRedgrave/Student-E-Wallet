@@ -6,15 +6,16 @@ class Timeline extends CI_Controller {
 	{
           parent::__construct();
           $this->load->database('default');
+
+          session_start();
     }
 
     function View_PostLoad() {
-    	$TimelineQuery = $this->db->query("Select * from Timeline Order by TimelineID DESC")->result();
-    	$data['isError'] = false;
-    	$data['TimelineArray'] = array();
+    	if($this->db->query("Select Count(*) as x from Timeline Order by TimelineID DESC")->result()[0]->x != 0) {
+            $data['isError'] = false;
+            $data['TimelineArray'] = array();
 
-    	if(json_encode($TimelineQuery) != null) {
-    		foreach ($TimelineQuery as $value) array_push($data["TimelineArray"], $value->TimelineID);
+    		foreach ($this->db->query("Select * from Timeline Order by TimelineID DESC")->result() as $value) array_push($data["TimelineArray"], $value->TimelineID);
 
 	    	echo json_encode($data);
     	}
@@ -148,8 +149,7 @@ class Timeline extends CI_Controller {
 
 				$this->db->insert("Timeline", array(
 					"TimelineID" => "null",
-					"UserID" => 15730500,
-					"AccountID" => 1,
+					"AccountID" => $_SESSION['AccountID'],
 					"TimelineDescription" => json_encode(array(
 						"Text" => $Package->TimelineDescription,
 						"Image" => $temp

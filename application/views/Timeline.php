@@ -7,11 +7,7 @@
 				<h4 style="margin: 0; font-size: 12px; font-weight: bold;">Write a post</h4>
 				<textarea id="TimelineCreate_Descriptionbox" class="form-control" style="width: 100%; height: 150px; resize: none;"></textarea>
 				<!-- Upload Image Display -->
-				<div id="TimelineCreate_ImageLoader" class="row mt-1 ml-0 mr-0 mb-0">
-					<!-- <div id="TimelineCreate_ImageID" class="d-flex justify-content-end border rounded mr-1 mb-1" style="background: center no-repeat url('http://localhost/ewallet/storage/0.jpg'); background-size: 50px 50px; width: 50px; height: 50px;">
-						<button onclick="new Timeline().TimelineCreate_DeleteButton()" class="material-icons form-control border-0 m-0 p-0 rounded-circle mt-1 mr-1 red" title="Delete Button" style="width: 18px; color: white; height: 18px; font-size: 12px; font-weight: bold">delete</button>
-					</div> -->
-				</div>
+				<div id="TimelineCreate_ImageLoader" class="row mt-1 ml-0 mr-0 mb-0"></div>
 				<!-- End of Upload Image Display -->
 				<div class="d-flex flex-row mt-1">
 					<button onclick="new Timeline().Create_UploadButton()" class="material-icons form-control mr-1 d-flex align-items-center justify-content-center" style="background-color: white; width: 50px; height: 45px;">add</button>
@@ -27,30 +23,7 @@
 			<!-- End of Write Timeline -->
 			<!-- View Timeline -->
 			<h4 class="mt-5">Timeline</h4>
-			<div id="TimelineView_LoaderArea">
-
-				<!-- <div class="d-flex flex-row border p-2 mb-1" style="width: 100%">
-					<img src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-					<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-						<h4 style="margin: 0; font-size: 18px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-						<h4 style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
-
-						<div class="mt-3 mb-3">
-							<span>Add some Text Here!</span>
-						</div>
-
-						<img src="http://localhost/Ewallet/avatar.png" width="100%">
-
-						<div class="d-flex flex-row mt-1">	
-							<a onclick="new Timeline().View_PostButton()" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
-							<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
-							<div style="width: 100%"></div>
-							<a class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
-						</div>
-					</div>
-				</div> -->
-
-			</div>
+			<div id="TimelineView_LoaderArea"></div>
 			<!-- End of View Timeline -->
 		</div>
 		<div class="border-left" style="width: 300px;">
@@ -95,27 +68,7 @@
 			</div>
 			<!-- End of Write Comment Area -->
 			<!-- Comment Loader Area -->
-			<div id="PostView_CommentLoader" class="" style="width: 100%; height: 100%; min-height: 250px; overflow: hidden; overflow-y: scroll;">
-				<!-- <div class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
-					<img src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-					<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-						<h4 style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-
-						<div class="mt-3 mb-3">
-							<span>Add some text here!</span>
-						</div>
-
-						<div class="d-flex flex-row" style="width: 100%">
-							<div style="width: 100%"></div>
-
-							<a class="d-flex align-items-center" style="font-weight: bold">@</a>
-							<a class="material-icons red-text ml-2">delete</a>
-						</div>
-					</div>
-				</div> -->
-
-				<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>
-
+			<div id="PostView_CommentLoader" class="" style="width: 100%; height: 100%; min-height: 250px; overflow: hidden; overflow-y: scroll;">				<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>
 			</div>
 			<!-- End of Comment Loader Area -->
 		</div>

@@ -2,13 +2,35 @@
 	<!-- Logo Area -->
 	<!-- End of Logo Area -->
 	<!-- Menu List Area -->
-	<button id="App_HomeButton" class="material-icons form-control mb-1" title="Home">home</button>
-	<button id="App_RecordsButton" class="material-icons form-control mb-1" title="Records">receipt_long</button>
-	<div style="height: 100%"></div>
-	<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>
-	<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>
+	<!-- <div style="height: 100%"></div> -->
+	<?php 
+		switch (strtoupper($AccountType)) {
+			case "STUDENT":
+				echo '<button id="App_HomeButton" class="material-icons form-control mb-1" title="Home">home</button>';
+				echo '<button id="App_RecordsButton" class="material-icons form-control mb-1" title="Records">receipt_long</button>';
+				break;
+			case "CASHIER":
+				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
+				break;
+
+			case "DEPARTMENT":
+				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
+				echo '<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>';
+				break;
+
+			case "ADMIN":
+				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
+				echo '<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>';
+				break;
+			
+			default:
+				// code...
+				break;
+		}
+	?>
 	<!-- End of Menu List Area -->
 	<div style="height: 100%"></div>
+
 	<button class="material-icons form-control mb-1" title="Z. Redgrave ID#1234567890" style="background: center no-repeat url('http://localhost/Ewallet/avatar.png'); background-size: 80% auto; min-height: 40px;"></button>
 	<button id="App_LogoutButton" class="material-icons form-control" title="Logout">logout</button>
 </div>
@@ -19,6 +41,7 @@
 			$("#App_HomeArea").removeClass('hide')
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_PaymentArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Home")
@@ -27,6 +50,7 @@
 			$("#App_HomeArea").addClass('hide')
 			$("#App_RecordsArea").removeClass('hide')
 			$("#App_PaymentArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Records")
@@ -35,6 +59,7 @@
 			$("#App_HomeArea").addClass('hide')
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
 			$("#App_PaymentArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - Generate Store")
@@ -43,13 +68,23 @@
 			$("#App_HomeArea").addClass('hide')
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_PaymentArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
 			$("#App_TimelineArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - News and Announcement")
 		})
+		$("#App_AccountButton").click(function() {
+			$("#App_HomeArea").addClass('hide')
+			$("#App_RecordsArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").addClass('hide')
+			$("#App_AccountArea").removeClass('hide')
+
+			$("title").text("E-Student Wallet Access - Account")
+		})
 
 		$("#App_LogoutButton").click(function() {
-			$("#root").load(window.location+ "/LoadView?Load=views&Name=login")
+			$("#root").load(window.location+ "/LoadView?Load=views&Name=entrance")
 		})
 	})
 </script>

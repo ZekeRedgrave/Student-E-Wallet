@@ -27,10 +27,34 @@
 		$("title").text("E-Student Wallet Access - Loading....")
 
 		$("#App_SidebarArea").load(window.location + "/LoadView?Load=views&Name=sidebar", function() {
-			var DownloadBlob = ["store", "records", "payment", "timeline"]
+			<?php 
 
-			for (var i = 0; i < DownloadBlob.length; i++) {
-				$.get(window.location +"/LoadView?Load=views&Name="+ DownloadBlob[i], function(data) {
+				switch (strtoupper($AccountType)) {
+					case "STUDENT":
+						echo 'var DownloadBlob = ["store", "records"]';
+						break;
+
+					case "CASHIER":
+						echo 'var DownloadBlob = ["payment"]';
+						break;
+
+					case "DEPARTMENT":
+						echo 'var DownloadBlob = ["payment", "timeline", "account"]';
+						break;
+
+					case "ADMIN":
+						echo 'var DownloadBlob = ["payment", "timeline", "account"]';
+						break;
+					
+					default:
+						// code...
+						break;
+				}
+
+			?>
+
+			for(var i of DownloadBlob) {
+				$.get(window.location +"/LoadView?Load=views&Name="+ i, function(data) {
 					$("#App_ContainerArea").append(data)
 				})
 			}
