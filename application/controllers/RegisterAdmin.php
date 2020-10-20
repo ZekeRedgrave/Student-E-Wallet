@@ -294,6 +294,98 @@ class RegisterAdmin extends CI_Controller {
     function Create_ResendButton2() {
     	Create_ResendButton1();
     }
+
+    function Edit_SendButton() {
+    	if(isset($_POST['AccountEmail']) && !empty($_POST['AccountEmail'])) {
+    		if($this->db->query("Select Count(*) as x from Account where AccountEmail='" .$_POST['AccountEmail']. "' and AccountType !='STUDENT'")->result()[0]->x != 0) {
+    			$Code = rand(0, 999999999);
+    			
+    			$this->db->update("Registration", array(
+    				"RegisterCode" => $Code
+    			), "RegisterEmail='" .$_POST['AccountEmail']. "' and RegisterType != 'STUDENT'");
+
+    			$RegisterQuery = $this->db->query("Select * from Registration where RegisterEmail='" .$_POST['AccountEmail']. "' and RegisterType != 'STUDENT'")->result()[0];
+
+    			$x = include APPPATH.'third_party/SMTPConfig.php';
+
+  				// Sending a Verification Key Code to Email Account
+  				$mail = new PHPMailer();
+				$mail->isSMTP();
+				$mail->Host = 'smtp.gmail.com'; 
+				$mail->SMTPSecure = 'ssl';
+				$mail->SMTPAuth = true;
+				$mail->Username = $x['Email'];
+				$mail->Password = $x['Password'];
+				$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+				$mail->Port = 465;
+				//Recipients
+				$mail->setFrom($x['Email'], "Student EWallet Notifications");
+			    $mail->addAddress($_POST['AccountEmail']);
+
+			    // Content
+			    $mail->isHTML(true);
+			    $mail->Subject = 'Verification Code';
+			    $mail->Body    = 'Verification Code is <b>'. $RegisterQuery->RegisterCode .'</b>';
+			    // Send
+			    $mail->send();
+
+			    echo json_encode(array(
+				   	"isError" => false
+				));
+    		}
+    		else echo json_encode(array(
+	    		"isError" => true,
+	    		"ErrorDisplay" => "Error: Email is not Existed!"
+	    	)); 
+    	}
+    	else echo json_encode(array(
+    		"isError" => true,
+    		"ErrorDisplay" => "Error: Emailbox is Empty!"
+    	)); 
+    }
+
+    function Edit_DoneButton() {
+    	if(isset($_POST['AccountEmail']) && isset($_POST['AccountPassword']) && isset($_POST['AccountRP']) && isset($_POST['RegisterCode'])) {
+    		if(!empty($_POST['AccountEmail']) && !empty($_POST['AccountPassword']) && !empty($_POST['AccountRP']) && !empty($_POST['RegisterCode'])) {
+    			if($_POST['AccountPassword'] == $_POST['AccountRP']) {
+    				if($this->db->query("Select Count(*) as x from Registration where RegisterEmail='" .$_POST['AccountEmail']. "' and RegisterCode=" .$_POST['RegisterCode']. " and RegisterType != 'STUDENT'")->result()[0]->x != 0) {
+	    				$this->db->update("Account", array(
+	    					"AccountPassword" => $_POST['AccountPassword']
+	    				), "AccountEmail='" .$_POST['AccountEmail']. "'");
+
+	    				echo json_encode(array(
+						   	"isError" => false
+						));
+	    			}
+	    			else echo json_encode(array(
+			    		"isError" => true,
+			    		"ErrorDisplay" => "Error: Incorrect Verification Code!"
+			    	));
+    			}
+    			else echo json_encode(array(
+			    	"isError" => true,
+			    	"ErrorDisplay" => "Error: Password Mismatch!"
+			    ));
+    		}
+    		else {
+    			$ErrorDisplay = "";
+
+    			if(empty($_POST['AccountEmail'])) $ErrorDisplay .= "(Email) ";
+    			if(empty($_POST['AccountPassword'])) $ErrorDisplay .= "(Password) ";
+    			if(empty($_POST['AccountRP'])) $ErrorDisplay .= "(Repeat Password) ";
+    			if(empty($_POST['RegisterCode'])) $ErrorDisplay .= "(Code) ";
+
+    			echo json_encode(array(
+		    		"isError" => true,
+		    		"ErrorDisplay" => $ErrorDisplay. "is Empty!"
+		    	)); 
+    		}
+    	}
+    	else echo json_encode(array(
+    		"isError" => true,
+    		"ErrorDisplay" => "Error: Unexpected Error Occur!"
+    	)); 
+    }
 }
 
 ?>

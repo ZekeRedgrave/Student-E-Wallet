@@ -80,16 +80,23 @@
 					<h6 class="mb-3" style="font-weight: bold">Verification Code</h6>
 
 					<h4 class="m-0" style="font-size: 12px; font-weight: bold;">Email</h4>
-					<input id="Create_Codebox" type="number" placeholder="Ex. sample@email.com" class="form-control mb-2">
-					<button onclick="" class="form-control mb-5" style="font-size: 14px; font-weight: bold;">SEND</button>
+					<input id="Edit_Emailbox" placeholder="Ex. XXX XXX XXX" class="form-control mb-2">
+					<button onclick="new Register().Edit_SendButton()" class="form-control mb-5" style="font-size: 14px; font-weight: bold;">SEND</button>
 
-					<div class="hide">
-						<h6 class="mb-0 mt-3" style="font-size: 14px; font-weight: bold; word-break: break-all;">To get your Verification Code, check your Email Account name <span id="View_EmailLabel"></span> and if the Verification Code is already send to your Inbox.</h6>
-						<input id="Create_Codebox" type="number" placeholder="Ex. 15730500" class="form-control mb-2">
-						<button onclick="" class="form-control mb-5" style="font-size: 14px; font-weight: bold;">RESEND CODE</button>
+					<div id="Forgot_ConfirmationArea" class="hide">
+						<h6 class="mb-0 mb-3" style="font-size: 14px; font-weight: bold; word-break: break-all;">To get your Verification Code, check your Email Account name <span id="Edit_EmailLabel"></span> and if the Verification Code is already send to your Inbox.</h6>
+
+						<h6 class="mb-0" style="font-size: 14px; font-weight: bold;">Password</h6>
+						<input id="Edit_Passwordbox" class="form-control mb-3" type="password" placeholder="Ex. XXX XXX XXX" style="width: 100%">
+
+						<h6 class="mb-0" style="font-size: 14px; font-weight: bold;">Repeat Password</h6>
+						<input id="Edit_RPbox" class="form-control mb-3" type="password" placeholder="Ex. XXX XXX XXX" style="width: 100%">
+
+						<h6 class="mb-0" style="font-size: 14px; font-weight: bold;">Verification Code</h6>
+						<input id="Edit_Codebox" class="form-control mb-3" type="number" placeholder="Ex. XXX XXX XXX" style="width: 100%">
+
+						<button onclick="new Register().Edit_DoneButton()" class="form-control mt-2" style="font-size: 14px; font-weight: bold;">OK</button>
 					</div>
-
-					<button onclick="" class="form-control mt-2" style="font-size: 14px; font-weight: bold;">NEXT</button>
 				</div>
 				<!-- End of Create Account -->
 			</div>
@@ -128,6 +135,89 @@
 	}
 
 	function Register() {
+		this.Edit_SendButton = function() {
+			var Forgot_ConfirmationArea = $("#Forgot_ConfirmationArea")
+			var Edit_Emailbox = $("#Edit_Emailbox")
+
+			var Edit_EmailLabel = $("#Edit_EmailLabel")
+
+			if(Edit_Emailbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/RegisterAdmin/Edit_SendButton", 
+					method: 'POST',
+					data: {
+				 		AccountEmail: Edit_Emailbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							Forgot_ConfirmationArea.removeClass('hide')
+							Edit_EmailLabel.val(Edit_Emailbox.val())
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Error: Emailbox is Empty!")
+		}
+
+		this.Edit_DoneButton = function() {
+			var Forgot_ConfirmationArea = $("#Forgot_ConfirmationArea")
+			var Edit_Emailbox = $("#Edit_Emailbox")
+			var Edit_Passwordbox = $("#Edit_Passwordbox")
+			var Edit_RPbox = $("#Edit_RPbox")
+			var Edit_Codebox = $("#Edit_Codebox")
+
+			if(Edit_Emailbox.val() != "" && Edit_Passwordbox.val() != "" && Edit_RPbox.val() != "" && Edit_Codebox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/RegisterAdmin/Edit_DoneButton", 
+					method: 'POST',
+					data: {
+				 		AccountEmail: Edit_Emailbox.val(),
+				 		AccountPassword: Edit_Passwordbox.val(),
+				 		AccountRP: Edit_RPbox.val(),
+				 		RegisterCode: Edit_Codebox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							Forgot_ConfirmationArea.addClass('hide')
+
+							Edit_Emailbox.val('')
+							Edit_Passwordbox.val('')
+							Edit_RPbox.val('')
+							Edit_Codebox.val('')
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else {
+				var ErrorDisplay = ""
+
+				if(Edit_Emailbox.val() != "") ErrorDisplay += "(Email) "
+				if(Edit_Passwordbox.val() != "") ErrorDisplay += "(Password) "
+				if(Edit_RPbox.val() != "") ErrorDisplay += "(Repeat Password) "
+				if(Edit_Codebox.val() != "") ErrorDisplay += "(Code) "
+
+				ErrorDisplay += "is Empty!"
+
+				alert(ErrorDisplay)
+
+				ErrorDisplay = ""
+			}
+		}
+
 		this.Create_SendButton = function() {
 			var Create_Emailbox1 = $("#Create_Emailbox1")
 			var Create_EmailLabel1 = $("#Create_EmailLabel1")

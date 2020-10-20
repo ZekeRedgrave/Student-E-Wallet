@@ -208,7 +208,7 @@
 			</div>
 			<!-- Write Comment Area -->
 			<div class="d-flex flex-row p-2 border-bottom" style="width: 100%">
-				<img src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
+				<img id="StorePost_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
 				<div class="d-flex flex-row ml-2" style="width: 100%">
 					<textarea id="StoreComment_Writebox" class="form-control border rounded pl-2 pr-2" placeholder="Any Comment?" style="width: 100%; height: 100px; resize: none;"></textarea>
 					<button id="StoreComment_SendButton" onclick="new StoreComment().Create_SendButton()" class="material-icons form-control ml-2" style="width: 50px">send</button>
@@ -244,22 +244,22 @@
 						StoreView_LoaderArea.html('')
 
 						for(var value of data.TimelineArray) StoreView_LoaderArea.append(`
-							<div id="StoreView_ItemID`+ value +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
-								<img id="StoreView_ImageID`+ value +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+								<img id="StoreView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 								<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-									<h4 id="StoreView_UsernameID`+ value +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
-									<h4 id="StoreView_DateTimeID`+ value +`" style="margin: 0; font-size: 12px;"></h4>
+									<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+									<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
 
 									<div id="StoreView_DescriptionID`+ value +`" class="mt-3 mb-3"></div>
-									<div id="StoreView_LoaderID`+ value +`"></div>
+									<div id="StoreView_LoaderID`+ value.TimelineID +`"></div>
 
 									<div class="d-flex flex-row mt-1">	
-										<a onclick="new Store().StoreView_PostButton(`+ value +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" title="Show Comment">comment</a>
+										<a onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" title="Show Comment">comment</a>
 									</div>
 								</div>
 							</div>
 						`)
-						for(var value of data.TimelineArray) new Store().StoreView_ItemLoad(value)
+						for(var value of data.TimelineArray) new Store().StoreView_ItemLoad(value.TimelineID)
 					}
 				}
 				else alert(!data.ErrorDisplay)
@@ -299,7 +299,7 @@
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		new Store().StoreView_ItemLoad(id)
+			 		// new Store().StoreView_ItemLoad(id)
 				}
 			})
 		}
@@ -390,25 +390,40 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError){
-						if(data.CommentID.length != 0) {
-							for(var x of data.CommentID) StorePost_CommentLoader.append( `
-								<div id="StoreComment_ItemID` +x+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
-									<img id="StoreComment_ImageID` +x+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<h4 id="StoreComment_NameID` +x+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
+						if(data.CommentArray.length != 0) {
+							for(var x of data.CommentArray) {
+								if(<?php echo $AccountID ?> == x.AccountID) {
+									StorePost_CommentLoader.append( `
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
+												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 
-										<div id="StoreComment_LoaderID` +x+ `" class="mt-3 mb-3"></div>
-										<div class="d-flex flex-row" style="width: 100%">
-											<div style="width: 100%"></div>
+												<div id="StoreComment_LoaderID` +x.CommentID+ `" class="mt-3 mb-3"></div>
+												<div class="d-flex flex-row" style="width: 100%">
+													<div style="width: 100%"></div>
 
-											<a id="StoreComment_MentionButtonID` +x+ `" onclick="new StoreComment().View_MentionButton(` +x+ `)" class="d-flex align-items-center" style="font-weight: bold">@</a>
-											<a id="StoreComment_DeleteButtonID` +x+ `" onclick="new StoreComment().View_DeleteButton(` +x+ `)" class="material-icons red-text ml-2">delete</a>
+													<a id="StoreComment_DeleteButtonID` +x.CommentID+ `" onclick="new StoreComment().View_DeleteButton(` +x.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
+												</div>
+											</div>
 										</div>
-									</div>
-								</div>
-							`)
+									`)
+								}
+								else {
+									StorePost_CommentLoader.append( `
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
+												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 
-							for(var x of data.CommentID) new StoreComment().View_ItemLoad(x)
+												<div id="StoreComment_LoaderID` +x.CommentID+ `" class="mt-3 mb-3"></div>
+											</div>
+										</div>
+									`)
+								}
+							}
+
+							for(var x of data.CommentArray) new StoreComment().View_ItemLoad(x.CommentID)
 						}
 						else StorePost_CommentLoader.append('<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>')
 					}
@@ -451,6 +466,7 @@
 
 	function StoreComment() {
 		this.View_ItemLoad = function(id) {
+			var StoreComment_ItemID = $("#StoreComment_ItemID"+ id)
 			var StoreComment_NameID = $("#StoreComment_NameID"+ id)
 			var StoreComment_ImageID = $("#StoreComment_ImageID"+ id)
 			var StoreComment_MentionButtonID = $("#StoreComment_MentionButtonID"+ id)
@@ -463,11 +479,24 @@
 				success: function(data) {
 					if(!data.isError) {
 						for(var splitter of data.CommentText.split("\n")) {
-							if(splitter != "") $("#StoreComment_LoaderID"+ id).append('<div style="font-size: 12px; word-break: break-all;">'+ splitter +'</div>')
+							if(splitter != "") {
+								var HTML = ''
+
+								for(var space of splitter.split(" ")) {
+									if(space.split('@').length == 2) {
+										if(<?php echo $AccountID; ?> == space.split('#')[0].split("@")[1]) StoreComment_ItemID.addClass('blue').css('color', 'white');
+									}
+
+									HTML += "<span class='mr-1'>" +space+ "</span>"
+								}
+								
+
+								$("#StoreComment_LoaderID"+ id).append('<div style="font-size: 12px; word-break: break-all;">'+ HTML +'</div>')
+							}
 							else $("#StoreComment_LoaderID"+ id).append('<br />')
 						}
 
-						StoreComment_NameID.text(data.CommentName)
+						StoreComment_NameID.text(data.CommentMention + data.CommentName)
 						StoreComment_ImageID.attr('src', window.location.href.replace("/index.php/Access", "")+ "/avatar/"+ data.CommetImage)
 						StoreComment_MentionButtonID.attr('onclick', "new StoreComment().View_MentionButton('"+ data.CommentMention +"')")
 						StoreComment_DeleteButtonID.attr('onclick', 'new StoreComment().View_DeleteButton('+ data.CommentID +')')
@@ -509,7 +538,6 @@
 										<div class="d-flex flex-row" style="width: 100%">
 											<div style="width: 100%"></div>
 
-											<a id="StoreComment_MentionButtonID` +data.CommentID+ `" onclick="new StoreComment().View_MentionButton(` +data.CommentID+ `)" class="d-flex align-items-center" style="font-weight: bold">@</a>
 											<a id="StoreComment_DeleteButtonID` +data.CommentID+ `" onclick="new StoreComment().View_DeleteButton(` +data.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
 										</div>
 									</div>

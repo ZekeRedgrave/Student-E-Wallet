@@ -1,66 +1,87 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
 	<div class="d-flex flex-column" style="width: 100%; height: 100%">
-		<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div id="Account_HomeArea" class="d-flex flex-column p-3" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+			<!-- Logs Area -->
+			<h4 class="mb-5">Logs</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="p-0" style="font-weight: bold; width: 50%">Name</th>
+						<th class="p-0" style="font-weight: bold;">Type</th>
+						<th class="p-0" style="font-weight: bold; width: 50%">Activity</th>
+						<th class="p-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Timeline</th>
+					</tr>
+				</thead>
+				<tbody id="AccountLog_ListLoader">
 
-			<h4 class="m-0 mt-2" style="">On-Hold New Register Account Information</h4>
-			<div class="d-flex flex-column border rounded mt-1 p-2">
+				</tbody>
+			</table>
+			<!-- End of Logs Area -->
+			<div style="width: 100%"></div>
+		</div>
+		<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
+			<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+
+				<h4 class="m-0 mt-2" style="">On-Hold New Register Account Information</h4>
+				<div class="d-flex flex-column border rounded mt-1 p-2">
+					<div class="d-flex flex-row">
+						<a id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="material-icons p-1 pl-3" style="font-size: 15px;">arrow_back_ios</a>
+						<div class="d-flex align-items-center ml-4 mr-4" style="width: 100%; font-size: 13px;">Register ID #1</div>
+
+						<a id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="material-icons p-1 mr-1 red-text" style="font-size: 15px;">delete</a>
+						<a id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="material-icons p-1" style="font-size: 15px;">check</a>
+					</div>
+
+					<div class="d-flex flex-row mt-2" style="width: 100%">
+						<div class="d-flex flex-column ml-2" style="width: 100%">
+							<div style="font-size: 12px; font-weight: bold;">Student ID</div>
+							<div id="AccountView_RegisterSI" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+							<div style="font-size: 12px; font-weight: bold;">Username</div>
+							<div id="AccountView_RegisterUsername" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+							<div style="font-size: 12px; font-weight: bold;">Email</div>
+							<div id="AccountView_RegisterEmail" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+						</div>
+						<div class="d-flex flex-column mr-2" style="width: 100%">
+							<div style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
+							<div id="AccountView_RegisterDT" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+							<div style="font-size: 12px; font-weight: bold;">Expiration</div>
+							<div id="AccountView_RegisterExpiration" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2 red-text">XXX-XXX-XXX</div>
+						</div>
+					</div>
+				</div>
+				<h4 class="mt-5 mb-3">Personal Information</h4>
+				<div class="mb-3" style="font-size: 12px; font-weight: bold;">Before accepting an incoming New Account, you can check the On-Hold New Register Users if he/she is student of the current school.</div>
+
+				<!-- View Student -->
+				<div style="font-size: 12px; font-weight: bold;">Search Student ID</div>
 				<div class="d-flex flex-row">
-					<a class="material-icons p-1 pl-3" style="font-size: 15px;">arrow_back_ios</a>
-					<div class="d-flex align-items-center ml-4 mr-4" style="width: 100%; font-size: 13px;">Register ID #1</div>
-
-					<a id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="material-icons p-1 mr-1 red-text" style="font-size: 15px;">delete</a>
-					<a id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="material-icons p-1" style="font-size: 15px;">check</a>
+					<input id="AccountRegister_Searchbox" class="form-control" type="number" placeholder="e.g. 15730500">
+					<button onclick="new Search().Register_SearchButton()" class="material-icons border rounded ml-1 pl-3 pr-3 white">search</button>
 				</div>
+					
+				<div class="d-flex flex-row mt-3" style="width: 100%;">
+					<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
+					<div class="d-flex flex-column ml-4" style="width: 100%">
 
-				<div class="d-flex flex-row mt-2" style="width: 100%">
-					<div class="d-flex flex-column ml-2" style="width: 100%">
+						<div style="font-size: 12px; font-weight: bold;">Name</div>
+						<div id="AccountRegister_StudentName" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
 						<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-						<div id="AccountView_RegisterSI" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+						<div id="AccountRegister_StudentID" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-						<div style="font-size: 12px; font-weight: bold;">Username</div>
-						<div id="AccountView_RegisterUsername" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+						<div style="font-size: 12px; font-weight: bold;">Course and Year</div>
+						<div id="AccountRegister_StudentCY" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-						<div style="font-size: 12px; font-weight: bold;">Email</div>
-						<div id="AccountView_RegisterEmail" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
-					</div>
-					<div class="d-flex flex-column mr-2" style="width: 100%">
-						<div style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
-						<div id="AccountView_RegisterDT" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+						<div style="font-size: 12px; font-weight: bold;">Status</div>
+						<div id="AccountRegister_StudentStatus" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-						<div style="font-size: 12px; font-weight: bold;">Expiration</div>
-						<div id="AccountView_RegisterExpiration" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2 red-text">XXX-XXX-XXX</div>
 					</div>
 				</div>
+				<!-- End of View Student -->
 			</div>
-			<h4 class="mt-5 mb-3">Personal Information</h4>
-			<div class="mb-3" style="font-size: 12px; font-weight: bold;">Before accepting an incoming New Account, you can check the On-Hold New Register Users if he/she is student of the current school.</div>
-
-			<!-- View Student -->
-			<div style="font-size: 12px; font-weight: bold;">Search Student ID</div>
-			<div class="d-flex flex-row">
-				<input id="AccountRegister_Searchbox" class="form-control" type="number" placeholder="e.g. 15730500">
-				<button onclick="new Search().Register_SearchButton()" class="material-icons border rounded ml-1 pl-3 pr-3 white">search</button>
-			</div>
-			
-			<div class="d-flex flex-row mt-3" style="width: 100%;">
-				<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
-				<div class="d-flex flex-column ml-4" style="width: 100%">
-
-					<div style="font-size: 12px; font-weight: bold;">Name</div>
-					<div id="AccountRegister_StudentName" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
-
-					<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-					<div id="AccountRegister_StudentID" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-					<div style="font-size: 12px; font-weight: bold;">Course and Year</div>
-					<div id="AccountRegister_StudentCY" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-					<div style="font-size: 12px; font-weight: bold;">Status</div>
-					<div id="AccountRegister_StudentStatus" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-				</div>
-			</div>
-			<!-- End of View Student -->
 		</div>
 	</div>
 	<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
@@ -71,18 +92,14 @@
 		</div>
 
 		<h4 class="border-bottom p-2 m-0" style="font-size: 17px;">On-Hold New Register Account</h4>
-		<div id="AccountView_RegistrationLoader" class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-			<!-- <div id="AccountView_RegistrationID" onclick="new Account().View_RegisterItem()" class="d-flex flex-row p-1 border-bottom" style="width: 100%; cursor: pointer;">
-				<img src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
-				<div class="d-flex align-items-center ml-4" style="width: 100%; font-size: 14px; font-weight: bold;">ZeroRedgrave@15730500#1</div>
-			</div> -->
-		</div>
+		<div id="AccountView_RegistrationLoader" class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
 	</div>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		var AccountView_RegistrationLoader = $("#AccountView_RegistrationLoader")
+		var AccountLog_ListLoader = $("#AccountLog_ListLoader")
 
 		$.ajax({
 			url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterLoader",
@@ -106,7 +123,96 @@
 		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 			}
 		})
+
+		$.ajax({
+			url: window.location.href.replace("/Access", "")+ "/Logs/View_LogLoader", 
+			method: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				if(!data.isError) {
+					if(!data.isEmpty) {
+						for(var value of data.LogArray) {
+							AccountLog_ListLoader.append(`
+								<tr id="Log_ItemID` +value+ `" class="border-bottom">
+									<th class="p-0">
+										<div class="d-flex flex-row pt-1 pb-1">
+											<img id="LogItem_ImageID` +value+ `" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+											<div id="LogItem_NameID` +value+ `" class="d-flex align-items-center ml-4" style="font-weight: bold; word-break: keep-all; width: 100%">
+												XXX XXX XXX
+											</div>
+										</div>
+									</th>
+									<th>
+										<div id="LogItem_TypeID` +value+ `" class="d-flex align-items-center pt-1 pb-1 red-text">STUDENT</div>
+									</th>
+									<th>
+										<div id="LogItem_ActivityID` +value+ `" class="d-flex align-items-center pt-1 pb-1">Unknown</div>
+									</th>
+									<th>
+										<div id="LogItem_DTID` +value+ `" class="d-flex align-items-center pt-1 pb-1">2020-01-01 00:00:00</div>
+									</th>
+								</tr>
+							`)
+						}
+						for(var value of data.LogArray) new Log().View_LogLoad(value)
+					}
+				}
+				else alert(data.ErrorDisplay)
+			},
+			error: function(ex) {
+		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+		 		alert("Error: Unexpected Error Occur!")
+			}
+		})
 	})
+
+	function Log() {
+		this.View_LogLoad = function(id) {
+			var LogItem_ImageID = $("#LogItem_ImageID" + id)
+			var LogItem_NameID = $("#LogItem_NameID" + id)
+			var LogItem_TypeID = $("#LogItem_TypeID" + id)
+			var LogItem_ActivityID = $("#LogItem_ActivityID" + id)
+			var LogItem_DTID = $("#LogItem_DTID" + id)
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Logs/View_LogLoad?LogID=" + id, 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						LogItem_ImageID.attr('src', window.location.href.replace("/index.php/Access", "/avatar/")+ data.LogImage)
+						LogItem_NameID.text(data.LogName)
+						LogItem_TypeID.text(data.LogType)
+						LogItem_ActivityID.text(data.LogActivity)
+						LogItem_DTID.text(data.LogDT)
+					}
+					else console.log(data)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		// new Log().View_LogLoad(id)
+				}
+			})
+		}
+		// this.getLogData = function() {
+		// 	$.ajax({
+		// 		url: window.location.href.replace("/Access", "")+ "/Logs/getLogData", 
+		// 		method: 'GET',
+		// 		dataType: 'json',
+		// 		success: function(data) {
+		// 			if(!data.isError) {
+						
+		// 			}
+		// 			else alert(data.ErrorDisplay)
+		// 		},
+		// 		error: function(ex) {
+		// 	 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+		// 		}
+		// 	})
+		// }
+	}
 
 	function Account() {
 		this.View_RegisterLoad = function(id) {
@@ -122,6 +228,8 @@
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		new Account().View_RegisterLoad(id)
 				}
 			})
 		}
@@ -133,6 +241,9 @@
 			var AccountView_RegisterDT = $("#AccountView_RegisterDT")
 			var AccountView_RegisterExpiration = $("#AccountView_RegisterExpiration")
 
+			var AccountRegister_StudentArea = $("#AccountRegister_StudentArea")
+			var Account_HomeArea = $("#Account_HomeArea")
+
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterButton?RegisterID=" +id, 
 				method: 'POST',
@@ -143,6 +254,9 @@
 						AccountView_RegisterEmail.text(data.RegisterEmail)
 						AccountView_RegisterSI.text(data.RegisterSI)
 						AccountView_RegisterDT.text(data.RegisterDT)
+
+						Account_HomeArea.addClass('hide')
+						AccountRegister_StudentArea.removeClass('hide')
 
 						$("#AccountRegister_Searchbox").val(data.RegisterSI)
 						$("#AccountRegister_DeleteButton").attr('onclick', 'new Account().View_DeleteButton(' +id+ ')')
@@ -161,6 +275,11 @@
 			 		alert("Error: Unexpected Error Occur!")
 				}
 			})
+		}
+
+		this.View_BackButton = function() {
+			$("#AccountRegister_StudentArea").addClass('hide')
+			$("#Account_HomeArea").removeClass('hide')
 		}
 
 		this.View_DeleteButton = function(id) {

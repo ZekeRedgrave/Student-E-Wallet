@@ -4,6 +4,8 @@ class Payment extends CI_Controller {
 	{
           parent::__construct();
           $this->load->database('default');
+
+          session_start();
     }
 
 	function index() {
@@ -36,6 +38,15 @@ class Payment extends CI_Controller {
 			else $data["isEmpty"] = false;
 
 			$this->db->query("Delete from Store where StoreID =". $_GET['StoreID']);
+			$this->db->insert("Logs", array(
+				"AccountID" => $_SESSION['AccountID'],
+				"LogActivity" => json_encode(array(
+					"Page" => "Store",
+					"Action" => "Delete Store Item"
+				)),
+				"TimeRegister" => date("H:i:s"),
+				"DateRegister" => date("Y-m-d")
+			));
 
 			echo json_encode($data);
 		}
@@ -92,6 +103,16 @@ class Payment extends CI_Controller {
 				$data["isError"] = false;
 
 				foreach ($this->db->query("Select * from Store Order by StoreID DESC LIMIT 1")->result()[0] as $key => $value) $data[$key] = $value;
+
+				$this->db->insert("Logs", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"LogActivity" => json_encode(array(
+						"Page" => "Store",
+						"Action" => "Write Store Item"
+					)),
+					"TimeRegister" => date("H:i:s"),
+					"DateRegister" => date("Y-m-d")
+				));
 
 				echo json_encode($data);
 
@@ -164,6 +185,16 @@ class Payment extends CI_Controller {
 				$data["isError"] = false;
 
 				foreach ($this->db->query("Select * from Store where StoreID=". $_GET['StoreID'])->result()[0] as $key => $value) $data[$key] = $value;
+
+				$this->db->insert("Logs", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"LogActivity" => json_encode(array(
+						"Page" => "Store",
+						"Action" => "Edit Store Item"
+					)),
+					"TimeRegister" => date("H:i:s"),
+					"DateRegister" => date("Y-m-d")
+				));
 
 				echo json_encode($data);
 

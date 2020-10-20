@@ -18,6 +18,16 @@ class Login extends CI_Controller {
 	    			$_SESSION['AccountID'] = $AccountQuery->AccountID;
 		    		$_SESSION['AccountType'] = $AccountQuery->AccountType;
 
+		    		$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Login",
+							"Action" => "Session In"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
+
 		    		echo json_encode(array(
 				   		"isError" => false,
 				   		"QueryParag" => "Load=views&Name=app"
@@ -33,6 +43,16 @@ class Login extends CI_Controller {
 	    			if($_POST['AccountUsername'] == $x["Username"] && $_POST['AccountPassword'] == $x["Password"]) {
 	    				$_SESSION['AccountID'] = $x["Username"];
 		    			$_SESSION['AccountType'] = "ADMIN";
+
+		    			$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Login",
+								"Action" => "Session In"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 
 		    			echo json_encode(array(
 				    		"isError" => false,
@@ -51,6 +71,16 @@ class Login extends CI_Controller {
 
 	    					$_SESSION['AccountID'] = $AccountQuery->AccountID;
 		    				$_SESSION['AccountType'] = $AccountQuery->AccountType;
+
+		    				$this->db->insert("Logs", array(
+								"AccountID" => $_SESSION['AccountID'],
+								"LogActivity" => json_encode(array(
+									"Page" => "Login",
+									"Action" => "Session In"
+								)),
+								"TimeRegister" => date("H:i:s"),
+								"DateRegister" => date("Y-m-d")
+							));
 
 		    				echo json_encode(array(
 					    		"isError" => false,

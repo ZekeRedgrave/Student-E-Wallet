@@ -12,6 +12,8 @@ class Account extends CI_Controller {
 	function __construct() {
         parent::__construct();
         $this->load->database('default');
+
+        session_start();
     }
 
 	function View_RegisterLoader() {
@@ -36,6 +38,16 @@ class Account extends CI_Controller {
 			if(json_encode($RegisterQuery) != 'null') {
 				$data['isError'] = false;
 				$data['StudentID'] = $RegisterQuery->RegisterUsername. "@" .$RegisterQuery->RegisterSI. "#" .$RegisterQuery->RegisterID;
+
+				$this->db->insert("Logs", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"LogActivity" => json_encode(array(
+						"Page" => "Account",
+						"Action" => "View Account Registration"
+					)),
+					"TimeRegister" => date("H:i:s"),
+					"DateRegister" => date("Y-m-d")
+				));
 
 				echo json_encode($data);
 			}
@@ -106,6 +118,15 @@ class Account extends CI_Controller {
 				$mail->send();
 
 				$this->db->query("Delete from Registration where RegisterID=". $_GET['RegisterID']);
+				$this->db->insert("Logs", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"LogActivity" => json_encode(array(
+						"Page" => "Account",
+						"Action" => "Delete Account Registration"
+					)),
+					"TimeRegister" => date("H:i:s"),
+					"DateRegister" => date("Y-m-d")
+				));
 
 				echo json_encode($data);
 			}
@@ -170,6 +191,15 @@ class Account extends CI_Controller {
 						"isDelete" => true,
 						"RegisterExpire" => 0
 					), "RegisterID=". $_GET['RegisterID']);
+					$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Account",
+							"Action" => "Accept Account Registration"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
 
 					echo json_encode($data);
 				}
@@ -206,6 +236,110 @@ class Account extends CI_Controller {
 			else echo json_encode(array(
 			   	"isError" => true,
 			   	"ErrorDisplay" => "Error: 404 Not Found!"
+			));
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));
+	}
+
+	function View_ProfileLoad() {
+		$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'] ." and AccountType='" .$_SESSION['AccountType']. "'")->result()[0];
+		$ProfileQuery = ($AccountQuery->StudentID != 0 ? $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0] : $this->db->query("Select * from Employee where EmployeeID=". $AccountQuery->EmployeeID)->result()[0]);
+
+		$data["isError"] = false;
+		$data["AccountImage"] = $AccountQuery->AccountImage;
+		$data["AccountEmail"] = $AccountQuery->AccountEmail;
+		$data["AccountUsername"] = $AccountQuery->AccountUsername;
+		$data["AccountName"] = json_decode($ProfileQuery->Name)->Lastname. ", " .json_decode($ProfileQuery->Name)->Firstname. " " .substr(json_decode($ProfileQuery->Name)->Middlename, 0, 1). ".";
+		$data["AccountMN"] = json_decode($ProfileQuery->Name)->Middlename;
+		$data["AccountID"] = '@'. $_SESSION['AccountID']. '#' .($AccountQuery->StudentID != 0 ? $AccountQuery->StudentID : $AccountQuery->EmployeeID);
+		$data["AccountDT"] = $AccountQuery->DateRegister. " " .$AccountQuery->TimeRegister;
+		$data["AccountCourse"] = ($AccountQuery->StudentID != 0 ? $ProfileQuery->Course : 'N / A');
+
+		echo json_encode($data);
+	}
+
+	function Edit_DoneButton() {
+		if(isset($_POST['Package']) && isset($_FILES['AccountImage'])) {
+			$Package = json_decode($_POST['Package']);
+
+			if($Package->AccountPassword != "") {
+				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'")->result()[0]->x != 0) {
+					if($Package->AccountUsername != "" && $Package->AccountEmail != "") {
+						$Avatar = $_SESSION['AccountID']. pathinfo($_FILES['AccountImage']['name'], PATHINFO_EXTENSION);
+
+						move_uploaded_file($_FILES['AccountImage']['tmp_name'], "avatar/". $Avatar);
+
+						$query['AccountImage'] = $Avatar;
+						$query["AccountUsername"] = $Package->AccountUsername;
+						$query["AccountEmail"] = $Package->AccountEmail;
+
+						$this->db->update("Account", $query, "AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'");
+
+						echo json_encode(array(
+						   	"isError" => false
+						));
+					}
+					else {
+						$ErrorDisplay = "";
+
+						if($Package->AccountUsername == "") $ErrorDisplay .= "(Username) ";
+						if($Package->AccountEmail == "") $ErrorDisplay .= "(Email) ";
+
+						echo json_encode(array(
+						   	"isError" => true,
+						   	"ErrorDisplay" => "Error: ". $ErrorDisplay ."is Empty!"
+						));
+					}
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "Error: Password Mismatched!"
+				));
+			}
+			else echo json_encode(array(
+			   	"isError" => true,
+			   	"ErrorDisplay" => "Error: Please Enter Your Password!"
+			));
+		}
+		else if(isset($_POST['Package'])) {
+			$Package = json_decode($_POST['Package']);
+
+			if($Package->AccountPassword != "") {
+				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'")->result()[0]->x != 0) {
+					if($Package->AccountUsername != "" && $Package->AccountEmail != "") {
+						$query["AccountUsername"] = $Package->AccountUsername;
+						$query["AccountEmail"] = $Package->AccountEmail;
+
+						$this->db->update("Account", $query, "AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'");
+
+						echo json_encode(array(
+						   	"isError" => false
+						));
+					}
+					else {
+						$ErrorDisplay = "";
+
+						if($Package->AccountUsername == "") $ErrorDisplay .= "(Username) ";
+						if($Package->AccountEmail == "") $ErrorDisplay .= "(Email) ";
+
+						echo json_encode(array(
+						   	"isError" => true,
+						   	"ErrorDisplay" => "Error: ". $ErrorDisplay ."is Empty!"
+						));
+					}
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "Error: Password Mismatched!"
+				));
+				
+			}
+			else echo json_encode(array(
+			   	"isError" => true,
+			   	"ErrorDisplay" => "Error: Please Enter Your Password!"
 			));
 		}
 		else echo json_encode(array(

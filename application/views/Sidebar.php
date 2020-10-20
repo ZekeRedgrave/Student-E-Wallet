@@ -14,13 +14,15 @@
 				break;
 
 			case "DEPARTMENT":
+				echo '<button id="App_TimelineButton" class="material-icons form-control mb-1" title="News & Announcement">timeline</button>';
 				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
-				echo '<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>';
+				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
 				break;
 
 			case "ADMIN":
+				echo '<button id="App_TimelineButton" class="material-icons form-control mb-1" title="News & Announcement">timeline</button>';
 				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
-				echo '<button id="App_TimelineButton" class="material-icons form-control" title="News & Announcement">timeline</button>';
+				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
 				break;
 			
 			default:
@@ -30,9 +32,8 @@
 	?>
 	<!-- End of Menu List Area -->
 	<div style="height: 100%"></div>
-
-	<button class="material-icons form-control mb-1" title="Z. Redgrave ID#1234567890" style="background: center no-repeat url('http://localhost/Ewallet/avatar.png'); background-size: 80% auto; min-height: 40px;"></button>
-	<button id="App_LogoutButton" class="material-icons form-control" title="Logout">logout</button>
+	
+	<button id="App_SettingButton" class="material-icons form-control" title="Logout">settings</button>
 </div>
 
 <script type="text/javascript">
@@ -83,8 +84,9 @@
 			$("title").text("E-Student Wallet Access - Account")
 		})
 
-		$("#App_LogoutButton").click(function() {
-			$("#root").load(window.location+ "/LoadView?Load=views&Name=entrance")
+		$("#App_SettingButton").click(function() {
+			$("#App_SettingArea").removeClass('hide')
+			$("#App").addClass('hide')
 		})
 	})
 </script>

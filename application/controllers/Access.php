@@ -11,7 +11,7 @@ class Access extends CI_Controller {
 	function index() {
 		$x = include APPPATH.'third_party/AdminConfig.php';
 
-		if($_SESSION['AccountID'] != null) {
+		if($_SESSION['AccountID'] != "") {
 			if($_SESSION['AccountID'] == $x['Username']) {
 				$data["QueryParam"] = "Load=views&Name=admin";
 
@@ -37,14 +37,42 @@ class Access extends CI_Controller {
 
 				switch ($_GET["Name"]) {
 					case "admin":
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Admin",
+								"Action" => "View"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 						$this->load->view("Admin");
 						break;
 
 					case "app":
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "App",
+								"Action" => "View"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 						$this->load->view("App", $data);
 						break;
 
 					case "entrance":
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Logout",
+								"Action" => "Session Out"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
+
 						$_SESSION["AccountType"] = $_SESSION['AccountID'] = "";
 
 						$this->load->view("Entrance");
@@ -78,6 +106,7 @@ class Access extends CI_Controller {
 
 							$data["Store"] = $temp;
 							$data["isStoreEmpty"] = false;
+							$data["AccountID"] = $_SESSION['AccountID'];
 						}
 
 						$this->load->view("Store", $data);
@@ -117,7 +146,9 @@ class Access extends CI_Controller {
 						break;
 
 					case "timeline":
-						$this->load->view("Timeline");
+						$data['AccountID'] = $_SESSION['AccountID'];
+
+						$this->load->view("Timeline", $data);
 						break;
 
 					case "account":

@@ -60,7 +60,7 @@
 			</div>
 			<!-- Write Comment Area -->
 			<div class="d-flex flex-row p-2 border-bottom" style="width: 100%">
-				<img src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
+				<img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
 				<div class="d-flex flex-row ml-2" style="width: 100%">
 					<textarea id="CommentCreate_Writebox" class="form-control border rounded pl-2 pr-2" placeholder="Any Comment?" style="width: 100%; height: 100px; resize: none;"></textarea>
 					<button id="CommentCreate_SendButton" onclick="new Comment().Create_SendButton()" class="material-icons form-control ml-2" style="width: 50px">send</button>
@@ -96,26 +96,46 @@
 					if(data.TimelineCount != 0) {
 						TimelineView_LoaderArea.html('')
 
-						for(var value of data.TimelineArray) TimelineView_LoaderArea.append(`
-							<div onload="new Timeline().View_ItemLoad(`+ value +`)" id="TimelineView_ItemID`+ value +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
-								<img id="TimelineView_ImageID`+ value +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-								<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-									<h4 id="TimelineView_UsernameID`+ value +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
-									<h4 id="TimelineView_DateTimeID`+ value +`" style="margin: 0; font-size: 12px;"></h4>
+						for(var value of data.TimelineArray) {
+							if(<?php echo $AccountID; ?> == value.AccountID) TimelineView_LoaderArea.append(`
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
+										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+										<h4 id="TimelineView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
 
-									<div id="TimelineView_DescriptionID`+ value +`" class="mt-3 mb-3"></div>
-									<div id="TimelineView_LoaderID`+ value +`"></div>
+										<div id="TimelineView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
+										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
 
-									<div class="d-flex flex-row mt-1">	
-										<a onclick="new Timeline().View_PostButton(`+ value +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
-										<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
-										<div style="width: 100%"></div>
-										<a onclick="new Timeline().View_DeleteButton(`+ value +`)" class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
+										<div class="d-flex flex-row mt-1">	
+											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
+											<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
+											<div style="width: 100%"></div>
+											<a onclick="new Timeline().View_DeleteButton(`+ value.TimelineID +`)" class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
+										</div>
 									</div>
 								</div>
-							</div>
-						`)
-						for(var value of data.TimelineArray) new Timeline().View_ItemLoad(value)
+							`)
+							else TimelineView_LoaderArea.append(`
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
+										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+										<h4 id="TimelineView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
+
+										<div id="TimelineView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
+										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
+
+										<div class="d-flex flex-row mt-1">	
+											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
+											<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
+											<div style="width: 100%"></div>
+										</div>
+									</div>
+								</div>
+							`)
+						}
+						for(var value of data.TimelineArray) new Timeline().View_ItemLoad(value.TimelineID)
 					}
 				}
 				else alert(!data.ErrorDisplay)
@@ -156,7 +176,7 @@
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		new Timeline().View_ItemLoad(id)
+			 		// new Timeline().View_ItemLoad(id)
 				}
 			})
 		}
@@ -409,25 +429,23 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError){
-						if(data.CommentID.length != 0) {
-							for(var x of data.CommentID) PostView_CommentLoader.append( `
-								<div id="CommentView_ItemID` +x+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
-									<img id="CommentView_ImageID` +x+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+						if(data.CommentArray.length != 0) {
+							for(var x of data.CommentArray) PostView_CommentLoader.append( `
+								<div id="CommentView_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+									<img id="CommentView_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<h4 id="CommentView_NameID` +x+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
+										<h4 id="CommentView_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 
-										<div id="CommentView_LoaderID` +x+ `" class="mt-3 mb-3"></div>
+										<div id="CommentView_LoaderID` +x.CommentID+ `" class="mt-3 mb-3"></div>
 										<div class="d-flex flex-row" style="width: 100%">
 											<div style="width: 100%"></div>
-
-											<a id="CommentView_MentionButtonID` +x+ `" onclick="new Comment().View_MentionButton(` +x+ `)" class="d-flex align-items-center" style="font-weight: bold">@</a>
-											<a id="CommentView_DeleteButtonID` +x+ `" onclick="new Comment().View_DeleteButton(` +x+ `)" class="material-icons red-text ml-2">delete</a>
+											<a id="CommentView_DeleteButtonID` +x.CommentID+ `" onclick="new Comment().View_DeleteButton(` +x.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
 										</div>
 									</div>
 								</div>
 							`)
 
-							for(var x of data.CommentID) new Comment().View_ItemLoad(x)
+							for(var x of data.CommentArray) new Comment().View_ItemLoad(x.CommentID)
 						}
 						else PostView_CommentLoader.append('<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>')
 					}
@@ -470,6 +488,7 @@
 
 	function Comment() {
 		this.View_ItemLoad = function(id) {
+			var CommentView_ItemID = $("#CommentView_ItemID"+ id)
 			var CommentView_NameID = $("#CommentView_NameID"+ id)
 			var CommentView_ImageID = $("#CommentView_ImageID"+ id)
 			var CommentView_MentionButtonID = $("#CommentView_MentionButtonID"+ id)
@@ -482,11 +501,24 @@
 				success: function(data) {
 					if(!data.isError) {
 						for(var splitter of data.CommentText.split("\n")) {
-							if(splitter != "") $("#CommentView_LoaderID"+ id).append('<div style="font-size: 12px; word-break: break-all;">'+ splitter +'</div>')
+							if(splitter != "") {
+								var HTML = ''
+
+								for(var space of splitter.split(" ")) {
+									if(space.split('@').length == 2) {
+										if(<?php echo $AccountID; ?> == space.split('#')[0].split("@")[1]) CommentView_ItemID.addClass('blue').css('color', 'white');
+									}
+
+									HTML += "<span class='mr-1'>" +space+ "</span>"
+								}
+								
+
+								$("#CommentView_LoaderID"+ id).append('<div style="font-size: 12px; word-break: break-all;">'+ HTML +'</div>') 
+							}
 							else $("#CommentView_LoaderID"+ id).append('<br />')
 						}
 
-						CommentView_NameID.text(data.CommentName)
+						CommentView_NameID.text(data.CommentMention + data.CommentName)
 						CommentView_ImageID.attr('src', window.location.href.replace("/index.php/Access", "")+ "/avatar/"+ data.CommetImage)
 						CommentView_MentionButtonID.attr('onclick', "new Comment().View_MentionButton('"+ data.CommentMention +"')")
 						CommentView_DeleteButtonID.attr('onclick', 'new Comment().View_DeleteButton('+ data.CommentID +')')
@@ -549,7 +581,6 @@
 										<div class="d-flex flex-row" style="width: 100%">
 											<div style="width: 100%"></div>
 
-											<a id="CommentView_MentionButtonID` +data.CommentID+ `" onclick="new Comment().View_MentionButton(` +data.CommentID+ `)" class="d-flex align-items-center" style="font-weight: bold">@</a>
 											<a id="CommentView_DeleteButtonID` +data.CommentID+ `" onclick="new Comment().View_DeleteButton(` +data.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
 										</div>
 									</div>

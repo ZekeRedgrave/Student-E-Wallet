@@ -15,7 +15,10 @@ class Timeline extends CI_Controller {
             $data['isError'] = false;
             $data['TimelineArray'] = array();
 
-    		foreach ($this->db->query("Select * from Timeline Order by TimelineID DESC")->result() as $value) array_push($data["TimelineArray"], $value->TimelineID);
+    		foreach ($this->db->query("Select * from Timeline Order by TimelineID DESC")->result() as $value) array_push($data["TimelineArray"], array(
+                "TimelineID" => $value->TimelineID,
+                "AccountID" => $value->AccountID
+            ));
 
 	    	echo json_encode($data);
     	}
@@ -71,6 +74,16 @@ class Timeline extends CI_Controller {
 				"ErrorDisplay" => "Error: 404 Not Found!"
 			));
 
+            $this->db->insert("Logs", array(
+                "AccountID" => $_SESSION['AccountID'],
+                "LogActivity" => json_encode(array(
+                    "Page" => "Timeline",
+                    "Action" => "View Post"
+                )),
+                "TimeRegister" => date("H:i:s"),
+                "DateRegister" => date("Y-m-d")
+            ));
+
     		echo json_encode($data);
     	}
     	else echo json_encode(array(
@@ -81,8 +94,18 @@ class Timeline extends CI_Controller {
 
     function View_DeleteButton() {
     	if(isset($_GET['TimelineID']) && !empty($_GET['TimelineID'])) {
-    		if($this->db->query("Select * from Timeline where TimelineID=". $_GET["TimelineID"])->result()[0] != null) {
+    		if($this->db->query("Select Count(*) as x from Timeline where TimelineID=". $_GET["TimelineID"] ." and AccountID=". $_SESSION['AccountID'])->result()[0]->x != 0) {
     			$this->db->query("Delete from Timeline where TimelineID =". $_GET['TimelineID']);
+
+                    $this->db->insert("Logs", array(
+                        "AccountID" => $_SESSION['AccountID'],
+                        "LogActivity" => json_encode(array(
+                            "Page" => "Timeline",
+                            "Action" => "Delete Post"
+                        )),
+                        "TimeRegister" => date("H:i:s"),
+                        "DateRegister" => date("Y-m-d")
+                    ));
 
     			echo json_encode(array(
 					"isError" => false
@@ -103,9 +126,12 @@ class Timeline extends CI_Controller {
     	if(isset($_GET['TimelineID']) && !empty($_GET['TimelineID'])) {
     		$CommentQuery = $this->db->query("Select * from Comment where TimelineID=". $_GET['TimelineID'] ." Order by CommentID DESC")->result();
     		$data['isError'] = false;
-    		$data['CommentID'] = [];
+    		$data['CommentArray'] = [];
 
-    		foreach ($CommentQuery as $value) array_push($data['CommentID'], $value->CommentID);
+    		foreach ($CommentQuery as $value) array_push($data['CommentArray'], array(
+                "CommentID" => $value->CommentID,
+                "AccountID" => $value->AccountID
+            ));
 
     		echo json_encode($data);
 
@@ -157,6 +183,15 @@ class Timeline extends CI_Controller {
 					"DateRegister" => date("Y-m-d"),
 					"TimeRegister" => date("H:i:s")
 				));
+                $this->db->insert("Logs", array(
+                    "AccountID" => $_SESSION['AccountID'],
+                    "LogActivity" => json_encode(array(
+                        "Page" => "Timeline",
+                        "Action" => "Write Post"
+                    )),
+                    "TimeRegister" => date("H:i:s"),
+                    "DateRegister" => date("Y-m-d")
+                ));
 
 				$data["TimelineID"] = $this->db->query("Select TimelineID from Timeline Order by TimelineID DESC LIMIT 1")->result()[0]->TimelineID;
 				$data["isError"] = false;

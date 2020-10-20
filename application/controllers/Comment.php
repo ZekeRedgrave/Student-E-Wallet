@@ -56,6 +56,16 @@ class Comment extends CI_Controller {
 		    		$data['CommentID'] = $CommentQuery->CommentID;
     			}
 
+                $this->db->insert("Logs", array(
+                    "AccountID" => $_SESSION['AccountID'],
+                    "LogActivity" => json_encode(array(
+                        "Page" => "Timeline",
+                        "Action" => "Write Comment"
+                    )),
+                    "TimeRegister" => date("H:i:s"),
+                    "DateRegister" => date("Y-m-d")
+                ));
+
     			echo json_encode($data);
     		}
     		else echo json_encode(array(
@@ -78,10 +88,10 @@ class Comment extends CI_Controller {
 
     			$data['isError'] = false;
     			$data['CommentID'] = $CommentQuery->CommentID;
-    			$data['CommentName'] = $AccountQuery->AccountUsername. " [". $AccountQuery->AccountType ."]";
+    			$data['CommentName'] = "[". $AccountQuery->AccountType ."]";
     			$data['CommetImage'] = $AccountQuery->AccountImage;
     			$data['CommentText'] = json_decode($CommentQuery->CommentDescription)->Text;
-    			$data['CommentMention'] = "@". $CommentQuery->UserID ."#". $CommentQuery->AccountID ." "; 
+    			$data['CommentMention'] = $AccountQuery->AccountUsername. "@". $AccountQuery->AccountID ."#". ($AccountQuery->StudentID != 0 ? $AccountQuery->StudentID : $AccountQuery->EmployeeID) ." "; 
 
     			echo json_encode($data);
     		}
@@ -98,8 +108,18 @@ class Comment extends CI_Controller {
 
     function View_DeleteButton() {
     	if(isset($_GET['CommentID']) && !empty($_GET['CommentID'])) {
-    		if(json_encode($this->db->query("Select * from Comment where CommentID=". $_GET['CommentID'])->result()[0]) != null) {
+    		if($this->db->query("Select Count(*) as x from Comment where CommentID=". $_GET['CommentID'] ." and AccountID=".$_SESSION['AccountID'])->result()[0]->x != 0 || ($this->db->query("Select Count(*) as x from Comment where CommentID=". $_GET['CommentID'])->result()[0]->x != 0 && $_SESSION['AccountType'] != "STUDENT" ? true : false) != false) {
     			$this->db->query("Delete from Comment where CommentID=". $_GET['CommentID']);
+
+                $this->db->insert("Logs", array(
+                    "AccountID" => $_SESSION['AccountID'],
+                    "LogActivity" => json_encode(array(
+                        "Page" => "Timeline",
+                        "Action" => "Delete Comment"
+                    )),
+                    "TimeRegister" => date("H:i:s"),
+                    "DateRegister" => date("Y-m-d")
+                ));
 
     			echo json_encode(array(
 		    		"isError" => false,
