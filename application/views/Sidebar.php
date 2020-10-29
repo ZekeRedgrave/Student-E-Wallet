@@ -11,6 +11,7 @@
 				break;
 			case "CASHIER":
 				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
+				echo '<button id="App_BankButton" class="material-icons form-control mb-1" title="Payment">account_balance</button>';
 				break;
 
 			case "DEPARTMENT":
@@ -43,6 +44,7 @@
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Home")
@@ -52,6 +54,7 @@
 			$("#App_RecordsArea").removeClass('hide')
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Records")
@@ -61,6 +64,7 @@
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
 			$("#App_PaymentArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - Generate Store")
@@ -70,6 +74,7 @@
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
 			$("#App_TimelineArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - News and Announcement")
@@ -79,9 +84,20 @@
 			$("#App_RecordsArea").addClass('hide')
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
 			$("#App_AccountArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - Account")
+		})
+		$("#App_BankButton").click(function(event) {
+			$("#App_HomeArea").addClass('hide')
+			$("#App_RecordsArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").removeClass('hide')
+
+			$("title").text("E-Student Wallet Access - Bank")
 		})
 
 		$("#App_SettingButton").click(function() {

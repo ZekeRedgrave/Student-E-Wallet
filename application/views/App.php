@@ -89,58 +89,11 @@
 						</div>
 					</div>
 
-					<h4 class="mt-5 mb-3">Top-up</h4>
-					<div id="SettingTopup_FormArea" class="">
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Select Card Options</h4>
-						<div class="d-flex flex-row mb-3 mt-3">
-							<div class="d-flex flex-row">
-								<div class="d-flex align-items-center mr-3">
-									<input id="SettingTopup_PaypalRadio" type="radio" checked="checked">
-								</div>
-								<div>Paypal</div>
-							</div>
-						</div>
+					<h4 class="mt-5 mb-3">Redeem Gift Code</h4>
 
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Enter your Amount</h4>
-						<input id="SettingTopup_Amountbox" class="form-control mb-4" type="number" placeholder="XXX-XXX-XXX">
-
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Card Number</h4>
-						<input id="SettingTopup_Cardbox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Security Code</h4>
-						<input id="SettingTopup_Securitybox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Name on Card</h4>
-						<input id="SettingTopup_Namebox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-
-						<h4 class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Expiration Date</h4>
-						<div class="d-flex flex-row mb-2">
-							<select onclick="new SettingBilling().Create_DayButton()" id="SettingTopup_Yearbox" class="custom-select"></select>
-							<select onclick="new SettingBilling().Create_DayButton()" id="SettingTopup_Monthbox" class="custom-select ml-1 mr-1"></select>
-							<select id="SettingTopup_Daybox" class="custom-select"></select>
-						</div>
-						<h4  class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Address Line 1</h4>
-						<input id="SettingTopup_Line1box" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4  class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Address Line 2</h4>
-						<input id="SettingTopup_Line2box" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4  class="p-0 m-0" style="font-weight: bold; font-size: 12px;">City / Province</h4>
-						<input id="SettingTopup_CPbox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4  class="p-0 m-0" style="font-weight: bold; font-size: 12px;">State / Region</h4>
-						<input id="SettingTopup_SRbox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-						<h4  class="p-0 m-0" style="font-weight: bold; font-size: 12px;">Zip Code</h4>
-						<input id="SettingTopup_Zipbox" class="form-control mb-2" placeholder="XXX-XXX-XXX">
-
-						<div class="d-flex flex-row">
-							<div class="d-flex flex-row">
-								<div class="d-flex align-items-center mr-3">
-									<input id="SettingTopup_TOSCheckbox" type="checkbox" name="">
-								</div>
-								<div class="d-flex align-items-center mr-3">
-									<div>I Understand the Terms and Service(or TOS) Agreements for Legallity.</div>
-								</div>
-							</div>
-						</div>
-
-						<button onclick="new SettingBilling().Create_DoneButton()" class="form-control mt-5">DONE</button>
-					</div>
+					<h4 class="m-0 p-0" style="font-weight: bold; font-size: 12px;">Enter the Gift Code</h4>
+					<input id="SettingBilling_Redeembox" class="form-control mb-2" type="number" placeholder="Ex. 0123456789">
+					<button onclick="new SettingBilling().Update_RedeemButton()" class="form-control" style="min-width: 15%; max-width: 15%">Redeem Now!</button>
 
 					<h4 class="mt-5 mb-3">Transaction Records</h4>
 					<table class="table" style="width: 100%">
@@ -197,7 +150,7 @@
 						break;
 
 					case "CASHIER":
-						echo 'var DownloadBlob = ["payment"]';
+						echo 'var DownloadBlob = ["payment", "bank"]';
 						break;
 
 					case "DEPARTMENT":
@@ -461,113 +414,32 @@
 	}
 
 	function SettingBilling() {
-		this.View_BalanceLoad = function() {
+		this.Update_RedeemButton = function() {
+			var SettingBilling_Redeembox = $("#SettingBilling_Redeembox")
 
-		}
+			if(SettingBilling_Redeembox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Transaction/Update_RedeemButton?RedeemCode=" +SettingBilling_Redeembox.val(), 
+					method: 'GET',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							SettingBilling_Redeembox.val('')
 
-		this.View_RecordLoad = function() {
+							new Setting().View_BalanceLoad()
 
-		}
-
-		this.Create_DayButton = function() {
-			var SettingTopup_Yearbox = $("#SettingTopup_Yearbox option:selected")
-			var SettingTopup_Monthbox = $("#SettingTopup_Monthbox option:selected")
-			var SettingTopup_Daybox = $("#SettingTopup_Daybox")
-
-			var HTML = ''
-			var x = new Date(SettingTopup_Yearbox.val(), parseInt(SettingTopup_Monthbox.val()), 1)
-
-			while(x.getMonth() === parseInt(SettingTopup_Monthbox.val())) {
-				HTML += '<option value="' +new Date(x).getDate()+ '">' +new Date(x).getDate()+ '</option>'
-
-				x.setDate(x.getDate() + 1)
-			}
-
-			SettingTopup_Daybox.html(HTML)
-		}
-
-		this.Create_DoneButton = function() {
-			var SettingTopup_PaypalRadio = $("#SettingTopup_PaypalRadio")
-			var SettingTopup_Amountbox = $("#SettingTopup_Amountbox")
-
-			var SettingTopup_Cardbox = $("#SettingTopup_Cardbox")
-			var SettingTopup_Securitybox = $("#SettingTopup_Securitybox")
-			var SettingTopup_Namebox = $("#SettingTopup_Namebox")
-
-			var SettingTopup_Yearbox = $("#SettingTopup_Yearbox option:selected")
-			var SettingTopup_Monthbox = $("#SettingTopup_Monthbox option:selected")
-			var SettingTopup_Daybox = $("#SettingTopup_Daybox option:selected")
-
-			var SettingTopup_Line1box = $("#SettingTopup_Line1box")
-			var SettingTopup_Line2box = $("#SettingTopup_Line2box")
-			var SettingTopup_CPbox = $("#SettingTopup_CPbox")
-			var SettingTopup_SRbox = $("#SettingTopup_SRbox")
-			var SettingTopup_Zipbox = $("#SettingTopup_Zipbox")
-
-			var SettingTopup_TOSCheckbox = $("#SettingTopup_TOSCheckbox")
-
-			if(SettingTopup_TOSCheckbox.is(':checked')) {
-				if(SettingTopup_Amountbox.val() != "" && SettingTopup_Cardbox.val() != "" && SettingTopup_Namebox.val() != "" && SettingTopup_Line1box.val() != "" && SettingTopup_Line2box.val() != "" && SettingTopup_CPbox.val() != "" && SettingTopup_SRbox.val() != "" && SettingTopup_Zipbox.val() != "" && SettingTopup_Yearbox.val() != "" && SettingTopup_Monthbox.val() != "" && SettingTopup_Daybox.val() != "") {
-					$.ajax({
-						url: window.location.href.replace("/Access", "")+ "/Transaction/Create_DoneButton", 
-						method: 'POST',
-						data: {
-					 		CardType: "PAYPAL",
-					 		Amount: SettingTopup_Amountbox.val(),
-
-					 		CardNumber: SettingTopup_Amountbox.val(),
-					 		SecurityNumber: SettingTopup_Amountbox.val(),
-					 		CardName: SettingTopup_Amountbox.val(),
-
-					 		ExpireYear: SettingTopup_Amountbox.val(),
-					 		ExpireMonth: SettingTopup_Amountbox.val(),
-					 		ExpireDay: SettingTopup_Amountbox.val(),
-
-					 		AddressLine_A: SettingTopup_Amountbox.val(),
-					 		AddressLine_B: SettingTopup_Amountbox.val(),
-					 		AddressCP: SettingTopup_Amountbox.val(),
-					 		AddressSR: SettingTopup_Amountbox.val(),
-					 		ZipNumber: SettingTopup_Amountbox.val(),
-
-					 		isTOS: SettingTopup_TOSCheckbox.is(':checked')
-						},
-						dataType: 'json',
-						success: function(data) {
-							if(!data.isError) {
-
-							}
-							else alert(data.ErrorDisplay)
-						},
-						error: function(ex) {
-					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+							alert("Redeem Gift Code Successfully!")
 						}
-					})
-				}
-				else {
-					var ErrorDisplay = ""
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-					if(SettingTopup_Amountbox.val() == "") ErrorDisplay += "(Amount) "
-
-					if(SettingTopup_Cardbox.val() == "") ErrorDisplay += "(Card Number) "
-					if(SettingTopup_Securitybox.val() == "") ErrorDisplay += "(Security Code) "
-					if(SettingTopup_Namebox.val() == "") ErrorDisplay += "(Name) "
-
-					if(SettingTopup_Yearbox.val() == "") ErrorDisplay += "(Year) "
-					if(SettingTopup_Monthbox.val() == "") ErrorDisplay += "(Month) "
-					if(SettingTopup_Daybox.val() == "") ErrorDisplay += "(Day) "
-
-					if(SettingTopup_Line1box.val() == "") ErrorDisplay += "(Address Line 1) "
-					if(SettingTopup_Line2box.val() == "") ErrorDisplay += "(Address Line 2) "
-					if(SettingTopup_CPbox.val() == "") ErrorDisplay += "(City / Provice) "
-					if(SettingTopup_SRbox.val() == "") ErrorDisplay += "(State / Region) "
-					if(SettingTopup_Zipbox.val() == "") ErrorDisplay += "(Zip Code) "
-
-					alert(ErrorDisplay+ "is Empty!")
-
-					ErrorDisplay = ""
-				}
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
 			}
-			else alert("Error: Please press the Checkbox TOS to Agree!")
+			else alert("Error: Redeem is Empty!")
 		}
 	}
 

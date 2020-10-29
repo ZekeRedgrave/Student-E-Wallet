@@ -1,20 +1,4 @@
 <div id="App_PaymentArea" class="d-flex flex-column hide" style="width:100%; height: 100%">
-	<div class="d-flex flex-row border-bottom p-1 w-100 hide" style="width: 100%">
-		<button class="form-control d-flex align-items-center mr-1" style="background-color: white;"><span class="material-icons mr-2">dashboard</span>Dashboard</button>
-		<button class="form-control d-flex align-items-center mr-1" style="background-color: white;"><span class="material-icons mr-2">receipt_long</span>Payment</button>
-		<button class="form-control d-flex align-items-center mr-1" style="background-color: white;"><span class="material-icons mr-2">campaign</span>Announcement</button>
-
-		<div style="width: 100%"></div>
-
-		<button class="form-control d-flex align-items-center mr-1" style="background-color: white;"><span class="material-icons mr-2">face</span>Account</button>
-		<button class="form-control d-flex align-items-center mr-1" style="background-color: white;"><span class="material-icons mr-2">account_box</span>Registery</button>
-
-		<div style="width: 100%"></div>
-
-		<button class="form-control d-flex align-items-center" style="background-color: white;"><span class="material-icons mr-2">dns</span>Transaction</button>
-		
-
-	</div>
 	<div style="width: 100%; height: 100%;">
 		<!-- Payment Area -->
 		<div class="d-flex flex-row" style="width: 100%; height: 100%">

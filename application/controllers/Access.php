@@ -145,6 +145,10 @@ class Access extends CI_Controller {
 						$this->load->view("Payment", $data);
 						break;
 
+					case "bank":
+						$this->load->view("Bank");
+						break;
+
 					case "timeline":
 						$data['AccountID'] = $_SESSION['AccountID'];
 
