@@ -62,9 +62,48 @@ class Transaction extends CI_Controller {
 				"ErrorDisplay" => "Error: Unexpected Error Occurs!"
 			));
 		}
-		else echo json_encode(array(
-			"isError" => true
-		)); 
+		else {
+			if(isset($_GET['myItem'])) {
+				if(!empty($_GET['myItem'])) {
+					$AccountQuery = $this->db->query("Select* from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+
+					if($_GET['myItem'] != 0) {
+						if($this->db->query("Select Count(*) as x from Transaction where StudentID=". $AccountQuery->StudentID)->result()[0]->x != 0) {
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
+
+							foreach ($this->db->query("Select * from Transaction where StudentID=". $AccountQuery->StudentID ." Order by TransactionID DESC LIMIT ". $_GET['myItem'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
+					}
+					else {
+						if($this->db->query("Select Count(*) as x from Transaction where StudentID=". $AccountQuery->StudentID)->result()[0]->x != 0) {
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
+
+							foreach ($this->db->query("Select * from Transaction where StudentID=". $AccountQuery->StudentID ." Order by TransactionID DESC LIMIT ". $_GET['myItem'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
+					}
+				}
+			}
+			else echo json_encode(array(
+				"isError" => false,
+				"isEmpty" => true
+			));
+		}
 	}
 
 	function View_RecordItem() {
@@ -113,6 +152,22 @@ class Transaction extends CI_Controller {
 
 					echo json_encode($data);
 				}
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Unexpected Error Occurs!"
+			));
+		}
+		if(isset($_GET['search'])) {
+			if(!empty($_GET['search'])) {
+				$data['isError'] = false;
+				$data['TransactionArray'] = [];
+
+				$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+
+				foreach ($this->db->query("Select * from Transaction where TransactionType like '%" .$_GET['search']. "%' or DateRegister like '%" .$_GET['search']. "%' or TimeRegister like '%" .$_GET['search']. "%' and StudentID=". $AccountQuery->StudentID)->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+
+				echo json_encode($data);
 			}
 			else echo json_encode(array(
 				"isError" => true,
@@ -351,6 +406,7 @@ class Transaction extends CI_Controller {
 									$mail->isHTML(true);
 									$mail->Subject = 'Redeem Gift Code';
 									$mail->Body    = 'Redeem Gift Code is <b>'. $Code .'</b>';
+									$mail->send();
 
 									echo json_encode(array(
 										"isError" => false,
@@ -408,6 +464,7 @@ class Transaction extends CI_Controller {
 			if(!empty($_GET['RedeemCode'])) {
 				if($this->db->query("Select Count(*) as x from Gift where GiftCode=". $_GET['RedeemCode']. " and isClaim=false")->result()[0]->x != 0) {
 					$GiftQuery = $this->db->query("Select * from Gift where GiftCode=". $_GET['RedeemCode']. " and isClaim=false")->result()[0];
+					$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
 
 					$this->db->update("Account", array(
 						"Account_AvailableBalance" => $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $GiftQuery->GiftAmount
@@ -420,9 +477,14 @@ class Transaction extends CI_Controller {
 					), "GiftCode=". $_GET['RedeemCode']. " and isClaim=false");
 
 					$this->db->insert("Transaction", array(
-						"StudentID" => $_SESSION['AccountID'],
+						"StudentID" => $AccountQuery->StudentID,
 						"TransactionType" => "GIFT(CLAIM)",
 						"TransactionDescription" => json_encode(array(
+							"EmployeeID" => "N/A",
+							"StudentID" => $AccountQuery->StudentID,
+							"TransactionAmount" => $GiftQuery->GiftAmount,
+							"TransactionFee" => "N/A",
+							"TransactionCash" => "N/A",
 							"GiftCode" => $_GET['RedeemCode'],
 							"GiftAmount" => $GiftQuery->GiftAmount
 						)),
@@ -449,7 +511,168 @@ class Transaction extends CI_Controller {
 			"ErrorDisplay" => "Error: Unexpected Error Occur!"
 		)); 
 	}
+	// -----------------------------------------------------------------------------------------------------------------
+	function View_TuitionButton() {
+		if(isset($_POST['Amount'])) {
+			if(!empty($_POST['Amount'])) {
+				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->x != 0) {
+					$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
 
+					$BalanceLeft = $AccountQuery->Account_AvailableBalance - $_POST["Amount"];
+					$CheckChar = count(explode("-", (string)$BalanceLeft));
+
+					if($CheckChar == 2) echo json_encode(array(
+						"isError" => true,
+						"ErrorDisplay" => "Error: Invalid Input Amount!"
+					));
+					else {
+						$BalanceLeft = $AccountQuery->Account_AvailableBalance - $_POST["Amount"];
+						$FeeLeft = $AccountQuery->Account_TuitionBalance - $_POST["Amount"];
+						$CheckChar = count(explode("-", (string)$FeeLeft));
+
+						if($CheckChar == 2) echo json_encode(array(
+							"isError" => true,
+							"ErrorDisplay" => "Error: Please Input the Correct Amount!"
+						));
+						else {
+							$this->db->insert("Transaction", array(
+								"StudentID" => $AccountQuery->StudentID,
+								"TransactionType" => "FEE(SCHOOL TUITION)",
+								"TransactionDescription" => json_encode(array(
+									"EmployeeID" => "N/A",
+									"StudentID" => $AccountQuery->StudentID,
+									"TransactionAmount" => $_POST['Amount'],
+									"TransactionFee" => $AccountQuery->Account_TuitionBalance,
+									"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+								)),
+								"DateRegister" => date("Y-m-d"),
+								"TimeRegister" => date("H:i:s")
+							));
+							$this->db->update("Account", array(
+								"Account_AvailableBalance" => $BalanceLeft,
+								"Account_TuitionBalance" => $FeeLeft
+							), "AccountID=". $_SESSION['AccountID']);
+
+							$x = include APPPATH.'third_party/SMTPConfig.php';
+
+						 	// Sending a Verification Key Code to Email Account
+						 	$mail = new PHPMailer();
+							$mail->isSMTP();
+							$mail->Host = 'smtp.gmail.com'; 
+							$mail->SMTPSecure = 'ssl';
+							$mail->SMTPAuth = true;
+							$mail->Username = $x['Email'];
+							$mail->Password = $x['Password'];
+							$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+							$mail->Port = 465;
+
+							//Recipients
+							$mail->setFrom($x['Email'], "Student EWallet Notifications");
+							$mail->addAddress($AccountQuery->AccountEmail);
+
+							// Content
+							$mail->isHTML(true);
+							$mail->Subject = 'Student EWallet Notifications';
+							$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
+							$mail->send();
+
+							echo json_encode(array(
+								"isError" => false
+							));
+						}
+					}
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Unexpected Error Occur!"
+				));
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Please Enter your Amount!"
+			));
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));
+	}
+
+	function View_DynamicButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->x != 0) {
+					$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+					$StoreQuery = $this->db->query("Select * from Store where StoreID=". $_GET['id'])->result()[0];
+
+					$BalanceLeft = $AccountQuery->Account_AvailableBalance - $StoreQuery->StorePrice;
+					$CheckChar = count(explode("-", (string)$BalanceLeft));
+
+					if($CheckChar == 2) echo json_encode(array(
+						"isError" => true,
+						"ErrorDisplay" => "Error: Invalid Input Amount!"
+					));
+					else {
+						$this->db->insert("Transaction", array(
+							"StudentID" => $AccountQuery->StudentID,
+							"TransactionType" => strtoupper($StoreQuery->StoreTitle),
+							"TransactionDescription" => json_encode(array(
+								"EmployeeID" => "N/A",
+								"StudentID" => $AccountQuery->StudentID,
+								"TransactionAmount" => $StoreQuery->StorePrice,
+								"TransactionFee" => 0,
+								"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+							)),
+							"DateRegister" => date("Y-m-d"),
+							"TimeRegister" => date("H:i:s")
+						));
+						$this->db->update("Account", array(
+							"Account_AvailableBalance" => $BalanceLeft
+						), "AccountID=". $_SESSION['AccountID']);
+
+						$x = include APPPATH.'third_party/SMTPConfig.php';
+
+						// Sending a Verification Key Code to Email Account
+						$mail = new PHPMailer();
+						$mail->isSMTP();
+						$mail->Host = 'smtp.gmail.com'; 
+						$mail->SMTPSecure = 'ssl';
+						$mail->SMTPAuth = true;
+						$mail->Username = $x['Email'];
+						$mail->Password = $x['Password'];
+						$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+						$mail->Port = 465;
+
+						//Recipients
+						$mail->setFrom($x['Email'], "Student EWallet Notifications");
+						$mail->addAddress($AccountQuery->AccountEmail);
+
+						// Content
+						$mail->isHTML(true);
+						$mail->Subject = 'Student EWallet Notifications';
+						$mail->Body    = 'Purchase Item<br<br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
+						$mail->send();
+
+						echo json_encode(array(
+							"isError" => false
+						));
+					}
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Unexpected Error Occur!"
+				));
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Please Enter your Amount!"
+			));
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));
+	}
 }
 
 ?>

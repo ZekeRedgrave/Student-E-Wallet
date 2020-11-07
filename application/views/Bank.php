@@ -132,7 +132,7 @@
 						<option value="200">200</option>
 						<option value="500">500</option>
 						<option value="1000">1000</option>
-						<option value="999999999999">All (This is might you break your Browser or CPU</option>
+						<option value="999999999999">All (This is might you break your Browser or CPU)</option>
 					</select>
 				</div>
 				<table class="table">
@@ -182,7 +182,9 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						if(!data.isEmpty) for(var x in data.TransactionArray) new Record().View_RecordItem(x)
+						if(!data.isEmpty) data.TransactionArray.forEach( function(element, index) {
+							new Record().View_RecordItem(data.TransactionArray[index])
+						})
 						else $("#ViewTransaction_RecordLoad").append(`
 							<tr>
 								<td style="word-break: break-all;">N / A</td>
@@ -252,8 +254,6 @@
 						success: function(data) {
 							if(!data.isError) {
 								for(var x in data.TransactionArray) {
-									console.log(x)
-
 									ViewTransaction_RecordLoad.append(`
 										<tr>
 											<td style="word-break: break-all;">`+ data.TransactionArray[x].StudentName +`</td>

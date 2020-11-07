@@ -347,6 +347,134 @@ class Account extends CI_Controller {
 		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
 		));
 	}
+
+	function ViewAssessment_SearchButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['id'])->result()[0]->x != 0) {
+					$StudentQuery = $this->db->query("Select * from Student where StudentID=". $_GET['id'])->result()[0];
+
+					$data['isError'] = false;
+					$data['Name'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
+					$data['CY'] = $StudentQuery->Course. "-" .$StudentQuery->Level;
+					$data['Image'] = $StudentQuery->Image;
+					$data['Status'] = $StudentQuery->Status;
+
+					echo json_encode($data);
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "Error: Not Found!"
+				));
+			}
+			else echo json_encode(array(
+			   	"isError" => true,
+			   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			));
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		)); 
+	}
+
+	function CreateAssessment_DoneButton() {
+		if(isset($_POST['StudentID']) && isset($_POST['TuitionFee'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee'])) {
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
+					if($_SESSION['AccountType'] == "DEPARTMENT") {
+						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
+
+						$x = include APPPATH.'third_party/SMTPConfig.php';
+
+						// Sending a Verification Key Code to Email Account
+		  				$mail = new PHPMailer();
+						$mail->isSMTP();
+						$mail->Host = 'smtp.gmail.com'; 
+						$mail->SMTPSecure = 'ssl';
+						$mail->SMTPAuth = true;
+						$mail->Username = $x['Email'];
+						$mail->Password = $x['Password'];
+						$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+						$mail->Port = 465;
+						//Recipients
+						$mail->setFrom($x['Email'], "Student EWallet Notifications");
+						$mail->addAddress($AccountQuery);
+						// Content
+						$mail->isHTML(true);
+						$mail->Subject = 'Notification Alert';
+						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. We would like to notnice you that your bill is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+						// Send
+						$mail->send();
+
+						$this->db->update("Account", array(
+							"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
+						), "StudentID=". $_POST['StudentID']);	
+
+						echo json_encode(array(
+						   	"isError" => false
+						)); 
+					}
+					else echo json_encode(array(
+					   	"isError" => true,
+					   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+					));  
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "Error: Not Found!"
+				));
+			}
+			else {
+				$ErrorDisplay = "Error: ";
+
+				if(empty($_POST['StudentID'])) $ErrorDisplay .= "(Student ID) ";
+				if(empty($_POST['TuitionFee'])) $ErrorDisplay .= "(Tuition Fee) ";
+
+				echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => $ErrorDisplay. "is Empty!"
+				));  
+			}
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));  
+	}
+
+	function StoreView_ItemLoad() {
+		if($_SESSION['AccountType'] == "STUDENT") {
+			$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+			$StudentQuery = $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0];
+
+			$data['isError'] = false;
+			$data['AccountDeposit'] = $AccountQuery->Account_AvailableBalance;
+			$data['AccountTuition'] = $AccountQuery->Account_TuitionBalance;
+
+			echo json_encode($data);
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));
+	}
+
+	function View_TableLoad() {
+		if(isset($_GET['id']) {
+			if(!empty($_GET['id'])) {
+				echo '0';
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			));
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));  
+	}
 }
 
 ?>

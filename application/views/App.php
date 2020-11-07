@@ -22,7 +22,7 @@
 		<!-- Setting Loader -->
 		<div class="container pt-5 pb-5 mr-4" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
 			<!-- Profile Area -->
-			<div id="SettingProfile_Area" class="d-flex flex-column hide" style="width: 100%;">
+			<div id="SettingProfile_Area" class="d-flex flex-column" style="width: 100%;">
 				<h4 class="mb-3">Profile</h4>
 				<div class="d-flex flex-row" style="width: 100%">
 					<div>
@@ -75,7 +75,7 @@
 			</div>
 			<!-- End of Profile Area -->
 			<!-- Billing Area -->
-			<div id="SettingBilling_Area" class="container d-flex flex-column" style="width: 100%">
+			<div id="SettingBilling_Area" class="container d-flex flex-column hide" style="width: 100%">
 				<h4 class="mb-3">Billing</h4>
 				<div style="width: 100%">
 					<div class="d-flex flex-row" style="width: 100%">
@@ -182,8 +182,8 @@
 	function AppLoader() {
 		$(document).ready(function() {
 			$("#App_StartingArea").addClass('hide')
-			// $("#App").removeClass('hide')
-			$("#App_SettingArea").removeClass('hide')
+			$("#App").removeClass('hide')
+			// $("#App_SettingArea").removeClass('hide')
 		})
 	}
 

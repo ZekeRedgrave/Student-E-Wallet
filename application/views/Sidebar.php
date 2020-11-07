@@ -11,7 +11,7 @@
 				break;
 			case "CASHIER":
 				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
-				echo '<button id="App_BankButton" class="material-icons form-control mb-1" title="Payment">account_balance</button>';
+				echo '<button id="App_BankButton" class="material-icons form-control mb-1" title="Transaction & Bank">account_balance</button>';
 				break;
 
 			case "DEPARTMENT":

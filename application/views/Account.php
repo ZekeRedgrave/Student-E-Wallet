@@ -1,6 +1,6 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
-	<div class="d-flex flex-column" style="width: 100%; height: 100%">
-		<div id="Account_HomeArea" class="d-flex flex-column p-3" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+	<div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div id="Account_HomeArea" class="d-flex flex-column p-3">
 			<!-- Logs Area -->
 			<h4 class="mb-5">Logs</h4>
 			<table class="table">
@@ -83,6 +83,71 @@
 				<!-- End of View Student -->
 			</div>
 		</div>
+		<!-- Assessment Area -->
+		<div id="" class="d-flex flex-column p-3">
+			<h4 class="mb-5">Assessment</h4>
+
+			<!-- View Student Assessment Area-->
+			<div id="View_AssessmentArea" class="">
+				<div class="d-flex flex-row mb-3">
+					<input id="ViewAssessment_Searchbox" class="form-control" placeholder="Search Student ID">
+					<button onclick="new Assessment().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
+
+					<div style="width: 100%"></div>
+
+					<button class="form-control" style="min-width: 75px; max-width: 75px;">Edit</button>
+					<button onclick="new Assessment().View_AddButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Add</button>
+				</div>
+				<div class="d-flex flex-row p-2 mb-5">
+					<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+					<div class="d-flex flex-column ml-4" style="width: 100%">
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
+						<div id="ViewAssessment_NameLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
+						<div id="ViewAssessment_CYLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
+						<div id="ViewAssessment_StatusLabel" class="form-control mb-2 red-text">XXX-XXX-XXX</div>
+					</div>
+				</div>
+				<table class="table border-top">
+					<thead>
+						<tr>
+							<th style="width: 100%">Amount</th>
+							<th style="width: 100%">Remainding</th>
+							<th style="min-width: 135px; max-width: 135px">Course and Year</th>
+							<th style="min-width: 125px; max-width: 125px">Status</th>
+							<th style="min-width: 125px; max-width: 125px">Timeline</th>
+						</tr>
+					</thead>
+					<tbody id="ViewAssessment_TableLoad">
+						<!-- <tr>
+							<th style="width: 100%">P XXXX.XX</th>
+							<th class="red-text" style="width: 100%">P XXXX.XX</th>
+							<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
+							<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
+							<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
+						</tr> -->
+					</tbody>
+				</table>
+			</div>
+			<!-- End of View Student Assessment Area-->
+			<!-- Add Student Assessment Area -->
+			<div id="Create_AssessmentArea" class="hide">
+				<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+				<input id="CreateAssessment_SIbox" class="form-control mb-4" type="number" placeholder="XXX-XXX-XXX">
+
+				<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
+				<input id="CreateAssessment_TFbox" class="form-control mb-4" type="number" placeholder="P XXXX.XX">
+
+				<div style="min-width: 125px; max-width: 125px;">
+					<button onclick="new Assessment().Create_DoneButton()" class="form-control mb-1">Done</button>
+					<button onclick="new Assessment().Create_CancelButton()" class="form-control">Cancel</button>
+				</div>
+			</div>
+		</div>
+		<!-- End of Assessment Area -->
 	</div>
 	<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
 		<h4 class="p-2 m-0" style="font-size: 17px;">View</h4>
@@ -411,6 +476,112 @@
 					},
 				})
 			}
+		}
+	}
+
+	function Assessment() {
+		this.View_SearchButton = function() {
+			var ViewAssessment_Searchbox = $("#ViewAssessment_Searchbox")
+			var ViewAssessment_Image = $("#ViewAssessment_Image")
+			var ViewAssessment_NameLabel = $("#ViewAssessment_NameLabel")
+			var ViewAssessment_CYLabel = $("#ViewAssessment_CYLabel")
+			var ViewAssessment_StatusLabel = $("#ViewAssessment_StatusLabel")
+
+			if(ViewAssessment_Searchbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_SearchButton?id=" +ViewAssessment_Searchbox.val(), 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							ViewAssessment_Image.attr('src', window.location.href.replace("/index.php/Access", "/")+ "avatar/" + data.Image)
+							ViewAssessment_NameLabel.text(data.Name)
+							ViewAssessment_CYLabel.text(data.CY)
+							ViewAssessment_StatusLabel.text(data.Status)
+
+							new Assessment().View_TableLoad(ViewAssessment_Searchbox.val())
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Error: Student ID's Searchbox is Emtpy!")
+		}
+
+		this.View_TableLoad = function(id) {
+			var ViewAssessment_TableLoad = $("#ViewAssessment_TableLoad")
+
+			// $.ajax({
+			// 	url: window.location.href.replace("/Access", "")+ "/Account/View_TableLoad?id=" +id, 
+			// 	method: 'POST',
+			// 	dataType: 'json',
+			// 	success: function(data) {
+					
+			// 	},
+			// 	error: function(ex) {
+			//  		console.log('Error: ' + JSON.stringify(ex, null, 2))
+			// 	}
+			// })
+		}
+
+		this.View_AddButton = function() {
+			$("#Create_AssessmentArea").removeClass('hide')
+			$("#View_AssessmentArea").addClass('hide')
+		}
+
+		this.Create_DoneButton = function() {
+			var Create_AssessmentArea = $("#Create_AssessmentArea")
+			var CreateAssessment_SIbox = $("#CreateAssessment_SIbox")
+			var CreateAssessment_TFbox = $("#CreateAssessment_TFbox")
+
+			var View_AssessmentArea = $("#View_AssessmentArea")
+
+			if(CreateAssessment_SIbox.val() != "" && CreateAssessment_TFbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/CreateAssessment_DoneButton", 
+					method: 'POST',
+					data: {
+				 		StudentID: CreateAssessment_SIbox.val(),
+				 		TuitionFee: CreateAssessment_TFbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							CreateAssessment_SIbox.val('')
+							CreateAssessment_TFbox.val('')
+
+							Create_AssessmentArea.addClass('hide')
+							View_AssessmentArea.removeClass('hide')
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else {
+				var ErrorDisplay = "Error: "
+
+				if(CreateAssessment_SIbox.val() == "") ErrorDisplay += "(Student ID) "
+				if(CreateAssessment_TFbox.val() == "") ErrorDisplay += "(Tuition Fee) "
+
+				alert(ErrorDisplay+ "is Empty!")
+
+				ErrorDisplay = ""
+			}
+		}
+
+		this.Create_CancelButton = function() {
+			$("#View_AssessmentArea").removeClass('hide')
+			$("#Create_AssessmentArea").addClass('hide')
 		}
 	}
 </script>

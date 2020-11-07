@@ -15,7 +15,7 @@ class Logs extends CI_Controller {
     		$data["isEmpty"] = false;
     		$data["LogArray"] = [];
 
-    		foreach ($this->db->query("Select * from Logs Order by LogID DESC LIMIT 25")->result() as $value) array_push($data["LogArray"], $value->LogID);
+    		foreach ($this->db->query("Select * from Logs Order by LogID DESC LIMIT 10")->result() as $value) array_push($data["LogArray"], $value->LogID);
 
     		echo json_encode($data);
     	}

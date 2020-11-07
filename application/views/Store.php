@@ -8,7 +8,7 @@
 				<div class="d-flex flex-row">
 					<div class="d-flex flex-column pt-3" style="width: 100%">
 						<h6 class="border-bottom pl-2 pr-2" style="margin: 0; font-size: 12px;">Available Balance</h6>
-						<h3 class="pl-2 pr-2" style="margin: 0">￥ 12,345.67</h3>
+						<h3 id="StoreView_DepositLabel" class="pl-2 pr-2" style="margin: 0">P XXXX.XX</h3>
 					</div>
 					<div class="d-flex flex-column ml-4">
 						<button class="material-icons form-control rounded-circle">add</button>
@@ -19,15 +19,15 @@
 				<!-- Tution Fee -->
 				<div class="border-top pt-1">
 					<h1 class="ml-2" style="margin: 0px; font-size: 12px;">Tution Fee Left</h1>
-					<h6 class="d-flex justify-content-center m-0 mt-1" style="font-weight: bold;">￥ 12,345.67</h6>
+					<h6 id="StoreView_TuitionLabel" class="d-flex justify-content-center m-0 mt-1" style="font-weight: bold;">P XXXX.XX</h6>
 				</div>
 				<!-- End of Tution Fee -->
 			</div>
 			<!-- Payments Area -->
 			<h4 class="border-bottom mt-4 pb-1">Payment Store</h4>
-			<div id="Store_LoaderArea" class="d-flex justify-content-center row ml-1 mr-1" style="width: 100%">
+			<div id="StoreView_ButtonLoad" class="d-flex justify-content-center row ml-1 mr-1" style="width: 100%">
 
-				<button onclick="new Store().School_TuitionButton()" class="d-flex flex-column form-control rounded border-0 mr-3 mb-3 red" style="color: white;  width: 175px; min-height: 125px;">
+				<button onclick="new Store().View_OpenButton()" class="d-flex flex-column form-control rounded border-0 mr-3 mb-3 red" style="color: white;  width: 175px; min-height: 125px;">
 					<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">account_balance</div>
 					<div class="d-flex justify-content-center p-2" style="font-size: 12px; font-weight: bold;">Tuition Fee(Default)<div>
 				</button>
@@ -35,7 +35,7 @@
 				<?php 
 
 					foreach ($Store as $value) {
-						echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().School_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-3 mb-3">
+						echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-3 mb-3">
 								<div class="d-flex flex-column border rounded mr-1" style="width: 175px; min-height: 125px;">
 									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
 									<div class="d-flex justify-content-center p-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
@@ -47,18 +47,29 @@
 
 			</div>
 			<!-- Store Tuition Area -->
-			<div id="Store_TuitionArea" class="p-3 d-flex flex-column hide" style="width: 100%;">
+			<div id="StoreView_TuitionArea" class="p-3 d-flex flex-column hide" style="width: 100%;">
 				<h4>Tuition Fee</h4>
 
 				<h6 style="margin: 0; font-size: 12px; font-weight: bold;">Input your Amount</h6>
-				<input id="Store_Tuitionbox" type="number" class="form-control" placeholder="ex. 10.59">
+				<input id="StoreTuition_Amountbox" type="number" class="form-control" placeholder="ex. 10.59">
 
 				<div class="d-flex flex-row mt-5">
-					<button onclick="new Store().SchoolTuition_CancelButton()" class="form-control mr-2 red" style="color:white; width: 100px">Cancel</button>
-					<button onclick="new Store().SchoolTuition_DoneButton()" class="form-control" style="width: 100px">Done</button>
+					<button onclick="new Store().View_CancelButton()" class="form-control mr-2 red" style="color:white; width: 100px">Cancel</button>
+					<button onclick="new Store().View_TuitionButton()" class="form-control" style="width: 100px">Pay</button>
 				</div>
 			</div>
 			<!-- End of Store Tuition Area -->
+			<!-- Store Dynamic Form Area -->
+			<div id="StoreView_DynamicArea" class="d-flex flex-column p-3 hide">
+				<h4 id="StoreView_TFLabel">XXX-XXX-XXX</h4>
+
+				<h6 style="margin: 0; font-size: 12px; font-weight: bold;">Are you sure?</h6>
+				<div class="d-flex flex-row mt-5">
+					<button onclick="new Store().DA_CancelButton()" class="form-control mr-2 red" style="color:white; width: 100px">Cancel</button>
+					<button id="StoreView_DynamicButton" onclick="new Store().DA_DynamicButton()" class="form-control" style="width: 100px">Pay</button>
+				</div>
+			</div>
+			<!-- End of Store Dynamic Form Area -->
 			<!-- End of Payments Area -->
 			<h4 class="border-bottom mt-4 pb-1">News & Announcement</h4>
 			<div id="StoreView_LoaderArea" class="d-flex flex-column" style="width: 100%">
@@ -142,7 +153,7 @@
 			</div>
 		</div>
 		<!-- End of Store Final Transaction Area -->
-		<div class="border-left d-flex flex-column h-100" style="width: 550px;">
+		<div class="border-left d-flex flex-column h-100 hide" style="width: 550px;">
 			<div class="d-flex flex-column" style="height: 50%">
 				<!-- Notificaltion Area -->
 				<h5 class="p-2 border-bottom" style="margin: 0">Notificaltions</h5>
@@ -268,9 +279,70 @@
 		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 			}
 		})
+
+		new Store().View_ItemLoad()
 	})
 
 	function Store() {
+		this.View_ItemLoad = function() {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/StoreView_ItemLoad", 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						$("#StoreView_DepositLabel").text('P '+ data.AccountDeposit)
+						$("#StoreView_TuitionLabel").text('P '+ data.AccountTuition)
+					}
+					else $("#root").load(window.location+ "/LoadView?Load=views&Name=entrance")
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this.View_OpenButton = function() {
+			$("#StoreView_ButtonLoad").addClass('hide')
+			$("#StoreView_TuitionArea").removeClass('hide')
+		}
+
+		this.View_CancelButton = function() {
+			$("#StoreView_ButtonLoad").removeClass('hide')
+			$("#StoreView_TuitionArea").addClass('hide')
+		}
+
+		this.View_TuitionButton = function() {
+			var StoreTuition_Amountbox = $("#StoreTuition_Amountbox")
+
+			if(StoreTuition_Amountbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Transaction/View_TuitionButton", 
+					method: 'POST',
+					data: {
+				 		Amount: StoreTuition_Amountbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							alert("Tuition Transaction Successed!");
+
+							$("#StoreView_DynamicArea").addClass('hide')
+
+							new Store().View_ItemLoad()
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Error: Please Enter your Amount!")
+		}
+
 		this.StoreView_ItemLoad = function(id) {
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Timeline/View_ItemLoad?TimelineID="+id, 
@@ -358,23 +430,36 @@
 			})
 		}
 
-		this.School_TuitionButton = function() {
-			$("#Store_TuitionArea").removeClass('hide')
-			$("#Store_LoaderArea").addClass('hide')
+		this.View_DynamicButton = function(id) {
+			$("#StoreView_TuitionArea").addClass('hide')
+			$("#StoreView_ButtonLoad").addClass('hide')
 
+			$("#StoreView_DynamicArea").removeClass('hide')
+			$("#StoreView_DynamicButton").attr('onclick', 'new Store().DA_DynamicButton(' +id+ ')')
 		}
 
-		this.SchoolTuition_CancelButton = function() {
-			$("#Store_LoaderArea").removeClass('hide')
-			$("#Store_TuitionArea").addClass('hide')
+		this.DA_CancelButton = function() {
+			$("#StoreView_DynamicArea").addClass('hide')
+			$("#StoreView_TuitionArea").addClass('hide')
+			$("#StoreView_ButtonLoad").removeClass('hide')
 		}
 
-		this.SchoolTuition_DoneButton = function() {
-
-		}
-
-		this.School_DynamicButton = function(id) {
-
+		this.DA_DynamicButton = function(id) {
+			$.ajax({
+				url: window.location.href.replace('/Access', '')+ "/Transaction/View_DynamicButton?id="+ id, 
+				method: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						new Store().DA_CancelButton()
+						new Store().View_ItemLoad()
+					}
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
 		}
 	}
 
