@@ -268,7 +268,7 @@ class Account extends CI_Controller {
 			if($Package->AccountPassword != "") {
 				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'")->result()[0]->x != 0) {
 					if($Package->AccountUsername != "" && $Package->AccountEmail != "") {
-						$Avatar = $_SESSION['AccountID']. pathinfo($_FILES['AccountImage']['name'], PATHINFO_EXTENSION);
+						$Avatar = $_SESSION['AccountID']. "." .pathinfo($_FILES['AccountImage']['name'], PATHINFO_EXTENSION);
 
 						move_uploaded_file($_FILES['AccountImage']['tmp_name'], "avatar/". $Avatar);
 
@@ -277,6 +277,16 @@ class Account extends CI_Controller {
 						$query["AccountEmail"] = $Package->AccountEmail;
 
 						$this->db->update("Account", $query, "AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'");
+
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Profile",
+								"Action" => "Updating His/Her Account Profile"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 
 						echo json_encode(array(
 						   	"isError" => false
@@ -409,7 +419,17 @@ class Account extends CI_Controller {
 
 						$this->db->update("Account", array(
 							"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
-						), "StudentID=". $_POST['StudentID']);	
+						), "StudentID=". $_POST['StudentID']);
+
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Assessment",
+								"Action" => "Deploying Student Assessment Info"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 
 						echo json_encode(array(
 						   	"isError" => false
@@ -461,9 +481,122 @@ class Account extends CI_Controller {
 	}
 
 	function View_TableLoad() {
-		if(isset($_GET['id']) {
-			if(!empty($_GET['id'])) {
-				echo '0';
+		// if(isset($_GET['id']) {
+		// 	if(!empty($_GET['id'])) {
+		// 		echo '0';
+		// 	}
+		// 	else echo json_encode(array(
+		// 		"isError" => true,
+		// 		"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		// 	));
+		// }
+		// else echo json_encode(array(
+		// 	"isError" => true,
+		// 	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		// ));  
+	}
+
+	function SRCreate_DoneButton() {
+		if(isset($_POST['Lastname']) && isset($_POST['Firstname']) && isset($_POST['Middlename']) && isset($_POST['Gender']) && isset($_POST['Age']) && isset($_POST['Contact']) && isset($_POST['Status']) && isset($_POST['Course']) && isset($_POST['Level'])  && isset($_POST['ID'])) {
+			if(!empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Gender']) && !empty($_POST['Age']) && !empty($_POST['Status']) && !empty($_POST['Course']) && !empty($_POST['Level'])  && !empty($_POST['ID'])) {
+
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['ID'])->result()[0]->x == 0) {
+					$this->db->insert("Student", array(
+						"StudentID" => $_POST['ID'],
+						"Name" => json_encode(array(
+							"Lastname" => $_POST['Lastname'],
+							"Firstname" => $_POST['Firstname'],
+							"Middlename" => $_POST['Middlename'],
+						)),
+						"Course" => strtoupper($_POST['Course']),
+						"Gender" => $_POST['Gender'],
+						"Age" => $_POST['Age'],
+						"Level" => $_POST['Level'],
+						"ContactNumber" => $_POST['Contact'],
+						"Image" => "avatar.png",
+						"Status" => $_POST['Status']
+					));
+
+					$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Account",
+							"Action" => "School Registry(Add Student)"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
+
+					echo json_encode(array(
+						"isError" => false
+					));
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: The Student is Already existed!"
+				));
+			}
+			else {
+				$ErrorDisplay = "Error: ";
+
+				if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
+				if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
+				if(empty($_POST['Middlename'])) $ErrorDisplay .= "(Middlename) ";
+				if(empty($_POST['Gender'])) $ErrorDisplay .= "(Gender) ";
+				if(empty($_POST['Age'])) $ErrorDisplay .= "(Age) ";
+				if(empty($_POST['Status'])) $ErrorDisplay .= "(Status) ";
+				if(empty($_POST['Course'])) $ErrorDisplay .= "(Course) ";
+				if(empty($_POST['Level'])) $ErrorDisplay .= "(Level) ";
+				if(empty($_POST['ID'])) $ErrorDisplay .= "(Student ID) ";
+
+				echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => $ErrorDisplay . "is Empty!"
+				));  
+			}
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));  
+	}
+
+	function SRView_SearchButton() {
+		if(isset($_GET['ID'])) {
+			if(!empty($_GET['ID'])) {
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
+					$StudentQuery = $this->db->query("Select * from Student where StudentID=". $_GET['ID'])->result()[0];
+					$data["isError"] = false;
+					$data["Name"] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). " (" .json_decode($StudentQuery->Name)->Middlename. ")";
+					$data["StudentID"] = $StudentQuery->StudentID;
+					$data["Gender"] = $StudentQuery->Gender;
+					$data["Age"] = $StudentQuery->Age;
+					$data["Contact"] = $StudentQuery->ContactNumber;
+					$data["CY"] = $StudentQuery->Course. "-" .$StudentQuery->Level;
+					$data["Status"] = $StudentQuery->Status;
+
+					if($this->db->query("Select Count(*) as x from Account where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
+						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['ID'])->result()[0];
+
+						$data["Image"] = $AccountQuery->AccountImage;
+						$data["Email"] =  $AccountQuery->AccountEmail;
+						$data["Username"] =  $AccountQuery->AccountUsername;
+						$data["Deposits"] =  $AccountQuery->Account_AvailableBalance;
+						$data["Tuition"] =  $AccountQuery->Account_TuitionBalance;
+					}
+					else {
+						$data["Email"] =  "N / A";
+						$data["Username"] =  "N / A";
+						$data["Deposits"] =  "N / A";
+						$data["Tuition"] =  "N / A";
+					}
+
+					echo json_encode($data);
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Invalid Student ID!"
+				));
 			}
 			else echo json_encode(array(
 				"isError" => true,
@@ -473,7 +606,122 @@ class Account extends CI_Controller {
 		else echo json_encode(array(
 			"isError" => true,
 			"ErrorDisplay" => "Error: Unexpected Error Occur!"
-		));  
+		)); 
+	}
+
+	function SRView_RemoveButton() {
+		if(isset($_GET['ID'])) {
+			if(!empty($_GET['ID'])) {
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
+					$this->db->query("Delete from Student where StudentID=". $_GET['ID']);
+
+					echo json_encode(array(
+						"isError" => false
+					));
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Invalid Student ID!"
+				));
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			));
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		)); 
+	}
+
+	function SREdit_SearchButton() {
+		if(isset($_GET['ID'])) {
+			if(!empty($_GET['ID'])) {
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
+					$data["isError"] = false;
+
+					foreach ($this->db->query("Select * from Student where StudentID=". $_GET['ID'])->result()[0] as $key => $value) $data[$key] = $value;
+
+					echo json_encode($data);
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Invalid Student ID!"
+				));
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			));
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		));
+	}
+
+	function SREdit_DoneButton() {
+		if(isset($_POST['Lastname']) && isset($_POST['Firstname']) && isset($_POST['Middlename']) && isset($_POST['Gender']) && isset($_POST['Age']) && isset($_POST['Contact']) && isset($_POST['Status']) && isset($_POST['Course']) && isset($_POST['Level'])  && isset($_POST['ID'])) {
+			if(!empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Gender']) && !empty($_POST['Age']) && !empty($_POST['Status']) && !empty($_POST['Course']) && !empty($_POST['Level'])  && !empty($_POST['ID'])) {
+
+				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['ID'])->result()[0]->x != 0) {
+					$this->db->update("Student", array(
+						"Name" => json_encode(array(
+							"Lastname" => $_POST['Lastname'],
+							"Firstname" => $_POST['Firstname'],
+							"Middlename" => $_POST['Middlename']
+						)),
+						"Course" => $_POST['Course'],
+						"Gender" => $_POST['Gender'],
+						"Age" => $_POST['Age'],
+						"Level" => $_POST['Level'],
+						"ContactNumber" => $_POST['Contact'],
+						"Status" => $_POST['Status']
+					), "StudentID=". $_POST['ID']);
+
+					$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Account",
+							"Action" => "School Registry(Edit Student)"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
+
+					echo json_encode(array(
+						"isError" => false
+					));
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Invalid Student ID!"
+				));
+			}
+			else {
+				$ErrorDisplay = "Error: ";
+
+				if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
+				if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
+				if(empty($_POST['Middlename'])) $ErrorDisplay .= "(Middlename) ";
+				if(empty($_POST['Gender'])) $ErrorDisplay .= "(Gender) ";
+				if(empty($_POST['Age'])) $ErrorDisplay .= "(Age) ";
+				if(empty($_POST['Status'])) $ErrorDisplay .= "(Status) ";
+				if(empty($_POST['Course'])) $ErrorDisplay .= "(Course) ";
+				if(empty($_POST['Level'])) $ErrorDisplay .= "(Level) ";
+				if(empty($_POST['ID'])) $ErrorDisplay .= "(Student ID) ";
+
+				echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => $ErrorDisplay . "is Empty!"
+				));  
+			}
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		)); 
 	}
 }
 

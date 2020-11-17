@@ -10,10 +10,6 @@
 						<h6 class="border-bottom pl-2 pr-2" style="margin: 0; font-size: 12px;">Available Balance</h6>
 						<h3 id="StoreView_DepositLabel" class="pl-2 pr-2" style="margin: 0">P XXXX.XX</h3>
 					</div>
-					<div class="d-flex flex-column ml-4">
-						<button class="material-icons form-control rounded-circle">add</button>
-						<h6 class="mt-2">Top Up</h6>
-					</div>
 				</div>
 				<!-- End of Student Balance -->
 				<!-- Tution Fee -->
@@ -354,6 +350,7 @@
 						var ImageTemp = JSON.parse(data.TimelineDescription).Image
 
 						$("#StoreView_ImageID"+ id).attr('src', 'http://localhost/Ewallet/avatar/'+ data.TimelineImage)
+						$("#StorePost_UserImage").attr('src', 'http://localhost/Ewallet/avatar/'+ data.TimelineImage)
 						$("#StoreView_UsernameID"+ id).text(data.TimelineName)
 						$("#StoreView_DateTimeID"+ id).text("Date and Time : "+ data.DateRegister +" "+ data.TimeRegister)
 

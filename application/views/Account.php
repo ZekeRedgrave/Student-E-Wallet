@@ -1,164 +1,328 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
-	<div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-		<div id="Account_HomeArea" class="d-flex flex-column p-3">
-			<!-- Logs Area -->
-			<h4 class="mb-5">Logs</h4>
-			<table class="table">
-				<thead>
-					<tr>
-						<th class="p-0" style="font-weight: bold; width: 50%">Name</th>
-						<th class="p-0" style="font-weight: bold;">Type</th>
-						<th class="p-0" style="font-weight: bold; width: 50%">Activity</th>
-						<th class="p-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Timeline</th>
-					</tr>
-				</thead>
-				<tbody id="AccountLog_ListLoader">
+	<div id="ViewAccount_MainArea" class="d-flex flex-row" style="width: 100%; height: 100%">
+		<div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+			<div id="Account_HomeArea" class="d-flex flex-column p-3">
+				<!-- Logs Area -->
+				<h4 class="mb-5">Logs</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="p-0" style="font-weight: bold; width: 50%">Name</th>
+							<th class="p-0" style="font-weight: bold;">Type</th>
+							<th class="p-0" style="font-weight: bold; width: 50%">Activity</th>
+							<th class="p-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Timeline</th>
+						</tr>
+					</thead>
+					<tbody id="AccountLog_ListLoader">
 
-				</tbody>
-			</table>
-			<!-- End of Logs Area -->
-			<div style="width: 100%"></div>
-		</div>
-		<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
-			<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+					</tbody>
+				</table>
+				<!-- End of Logs Area -->
+				<div style="width: 100%"></div>
+				<!-- Assessment Area -->
+				<div id="" class="d-flex flex-column p-3">
+					<h4 class="mb-5">Assessment</h4>
 
-				<h4 class="m-0 mt-2" style="">On-Hold New Register Account Information</h4>
-				<div class="d-flex flex-column border rounded mt-1 p-2">
+					<!-- View Student Assessment Area-->
+					<div id="View_AssessmentArea" class="">
+						<div class="d-flex flex-row mb-3">
+							<input id="ViewAssessment_Searchbox" class="form-control" placeholder="Search Student ID">
+							<button onclick="new Assessment().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
+
+							<div style="width: 100%"></div>
+
+							<button class="form-control" style="min-width: 75px; max-width: 75px;">Edit</button>
+							<button onclick="new Assessment().View_AddButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Add</button>
+						</div>
+						<div class="d-flex flex-row p-2 mb-5">
+							<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+							<div class="d-flex flex-column ml-4" style="width: 100%">
+								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
+								<div id="ViewAssessment_NameLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+
+								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
+								<div id="ViewAssessment_CYLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+
+								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
+								<div id="ViewAssessment_StatusLabel" class="form-control mb-2 red-text">XXX-XXX-XXX</div>
+							</div>
+						</div>
+						<table class="table border-top">
+							<thead>
+								<tr>
+									<th style="width: 100%">Amount</th>
+									<th style="width: 100%">Remainding</th>
+									<th style="min-width: 135px; max-width: 135px">Course and Year</th>
+									<th style="min-width: 125px; max-width: 125px">Status</th>
+									<th style="min-width: 125px; max-width: 125px">Timeline</th>
+								</tr>
+							</thead>
+							<tbody id="ViewAssessment_TableLoad">
+								<!-- <tr>
+									<th style="width: 100%">P XXXX.XX</th>
+									<th class="red-text" style="width: 100%">P XXXX.XX</th>
+									<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
+									<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
+									<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
+								</tr> -->
+							</tbody>
+						</table>
+					</div>
+					<!-- End of View Student Assessment Area-->
+					<!-- Add Student Assessment Area -->
+					<div id="Create_AssessmentArea" class="hide">
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+						<input id="CreateAssessment_SIbox" class="form-control mb-4" type="number" placeholder="XXX-XXX-XXX">
+
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
+						<input id="CreateAssessment_TFbox" class="form-control mb-4" type="number" placeholder="P XXXX.XX">
+
+						<div style="min-width: 125px; max-width: 125px;">
+							<button onclick="new Assessment().Create_DoneButton()" class="form-control mb-1">Done</button>
+							<button onclick="new Assessment().Create_CancelButton()" class="form-control">Cancel</button>
+						</div>
+					</div>
+				</div>
+				<!-- End of Assessment Area -->
+			</div>
+			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
+				<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+
+					<h4 class="m-0 mt-2" style="">On-Hold New Register Account Information</h4>
+					<div class="d-flex flex-column border rounded mt-1 p-2">
+						<div class="d-flex flex-row">
+							<a id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="material-icons p-1 pl-3" style="font-size: 15px;">arrow_back_ios</a>
+							<div class="d-flex align-items-center ml-4 mr-4" style="width: 100%; font-size: 13px;">Register ID #1</div>
+
+							<a id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="material-icons p-1 mr-1 red-text" style="font-size: 15px;">delete</a>
+							<a id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="material-icons p-1" style="font-size: 15px;">check</a>
+						</div>
+
+						<div class="d-flex flex-row mt-2" style="width: 100%">
+							<div class="d-flex flex-column ml-2" style="width: 100%">
+								<div style="font-size: 12px; font-weight: bold;">Student ID</div>
+								<div id="AccountView_RegisterSI" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+								<div style="font-size: 12px; font-weight: bold;">Username</div>
+								<div id="AccountView_RegisterUsername" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+								<div style="font-size: 12px; font-weight: bold;">Email</div>
+								<div id="AccountView_RegisterEmail" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+							</div>
+							<div class="d-flex flex-column mr-2" style="width: 100%">
+								<div style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
+								<div id="AccountView_RegisterDT" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
+								<div style="font-size: 12px; font-weight: bold;">Expiration</div>
+								<div id="AccountView_RegisterExpiration" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2 red-text">XXX-XXX-XXX</div>
+							</div>
+						</div>
+					</div>
+					<h4 class="mt-5 mb-3">Personal Information</h4>
+					<div class="mb-3" style="font-size: 12px; font-weight: bold;">Before accepting an incoming New Account, you can check the On-Hold New Register Users if he/she is student of the current school.</div>
+
+					<!-- View Student -->
+					<div style="font-size: 12px; font-weight: bold;">Search Student ID</div>
 					<div class="d-flex flex-row">
-						<a id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="material-icons p-1 pl-3" style="font-size: 15px;">arrow_back_ios</a>
-						<div class="d-flex align-items-center ml-4 mr-4" style="width: 100%; font-size: 13px;">Register ID #1</div>
-
-						<a id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="material-icons p-1 mr-1 red-text" style="font-size: 15px;">delete</a>
-						<a id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="material-icons p-1" style="font-size: 15px;">check</a>
+						<input id="AccountRegister_Searchbox" class="form-control" type="number" placeholder="e.g. 15730500">
+						<button onclick="new Search().Register_SearchButton()" class="material-icons border rounded ml-1 pl-3 pr-3 white">search</button>
 					</div>
+						
+					<div class="d-flex flex-row mt-3" style="width: 100%;">
+						<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
+						<div class="d-flex flex-column ml-4" style="width: 100%">
 
-					<div class="d-flex flex-row mt-2" style="width: 100%">
-						<div class="d-flex flex-column ml-2" style="width: 100%">
+							<div style="font-size: 12px; font-weight: bold;">Name</div>
+							<div id="AccountRegister_StudentName" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+
 							<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-							<div id="AccountView_RegisterSI" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+							<div id="AccountRegister_StudentID" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-							<div style="font-size: 12px; font-weight: bold;">Username</div>
-							<div id="AccountView_RegisterUsername" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+							<div style="font-size: 12px; font-weight: bold;">Course and Year</div>
+							<div id="AccountRegister_StudentCY" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-							<div style="font-size: 12px; font-weight: bold;">Email</div>
-							<div id="AccountView_RegisterEmail" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
-						</div>
-						<div class="d-flex flex-column mr-2" style="width: 100%">
-							<div style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
-							<div id="AccountView_RegisterDT" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+							<div style="font-size: 12px; font-weight: bold;">Status</div>
+							<div id="AccountRegister_StudentStatus" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
 
-							<div style="font-size: 12px; font-weight: bold;">Expiration</div>
-							<div id="AccountView_RegisterExpiration" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2 red-text">XXX-XXX-XXX</div>
 						</div>
 					</div>
+					<!-- End of View Student -->
 				</div>
-				<h4 class="mt-5 mb-3">Personal Information</h4>
-				<div class="mb-3" style="font-size: 12px; font-weight: bold;">Before accepting an incoming New Account, you can check the On-Hold New Register Users if he/she is student of the current school.</div>
-
-				<!-- View Student -->
-				<div style="font-size: 12px; font-weight: bold;">Search Student ID</div>
-				<div class="d-flex flex-row">
-					<input id="AccountRegister_Searchbox" class="form-control" type="number" placeholder="e.g. 15730500">
-					<button onclick="new Search().Register_SearchButton()" class="material-icons border rounded ml-1 pl-3 pr-3 white">search</button>
-				</div>
-					
-				<div class="d-flex flex-row mt-3" style="width: 100%;">
-					<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
-					<div class="d-flex flex-column ml-4" style="width: 100%">
-
-						<div style="font-size: 12px; font-weight: bold;">Name</div>
-						<div id="AccountRegister_StudentName" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
-
-						<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-						<div id="AccountRegister_StudentID" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-						<div style="font-size: 12px; font-weight: bold;">Course and Year</div>
-						<div id="AccountRegister_StudentCY" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-						<div style="font-size: 12px; font-weight: bold;">Status</div>
-						<div id="AccountRegister_StudentStatus" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-					</div>
-				</div>
-				<!-- End of View Student -->
 			</div>
 		</div>
-		<!-- Assessment Area -->
-		<div id="" class="d-flex flex-column p-3">
-			<h4 class="mb-5">Assessment</h4>
+		<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
+			<h4 class="p-2 m-0" style="font-size: 17px;">View</h4>
+			<div class="d-flex flex-row border-bottom pb-1">
+				<button onclick="new Account().View_SRButton()" class="form-control ml-1">Student Registry</button>
+				<button class="form-control ml-1 mr-1">Account Info</button>
+			</div>
 
-			<!-- View Student Assessment Area-->
-			<div id="View_AssessmentArea" class="">
-				<div class="d-flex flex-row mb-3">
-					<input id="ViewAssessment_Searchbox" class="form-control" placeholder="Search Student ID">
-					<button onclick="new Assessment().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
+			<h4 class="border-bottom p-2 m-0" style="font-size: 17px;">On-Hold New Register Account</h4>
+			<div id="AccountView_RegistrationLoader" class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
+		</div>
+	</div>
+
+	<!-- Student Registry -->
+	<div id="ViewAccount_SR" class="pt-3 pb-3 hide" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="pl-3 pr-3" style="width: 100%">
+			<h4 class="m-0 p-0">School Registry</h4>
+			<!-- Create -->
+			<div id="SR_CreateArea" class="mt-5 hide">
+				<h4 class="m-0 p-0 mb-3" style="font-weight: bold; font-size: 14px;">Create New Student</h4>
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
+				<div class="d-flex flex-row mb-2">
+					<input id="SR_Lastnamebox" class="form-control m-0 mr-1" placeholder="Lastname">
+					<input id="SR_Firstnamebox" class="form-control m-0" placeholder="Firstname">
+					<div style="width: 100%"></div>
+					<input id="SR_Middlenamebox" class="form-control m-0" placeholder="Middlename">
+				</div>
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Student ID</h4>
+				<input id="SR_IDbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
+				<select id="SR_GenderButton" class="custom-select form-control mb-2">
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
+				<input id="SR_Agebox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact No. (Optional)</h4>
+				<input id="SR_Numberbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
+				<select id="SR_StatusButton" class="custom-select mb-2">
+					<option value="non-graduated">Non-Graduated / Enrolled</option>
+					<option value="graduated">Graduated</option>
+					<option value="not enrolled">Not Enrolled</option>
+					<option value="dropped">Dropped</option>
+				</select>
+
+				<h4 class="m-0 p-0 mt-3 mb-3" style="font-weight: bold; font-size: 14px;">Course</h4>
+				<input id="SR_Coursebox" class="form-control m-0 mb-2" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Level</h4>
+				<input id="SR_Levelbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<div class="d-flex flex-row">
+					<button onclick="new SR().Create_DoneButton()" class="form-control mr-1" style="min-width: 125px; max-width: 125px;">Done</button>
+					<button onclick="new SR().Create_CancelButton()" class="form-control" style="min-width: 125px; max-width: 125px;">Cancel</button>
+				</div>
+			</div>
+			<!-- End of Create -->
+			<!-- View -->
+			<div id="SR_ViewArea" class="mt-5" style="width: 100%">
+				<div class="d-flex flex-row">
+					<input id="SR_ViewSDbox" class="form-control m-0" type="number" placeholder="Search Student ID">
+					<button onclick="new SR().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
+					<button onclick="new SR().View_BackButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Back</button>
 
 					<div style="width: 100%"></div>
 
-					<button class="form-control" style="min-width: 75px; max-width: 75px;">Edit</button>
-					<button onclick="new Assessment().View_AddButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Add</button>
+					<button onclick="new SR().View_CreateButton()" class="form-control" style="min-width: 75px; max-width: 75px;">Add</button>
+					<button onclick="new SR().View_EditButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Edit</button>
 				</div>
-				<div class="d-flex flex-row p-2 mb-5">
-					<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+				<div class="d-flex flex-row mt-5" style="width: 100%">
+					<img id="View_ImageLoad" src="" style="min-width: 150px; max-width: 150px; height: 150px">
 					<div class="d-flex flex-column ml-4" style="width: 100%">
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
-						<div id="ViewAssessment_NameLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+						<h4 class="m-0 p-0 mb-4" style="font-weight: bold; font-size: 14px;">Personal</h4>
 
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
-						<div id="ViewAssessment_CYLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
+						<div id="View_NameLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
 
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
-						<div id="ViewAssessment_StatusLabel" class="form-control mb-2 red-text">XXX-XXX-XXX</div>
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Student ID</h4>
+						<div id="View_SILabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
+						<div id="View_GenderLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
+						<div id="View_AgeLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact Number</h4>
+						<div id="View_ContactLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0 mt-3" style="font-weight: bold; font-size: 14px;">Course and Level</h4>
+						<div id="View_CYLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
+						<div id="View_StatusLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0 mt-5 mb-4" style="font-weight: bold; font-size: 14px;">Account</h4>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Email</h4>
+						<div id="View_EmailLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Username</h4>
+						<div id="View_UsernameLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Deposits</h4>
+						<div id="View_DepositLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Tuition Fee Left</h4>
+						<div id="View_TuitionLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+
+
+						<button onclick="new SR().View_RemoveButton()" id="View_RemoveButton" class="form-control mt-5" style="min-width: 200px; max-width: 200px;">Delete Permanently</button>
 					</div>
 				</div>
-				<table class="table border-top">
-					<thead>
-						<tr>
-							<th style="width: 100%">Amount</th>
-							<th style="width: 100%">Remainding</th>
-							<th style="min-width: 135px; max-width: 135px">Course and Year</th>
-							<th style="min-width: 125px; max-width: 125px">Status</th>
-							<th style="min-width: 125px; max-width: 125px">Timeline</th>
-						</tr>
-					</thead>
-					<tbody id="ViewAssessment_TableLoad">
-						<!-- <tr>
-							<th style="width: 100%">P XXXX.XX</th>
-							<th class="red-text" style="width: 100%">P XXXX.XX</th>
-							<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
-							<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
-							<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
-						</tr> -->
-					</tbody>
-				</table>
 			</div>
-			<!-- End of View Student Assessment Area-->
-			<!-- Add Student Assessment Area -->
-			<div id="Create_AssessmentArea" class="hide">
-				<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
-				<input id="CreateAssessment_SIbox" class="form-control mb-4" type="number" placeholder="XXX-XXX-XXX">
+			<!-- End of View -->
+			<!-- Edit -->
+			<div id="SR_EditArea" class="mt-5 hide" style="width: 100%">
+				<h4 class="m-0 p-0 mb-3" style="font-weight: bold; font-size: 14px;">Edit Student Info</h4>
 
-				<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
-				<input id="CreateAssessment_TFbox" class="form-control mb-4" type="number" placeholder="P XXXX.XX">
+				<div class="d-flex flex-row mb-5">
+					<input id="SR_EditIDbox" class="form-control m-0 mb-2" type="number" placeholder="Search Student ID">
+					<button onclick="new SR().Edit_SearchButton()" class="form-control ml-1" style="min-width: 125px; max-width: 125px;">Search</button>
+				</div>
 
-				<div style="min-width: 125px; max-width: 125px;">
-					<button onclick="new Assessment().Create_DoneButton()" class="form-control mb-1">Done</button>
-					<button onclick="new Assessment().Create_CancelButton()" class="form-control">Cancel</button>
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
+				<div class="d-flex flex-row mb-2">
+					<input id="SR_EditLastnamebox" class="form-control m-0 mr-1" placeholder="Lastname">
+					<input id="SR_EditFirstnamebox" class="form-control m-0" placeholder="Firstname">
+					<div style="width: 100%"></div>
+					<input id="SR_EditMiddlenamebox" class="form-control m-0" placeholder="Middlename">
+				</div>
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
+				<select id="SR_EditGenderButton" class="custom-select form-control mb-2">
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
+				<input id="SR_EditAgebox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact No. (Optional)</h4>
+				<input id="SR_EditNumberbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
+				<select id="SR_EditStatusButton" class="custom-select mb-2">
+					<option value="non-graduated">Non-Graduated / Enrolled</option>
+					<option value="graduated">Graduated</option>
+					<option value="not enrolled">Not Enrolled</option>
+					<option value="dropped">Dropped</option>
+				</select>
+
+				<h4 class="m-0 p-0 mt-3 mb-3" style="font-weight: bold; font-size: 14px;">Course</h4>
+				<input id="SR_EditCoursebox" class="form-control m-0 mb-2" placeholder="XXX">
+
+				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Level</h4>
+				<input id="SR_EditLevelbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+
+				<div class="d-flex flex-row">
+					<button onclick="new SR().Edit_DoneButton()" class="form-control mr-1" style="min-width: 125px; max-width: 125px;">Done</button>
+					<button onclick="new SR().Edit_CancelButton()" class="form-control" style="min-width: 125px; max-width: 125px;">Cancel</button>
 				</div>
 			</div>
+			<!-- End of View -->
 		</div>
-		<!-- End of Assessment Area -->
 	</div>
-	<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
-		<h4 class="p-2 m-0" style="font-size: 17px;">View</h4>
-		<div class="d-flex flex-row border-bottom pb-1">
-			<button class="form-control ml-1">Student Registry</button>
-			<button class="form-control ml-1 mr-1">Account Info</button>
-		</div>
-
-		<h4 class="border-bottom p-2 m-0" style="font-size: 17px;">On-Hold New Register Account</h4>
-		<div id="AccountView_RegistrationLoader" class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
-	</div>
+	<!-- End of Student Registry -->
 </div>
 
 <script type="text/javascript">
@@ -441,6 +605,306 @@
 			 		alert("Error: Unexpected Error Occur!")
 				}
 			})
+		}
+
+		this.View_SRButton = function() {
+			$("#ViewAccount_SR").removeClass('hide')
+			$("#ViewAccount_MainArea").addClass('hide')
+		}
+	}
+
+	function SR() {
+		this.View_SearchButton = function() {
+			var SR_ViewSDbox = $("#SR_ViewSDbox")
+
+			if(SR_ViewSDbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/SRView_SearchButton?ID=" +SR_ViewSDbox.val(), 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							$("#View_ImageLoad").attr('src', window.location.href.replace("/index.php/Access", "/avatar/" + data.Image))
+							$("#View_NameLabel").text(data.Name)
+							$("#View_SILabel").text(data.StudentID)
+							$("#View_GenderLabel").text(data.Gender)
+							$("#View_AgeLabel").text(data.Age)
+							$("#View_ContactLabel").text(data.Contact)
+							$("#View_CYLabel").text(data.CY)
+							$("#View_StatusLabel").text(data.Status)
+
+							$("#View_EmailLabel").text(data.Email)
+							$("#View_UsernameLabel").text(data.Username)
+							$("#View_DepositLabel").text(data.Deposits)
+							$("#View_TuitionLabel").text(data.Tuition)
+
+
+							$("#View_RemoveButton").attr('onclick', 'new SR().View_RemoveButton(' +SR_ViewSDbox.val()+ ')')
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Error: Please Enter the Sudent ID First!")
+		}
+
+		this.View_RemoveButton = function(id) {
+			if(id != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/SRView_RemoveButton?ID="+ id, 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							$("#View_ImageLoad").attr('src', '')
+							$("#View_NameLabel").text('')
+							$("#View_SILabel").text('')
+							$("#View_GenderLabel").text('')
+							$("#View_AgeLabel").text('')
+							$("#View_ContactLabel").text('')
+							$("#View_CYLabel").text('')
+							$("#View_StatusLabel").text('')
+
+							$("#View_EmailLabel").text('')
+							$("#View_UsernameLabel").text('')
+							$("#View_DepositLabel").text('')
+							$("#View_TuitionLabel").text('')
+
+
+							$("#View_RemoveButton").attr('onclick', 'new SR().View_RemoveButton()')
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+					}
+				})
+			}
+		}
+
+		this.View_BackButton = function() {
+			$("#ViewAccount_SR").addClass('hide')
+			$("#ViewAccount_MainArea").removeClass('hide')
+		}
+
+		this.View_CreateButton = function() {
+			$("#SR_ViewArea").addClass('hide')
+			$("#SR_CreateArea").removeClass('hide')
+		}
+
+		this.Create_DoneButton = function() {
+			var SR_Lastnamebox = $("#SR_Lastnamebox")
+			var SR_Firstnamebox = $("#SR_Firstnamebox")
+			var SR_Middlenamebox = $("#SR_Middlenamebox")
+
+			var SR_GenderButton = $("#SR_GenderButton option:selected")
+
+			var SR_Agebox = $("#SR_Agebox")
+			var SR_Numberbox = $("#SR_Numberbox")
+
+			var SR_StatusButton = $("#SR_StatusButton option:selected")
+
+			var SR_Coursebox = $("#SR_Coursebox")
+			var SR_Levelbox = $("#SR_Levelbox")
+
+			var SR_IDbox = $("#SR_IDbox")
+
+			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/SRCreate_DoneButton", 
+					method: 'POST',
+					data: {
+				 		Lastname: SR_Lastnamebox.val(),
+				 		Firstname: SR_Firstnamebox.val(),
+				 		Middlename: SR_Middlenamebox.val(),
+
+				 		Gender: SR_GenderButton.val(),
+
+				 		Age: SR_Agebox.val(),
+				 		Contact: SR_Numberbox.val(),
+
+				 		Status: SR_StatusButton.val(),
+
+				 		Course: SR_Coursebox.val(),
+				 		Level: SR_Levelbox.val(),
+
+				 		ID: SR_IDbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) new SR().Create_CancelButton()
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+					}
+				})
+			}
+			else {
+				var ErrorDisplay = "Error: "
+
+				if(SR_Lastnamebox.val() == "") ErrorDisplay += "(Lastname) "
+				if(SR_Firstnamebox.val() == "") ErrorDisplay += "(Firstname) "
+				if(SR_Middlenamebox.val() == "") ErrorDisplay += "(Middlename) "
+
+				if(SR_Agebox.val() == "") ErrorDisplay += "(Age) "
+				if(SR_Numberbox.val() == "") ErrorDisplay += "(Contact No.) "
+
+				if(SR_Coursebox.val() == "") ErrorDisplay += "(Course) "
+				if(SR_Levelbox.val() == "") ErrorDisplay += "(Level) "
+
+				if(SR_IDbox.val() == "") ErrorDisplay += "(Student ID) "
+
+				alert(ErrorDisplay + "is Empty!")
+
+				ErrorDisplay = ""
+			}
+		}
+
+		this.Create_CancelButton = function() {
+			$("#SR_Lastnamebox").val('')
+			$("#SR_Firstnamebox").val('')
+			$("#SR_Middlenamebox").val('')
+
+			$("#SR_Agebox").val('')
+			$("#SR_Numberbox").val('')
+
+			$("#SR_Coursebox").val('')
+			$("#SR_Levelbox").val('')
+
+			$("#SR_CreateArea").addClass('hide')
+			$("#SR_ViewArea").removeClass('hide')
+		}
+
+		this.View_EditButton = function() {
+			$("#SR_ViewArea").addClass('hide')
+			$("#SR_EditArea").removeClass('hide')
+		}
+
+		this.Edit_SearchButton = function() {
+			var SR_EditIDbox = $("#SR_EditIDbox")
+
+			if(SR_EditIDbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/SREdit_SearchButton?ID="+ SR_EditIDbox.val(), 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							var Name = JSON.parse(data.Name)
+
+							$("#SR_EditLastnamebox").val(Name.Lastname)
+							$("#SR_EditFirstnamebox").val(Name.Firstname)
+							$("#SR_EditMiddlenamebox").val(Name.Middlename)
+
+							$("#SR_EditGenderButton option:selected").val(data.Gender)
+
+							$("#SR_EditAgebox").val(data.Age)
+							$("#SR_EditNumberbox").val(data.	ContactNumber)
+
+							$("#SR_EditStatusButton option:selected").val(data.Status)
+
+							$("#SR_EditCoursebox").val(data.Course)
+							$("#SR_EditLevelbox").val(data.Level)
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		console.log("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Error: Search ID is Empty!")
+		}
+
+		this.Edit_DoneButton = function() {
+			var SR_Lastnamebox = $("#SR_EditLastnamebox")
+			var SR_Firstnamebox = $("#SR_EditFirstnamebox")
+			var SR_Middlenamebox = $("#SR_EditMiddlenamebox")
+
+			var SR_GenderButton = $("#SR_EditGenderButton option:selected")
+
+			var SR_Agebox = $("#SR_EditAgebox")
+			var SR_Numberbox = $("#SR_EditNumberbox")
+
+			var SR_StatusButton = $("#SR_EditStatusButton option:selected")
+
+			var SR_Coursebox = $("#SR_EditCoursebox")
+			var SR_Levelbox = $("#SR_EditLevelbox")
+
+			var SR_IDbox = $("#SR_EditIDbox")
+
+			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/SREdit_DoneButton", 
+					method: 'POST',
+					data: {
+				 		Lastname: SR_Lastnamebox.val(),
+				 		Firstname: SR_Firstnamebox.val(),
+				 		Middlename: SR_Middlenamebox.val(),
+
+				 		Gender: SR_GenderButton.val(),
+
+				 		Age: SR_Agebox.val(),
+				 		Contact: SR_Numberbox.val(),
+
+				 		Status: SR_StatusButton.val(),
+
+				 		Course: SR_Coursebox.val(),
+				 		Level: SR_Levelbox.val(),
+
+				 		ID: SR_IDbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) new SR().Edit_CancelButton()
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+					}
+				})
+			}
+			else {
+				var ErrorDisplay = "Error: "
+
+				if(SR_Lastnamebox.val() == "") ErrorDisplay += "(Lastname) "
+				if(SR_Firstnamebox.val() == "") ErrorDisplay += "(Firstname) "
+				if(SR_Middlenamebox.val() == "") ErrorDisplay += "(Middlename) "
+
+				if(SR_Agebox.val() == "") ErrorDisplay += "(Age) "
+				if(SR_Numberbox.val() == "") ErrorDisplay += "(Contact No.) "
+
+				if(SR_Coursebox.val() == "") ErrorDisplay += "(Course) "
+				if(SR_Levelbox.val() == "") ErrorDisplay += "(Level) "
+
+				if(SR_IDbox.val() == "") ErrorDisplay += "(Student ID) "
+
+				alert(ErrorDisplay + "is Empty!")
+
+				ErrorDisplay = ""
+			}
+		}
+
+		this.Edit_CancelButton = function() {
+			$("#SR_EditLastnamebox").val('')
+			$("#SR_EditFirstnamebox").val('')
+			$("#SR_EditMiddlenamebox").val('')
+
+			$("#SR_EditAgebox").val('')
+			$("#SR_EditNumberbox").val('')
+
+			$("#SR_EditCoursebox").val('')
+			$("#SR_EditLevelbox").val('')
+
+			$("#SR_EditArea").addClass('hide')
+			$("#SR_ViewArea").removeClass('hide')
 		}
 	}
 
