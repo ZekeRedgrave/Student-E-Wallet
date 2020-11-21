@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2020 at 02:52 AM
+-- Generation Time: Nov 21, 2020 at 03:03 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -47,8 +47,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`AccountID`, `StudentID`, `EmployeeID`, `AccountUsername`, `AccountEmail`, `AccountPassword`, `AccountType`, `Account_AvailableBalance`, `Account_TuitionBalance`, `AccountImage`, `TimeRegister`, `DateRegister`) VALUES
-(2, 15730500, 0, 'Redgrave', 'zeroredgrave@gmail.com', '1234', 'STUDENT', 911, 0, '2png', '2020-10-10', '03:29:37'),
-(4, 0, 1, 'Zeke', 'zekeredgrave@gmail.com', '1234', 'DEPARTMENT', 0, 0, '4png', '06:44:28', '2020-10-11');
+(4, 0, 1, 'Zeke', 'zekeredgrave@gmail.com', '1234', 'ADMIN', 0, 0, '4.png', '06:44:28', '2020-10-11');
 
 -- --------------------------------------------------------
 
@@ -76,9 +75,8 @@ INSERT INTO `comment` (`CommentID`, `TimelineID`, `UserID`, `AccountID`, `Commen
 (16, 41, 0, 2, '{\"Text\":\"dawd\",\"Image\":[]}', 0, '2020-10-11', '07:30:17'),
 (18, 41, 0, 2, '{\"Text\":\"123qwadas\",\"Image\":[]}', 0, '2020-10-11', '07:30:24'),
 (32, 42, 0, 4, '{\"Text\":\"1\",\"Image\":[]}', 0, '2020-10-13', '08:34:50'),
-(33, 42, 0, 4, '{\"Text\":\"zekeredgrave@4#1 3123\",\"Image\":[]}', 0, '2020-10-13', '08:37:22'),
-(34, 42, 0, 4, '{\"Text\":\"dasdas zekeredgrave@4#1\",\"Image\":[]}', 0, '2020-10-13', '08:43:17'),
-(35, 42, 0, 2, '{\"Text\":\"3232312\",\"Image\":[]}', 0, '2020-10-13', '08:43:36');
+(35, 42, 0, 2, '{\"Text\":\"3232312\",\"Image\":[]}', 0, '2020-10-13', '08:43:36'),
+(37, 42, 0, 2, '{\"Text\":\"dwadwada\",\"Image\":[]}', 0, '2020-11-07', '04:32:45');
 
 -- --------------------------------------------------------
 
@@ -161,6 +159,41 @@ CREATE TABLE `logs` (
   `DateRegister` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`LogID`, `AccountID`, `LogActivity`, `TimeRegister`, `DateRegister`) VALUES
+(941, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '03:15:09', '2020-11-12'),
+(942, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '03:20:30', '2020-11-12'),
+(943, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:46:48', '2020-11-16'),
+(944, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:55:02', '2020-11-16'),
+(945, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:55:45', '2020-11-16'),
+(946, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:57:45', '2020-11-16'),
+(947, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:09:21', '2020-11-16'),
+(948, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:10:21', '2020-11-16'),
+(949, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:11:15', '2020-11-16'),
+(950, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:24:50', '2020-11-16'),
+(951, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:37:43', '2020-11-16'),
+(952, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '07:12:54', '2020-11-16'),
+(953, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '07:14:11', '2020-11-16'),
+(954, 4, '{\"Page\":\"Account\",\"Action\":\"School Registry(Edit Student)\"}', '07:14:32', '2020-11-16'),
+(955, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:07:26', '2020-11-17'),
+(956, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:08:11', '2020-11-17'),
+(957, 2, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '04:08:18', '2020-11-17'),
+(958, 2, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:08:18', '2020-11-17'),
+(959, 2, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:08:47', '2020-11-17'),
+(960, 0, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:29:36', '2020-11-21'),
+(961, 2, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '02:34:48', '2020-11-21'),
+(962, 2, '{\"Page\":\"App\",\"Action\":\"View\"}', '02:34:49', '2020-11-21'),
+(963, 2, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:34:56', '2020-11-21'),
+(964, 0, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:39:59', '2020-11-21'),
+(965, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '02:57:40', '2020-11-21'),
+(966, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '02:57:40', '2020-11-21'),
+(967, 4, '{\"Page\":\"Account\",\"Action\":\"View Account Registration\"}', '02:57:45', '2020-11-21'),
+(968, 4, '{\"Page\":\"Account\",\"Action\":\"Accept Account Registration\"}', '02:58:00', '2020-11-21'),
+(969, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:59:01', '2020-11-21');
+
 -- --------------------------------------------------------
 
 --
@@ -205,7 +238,6 @@ CREATE TABLE `registration` (
 --
 
 INSERT INTO `registration` (`RegisterID`, `RegisterUsername`, `RegisterEmail`, `RegisterPassword`, `RegisterSI`, `RegisterCode`, `RegisterType`, `RegisterExpire`, `isApprove`, `isDelete`, `TimeRegister`, `DateRegister`) VALUES
-(26, 'zeroredgrave', 'zeroredgrave@gmail.com', '1', '15730500', 174703283, 'STUDENT', 0, 1, 1, '02:31:44', '2020-10-10'),
 (28, 'zekeredgrave', 'zekeredgrave@gmail.com', '1', '1', 274637685, 'ADMIN', 0, 1, 1, '06:08:00', '2020-10-11');
 
 -- --------------------------------------------------------
@@ -234,7 +266,8 @@ CREATE TABLE `store` (
 --
 
 INSERT INTO `store` (`StoreID`, `UserID`, `AccountID`, `StoreTitle`, `StoreType`, `isOthers`, `isPurchasable`, `isPhysical`, `StorePrice`, `StoreIcon`, `TimeRegister`, `DateRegister`) VALUES
-(22, 15730500, 0, 'Grade Slip', '1', 0, 0, 0, 50, 'receipt_long', '2020-09-27', '10:29:52');
+(22, 15730500, 0, 'Grade Slip', '1', 0, 0, 0, 50, 'receipt_long', '2020-09-27', '10:29:52'),
+(28, 15730500, 0, 'Diploma', '1', 0, 0, 0, 0, '', '2020-11-07', '04:07:52');
 
 -- --------------------------------------------------------
 
@@ -283,7 +316,7 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`StudentID`, `Name`, `Course`, `Gender`, `SchoolName`, `Age`, `Level`, `ContactNumber`, `Image`, `Status`) VALUES
-(15730500, '{\r\n    	\"Lastname\": \"Redgrave\",\r\n    	\"Firstname\": \"Zeke\",\r\n    	\"Middlename\" : \"Saber\"\r\n    }', 'BSIT', 'Male', 'Unknown', 24, 3, '0', 'avatar.png', 'non-graduated');
+(15730500, '{\"Lastname\":\"Saber\",\"Firstname\":\"Ion\",\"Middlename\":\"Redgrave\"}', 'BSIT', 'Male', 'Unknown', 24, 3, '0', 'avatar.png', 'non-graduated');
 
 -- --------------------------------------------------------
 
@@ -430,13 +463,13 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -460,7 +493,7 @@ ALTER TABLE `gift`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=970;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -472,13 +505,13 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `StoreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `StoreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `storetype`
@@ -490,7 +523,7 @@ ALTER TABLE `storetype`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15730501;
+  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15750365;
 
 --
 -- AUTO_INCREMENT for table `timeline`
