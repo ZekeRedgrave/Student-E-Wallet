@@ -2,187 +2,63 @@
 	<!-- Store View Area -->
 	<div id="StoreView_HomeArea" class="d-flex flex-row" style="width: 100%;">
 		<!-- Store Area -->
-		<div id="StoreArea" class="p-3 d-flex flex-column" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-			<div class="d-flex flex-column p-3 border">
-				<!-- Student Balance -->
+		<div id="StoreArea" class="d-flex flex-column" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4" style="background: #424549; width: 100%">
+				<div class="d-flex align-items-center" style="color: #7289da; width: 100%; font-weight: bold;">STORE</div>
+				
 				<div class="d-flex flex-row">
-					<div class="d-flex flex-column pt-3" style="width: 100%">
-						<h6 class="border-bottom pl-2 pr-2" style="margin: 0; font-size: 12px;">Available Balance</h6>
-						<h3 id="StoreView_DepositLabel" class="pl-2 pr-2" style="margin: 0">P XXXX.XX</h3>
+					<!-- Student Balance -->
+					<div class="d-flex flex-column" style="min-width: 125px; max-width: 125px">
+						<h6 class="pl-2 pr-2" style="margin: 0; font-size: 12px;">MONEY</h6>
+						<h3 id="StoreView_DepositLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h3>
 					</div>
-				</div>
-				<!-- End of Student Balance -->
-				<!-- Tution Fee -->
-				<div class="border-top pt-1">
-					<h1 class="ml-2" style="margin: 0px; font-size: 12px;">Tution Fee Left</h1>
-					<h6 id="StoreView_TuitionLabel" class="d-flex justify-content-center m-0 mt-1" style="font-weight: bold;">P XXXX.XX</h6>
-				</div>
-				<!-- End of Tution Fee -->
+					<!-- End of Student Balance -->
+					<!-- Tution Fee -->
+					<div class="d-flex flex-column" style="min-width: 125px; max-width: 125px">
+						<h1 class="pl-2 pr-2" style="margin: 0px; font-size: 12px;">TUITION</h1>
+						<h6 id="StoreView_TuitionLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h6>
+					</div>
+					<!-- End of Tution Fee -->
+				</div>	
 			</div>
-			<!-- Payments Area -->
-			<h4 class="border-bottom mt-4 pb-1">Payment Store</h4>
-			<div id="StoreView_ButtonLoad" class="d-flex justify-content-center row ml-1 mr-1" style="width: 100%">
+			<!-- Load Store Item Area -->
+			<div id="StoreView_ButtonLoad" class="d-flex justify-content-center row ml-1 mr-1 mt-3 mb-5" style="width: 100%">
 
-				<button onclick="new Store().View_OpenButton()" class="d-flex flex-column form-control rounded border-0 mr-3 mb-3 red" style="color: white;  width: 175px; min-height: 125px;">
+				<button onclick="new Store().View_OpenButton()" class="d-flex flex-column form-control rounded border-0 mr-2 mb-2 red" style="color: white;  width: 175px; min-height: 125px;">
 					<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">account_balance</div>
-					<div class="d-flex justify-content-center p-2" style="font-size: 12px; font-weight: bold;">Tuition Fee(Default)<div>
+					<div class="d-flex justify-content-center" style="width: 100%; font-size: 12px; font-weight: bold;">Tuition Fee(Default)<div>
 				</button>
 
 				<?php 
 
 					foreach ($Store as $value) {
-						echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-3 mb-3">
-								<div class="d-flex flex-column border rounded mr-1" style="width: 175px; min-height: 125px;">
+						if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
+								<div class="d-flex flex-column rounded mr-1" style="background: #36393e; width: 175px; min-height: 125px;">
 									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
-									<div class="d-flex justify-content-center p-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
+									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
 								</div>
-							</div>';					
+							</div>';
+							else echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
+								<div class="d-flex flex-column rounded mr-1" style="background: #36393e; width: 175px; min-height: 125px;">
+									<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Icon Yet!</div>
+									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
+								</div>
+							</div>';		
 					}
 
 				?>
 
 			</div>
-			<!-- Store Tuition Area -->
-			<div id="StoreView_TuitionArea" class="p-3 d-flex flex-column hide" style="width: 100%;">
-				<h4>Tuition Fee</h4>
-
-				<h6 style="margin: 0; font-size: 12px; font-weight: bold;">Input your Amount</h6>
-				<input id="StoreTuition_Amountbox" type="number" class="form-control" placeholder="ex. 10.59">
-
-				<div class="d-flex flex-row mt-5">
-					<button onclick="new Store().View_CancelButton()" class="form-control mr-2 red" style="color:white; width: 100px">Cancel</button>
-					<button onclick="new Store().View_TuitionButton()" class="form-control" style="width: 100px">Pay</button>
-				</div>
-			</div>
-			<!-- End of Store Tuition Area -->
-			<!-- Store Dynamic Form Area -->
-			<div id="StoreView_DynamicArea" class="d-flex flex-column p-3 hide">
-				<h4 id="StoreView_TFLabel">XXX-XXX-XXX</h4>
-
-				<h6 style="margin: 0; font-size: 12px; font-weight: bold;">Are you sure?</h6>
-				<div class="d-flex flex-row mt-5">
-					<button onclick="new Store().DA_CancelButton()" class="form-control mr-2 red" style="color:white; width: 100px">Cancel</button>
-					<button id="StoreView_DynamicButton" onclick="new Store().DA_DynamicButton()" class="form-control" style="width: 100px">Pay</button>
-				</div>
-			</div>
-			<!-- End of Store Dynamic Form Area -->
+			<!-- End of Store Item Area -->			
 			<!-- End of Payments Area -->
-			<h4 class="border-bottom mt-4 pb-1">News & Announcement</h4>
-			<div id="StoreView_LoaderArea" class="d-flex flex-column" style="width: 100%">
-				<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
-			</div>
-		</div>
-		<!-- End of Store Area -->
-		<!-- Store Final Transaction Area -->
-		<div class="p-3 d-flex flex-column hide" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-			<div>
-				<h4 class="border-bottom mb-4 pb-1">Payment Store(Default)</h4>
-
-				<h6 style="margin: 0; font-size: 12px; font-weight: bold;">Amount in words (Optional)</h6>
-				<input id="" class="form-control" placeholder="e.g. P 1.00 -> One Pesos Only or One Pesos">
-
-				<table class="table">
-					<thead>
-						<tr>
-							<th>As payment for</th>
-							<th>Amount in Figures</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Tution and Other Fees</div></th>
-							<th><input id="Slip_Tuitionbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Old Account</div></th>
-							<th><input id="Slip_Accountbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Good / Moral Certification</div></th>
-							<th><input id="Slip_Moralbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Reissuance of Diploma / Certificates, Grade/Assesment Slips, TOR, etc...</div></th>
-							<th><input id="Slip_Documentbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">RLE Extension / Completion</div></th>
-							<th><input id="Slip_Extensionbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Testing Fee</div></th>
-							<th><input id="Slip_Testingbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">School ID</div></th>
-							<th><input id="Slip_IDbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Graduation Fee</div></th>
-							<th><input id="Slip_Graduationbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-						<tr>
-							<th><div class="d-flex align-items-center form-control border-0 m-0 p-0">Others (Pls. Specift)</div></th>
-							<th><input id="Slip_Otherbox" type="number" class="form-control m-0" value="0000.00" disabled="disabled"></th>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th style="font-size: 12px; font-weight: bold;">Previous Available Balance</th>
-							<th style="font-size: 12px; font-weight: bold;">P <span id="Slip_PreviousBalance"></span></th>
-						</tr>
-						<tr>
-							<th style="font-size: 12px; font-weight: bold;">Sub Total</th>
-							<th style="font-size: 12px; font-weight: bold;">P <span id="Slip_Subtotal"></span></th>
-						</tr>
-						<tr>
-							<th class="red-text" style="font-size: 12px; font-weight: bold;">TOTAL</th>
-							<th class="red-text" style="font-size: 12px; font-weight: bold;">P <span id="Slip_Total"></span></th>
-						</tr>
-
-						<tr>
-							<th class="blue-text" style="font-size: 12px; font-weight: bold;">Available Balance</th>
-							<th class="blue-text"style="font-size: 12px; font-weight: bold;">P <span id="Slip_AvailableBalance"></span></th>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-		<!-- End of Store Final Transaction Area -->
-		<div class="border-left d-flex flex-column h-100 hide" style="width: 550px;">
-			<div class="d-flex flex-column" style="height: 50%">
-				<!-- Notificaltion Area -->
-				<h5 class="p-2 border-bottom" style="margin: 0">Notificaltions</h5>
-				<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-					<div class="d-flex flex-row form-control border-left-0 border-right-0 border-top-0 rounded-0" style="width: 100%; height: 69px">
-						<img src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-						<div class="ml-3">
-							<div style="font-size: 12px; font-weight: bold">Z. Redgrave -> School Fee around ￥500.00</div>
-							<div style="font-size: 12px">Date and Time: 2020:09:20 13:46</div>
-						</div>
-					</div>
-
-					
+			<div class="d-flex flex-column mt-5" style="background: #36393e; width: 100%; height: 100%">
+				<div class="pl-3 pr-3 pt-2 pb-2" style="color: #7289da; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
+				<div id="StoreView_LoaderArea" class="d-flex flex-column pl-3 pt-2" style="width: 100%">
+					<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
 				</div>
-				<!-- End of Notificaltion Area -->
 			</div>
-			<div class="d-flex flex-column" style="height: 50%">
-				<!-- Notificaltion Area -->
-				<h5 class="p-2 border-bottom" style="margin: 0">Top-up Records</h5>
-				<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-					<div class="d-flex flex-row form-control border-left-0 border-right-0 border-top-0 rounded-0" style="width: 100%; height: 69px">
-						<img src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-						<div class="ml-3">
-							<div style="font-size: 12px; font-weight: bold">Z. Redgrave -> School Fee around ￥500.00</div>
-							<div style="font-size: 12px">Date and Time: 2020:09:20 13:46</div>
-						</div>
-					</div>
-				</div>
-				<!-- End of Notificaltion Area -->
-			</div>
-			<h5 class="p-2 border-bottom" style="margin: 0; visibility: hidden;">Notificaltions</h5>
 		</div>
-		
+		<!-- End of Store Area -->		
 	</div>
 	<!-- End of Store View Area -->
 	<!-- Store Post View Area -->
@@ -231,6 +107,41 @@
 	</div>
 	<!-- End of Store Post View Area -->
 </div>
+<!-- Store Tuition Area -->
+<div id="StoreView_TuitionArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
+		<div class="d-flex flex-column rounded p-3" style="background: #282828; color: #ffffff; width: 400px;">
+			<div class="mb-4" style="color: #7289da; font-weight: bold;">TUITION FEE</div>
+
+			<h6 class="pl-2 pr-2 pb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Amount</h6>
+			<div class="d-flex flex-row" style="width: 100%">
+				<input id="StoreTuition_Amountbox" type="number" class="border-0 rounded p-3 mr-4" placeholder="Ex. 123456789" style="background: #333333; color: #ffffff; width: 100%;" placeholder="Ex. 10.59">
+
+				<button onclick="new Store().View_TuitionButton()" id="StoreView_TuitionButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Pay</button>
+
+				<button onclick="new Store().View_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of Store Tuition Area -->
+<!-- Store Dynamic Form Area -->
+<div id="StoreView_DynamicArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
+		<div class="d-flex flex-column rounded p-3" style="background: #282828; color: #ffffff; width: 400px;">
+			<div class="mb-4" style="color: #7289da; font-weight: bold;">ARE YOU SURE?</div>
+
+			<h4 id="StoreView_TFLabel" class="hide">XXX-XXX-XXX</h4>
+
+			<div class="d-flex flex-row" style="width: 100%">
+				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Yes</button>
+
+				<button onclick="new Store().DA_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of Store Dynamic Form Area -->
 
 <script type="text/javascript">
 	var StoreView_ImageCurrent = 0
@@ -299,7 +210,6 @@
 		}
 
 		this.View_OpenButton = function() {
-			$("#StoreView_ButtonLoad").addClass('hide')
 			$("#StoreView_TuitionArea").removeClass('hide')
 		}
 
@@ -310,8 +220,11 @@
 
 		this.View_TuitionButton = function() {
 			var StoreTuition_Amountbox = $("#StoreTuition_Amountbox")
+			var StoreView_TuitionButton = $("#StoreView_TuitionButton")
 
 			if(StoreTuition_Amountbox.val() != "") {
+				StoreView_TuitionButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Transaction/View_TuitionButton", 
 					method: 'POST',
@@ -321,10 +234,11 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							alert("Tuition Transaction Successed!");
+							StoreView_TuitionButton.attr('disabled', '')
 
 							$("#StoreView_DynamicArea").addClass('hide')
-
+							
+							new Store().View_CancelButton()
 							new Store().View_ItemLoad()
 						}
 						else alert(data.ErrorDisplay)
@@ -333,6 +247,8 @@
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 				 		alert("Error: Unexpected Error Occur!")
+
+				 		StoreView_TuitionButton.attr('disabled', '')
 					}
 				})
 			}
@@ -429,8 +345,6 @@
 
 		this.View_DynamicButton = function(id) {
 			$("#StoreView_TuitionArea").addClass('hide')
-			$("#StoreView_ButtonLoad").addClass('hide')
-
 			$("#StoreView_DynamicArea").removeClass('hide')
 			$("#StoreView_DynamicButton").attr('onclick', 'new Store().DA_DynamicButton(' +id+ ')')
 		}
@@ -438,16 +352,20 @@
 		this.DA_CancelButton = function() {
 			$("#StoreView_DynamicArea").addClass('hide')
 			$("#StoreView_TuitionArea").addClass('hide')
-			$("#StoreView_ButtonLoad").removeClass('hide')
 		}
 
 		this.DA_DynamicButton = function(id) {
+			var StoreView_DynamicButton = $("#StoreView_DynamicButton")
+			StoreView_DynamicButton.attr('disabled', 'disabled')
+
 			$.ajax({
 				url: window.location.href.replace('/Access', '')+ "/Transaction/View_DynamicButton?id="+ id, 
 				method: 'GET',
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
+						StoreView_DynamicButton.attr('disabled', '')
+
 						new Store().DA_CancelButton()
 						new Store().View_ItemLoad()
 					}
@@ -455,6 +373,10 @@
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		StoreView_DynamicButton.attr('disabled', '')
+
+			 		alert("Error: Unexpected Error Occur!")
 				}
 			})
 		}

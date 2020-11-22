@@ -13,6 +13,10 @@ class Setting extends CI_Controller {
     function View_ProfileLoad() {
 
     }
+
+    function View_Logout() {
+    	
+    }
     
 }
 

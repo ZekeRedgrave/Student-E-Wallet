@@ -1,14 +1,14 @@
 <div id="App_RecordsArea" class="d-flex flex-column hide" style="width:100%; height: 100%">
 	<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-		<div id="ViewArea" class="">
+		<div id="ViewArea">
 			<div class="mt-3">
-				<h4 class="m-0 p-0 ml-3" style="min-width: 125px; font-size: 14px; font-weight: bold;">Transaction Record</h4>
-				<div class="d-flex flex-row mb-1 ml-1 mr-1">
-					<input id="View_Searchbox" class="form-control" placeholder="Search Type or Timeline" style="min-width: 250px;">
-					<button onclick="new StudentRecord().View_SearchButton()" class="form-control ml-1" style="min-width: 100px; max-width: 100px;">Search</button>
-					<button onclick="new StudentRecord().View_RefreshButton()" class="form-control ml-1" style="min-width: 100px; max-width: 100px;">Refresh</button>
+				<div class="m-0 p-0 mb-4 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">TRANSACTION RECORD</div>
+				<div class="d-flex flex-row mb-1 ml-4 mr-4">
+					<input id="View_Searchbox" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1" style="background: #333333; color: #4caf50; width: 100%;" placeholder="Search Type or Timeline">
+					<button onclick="new StudentRecord().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
+					<button onclick="new StudentRecord().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Refresh</button>
 					<div style="width: 100%"></div>
-					<select onclick="new StudentRecord().View_ItemButton()" id="View_ItemButton" class="custom-select form-control ml-1" style="max-width: 100px;">
+					<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
@@ -18,19 +18,20 @@
 						<option value="1000">1000</option>
 						<option value="999999999999">All (This is might you break your Browser or CPU)</option>
 					</select>
+					<button onclick="new StudentRecord().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Load</button>
 				</div>
-				<table class="table">
+				<table class="table border-0" style="color: #7289da;">
 					<thead>
-						<tr>
+						<tr class="border-0">
 							<!-- <td>Student Name</td> -->
-							<td class="text-center" style="min-width: 150px; max-width: 150px;">Transaction Type</td>
-							<td>Transaction Amount</td>
-							<td style="min-width: 125px; max-width: 125px;">Transaction Fee</td>
-							<td style="min-width: 125px; max-width: 125px;">Cash</td>
-							<td style="min-width: 125px; max-width: 125px;">Timeline</td>
+							<td class="text-center border-0" style="min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Type</td>
+							<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Amount</td>
+							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Transaction Fee</td>
+							<td class="border-0" style="color: #e91e63; min-width: 125px; max-width: 125px; font-weight: bold;">Cash</td>
+							<td class="border-0" style="color: #ffffff; min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
 						</tr>
 					</thead>
-					<tbody id="ViewTransaction_RecordLoad">
+					<tbody id="ViewTransaction_RecordLoad" style="font-weight: bold;">
 						
 					</tbody>
 				</table>
@@ -41,6 +42,8 @@
 
 <script type="text/javascript">
 	new StudentRecord().View_RecordLoad(10)
+
+	var changeColor_Table = 0
 
 	function StudentRecord() {
 		this.View_RecordLoad = function(item) {
@@ -56,11 +59,11 @@
 						})
 						else $("#ViewTransaction_RecordLoad").append(`
 							<tr>
-								<td style="word-break: break-all;">N / A</td>
-								<td style="word-break: break-all;">N / A</td>
-								<td style="word-break: break-all;">N / A</td>
-								<td style="word-break: break-all;">N / A</td>
-								<td style="word-break: break-all;">N / A</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">N / A</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">N / A</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">N / A</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">N / A</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">N / A</td>
 							</tr>
 						`)
 					}
@@ -83,13 +86,21 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
+						var color = ""
+
+						if(changeColor_Table == 0) {
+							changeColor_Table = 1
+							color = '#36393e'
+						}
+						else changeColor_Table = 0
+
 						var HTML = `
-							<tr>
-								<td style="word-break: break-all;">`+ data.TransactionType +`</td>
-								<td style="word-break: break-all;">`+ data.TransactionAmount +`</td>
-								<td style="word-break: break-all;">`+ data.TransactionFee +`</td>
-								<td style="word-break: break-all;">`+ data.Cash +`</td>
-								<td style="word-break: break-all;">`+ data.Timeline +`</td>
+							<tr style="background: ` +color+ `">
+								<td class="border-0" style="word-break: break-all;">`+ data.TransactionType +`</td>
+								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionAmount +`</td>
+								<td class="border-0" style="word-break: break-all;">`+ data.TransactionFee +`</td>
+								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.Cash +`</td>
+								<td class="border-0" style="color: #ffffff; word-break: break-all;">`+ data.Timeline +`</td>
 							</tr>
 						`
 
@@ -140,9 +151,7 @@
 		}
 
 		this.View_ItemButton = function() {
-			$("#View_ItemButton").change(function() {
-				new StudentRecord().View_RecordLoad($("#View_ItemButton option:selected").val())
-			})
+			new StudentRecord().View_RecordLoad($("#View_ItemButton option:selected").val())
 		}
 	}
 </script>

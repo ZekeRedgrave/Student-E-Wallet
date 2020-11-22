@@ -9,21 +9,31 @@ class Access extends CI_Controller {
     }
 
 	function index() {
-		$x = include APPPATH.'third_party/AdminConfig.php';
+		if(count($_SESSION) != 0) {
+			$x = include APPPATH.'third_party/AdminConfig.php';
 
-		if($_SESSION['AccountID'] != "") {
-			if($_SESSION['AccountID'] == $x['Username']) {
-				$data["QueryParam"] = "Load=views&Name=admin";
+			if($_SESSION['AccountID'] != "") {
+				if($_SESSION['AccountID'] == $x['Username']) {
+					$data["QueryParam"] = "Load=views&Name=admin";
 
-				$this->load->view("Index", $data);
+					$this->load->view("Index", $data);
+				}
+				else {
+					$data["QueryParam"] = "Load=views&Name=app";
+
+					$this->load->view("Index", $data);
+				}
 			}
 			else {
-				$data["QueryParam"] = "Load=views&Name=app";
+				$data["QueryParam"] = "Load=views&Name=entrance";
 
 				$this->load->view("Index", $data);
 			}
 		}
 		else {
+			$_SESSION['AccountID'] = "";
+			$_SESSION['AccountType'] = "";
+
 			$data["QueryParam"] = "Load=views&Name=entrance";
 
 			$this->load->view("Index", $data);
@@ -50,15 +60,15 @@ class Access extends CI_Controller {
 						break;
 
 					case "app":
-						$this->db->insert("Logs", array(
-							"AccountID" => $_SESSION['AccountID'],
-							"LogActivity" => json_encode(array(
-								"Page" => "App",
-								"Action" => "View"
-							)),
-							"TimeRegister" => date("H:i:s"),
-							"DateRegister" => date("Y-m-d")
-						));
+						// $this->db->insert("Logs", array(
+						// 	"AccountID" => $_SESSION['AccountID'],
+						// 	"LogActivity" => json_encode(array(
+						// 		"Page" => "App",
+						// 		"Action" => "View"
+						// 	)),
+						// 	"TimeRegister" => date("H:i:s"),
+						// 	"DateRegister" => date("Y-m-d")
+						// ));
 						$this->load->view("App", $data);
 						break;
 
@@ -73,7 +83,7 @@ class Access extends CI_Controller {
 							"DateRegister" => date("Y-m-d")
 						));
 
-						$_SESSION["AccountType"] = $_SESSION['AccountID'] = "";
+						session_destroy();
 
 						$this->load->view("Entrance");
 						break;
@@ -95,7 +105,6 @@ class Access extends CI_Controller {
 									"StoreTitle" => $value->StoreTitle,
 									"StoreType" => $value->StoreType,
 									"isOthers" => $value->isOthers,
-									"isPurchasable" => $value->isPurchasable,
 									"isPhysical" => $value->isPhysical,
 									"StorePrice" => $value->StorePrice,
 									"StoreIcon" => $value->StoreIcon,
@@ -124,12 +133,16 @@ class Access extends CI_Controller {
 							$temp = array();
 
 							foreach ($this->db->query("Select * from Store")->result() as $value) {
+								$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+								$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $AccountQuery->EmployeeID)->result()[0];
+
 								array_push($temp, array(
+									"Name" => substr(json_decode($EmployeeQuery->Name)->Firstname, 0, 1). ". " . json_decode($EmployeeQuery->Name)->Lastname,
+									"Image" => $AccountQuery->AccountImage,
 									"StoreID" => $value->StoreID,
 									"StoreTitle" => $value->StoreTitle,
 									"StoreType" => $value->StoreType,
 									"isOthers" => $value->isOthers,
-									"isPurchasable" => $value->isPurchasable,
 									"isPhysical" => $value->isPhysical,
 									"StorePrice" => $value->StorePrice,
 									"StoreIcon" => $value->StoreIcon,

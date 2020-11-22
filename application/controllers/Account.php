@@ -361,16 +361,24 @@ class Account extends CI_Controller {
 	function ViewAssessment_SearchButton() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
-				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['id'])->result()[0]->x != 0) {
-					$StudentQuery = $this->db->query("Select * from Student where StudentID=". $_GET['id'])->result()[0];
+				if($this->db->query("Select Count(*) as x from Account where StudentID=". $_GET['id'])->result()[0]->x != 0) {
+					if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['id'])->result()[0]->x != 0) {
+						$StudentQuery = $this->db->query("Select * from Student where StudentID=". $_GET['id'])->result()[0];
+						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['id'])->result()[0];
 
-					$data['isError'] = false;
-					$data['Name'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
-					$data['CY'] = $StudentQuery->Course. "-" .$StudentQuery->Level;
-					$data['Image'] = $StudentQuery->Image;
-					$data['Status'] = $StudentQuery->Status;
+						$data['isError'] = false;
+						$data['Name'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
+						$data['CY'] = $StudentQuery->Course. "-" .$StudentQuery->Level;
+						$data['Image'] = $StudentQuery->Image;
+						$data['Status'] = $StudentQuery->Status;
+						$data['Tuition'] = $AccountQuery->Account_TuitionBalance;
 
-					echo json_encode($data);
+						echo json_encode($data);
+					}
+					else echo json_encode(array(
+					   	"isError" => true,
+					   	"ErrorDisplay" => "Error: Not Found!"
+					));
 				}
 				else echo json_encode(array(
 				   	"isError" => true,

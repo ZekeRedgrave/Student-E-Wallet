@@ -1,5 +1,5 @@
 <div id="App" class="position-fixed hide" style="top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%">
-	<div class="d-flex flex-row" style="width: 100%; height: 100%">
+	<div class="d-flex flex-row" style="background: #282828; color: #ffffff; width: 100%; height: 100%">
 		<!-- Sidebar -->
 		<div id="App_SidebarArea"></div>
 		<!-- End of Sidebar -->
@@ -9,123 +9,134 @@
 	</div>
 </div>
 
-<div id="App_SettingArea" class="position-fixed hide" style="top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%">
-	<div class="container d-flex flex-row" style="width:100%; height: 100%">
+<div id="App_SettingArea" class="position-fixed hide" style="top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%; background: #282828;">
+	<div class="d-flex flex-row" style="width:100%; height: 100%">
 		<!-- Setting Menu List -->
-		<div class="d-flex flex-column border-right pt-5 pr-5" style="height: 100%">
-			<a onclick="new Setting().View_ProfileButton()" class="mb-1" style="font-weight: bold;">Profile</a>
-			<a id="SettingView_BillingButton" onclick="new Setting().View_BillingButton()" class="mb-1" style="font-weight: bold;">Billing</a>
-			<a onclick="new Setting().View_LogoutButton()" class="mb-1 red-text" style="font-weight: bold;">Logout</a>
+		<div class="d-flex flex-column pt-5 pb-5" style="background: #1e2124; color: #7289da; height: 100%;">
+			<a onclick="new Setting().View_ProfileButton()" class="pl-5 pr-3 pt-1 pb-1 a-hover" style="width: 200px; font-weight: bold;">Profile</a>
+			<a id="SettingView_BillingButton" onclick="new Setting().View_BillingButton()" class="pl-5 pr-3 pt-1 pb-1 a-hover" style="width: 200px; font-weight: bold;">Balance</a>
+			<a onclick="new Setting().View_LogoutButton()" class="pl-5 pr-3 pt-1 pb-1 red-text a-hover" style="width: 200px; font-weight: bold;">Logout</a>
+			<a onclick="new Setting().View_BackButton()" class="pl-5 pr-3 pt-1 pb-1 red-text a-hover" style="width: 200px; font-weight: bold;">Close</a>
 			<div style="height: 100%"></div>
 		</div>
 		<!-- End of Setting Menu List -->
 		<!-- Setting Loader -->
-		<div class="container pt-5 pb-5 mr-4" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="container pt-5 pb-5" style="width: 100%; min-width: 750px; height: 100%; overflow: hidden; overflow-y: scroll;">
 			<!-- Profile Area -->
-			<div id="SettingProfile_Area" class="d-flex flex-column" style="width: 100%;">
-				<h4 class="mb-3">Profile</h4>
-				<div class="d-flex flex-row" style="width: 100%">
-					<div>
-						<div onmouseenter="new SettingProfile().Edit_OpenME()" onmouseleave="new SettingProfile().Edit_OpenML()" id="SettingProfile_OpenImage" class="border" style="background: center no-repeat url('http://localhost/Ewallet/avatar/avatar.png'); background-size: 100% 100%; width: 100px; height: 100px;">
-							<div onclick="new SettingProfile().Edit_OpenButton()" id="SettingProfile_OpenButton" class="d-flex align-items-center justify-content-center hide" style="background: #00000075; color: white; width: 100%; height: 100%; cursor: pointer;">
-								<div class="d-flex flex-column">
-									<div class="material-icons d-flex justify-content-center">add</div>
-									<div class="d-flex justify-content-center">Upload</div>
+			<div id="SettingProfile_Area" class="d-flex flex-column" style="width: 100%; color: #ffffff">
+				<div class="d-flex justify-content-center" style="width: 100%">
+					<div class="d-flex flex-column" style="width: 750px;">
+						<div class="mb-1 ml-2" style="color: #7289da; font-weight: bold;">ACCOUNT</div>
+						<div class="d-flex flex-row p-4 pt-3 pb-3 mb-5 rounded" style="background: #1e2124; color: #ffffff">
+							<!-- Profile Image -->
+							<div class="d-flex flex-column">
+								<div class="d-flex justify-content-center">
+									<div onmouseenter="new SettingProfile().Edit_OpenME()" onmouseleave="new SettingProfile().Edit_OpenML()" id="SettingProfile_OpenImage" class="rounded-circle" style="background-size: 100% 100%; width: 100px; height: 100px;">
+										<div onclick="new SettingProfile().Edit_OpenButton()" id="SettingProfile_OpenButton" class="d-flex align-items-center justify-content-center rounded-circle hide" style="background: #00000075; color: white; width: 100%; height: 100%; cursor: pointer;">
+											<div class="d-flex justify-content-center" style="font-weight: bold;">Upload</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="d-flex justify-content-center">
+									<input id="SettingProfile_FileButton" type="file" class="hide">
+									<a onclick="new SettingProfile().Edit_RemoveButton()" id="SettingProfile_RemoveButton" class="mt-2 hide" style="font-weight: bold;">Remove</a>
+								</div>
+
+								<button onclick="new SettingProfile().Edit_OpenButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mt-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">UPLOAD</button>
+							</div>
+							<!-- End of Profile Image -->
+							<!-- Profile Account -->
+							<div class="d-flex flex-column ml-4" style="width: 100%">
+								<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Username</h1>
+								<div class="d-flex flex-row mb-2 rounded" style="background: #333333; width: 100%">
+									<input id="SettingProfile_Usernamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" placeholder="XXX XXX XXX" style="background: #333333; color: #ffffff; width: 100%">
+									<div id="SettingProfile_AccountIDLabel" class="d-flex align-items-center pl-3 pr-3" style="font-weight: bold;">@0001#01</div>
+								</div>
+
+								<div class="d-flex flex-row mt-2" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Email</h1>
+										<input id="SettingProfile_Emailbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="XXX XXX XXX">
+									</div>
+									<div class="d-flex flex-column ml-2 mb-2" style="width: 100%">
+										<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Password</h1>
+										<input id="SettingProfile_Passwordbox" type="password" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="XXX XXX XXX">
+									</div>
+								</div>
+
+								<button id="SettingProfileEdit_DoneButton" onclick="new SettingProfile().Edit_DoneButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">CHANGE</button>
+							</div>
+							<!-- End of Profile Account -->
+						</div>
+
+						<div class="mb-1 ml-2" style="color: #7289da; font-weight: bold;">PROFILE : STUDENT ID / EMPLOYEE ID #<span id="SettingProfile_IDLabel"></span></div>
+						<div class="d-flex flex-column" style="color: #ffffff">
+							<div class="d-flex flex-row mb-2" style="width: 100%">
+								<div class="d-flex flex-column" style="width: 100%">
+									<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Name</h1>
+									<div class="d-flex flex-row mb-2">
+										<div class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; width: 100%">
+											<span id="SettingProfile_NameLabel">XXXXXXXXX</span>
+											(<span id="SettingProfile_MNLabel">XXXXXXXXX</span>)
+										</div>
+									</div>
+								</div>
+								<div class="d-flex flex-column" style="width: 100%">
+									<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px; text-align: right;">Course</h1>
+									<div id="SettingProfile_CourseLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%; text-align: right;"></div>
 								</div>
 							</div>
+							
+							<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Account Registration</h1>
+							<div id="SettingProfile_RegisterLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">2020-01-01 00:00:00</div>
+
+							
 						</div>
-						<div class="d-flex justify-content-center">
-							<input id="SettingProfile_FileButton" type="file" class="hide">
-							<a onclick="new SettingProfile().Edit_RemoveButton()" id="SettingProfile_RemoveButton" class="mt-2 hide" style="font-weight: bold;">Remove</a>
-						</div>
-					</div>
-					<div class="ml-4" style="width: 100%">
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Email</h1>
-						<input id="SettingProfile_Emailbox" class="form-control mb-2" placeholder="XXX XXX XXX">
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Username</h1>
-						<div class="d-flex flex-row mb-2" style="width: 100%">
-							<input id="SettingProfile_Usernamebox" class="form-control" placeholder="XXX XXX XXX" style="width: 100%">
-							<div id="SettingProfile_AccountIDLabel" class="d-flex align-items-center border rounded pl-3 pr-3 ml-2" style="font-weight: bold;">@0001#01</div>
-						</div>
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Password</h1>
-						<input id="SettingProfile_Passwordbox" class="form-control mb-2" type="password" placeholder="XXX XXX XXX">
-						<button onclick="new SettingProfile().Edit_DoneButton()" class="form-control" style="font-weight: bold">Change</button>
-
-
-						<h3 class="mt-5 mb-3">Profile</h3>
-
-
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h1>
-						<div class="d-flex flex-row mb-2">
-							<div id="SettingProfile_NameLabel" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 mr-1">Redgrave, Zeke S.</div>
-							<div id="SettingProfile_MNLabel" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 ml-1" style="width: 25%">Saber</div>
-						</div>
-						
-
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Student ID / Employee ID</h1>
-						<div id="SettingProfile_IDLabel" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 mb-2">0123456789</div>
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Account Registration</h1>
-						<div id="SettingProfile_RegisterLabel" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 mb-2">2020-01-01 00:00:00</div>
-
-						<h1 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Course</h1>
-						<div id="SettingProfile_CourseLabel" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 mb-2"></div>
-
 					</div>
 				</div>
 			</div>
 			<!-- End of Profile Area -->
 			<!-- Billing Area -->
 			<div id="SettingBilling_Area" class="container d-flex flex-column hide" style="width: 100%">
-				<h4 class="mb-3">Billing</h4>
-				<div style="width: 100%">
-					<div class="d-flex flex-row" style="width: 100%">
-						<div class="mr-1" style="width: 100%">
-							<h4 style="font-weight: bold; font-size: 12px;">Student Money</h4>
-							<div class="form-control">P <span id="SettingBilling_SM">9999.99</span></div>
+				<div class="d-flex justify-content-center" style="width: 100%">
+					<div class="d-flex flex-column" style="color: white; width: 500px;">
+						<div class="d-flex align-items-center mb-1 ml-2" style="color: #7289da; font-weight: bold;">BALANCE</div>
+
+						<div class="d-flex justify-content-center align-items-center rounded pt-3 pb-3" style="background: #1e2124; width: 100%">
+							<div class="d-flex flex-row">
+								<div class="mr-1" style="width: 150px;">
+									<h4 style="margin: 0; font-weight: bold; font-size: 12px;">Student Money</h4>
+									<div class="">P <span id="SettingBilling_SM">9999.99</span></div>
+								</div>
+								<div class="ml-1" style="width: 150px">
+									<h4 style="margin: 0; font-weight: bold; font-size: 12px;">Student Tuition Fee</h4>
+									<div class="">P <span id="SettingBilling_STF">999.99</span></div>
+								</div>
+							</div>
 						</div>
-						<div class="ml-1" style="width: 100%">
-							<h4 style="font-weight: bold; font-size: 12px;">Student Tuition Fee</h4>
-							<div class="form-control">P <span id="SettingBilling_STF">999.99</span></div>
+
+						<div class="d-flex flex-column mt-5" style="width: 100%">
+							<h4 class="ml-2 mb-4">Redeem Gift Code</h4>
+
+							<h4 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 12px;">Enter the Gift Code</h4>
+							<div class="d-flex flex-row" style="width: 100%">
+								<input id="SettingBilling_Redeembox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mr-1" style="background: #333333; color: #7289da; width: 100%; text-align: right;" type="number" placeholder="Ex. 0123456789">
+								<button id="SettingBillingUpdate_RedeemButton" onclick="new SettingBilling().Update_RedeemButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff;">Redeem!</button>
+							</div>
 						</div>
 					</div>
-
-					<h4 class="mt-5 mb-3">Redeem Gift Code</h4>
-
-					<h4 class="m-0 p-0" style="font-weight: bold; font-size: 12px;">Enter the Gift Code</h4>
-					<input id="SettingBilling_Redeembox" class="form-control mb-2" type="number" placeholder="Ex. 0123456789">
-					<button onclick="new SettingBilling().Update_RedeemButton()" class="form-control" style="min-width: 15%; max-width: 15%">Redeem Now!</button>
-
-					<h4 class="mt-5 mb-3">Transaction Records</h4>
-					<table class="table" style="width: 100%">
-						<thead>
-							<tr>
-								<th class="p-0" style="font-weight: bold;">#</th>
-								<th class="p-0" style="font-weight: bold; width: 75%">Name</th>
-								<th class="p-0" style="font-weight: bold; width: 25%">Amount</th>
-								<th class="p-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Purchase Date</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
 			</div>
 			<!-- End of Billing Area -->
 		</div>
 		<!-- End of Setting Loader -->
-		<div class="pt-5">
-			<button onclick="new Setting().View_BackButton()" class="material-icons form-control border rounded-circle" style="background: white">close</button>
-			<h1 class="d-flex justify-content-center mt-2" style="font-size: 14px; font-weight: bold;">Back</h1>
-		</div>
 	</div>
 </div>
 
 
 <div id="App_StartingArea" class="position-fixed" style="top: 0px; bottom: 0px; left: 0px; right: 0px">
-	<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">
+	<div class="d-flex align-items-center justify-content-center" style="background: #282828; color: #7289da; width: 100%; height: 100%">
 		<div class="border-0" style="width: 350px">
 			<div class="progress form-control hide" style="background-color: white; width: 100%; height: 25px;">
 			 	<div id="App_Progressbar" class="progress-bar" style="width:70%;"></div>
@@ -211,7 +222,8 @@
 
 						SettingProfile_OpenImage.css({
 							'background': "center no-repeat url('" +window.location.href.replace("index.php/Access", "avatar/"+ data.AccountImage)+ "')",
-							'background-size': '100% 100%'
+							'background-size': '100% 100%',
+							'background-color': '#7289da'
 						})
 						SettingProfile_Emailbox.val(data.AccountEmail)
 						SettingProfile_Usernamebox.val(data.AccountUsername)
@@ -327,6 +339,7 @@
 			var SettingProfile_Emailbox = $("#SettingProfile_Emailbox")
 			var SettingProfile_Usernamebox = $("#SettingProfile_Usernamebox")
 			var SettingProfile_Passwordbox = $("#SettingProfile_Passwordbox")
+			var SettingProfileEdit_DoneButton = $("#SettingProfileEdit_DoneButton")
 
 			if(SettingProfile_FileButton.prop('files').length != 0) {
 				if(SettingProfile_Passwordbox.val() != "") {
@@ -338,6 +351,8 @@
 						"AccountPassword": SettingProfile_Passwordbox.val()
 					}))
 
+					SettingProfileEdit_DoneButton.attr('disabled', 'disabled')
+
 					$.ajax({
 						url: window.location.href.replace("/Access", "")+ "/Account/Edit_DoneButton", 
 						method: 'POST',
@@ -346,11 +361,17 @@
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
+								SettingProfileEdit_DoneButton.attr('disabled', '')
+
 								new Setting().View_ProfileLoad()
 
 								alert("Profile Updated!")
 							}
-							else alert(data.ErrorDisplay)
+							else {
+								alert(data.ErrorDisplay)
+
+								SettingProfileEdit_DoneButton.attr('disabled', '')
+							}
 						},
 						error: function(ex) {
 					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
@@ -381,6 +402,8 @@
 			}
 			else {
 				if(SettingProfile_Passwordbox.val() != "") {
+					SettingProfileEdit_DoneButton.attr('disabled', 'disabled')
+
 					$.ajax({
 						url: window.location.href.replace("/Access", "")+ "/Account/Edit_DoneButton", 
 						method: 'POST',
@@ -395,16 +418,24 @@
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
+								SettingProfileEdit_DoneButton.attr('disabled', '')
+
 								new Setting().View_ProfileLoad()
 
 								alert("Profile Updated!")
 							}
-							else alert(data.ErrorDisplay)
+							else {
+								alert(data.ErrorDisplay)
+
+								SettingProfileEdit_DoneButton.attr('disabled', '')
+							}
 						},
 						error: function(ex) {
 					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 					 		alert("Error: Unexpected Error Occur!")
+
+					 		SettingProfileEdit_DoneButton.attr('disabled', '')
 						}
 					})
 				}
@@ -416,8 +447,11 @@
 	function SettingBilling() {
 		this.Update_RedeemButton = function() {
 			var SettingBilling_Redeembox = $("#SettingBilling_Redeembox")
+			var SettingBillingUpdate_RedeemButton = $("#SettingBillingUpdate_RedeemButton")
 
 			if(SettingBilling_Redeembox.val() != "") {
+				SettingBillingUpdate_RedeemButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Transaction/Update_RedeemButton?RedeemCode=" +SettingBilling_Redeembox.val(), 
 					method: 'GET',
@@ -425,17 +459,23 @@
 					success: function(data) {
 						if(!data.isError) {
 							SettingBilling_Redeembox.val('')
+							SettingBillingUpdate_RedeemButton.attr('disabled', '')
 
 							new Setting().View_BalanceLoad()
 
 							alert("Redeem Gift Code Successfully!")
 						}
-						else alert(data.ErrorDisplay)
+						else {
+							alert(data.ErrorDisplay)
+
+							SettingBillingUpdate_RedeemButton.attr('disabled', '')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 				 		alert("Error: Unexpected Error Occur!")
+				 		SettingBillingUpdate_RedeemButton.attr('disabled', '')
 					}
 				})
 			}

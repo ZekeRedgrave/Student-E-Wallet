@@ -57,10 +57,28 @@
 		input[type=number] {
 			-moz-appearance: textfield;
 		}
-
+		
 		.hide {
 			position: absolute;
 			visibility: hidden;
+		}
+
+		.a-hover:hover {
+			background: transparent !important;
+		}
+
+		.hideScrollbar::-webkit-scrollbar {
+			width: 0px;
+		}
+		 
+		.hideScrollbar::-webkit-scrollbar-track {
+		  	background: white;
+		  	/*outline: 1px solid white*/
+		}
+		 
+		.hideScrollbar::-webkit-scrollbar-thumb {
+		  	background: black;
+		  	/*outline: 1px solid white;*/
 		}
 
      </style>

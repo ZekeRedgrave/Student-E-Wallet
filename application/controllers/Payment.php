@@ -80,25 +80,18 @@ class Payment extends CI_Controller {
 		if(isset($_POST['Package']) && !empty($_POST['Package'])){
 			try {
 				$Package = json_decode($_POST['Package']);
-
-				if($Package->isOther == true) {
-					$this->db->insert("Store", array(
-						"UserID" => "15730500",
-						"AccountID" => "0",
-						"StoreTitle" => $Package->Titlebox,
-						"StoreType" => $Package->SlipType->Number,
-						"isOthers" => true,
-						"isPurchasable" => $Package->isPurchasable,
-						"isPhysical" => $Package->isPhysical,
-						"StorePrice" => $Package->Price,
-						"StoreIcon" => $Package->Icon,
-						"TimeRegister" => date("Y-m-d"),
-						"DateRegister" => date("H:i:s")
-					));
-				}
-				else {
-					$this->db->query("Insert into Store values(null, 15730500, 0, '" .$Package->Titlebox. "', '" .$Package->SlipType->Number. "', false, false, false, 0.00, '" .$Package->Icon. "', '" .date("Y-m-d"). "', '" .date("H:i:s"). "')");
-				}
+					
+				$this->db->insert("Store", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"StoreTitle" => $Package->Titlebox,
+					"StoreType" => $Package->SlipType->Number,
+					"isOthers" => $Package->isOther,
+					"isPhysical" => $Package->isPhysical,
+					"StorePrice" => $Package->Price,
+					"StoreIcon" => $Package->Icon,
+					"TimeRegister" => date("Y-m-d"),
+					"DateRegister" => date("H:i:s")
+				));
 
 				$data["isError"] = false;
 
@@ -154,33 +147,17 @@ class Payment extends CI_Controller {
 			try {
 				$Package = json_decode($_POST['Package']);
 
-				if($Package->isOther == true) $this->db->update("Store", array(
-						"UserID" => "15730500",
-						"AccountID" => "0",
-						"StoreTitle" => $Package->Titlebox,
-						"StoreType" => $Package->SlipType->Number,
-						"isOthers" => true,
-						"isPurchasable" => $Package->isPurchasable,
-						"isPhysical" => $Package->isPhysical,
-						"StorePrice" => $Package->Price,
-						"StoreIcon" => $Package->Icon,
-						"TimeRegister" => date("Y-m-d"),
-						"DateRegister" => date("H:i:s")
-					), "StoreID = ". $_GET['StoreID']);
-
-				else $this->db->update("Store", array(
-						"UserID" => "15730500",
-						"AccountID" => "0",
-						"StoreTitle" => $Package->Titlebox,
-						"StoreType" => $Package->SlipType->Number,
-						"isOthers" => true,
-						"isPurchasable" => false,
-						"isPhysical" => false,
-						"StorePrice" => 0.00,
-						"StoreIcon" => $Package->Icon,
-						"TimeRegister" => date("Y-m-d"),
-						"DateRegister" => date("H:i:s")
-					), "StoreID = ". $_GET['StoreID']);
+				$this->db->update("Store", array(
+					"AccountID" => $_SESSION['AccountID'],
+					"StoreTitle" => $Package->Titlebox,
+					"StoreType" => $Package->SlipType->Number,
+					"isOthers" => $Package->isOther,
+					"isPhysical" => $Package->isPhysical,
+					"StorePrice" => $Package->Price,
+					"StoreIcon" => $Package->Icon,
+					"TimeRegister" => date("Y-m-d"),
+					"DateRegister" => date("H:i:s")
+				), "StoreID = ". $_GET['StoreID']);
 
 				$data["isError"] = false;
 

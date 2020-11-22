@@ -158,25 +158,27 @@ class Transaction extends CI_Controller {
 				"ErrorDisplay" => "Error: Unexpected Error Occurs!"
 			));
 		}
-		if(isset($_GET['search'])) {
-			if(!empty($_GET['search'])) {
-				$data['isError'] = false;
-				$data['TransactionArray'] = [];
+		else {
+			if(isset($_GET['search'])) {
+				if(!empty($_GET['search'])) {
+					$data['isError'] = false;
+					$data['TransactionArray'] = [];
 
-				$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+					$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
 
-				foreach ($this->db->query("Select * from Transaction where TransactionType like '%" .$_GET['search']. "%' or DateRegister like '%" .$_GET['search']. "%' or TimeRegister like '%" .$_GET['search']. "%' and StudentID=". $AccountQuery->StudentID)->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+					foreach ($this->db->query("Select * from Transaction where TransactionType like '%" .$_GET['search']. "%' or DateRegister like '%" .$_GET['search']. "%' or TimeRegister like '%" .$_GET['search']. "%' and StudentID=". $AccountQuery->StudentID)->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
 
-				echo json_encode($data);
+					echo json_encode($data);
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Error: Unexpected Error Occurs!"
+				));
 			}
 			else echo json_encode(array(
-				"isError" => true,
-				"ErrorDisplay" => "Error: Unexpected Error Occurs!"
+				"isError" => true
 			));
 		}
-		else echo json_encode(array(
-			"isError" => true
-		));
 	}
 
 	function View_BalanceLoad() {

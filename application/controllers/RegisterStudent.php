@@ -20,67 +20,36 @@ class RegisterStudent extends CI_Controller {
     	if(isset($_POST['RegisterUsername']) && isset($_POST['RegisterEmail']) && isset($_POST['RegisterPassword'])  && isset($_POST['RegisterRP'])  && isset($_POST['RegisterSI']) && !empty($_POST['RegisterUsername']) && !empty($_POST['RegisterEmail']) && !empty($_POST['RegisterPassword']) && !empty($_POST['RegisterRP']) && !empty($_POST['RegisterSI'])) {
     		$Code = rand(0, 999999999);
 
-  			try {
-  				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['RegisterSI'])->result()[0]->x != 0) {
+  			if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['RegisterSI'])->result()[0]->x != 0) {
 
-  					$x = include APPPATH.'third_party/SMTPConfig.php';
+  				$x = include APPPATH.'third_party/SMTPConfig.php';
 
-  					// Sending a Verification Key Code to Email Account
-  					$mail = new PHPMailer();
-				    $mail->isSMTP();
-				    $mail->Host = 'smtp.gmail.com'; 
-				    $mail->SMTPSecure = 'ssl';
-				    $mail->SMTPAuth = true;
-				    $mail->Username = $x['Email'];
-				    $mail->Password = $x['Password'];
-				    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-				    $mail->Port = 465;
+  				// Sending a Verification Key Code to Email Account
+  				$mail = new PHPMailer();
+				$mail->isSMTP();
+				$mail->Host = 'smtp.gmail.com'; 
+				$mail->SMTPSecure = 'ssl';
+				$mail->SMTPAuth = true;
+				$mail->Username = $x['Email'];
+				$mail->Password = $x['Password'];
+				$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+				$mail->Port = 465;
 
-				    //Recipients
-				    $mail->setFrom($x['Email'], "Student EWallet Notifications");
-				    $mail->addAddress($_POST['RegisterEmail'], $_POST['RegisterUsername']);
+				//Recipients
+				$mail->setFrom($x['Email'], "Student EWallet Notifications");
+				$mail->addAddress($_POST['RegisterEmail'], $_POST['RegisterUsername']);
 
-				    // Content
-				    $mail->isHTML(true);
-				    $mail->Subject = 'Verification Code';
-				    $mail->Body    = 'Verification Code is <b>'. $Code .'</b>';
-				    // Send
-				    $mail->send();
+				// Content
+				$mail->isHTML(true);
+				$mail->Subject = 'Verification Code';
+				$mail->Body    = 'Verification Code is <b>'. $Code .'</b>';
+				// Send
+				$mail->send();
 
-				    if($this->db->query("Select Count(*) as x from Registration")->result()[0]->x != 0) {
-			    		if(json_encode($this->db->query("Select * from Registration where RegisterSI=". $_POST['RegisterSI'])->result()[0]) == 'null') {
-				    		if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
-								$this->db->insert("Registration", array(
-					    			"RegisterID" => null,
-					    			"RegisterUsername" => $_POST['RegisterUsername'],
-					    			"RegisterEmail" => $_POST['RegisterEmail'],
-					    			"RegisterPassword" => $_POST['RegisterPassword'],
-					    			"RegisterSI" => $_POST['RegisterSI'],
-					    			"RegisterCode" => $Code,
-					    			"RegisterExpire" => time() + (30 * 24 * 60 * 60),
-					    			"isApprove" => false,
-					    			"isDelete" => false,
-					    			"TimeRegister" => date("H:i:s"),
-					    			"DateRegister" => date("Y-m-d")
-					    		));
-
-					    		echo json_encode(array(
-							    	"isError" => false
-							    ));
-				    		}
-				    		else echo json_encode(array(
-					    		"isError" => true,
-					    		"ErrorDisplay" => "Error: Password Mismatched!"
-					    	));
-				    	}
-				    	else echo json_encode(array(
-					   		"isError" => true,
-					   		"ErrorDisplay" => "Error: Student ID is already Registered!"
-					   	));
-			    	}
-			    	else {
-			    		if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
-					   		$this->db->insert("Registration", array(
+				if($this->db->query("Select Count(*) as x from Registration")->result()[0]->x != 0) {
+			    	if($this->db->query("Select Count(*) as x from Registration where RegisterSI=". $_POST['RegisterSI'])->result()[0]->x == 0) {
+				    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
+							$this->db->insert("Registration", array(
 					    		"RegisterID" => null,
 					    		"RegisterUsername" => $_POST['RegisterUsername'],
 					    		"RegisterEmail" => $_POST['RegisterEmail'],
@@ -96,27 +65,50 @@ class RegisterStudent extends CI_Controller {
 					    	));
 
 					    	echo json_encode(array(
-							   	"isError" => false
+							    "isError" => false
 							));
 				    	}
 				    	else echo json_encode(array(
 					    	"isError" => true,
 					    	"ErrorDisplay" => "Error: Password Mismatched!"
 					    ));
-			    	}
-  				}
-  				else echo json_encode(array(
-				   	"isError" => true,
-					"ErrorDisplay" => "Error: Student ID Invalid!"
-				));
-			}
-			catch (Exception $e) {
-				echo json_encode(array(
-					"isError" => true,
-					"ErrorDisplay" => "Error: Message could not be sent!\n". $e
-			 	));
-			 	echo $e;
-			}
+				    }
+				    else echo json_encode(array(
+					   	"isError" => true,
+					   	"ErrorDisplay" => "Error: Student ID is already Registered!"
+					));
+			    }
+			    else {
+			    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
+					   	$this->db->insert("Registration", array(
+					    	"RegisterID" => null,
+					    	"RegisterUsername" => $_POST['RegisterUsername'],
+					    	"RegisterEmail" => $_POST['RegisterEmail'],
+					    	"RegisterPassword" => $_POST['RegisterPassword'],
+					    	"RegisterSI" => $_POST['RegisterSI'],
+					    	"RegisterCode" => $Code,
+					    	"RegisterType" => "STUDENT",
+					    	"RegisterExpire" => time() + (30 * 24 * 60 * 60),
+					    	"isApprove" => false,
+					    	"isDelete" => false,
+					    	"TimeRegister" => date("H:i:s"),
+					    	"DateRegister" => date("Y-m-d")
+					    ));
+
+					    echo json_encode(array(
+							"isError" => false
+						));
+				    }
+				    else echo json_encode(array(
+					    "isError" => true,
+					    "ErrorDisplay" => "Error: Password Mismatched!"
+					));
+			    }
+  			}
+  			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Error: Student ID Invalid!"
+			));
     	}
     	else echo json_encode(array(
     		"isError" => true,

@@ -1,29 +1,30 @@
-<div class="d-flex flex-column border-right p-1" style="height: 100%">
+<div class="d-flex flex-column p-1" style="background: #1e2124; height: 100%">
 	<!-- Logo Area -->
 	<!-- End of Logo Area -->
 	<!-- Menu List Area -->
 	<!-- <div style="height: 100%"></div> -->
+	<!-- <button id="App_HomeButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #4caf50; min-width: 50px; max-width: 50px; height: 50px;" title="Home">home</button> -->
 	<?php 
 		switch (strtoupper($AccountType)) {
 			case "STUDENT":
-				echo '<button id="App_HomeButton" class="material-icons form-control mb-1" title="Home">home</button>';
-				echo '<button id="App_RecordsButton" class="material-icons form-control mb-1" title="Records">receipt_long</button>';
+				echo '<button id="App_HomeButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; max-width: 50px; min-height: 50px; max-height: 50px;" title="Home">home</button>';
+				echo '<button id="App_RecordsButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Records">receipt_long</button>';
 				break;
 			case "CASHIER":
-				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
-				echo '<button id="App_BankButton" class="material-icons form-control mb-1" title="Transaction & Bank">account_balance</button>';
+				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
+				echo '<button id="App_BankButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Transaction & Bank">account_balance</button>';
 				break;
 
 			case "DEPARTMENT":
-				echo '<button id="App_TimelineButton" class="material-icons form-control mb-1" title="News & Announcement">timeline</button>';
-				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
-				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
+				echo '<button id="App_TimelineButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="News & Announcement">timeline</button>';
+				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Account">how_to_reg</button>';
+				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
 				break;
 
 			case "ADMIN":
-				echo '<button id="App_TimelineButton" class="material-icons form-control mb-1" title="News & Announcement">timeline</button>';
-				echo '<button id="App_AccountButton" class="material-icons form-control mb-1" title="Account">how_to_reg</button>';
-				echo '<button id="App_PaymentButton" class="material-icons form-control mb-1" title="Payment">receipt_long</button>';
+				echo '<button id="App_TimelineButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="News & Announcement">timeline</button>';
+				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Account">how_to_reg</button>';
+				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
 				break;
 			
 			default:
@@ -34,7 +35,7 @@
 	<!-- End of Menu List Area -->
 	<div style="height: 100%"></div>
 	
-	<button id="App_SettingButton" class="material-icons form-control" title="Logout">settings</button>
+	<button id="App_SettingButton" class="material-icons border-0 rounded" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Logout">settings</button>
 </div>
 
 <script type="text/javascript">

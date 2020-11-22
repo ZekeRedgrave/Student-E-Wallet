@@ -1,80 +1,89 @@
 <div id="App_TimelineArea" class="d-flex flex-row" style="width:100%; height: 100%">
 	<div id="TimelineView_HomeArea" class="d-flex flex-row" style="width: 100%; height: 100%">
-		<div class="p-3" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-			<h4 class="mb-4">News & Announcement</h4>
-			<!-- Write Timeline -->
-			<div class="d-flex flex-column mb-4" style="width: 100%;">
-				<h4 style="margin: 0; font-size: 12px; font-weight: bold;">Write a post</h4>
-				<textarea id="TimelineCreate_Descriptionbox" class="form-control" style="width: 100%; height: 150px; resize: none;"></textarea>
-				<!-- Upload Image Display -->
-				<div id="TimelineCreate_ImageLoader" class="row mt-1 ml-0 mr-0 mb-0"></div>
-				<!-- End of Upload Image Display -->
-				<div class="d-flex flex-row mt-1">
-					<button onclick="new Timeline().Create_UploadButton()" class="material-icons form-control mr-1 d-flex align-items-center justify-content-center" style="background-color: white; width: 50px; height: 45px;">add</button>
-					<button onclick="new Timeline().Create_SendButton()" id="TimelineCreate_SendButton" class="material-icons form-control mr-1 d-flex align-items-center justify-content-center" style="background-color: white; width: 50px; height: 45px;">send</button>
-					<div style="width: 100%"></div>
-					<input id="TimelineCreate_FileUpload" type="file" class="hide" multiple="multiple">
-				</div>
+		<div class="d-flex justify-content-center pt-5" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+			<div class="d-flex flex-column" style="width: 600px">
+				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
+				<!-- Write Timeline -->
+				<div class="d-flex flex-column rounded p-3 mb-4" style="background: #1e2124; width: 100%;">
+					<h4 class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Write a post</h4>
+					<textarea id="TimelineCreate_Descriptionbox" class="border-0 rounded-0 pl-4 pr-4 pt-2 pb-2" style="background: #1e2124; color: #ffffff; width: 100%; height: 150px; resize: none;" placeholder="Any Announcement, News or Update?"></textarea>
+					<!-- Upload Image Display -->
+					<div id="TimelineCreate_ImageLoader" class="row mt-1 ml-0 mr-0 mb-0"></div>
+					<!-- End of Upload Image Display -->
+					<div class="d-flex flex-row mt-1">
+						<button onclick="new Timeline().Create_UploadButton()" class="material-icons border-0 rounded" style="background: #333333; color: #7289da; width: 50px; height: 45px;" title="Upload Image">add</button>
+						<button onclick="new Timeline().Create_SendButton()" id="TimelineCreate_SendButton" class="material-icons border-0 rounded ml-1" style="background: #333333; color: #7289da; width: 50px; height: 45px;" title="Upload Image">send</button>
+						<div style="width: 100%"></div>
+						<input id="TimelineCreate_FileUpload" type="file" class="hide" multiple="multiple">
+					</div>
 
-				<div class="progress white p-0 rounded-0 mt-1">
-					<div id="TimelineCreate_Progressbar" class="red" style="width: 0%; height: 1px;"></div>
+					<div class="progress p-0 rounded-0 mt-1" style="background: #1e2124;">
+						<div id="TimelineCreate_Progressbar" class="red" style="width: 0%; height: 1px;"></div>
+					</div>
 				</div>
+				<!-- End of Write Timeline -->
+				<!-- View Timeline -->
+				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">TIMELINE</div>
+				<div id="TimelineView_LoaderArea">
+					<h1 class="p-3">No Posting Timeline Yet!</h1>
+				</div>
+				<!-- End of View Timeline -->
 			</div>
-			<!-- End of Write Timeline -->
-			<!-- View Timeline -->
-			<h4 class="mt-5">Timeline</h4>
-			<div id="TimelineView_LoaderArea"></div>
-			<!-- End of View Timeline -->
-		</div>
-		<div class="border-left" style="width: 300px;">
-			
 		</div>
 	</div>
-	<!-- Post View Area -->
-	<div id="TimelineView_PostArea" class="d-flex flex-row hide" style="width: 100%; height: 100%">
-		<div class="d-flex flex-column" style="width: 100%; height: 100%">
-			<div id="PostView_ImageLoader" class="" style="width: 100%; height: 100%; overflow-y: hidden;">
-				<h4 class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">No Image!</h4>
-			</div>
-			<div class="d-flex flex-row border-top pt-1 pb-1" style="width: 100%;">
-				<button onclick="new Post().View_BackButton()" class="material-icons form-control ml-1" style="width: 50px">first_page</button>
-				<div class="d-flex justify-content-center" style="width: 100%;">
-					<div class="d-flex flex-row">
-						<button onclick="new Post().View_PreviewButton()" class="material-icons form-control mr-1" style="width: 50px">keyboard_arrow_left</button>
-						<button onclick="new Post().View_ForwardButton()" class="material-icons form-control" style="width: 50px">keyboard_arrow_right</button>
-					</div>
+</div>
+
+<!-- Post View Area -->
+<div id="TimelineView_PostArea" class="position-fixed d-flex flex-row hide" style="top: 0; bottom: 0; left: 0; right: 0; background: #00000099; width: 100%; height: 100%">
+	<!-- Load Image -->
+	<div class="d-flex flex-column" style="width: 100%; height: 100%">
+		<div id="PostView_ImageLoader" class="" style="width: 100%; height: 100%; overflow-y: hidden;">
+			<h4 class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">No Image!</h4>
+		</div>
+		<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4" style="width: 100%;">
+			<div class="d-flex justify-content-center" style="width: 100%;">
+				<div class="d-flex flex-row">
+					<a onclick="new Post().View_PreviewButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle" style="color: #7289da; background: #7289da20; min-width: 50px; max-width: 50px; height: 50px;">keyboard_arrow_left</a>
+					<a onclick="new Post().View_BackButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle ml-1 mr-1" style="background: #7289da20; color: #e91e63; min-width: 50px; max-width: 50px; height: 50px;">close</a>
+					<a onclick="new Post().View_ForwardButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle" style="color: #7289da; background: #7289da20; min-width: 50px; max-width: 50px; height: 50px;">keyboard_arrow_right</a>
 				</div>
 			</div>
 		</div>
-		<div class="d-flex flex-column border-left" style="min-width: 500px; max-width: 350px; height: 100%">
-			<div class="d-flex flex-row border-bottom p-2" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-				<img id="PostView_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-				<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-					<h4 id="PostView_HostName" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-					<h4 id="PostView_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
+	</div>
+	<!-- End of Load Image -->
+	<!-- Detail Area -->
+	<div class="d-flex flex-column" style="background: #282828; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="d-flex flex-row p-3" style="width: 100%;">
+			<img id="PostView_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+			<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
+				<h4 id="PostView_HostName" style="color: #7289da; margin: 0; font-size: 14px; font-weight: bold;">XXXXXXX [System Administrator]</h4>
+				<h4 id="PostView_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
 
-					<div id="PostView_DescriptionLoader" class="mt-3 mb-3" style="font-size: 12px;">
-						<span>Add some text here!</span>
-					</div>
+				<div id="PostView_DescriptionLoader" class="mt-3 mb-2" style="font-size: 12px;">
+					<span>Add some text here!</span>
 				</div>
 			</div>
+		</div>
+		<div class="d-flex flex-column" style="background: #282828; width: 100%; height: 100%;">
 			<!-- Write Comment Area -->
-			<div class="d-flex flex-row p-2 border-bottom" style="width: 100%">
-				<img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
+			<div class="d-flex flex-row p-2" style="width: 100%">
+				<!-- <img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px"> -->
 				<div class="d-flex flex-row ml-2" style="width: 100%">
-					<textarea id="CommentCreate_Writebox" class="form-control border rounded pl-2 pr-2" placeholder="Any Comment?" style="width: 100%; height: 100px; resize: none;"></textarea>
-					<button id="CommentCreate_SendButton" onclick="new Comment().Create_SendButton()" class="material-icons form-control ml-2" style="width: 50px">send</button>
+					<textarea id="CommentCreate_Writebox" class="rounded border-0 pl-2 pr-2" placeholder="Any Comment?" style="background: #333333; color: #ffffff; width: 100%; height: 100px; resize: none;"></textarea>
+					<div class="ml-2">
+						<button id="CommentCreate_SendButton" onclick="new Comment().Create_SendButton()" class="material-icons rounded border-0" style="background: #333333; color: #7289da; width: 50px; height: 50px;">send</button>
+					</div>
 				</div>
 			</div>
 			<!-- End of Write Comment Area -->
 			<!-- Comment Loader Area -->
-			<div id="PostView_CommentLoader" class="" style="width: 100%; height: 100%; min-height: 250px; overflow: hidden; overflow-y: scroll;">				<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>
-			</div>
+			<div id="PostView_CommentLoader" class="d-flex flex-column" style="background: #1e2124; width: 100%; height: 100%"></div>
 			<!-- End of Comment Loader Area -->
 		</div>
 	</div>
-	<!-- End of Post View Area -->
+	<!-- End of Detail Area -->
 </div>
+<!-- End of Post View Area -->
 
 <script type="text/javascript">
 	var TimelineCreate_UploadForm = []
@@ -98,38 +107,34 @@
 
 						for(var value of data.TimelineArray) {
 							if(<?php echo $AccountID; ?> == value.AccountID) TimelineView_LoaderArea.append(`
-								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
 									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
 										<h4 id="TimelineView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
 
 										<div id="TimelineView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
 										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
 
 										<div class="d-flex flex-row mt-1">	
-											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
-											<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
-											<div style="width: 100%"></div>
+											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" style="color: #7289da">comment</a>
 											<a onclick="new Timeline().View_DeleteButton(`+ value.TimelineID +`)" class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
 										</div>
 									</div>
 								</div>
 							`)
 							else TimelineView_LoaderArea.append(`
-								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
 									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
 										<h4 id="TimelineView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
 
 										<div id="TimelineView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
 										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
 
 										<div class="d-flex flex-row mt-1">	
-											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
-											<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
-											<div style="width: 100%"></div>
+											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" style="color: #7289da">comment</a>
 										</div>
 									</div>
 								</div>
@@ -167,7 +172,7 @@
 						}
 
 						if(JSON.parse(data.TimelineDescription).Image.length != 0) for(var image of JSON.parse(data.TimelineDescription).Image) {
-							$("#TimelineView_LoaderID"+ id).append('<img src="'+ window.location.href.replace("/index.php/Access", "/storage/"+ image) +'" width="100%">')
+							$("#TimelineView_LoaderID"+ id).append('<img class="rounded mb-1" src="'+ window.location.href.replace("/index.php/Access", "/storage/"+ image) +'" width="100%">')
 						}
 						
 					}	
@@ -183,7 +188,6 @@
 
 		this.View_PostButton = function(id) {
 			var TimelineView_PostArea = $("#TimelineView_PostArea")
-			var TimelineView_HomeArea = $("#TimelineView_HomeArea")
 
 			var PostView_ImageLoader = $("#PostView_ImageLoader")
 			var PostView_HostName = $("#PostView_HostName")
@@ -197,7 +201,6 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						TimelineView_HomeArea.addClass('hide')
 						TimelineView_PostArea.removeClass('hide')
 
 						PostView_DescriptionLoader.html('')
@@ -431,16 +434,15 @@
 					if(!data.isError){
 						if(data.CommentArray.length != 0) {
 							for(var x of data.CommentArray) PostView_CommentLoader.append( `
-								<div id="CommentView_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+								<div id="CommentView_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="width: 100%;">
 									<img id="CommentView_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<h4 id="CommentView_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-
-										<div id="CommentView_LoaderID` +x.CommentID+ `" class="mt-3 mb-3"></div>
 										<div class="d-flex flex-row" style="width: 100%">
-											<div style="width: 100%"></div>
+											<h4 id="CommentView_NameID` +x.CommentID+ `" style="color: #7289da; width: 100%; margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 											<a id="CommentView_DeleteButtonID` +x.CommentID+ `" onclick="new Comment().View_DeleteButton(` +x.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
 										</div>
+
+										<div id="CommentView_LoaderID` +x.CommentID+ `" class="mt-3 mb-3"></div>
 									</div>
 								</div>
 							`)
@@ -572,17 +574,15 @@
 							if(data.isNew) PostView_CommentLoader.html('')
 
 							var HTML = `
-								<div id="CommentView_ItemID` +data.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+								<div id="CommentView_ItemID` +data.CommentID+ `" class="d-flex flex-row p-3" style="width: 100%;">
 									<img id="CommentView_ImageID` +data.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<h4 id="CommentView_NameID` +data.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-
-										<div id="CommentView_LoaderID` +data.CommentID+ `" class="mt-3 mb-3"></div>
 										<div class="d-flex flex-row" style="width: 100%">
-											<div style="width: 100%"></div>
-
+											<h4 id="CommentView_NameID` +data.CommentID+ `" style="color: #7289da; width: 100%; margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 											<a id="CommentView_DeleteButtonID` +data.CommentID+ `" onclick="new Comment().View_DeleteButton(` +data.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
 										</div>
+
+										<div id="CommentView_LoaderID` +data.CommentID+ `" class="mt-3 mb-3"></div>
 									</div>
 								</div>
 							`

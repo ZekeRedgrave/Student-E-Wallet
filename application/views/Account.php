@@ -1,16 +1,22 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
-	<div id="ViewAccount_MainArea" class="d-flex flex-row" style="width: 100%; height: 100%">
-		<div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-			<div id="Account_HomeArea" class="d-flex flex-column p-3">
+	<div id="ViewAccount_MainArea" class="d-flex flex-row hide" style="width: 100%; height: 100%">
+		<div class="" style="width: 100%; height: 100%;">
+			<div id="Account_HomeArea" class="d-flex flex-column" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
 				<!-- Logs Area -->
-				<h4 class="mb-5">Logs</h4>
-				<table class="table">
+				<div class="d-flex flex-row pl-4 pr-4 pt-2 pb-2 mb-4" style="width: 100%">
+					<div class="d-flex align-items-center" style="color: #7289da; width: 100%; font-weight: bold;">LOGS</div>
+					<div class="d-flex flex-row">
+						<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Student Registry</button>
+						<button class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Account Info</button>
+					</div>
+				</div>
+				<table class="table" style="color: #7289da;">
 					<thead>
 						<tr>
-							<th class="p-0" style="font-weight: bold; width: 50%">Name</th>
-							<th class="p-0" style="font-weight: bold;">Type</th>
-							<th class="p-0" style="font-weight: bold; width: 50%">Activity</th>
-							<th class="p-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Timeline</th>
+							<th class="pt-2 pb-2 pl-4 border-0" style="font-weight: bold; width: 50%">Name</th>
+							<th class="pt-2 pb-2 border-0" style="font-weight: bold;">Type</th>
+							<th class="pt-2 pb-2 border-0" style="font-weight: bold; width: 50%">Activity</th>
+							<th class="pt-2 pb-2 border-0" style="font-weight: bold; min-width: 175px; max-width: 175px;">Timeline</th>
 						</tr>
 					</thead>
 					<tbody id="AccountLog_ListLoader">
@@ -21,33 +27,41 @@
 				<div style="width: 100%"></div>
 				<!-- Assessment Area -->
 				<div id="" class="d-flex flex-column p-3">
-					<h4 class="mb-5">Assessment</h4>
+					<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">ASSESSMENT</div>
 
 					<!-- View Student Assessment Area-->
 					<div id="View_AssessmentArea" class="">
-						<div class="d-flex flex-row mb-3">
-							<input id="ViewAssessment_Searchbox" class="form-control" placeholder="Search Student ID">
-							<button onclick="new Assessment().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
+						<div class="d-flex flex-row mb-2">
+							<input id="ViewAssessment_Searchbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="Search Student ID">
+							<button onclick="new Assessment().View_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Search</button>
 
 							<div style="width: 100%"></div>
 
-							<button class="form-control" style="min-width: 75px; max-width: 75px;">Edit</button>
-							<button onclick="new Assessment().View_AddButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Add</button>
+							<button class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Edit</button>
+							<button onclick="new Assessment().View_AddButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Add</button>
 						</div>
-						<div class="d-flex flex-row p-2 mb-5">
-							<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+						<div class="d-flex flex-row rounded p-3 mb-5" style="background: #1e2124;">
+							<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="100px" height="100px" class="border-0 rounded-circle" style="background: #333333; color: #7289da;">
 							<div class="d-flex flex-column ml-4" style="width: 100%">
-								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
-								<div id="ViewAssessment_NameLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
+								<div id="ViewAssessment_NameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
 
-								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
-								<div id="ViewAssessment_CYLabel" class="form-control mb-2">XXX-XXX-XXX</div>
+								<div class="d-flex flex-row" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
+										<div id="ViewAssessment_CYLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 100%">
+										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
+										<div id="ViewAssessment_StatusLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
+									</div>
+								</div>
 
-								<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
-								<div id="ViewAssessment_StatusLabel" class="form-control mb-2 red-text">XXX-XXX-XXX</div>
+								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
+								<input id="ViewAssessment_TuitionLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="XXX-XXX-XXX">
 							</div>
 						</div>
-						<table class="table border-top">
+						<table class="table border-top hide">
 							<thead>
 								<tr>
 									<th style="width: 100%">Amount</th>
@@ -87,85 +101,88 @@
 			</div>
 			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
 				<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+					<div class="d-flex flex-row" style="width: 100%">
+						<div class="d-flex align-items-center ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
 
-					<h4 class="m-0 mt-2" style="">On-Hold New Register Account Information</h4>
-					<div class="d-flex flex-column border rounded mt-1 p-2">
-						<div class="d-flex flex-row">
-							<a id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="material-icons p-1 pl-3" style="font-size: 15px;">arrow_back_ios</a>
-							<div class="d-flex align-items-center ml-4 mr-4" style="width: 100%; font-size: 13px;">Register ID #1</div>
-
-							<a id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="material-icons p-1 mr-1 red-text" style="font-size: 15px;">delete</a>
-							<a id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="material-icons p-1" style="font-size: 15px;">check</a>
+						<div class="d-flex flex-column">
+							<button id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="border-0 rounded pt-2 pb-2" style="background: #333333; color: #7289da; width: 200px;">Back to Logs</button>
 						</div>
+					</div>
 
-						<div class="d-flex flex-row mt-2" style="width: 100%">
-							<div class="d-flex flex-column ml-2" style="width: 100%">
-								<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-								<div id="AccountView_RegisterSI" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+					<div class="d-flex justify-content-center mt-4">
+						<div class="d-flex flex-column" style="width: 600px;">
+							<!-- Account Info -->
+							<div class="d-flex flex-row rounded p-3" style="background: #1e2124;">
+								<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
 
-								<div style="font-size: 12px; font-weight: bold;">Username</div>
-								<div id="AccountView_RegisterUsername" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+								<div class="d-flex flex-column ml-4" style="width: 100%">
+									<div class="ml-2 mb-4" style="color: #7289da; width: 100%; font-weight: bold;">ACCOUNT</div>
 
-								<div style="font-size: 12px; font-weight: bold;">Email</div>
-								<div id="AccountView_RegisterEmail" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Email</div>
+									<div id="AccountView_RegisterEmail" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+
+									<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
+										<div class="d-flex flex-column" style="width: 100%">
+											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
+											<div id="AccountView_RegisterDT" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+										</div>
+										<div class="d-flex flex-column ml-1" style="width: 100%">
+											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Expiration</div>
+											<div id="AccountView_RegisterExpiration" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+										</div>
+									</div>
+
+									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Username</div>
+									<div id="AccountView_RegisterUsername" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+								</div>
 							</div>
-							<div class="d-flex flex-column mr-2" style="width: 100%">
-								<div style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
-								<div id="AccountView_RegisterDT" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
+							<!-- End of Account Info -->
+							<input id="AccountRegister_Searchbox" class="form-control hide" type="number" placeholder="e.g. 15730500">
+							<!-- Personal Information -->
+							<div class="d-flex flex-column mt-4">
+								<div class="d-flex align-items-center ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
 
-								<div style="font-size: 12px; font-weight: bold;">Expiration</div>
-								<div id="AccountView_RegisterExpiration" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2 red-text">XXX-XXX-XXX</div>
+								<div class="d-flex flex-column rounded p-3" style="width: 100%">
+									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Student ID</div>
+									<div id="AccountView_RegisterSI" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+
+									<div class="ml-2 mb-1 mt-4" style="font-size: 12px; font-weight: bold;">Name</div>
+									<div id="AccountRegister_StudentName" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+
+									<div class="d-flex flex-row mt-4" style="width: 100%;">
+										<div class="d-flex flex-column" style="width: 100%">
+											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Course and Year</div>
+											<div id="AccountRegister_StudentCY" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX XXX XXX</div>
+										</div>
+										<div class="d-flex flex-column ml-1" style="width: 100%">
+											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Status</div>
+											<div id="AccountRegister_StudentStatus" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX XXX XXX</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End of Personal Information -->
+							<div class="d-flex flex-row">
+								<button id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="border-0 rounded pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px;">Acccept</button>
+								<button id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="border-0 rounded pt-2 pb-2 ml-1 red-text" style="background: #333333; width: 125px;">Decline</button>
 							</div>
 						</div>
 					</div>
-					<h4 class="mt-5 mb-3">Personal Information</h4>
-					<div class="mb-3" style="font-size: 12px; font-weight: bold;">Before accepting an incoming New Account, you can check the On-Hold New Register Users if he/she is student of the current school.</div>
-
-					<!-- View Student -->
-					<div style="font-size: 12px; font-weight: bold;">Search Student ID</div>
-					<div class="d-flex flex-row">
-						<input id="AccountRegister_Searchbox" class="form-control" type="number" placeholder="e.g. 15730500">
-						<button onclick="new Search().Register_SearchButton()" class="material-icons border rounded ml-1 pl-3 pr-3 white">search</button>
-					</div>
-						
-					<div class="d-flex flex-row mt-3" style="width: 100%;">
-						<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
-						<div class="d-flex flex-column ml-4" style="width: 100%">
-
-							<div style="font-size: 12px; font-weight: bold;">Name</div>
-							<div id="AccountRegister_StudentName" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX-XXX-XXX</div>
-
-							<div style="font-size: 12px; font-weight: bold;">Student ID</div>
-							<div id="AccountRegister_StudentID" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-							<div style="font-size: 12px; font-weight: bold;">Course and Year</div>
-							<div id="AccountRegister_StudentCY" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-							<div style="font-size: 12px; font-weight: bold;">Status</div>
-							<div id="AccountRegister_StudentStatus" class="form-control rounded-0 border-top-0 border-left-0 border-right-0 mb-2">XXX XXX XXX</div>
-
-						</div>
-					</div>
-					<!-- End of View Student -->
 				</div>
 			</div>
 		</div>
 		<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
-			<h4 class="p-2 m-0" style="font-size: 17px;">View</h4>
-			<div class="d-flex flex-row border-bottom pb-1">
-				<button onclick="new Account().View_SRButton()" class="form-control ml-1">Student Registry</button>
-				<button class="form-control ml-1 mr-1">Account Info</button>
-			</div>
+			<div class="m-3" style="color: #7289da; width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
 
-			<h4 class="border-bottom p-2 m-0" style="font-size: 17px;">On-Hold New Register Account</h4>
-			<div id="AccountView_RegistrationLoader" class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
+			<div id="AccountView_RegistrationLoader" class="" style="background: #333333; width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
 		</div>
 	</div>
 
 	<!-- Student Registry -->
-	<div id="ViewAccount_SR" class="pt-3 pb-3 hide" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+	<div id="ViewAccount_SR" class="pt-3 pb-3" style="width: 100%; overflow: hidden; overflow-y: scroll;">
 		<div class="pl-3 pr-3" style="width: 100%">
-			<h4 class="m-0 p-0">School Registry</h4>
+			<div class="ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">SCHOOL REGISTRY</div>
+
 			<!-- Create -->
 			<div id="SR_CreateArea" class="mt-5 hide">
 				<h4 class="m-0 p-0 mb-3" style="font-weight: bold; font-size: 14px;">Create New Student</h4>
@@ -326,6 +343,8 @@
 </div>
 
 <script type="text/javascript">
+	var changeColor_Table = 0
+
 	$(document).ready(function() {
 		var AccountView_RegistrationLoader = $("#AccountView_RegistrationLoader")
 		var AccountLog_ListLoader = $("#AccountLog_ListLoader")
@@ -338,7 +357,7 @@
 				if(!data.isError) {
 					for(id of data.RegisterID) {
 						AccountView_RegistrationLoader.append(`
-							<div id="AccountView_RegistrationID` +id+ `" onclick="new Account().View_RegisterButton(` +id+ `)" class="d-flex flex-row p-1 border-bottom" style="width: 100%; cursor: pointer;">
+							<div id="AccountView_RegistrationID` +id+ `" onclick="new Account().View_RegisterButton(` +id+ `)" class="d-flex flex-row p-2" style="border-bottom: 1px solid #444444; width: 100%; cursor: pointer;">
 								<img src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
 								<div id="AccountView_RNID` +id+ `" class="d-flex align-items-center ml-4" style="width: 100%; font-size: 14px; font-weight: bold;">ZeroRedgrave@15730500#1</div>
 							</div>
@@ -360,24 +379,35 @@
 			success: function(data) {
 				if(!data.isError) {
 					if(!data.isEmpty) {
+						var color = ""
+
 						for(var value of data.LogArray) {
+							if(changeColor_Table == 0) {
+								changeColor_Table = 1
+								color = '#36393e'
+							}
+							else {
+								changeColor_Table = 0
+								color = ''
+							}
+
 							AccountLog_ListLoader.append(`
-								<tr id="Log_ItemID` +value+ `" class="border-bottom">
-									<th class="p-0">
-										<div class="d-flex flex-row pt-1 pb-1">
+								<tr id="Log_ItemID` +value+ `" style="background: ` +color+ `">
+									<th class="p-0 border-0">
+										<div class="d-flex flex-row pt-1 pb-1 pl-4">
 											<img id="LogItem_ImageID` +value+ `" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
 											<div id="LogItem_NameID` +value+ `" class="d-flex align-items-center ml-4" style="font-weight: bold; word-break: keep-all; width: 100%">
 												XXX XXX XXX
 											</div>
 										</div>
 									</th>
-									<th>
+									<th class="border-0">
 										<div id="LogItem_TypeID` +value+ `" class="d-flex align-items-center pt-1 pb-1 red-text">STUDENT</div>
 									</th>
-									<th>
+									<th class="border-0">
 										<div id="LogItem_ActivityID` +value+ `" class="d-flex align-items-center pt-1 pb-1">Unknown</div>
 									</th>
-									<th>
+									<th class="border-0">
 										<div id="LogItem_DTID` +value+ `" class="d-flex align-items-center pt-1 pb-1">2020-01-01 00:00:00</div>
 									</th>
 								</tr>
@@ -576,6 +606,9 @@
 			var AccountRegister_StudentStatus = $("#AccountRegister_StudentStatus")
 			var AccountRegister_StudentName = $("#AccountRegister_StudentName")
 
+			var AccountRegister_AcceptButton = $("#AccountRegister_AcceptButton")
+			AccountRegister_AcceptButton.attr('disabled', 'disabled')
+
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Account/View_AcceptButton?RegisterID=" +id, 
 				method: 'GET',
@@ -596,13 +629,23 @@
 						AccountRegister_StudentID.text('XXX-XXX-XXX')
 						AccountRegister_StudentCY.text('XXX-XXX-XXX')
 						AccountRegister_StudentName.text('XXX-XXX-XXX')
+
+						AccountRegister_AcceptButton.removeAttr('disabled')
+
+						new Account().View_BackButton()
 					}
-					else alert(data.ErrorDisplay)
+					else {
+						alert(data.ErrorDisplay)
+
+						AccountRegister_AcceptButton.removeAttr('disabled')
+					}
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 			 		alert("Error: Unexpected Error Occur!")
+
+			 		AccountRegister_AcceptButton.removeAttr('disabled')
 				}
 			})
 		}
@@ -637,7 +680,6 @@
 							$("#View_UsernameLabel").text(data.Username)
 							$("#View_DepositLabel").text(data.Deposits)
 							$("#View_TuitionLabel").text(data.Tuition)
-
 
 							$("#View_RemoveButton").attr('onclick', 'new SR().View_RemoveButton(' +SR_ViewSDbox.val()+ ')')
 						}
@@ -950,6 +992,7 @@
 			var ViewAssessment_NameLabel = $("#ViewAssessment_NameLabel")
 			var ViewAssessment_CYLabel = $("#ViewAssessment_CYLabel")
 			var ViewAssessment_StatusLabel = $("#ViewAssessment_StatusLabel")
+			var ViewAssessment_TuitionLabel = $("#ViewAssessment_TuitionLabel")
 
 			if(ViewAssessment_Searchbox.val() != "") {
 				$.ajax({
@@ -962,6 +1005,7 @@
 							ViewAssessment_NameLabel.text(data.Name)
 							ViewAssessment_CYLabel.text(data.CY)
 							ViewAssessment_StatusLabel.text(data.Status)
+							ViewAssessment_TuitionLabel.text(data.Tuition)
 
 							new Assessment().View_TableLoad(ViewAssessment_Searchbox.val())
 						}
