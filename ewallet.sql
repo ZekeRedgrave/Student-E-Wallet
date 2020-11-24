@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2020 at 06:25 AM
+-- Generation Time: Nov 25, 2020 at 12:55 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -49,7 +49,8 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`AccountID`, `StudentID`, `EmployeeID`, `AccountUsername`, `AccountEmail`, `AccountPassword`, `AccountType`, `Account_AvailableBalance`, `Account_TuitionBalance`, `AccountImage`, `TimeRegister`, `DateRegister`) VALUES
 (4, 0, 1, 'Zeke', 'zekeredgrave@gmail.com', '1234', 'CASHIER', 0, 0, '4.png', '06:44:28', '2020-10-11'),
 (7, 0, 25, 'orekiredgrave', 'orekiredgrave@gmail.com', '1234', 'DEPARTMENT', 0, 0, '7.png', '20:55:39', '2020-11-22'),
-(10, 15730500, 0, 'zeroredgrave', 'zeroredgrave@gmail.com', '1234', 'STUDENT', 6990, 0, '10.png', '2020-11-23', '00:10:31');
+(10, 15730500, 0, 'zeroredgrave', 'zeroredgrave@gmail.com', '1234', 'STUDENT', 6290, 0, '10.png', '2020-11-23', '00:10:31'),
+(12, 1234, 0, 'Testing', 'monalfredreyes1997@gmail.com', '1234', 'STUDENT', 10000, 0, '12.png', '2020-11-24', '19:20:05');
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,8 @@ INSERT INTO `assessment` (`AssessmentID`, `StudentID`, `EmployeeID`, `Assessment
 (6, 15730500, 25, 0, 15000, 0, 0, 'Not Valid Anymore', '2020-11-24', '03:45:21'),
 (7, 15730500, 25, 20999, 2999, 0, 1, 'Half Paid (Can now Enroll)', '2020-11-24', '03:58:08'),
 (9, 15730500, 25, 3999, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '06:15:20'),
-(10, 15730500, 25, 10, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '06:20:17');
+(10, 15730500, 25, 10, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '06:20:17'),
+(11, 1234, 25, 10000, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '19:24:58');
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,8 @@ INSERT INTO `comment` (`CommentID`, `TimelineID`, `UserID`, `AccountID`, `Commen
 (38, 43, 0, 7, '{\"Text\":\"dawdadwadawdawdaw\",\"Image\":[]}', 0, '2020-11-22', '21:43:39'),
 (39, 43, 0, 7, '{\"Text\":\"dwadwada\",\"Image\":[]}', 0, '2020-11-22', '21:48:54'),
 (40, 43, 0, 7, '{\"Text\":\"3esa dasda qd sa \",\"Image\":[]}', 0, '2020-11-22', '21:50:19'),
-(44, 43, 0, 10, '{\"Text\":\"3213\",\"Image\":[]}', 0, '2020-11-24', '04:40:14');
+(44, 43, 0, 10, '{\"Text\":\"3213\",\"Image\":[]}', 0, '2020-11-24', '04:40:14'),
+(45, 44, 0, 12, '{\"Text\":\"31ewsad as \",\"Image\":[]}', 0, '2020-11-24', '19:26:30');
 
 -- --------------------------------------------------------
 
@@ -283,7 +286,36 @@ INSERT INTO `logs` (`LogID`, `AccountID`, `LogActivity`, `TimeRegister`, `DateRe
 (2220, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:21:12', '2020-11-24'),
 (2221, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:21:39', '2020-11-24'),
 (2222, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:21:53', '2020-11-24'),
-(2223, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:21:58', '2020-11-24');
+(2223, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:21:58', '2020-11-24'),
+(2224, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '18:39:12', '2020-11-24'),
+(2225, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '18:39:56', '2020-11-24'),
+(2226, 7, '{\"Page\":\"Account\",\"Action\":\"School Registry(Add Student)\"}', '18:43:31', '2020-11-24'),
+(2227, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '18:55:30', '2020-11-24'),
+(2228, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:19:58', '2020-11-24'),
+(2229, 7, '{\"Page\":\"Account\",\"Action\":\"View Account Registration\"}', '19:20:00', '2020-11-24'),
+(2230, 7, '{\"Page\":\"Account\",\"Action\":\"Accept Account Registration\"}', '19:20:08', '2020-11-24'),
+(2231, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:20:12', '2020-11-24'),
+(2232, 12, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:20:21', '2020-11-24'),
+(2233, 12, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:20:38', '2020-11-24'),
+(2234, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:20:44', '2020-11-24'),
+(2235, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '19:24:58', '2020-11-24'),
+(2236, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:25:11', '2020-11-24'),
+(2237, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:25:17', '2020-11-24'),
+(2238, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:25:42', '2020-11-24'),
+(2239, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:25:49', '2020-11-24'),
+(2240, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:25:59', '2020-11-24'),
+(2241, 12, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:26:04', '2020-11-24'),
+(2242, 12, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '19:26:28', '2020-11-24'),
+(2243, 12, '{\"Page\":\"Timeline\",\"Action\":\"Write Comment\"}', '19:26:30', '2020-11-24'),
+(2244, 12, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '19:26:30', '2020-11-24'),
+(2245, 12, '{\"Page\":\"Profile\",\"Action\":\"Updating His\\/Her Account Profile\"}', '19:26:58', '2020-11-24'),
+(2246, 12, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '19:27:04', '2020-11-24'),
+(2247, 12, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '19:27:40', '2020-11-24'),
+(2248, 12, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '19:27:54', '2020-11-24'),
+(2249, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '19:27:58', '2020-11-24'),
+(2250, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '20:51:37', '2020-11-24'),
+(2251, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '20:51:41', '2020-11-24'),
+(2252, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '00:49:14', '2020-11-25');
 
 -- --------------------------------------------------------
 
@@ -331,7 +363,33 @@ CREATE TABLE `registration` (
 INSERT INTO `registration` (`RegisterID`, `RegisterUsername`, `RegisterEmail`, `RegisterPassword`, `RegisterSI`, `RegisterCode`, `RegisterType`, `RegisterExpire`, `isApprove`, `isDelete`, `TimeRegister`, `DateRegister`) VALUES
 (28, 'zekeredgrave', 'zekeredgrave@gmail.com', '1', '1', 0, 'ADMIN', 0, 1, 1, '06:08:00', '2020-10-11'),
 (39, 'zeroredgrave', 'zeroredgrave@gmail.com', '1234', '15730500', 0, 'STUDENT', 0, 1, 1, '18:31:38', '2020-11-22'),
-(45, 'orekiredgrave', 'orekiredgrave@gmail.com', '1234', '', 0, 'DEPARTMENT', 0, 1, 1, '20:55:00', '2020-11-22');
+(45, 'orekiredgrave', 'orekiredgrave@gmail.com', '1234', '', 0, 'DEPARTMENT', 0, 1, 1, '20:55:00', '2020-11-22'),
+(48, 'Testing', 'monalfredreyes1997@gmail.com', '1234', '1234', 980096692, 'STUDENT', 0, 1, 1, '19:17:55', '2020-11-24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `request`
+--
+
+CREATE TABLE `request` (
+  `RequestID` int(11) NOT NULL,
+  `StudentID` int(11) NOT NULL,
+  `RequestName` text NOT NULL,
+  `isProcess` tinyint(1) NOT NULL,
+  `isClaim` tinyint(1) NOT NULL,
+  `Start_DateRegister` text NOT NULL,
+  `Start_TimeRegister` text NOT NULL,
+  `End_DateRegister` text NOT NULL,
+  `End_TimeRegister` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`RequestID`, `StudentID`, `RequestName`, `isProcess`, `isClaim`, `Start_DateRegister`, `Start_TimeRegister`, `End_DateRegister`, `End_TimeRegister`) VALUES
+(3, 15730500, 'Diploma', 0, 0, '2020-11-24', '21:49:40', '', '');
 
 -- --------------------------------------------------------
 
@@ -410,6 +468,7 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`StudentID`, `Name`, `Course`, `Gender`, `SchoolName`, `Age`, `Level`, `ContactNumber`, `Image`, `Status`) VALUES
+(1234, '{\"Lastname\":\"Reyes\",\"Firstname\":\"Mon Alfred\",\"Middlename\":\"Subingsubing\"}', 'BSIT', 'Male', '', 24, 4, '', 'avatar.png', 'non-graduated'),
 (15730500, '{\"Lastname\":\"Saber\",\"Firstname\":\"Ion\",\"Middlename\":\"Redgrave\"}', 'BSIT', 'Male', 'Unknown', 24, 3, '0', 'avatar.png', 'non-graduated');
 
 -- --------------------------------------------------------
@@ -483,7 +542,12 @@ INSERT INTO `transaction` (`TransactionID`, `StudentID`, `TransactionType`, `Tra
 (33, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"18000\",\"TransactionFee\":\"20999\",\"TransactionCash\":\"18999\"}', '06:14:45', '2020-11-24'),
 (34, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"1000\",\"TransactionAmount\":\"10000\",\"TransactionCash\":\"11000\"}', '06:18:50', '2020-11-24'),
 (35, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"3999\",\"TransactionFee\":\"3999\",\"TransactionCash\":\"10999\"}', '06:19:15', '2020-11-24'),
-(36, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"10\",\"TransactionFee\":\"10\",\"TransactionCash\":\"7000\"}', '06:21:46', '2020-11-24');
+(36, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"10\",\"TransactionFee\":\"10\",\"TransactionCash\":\"7000\"}', '06:21:46', '2020-11-24'),
+(37, 1234, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"1234\",\"TransactionFee\":\"1000\",\"TransactionAmount\":\"20000\",\"TransactionCash\":\"21000\"}', '19:25:32', '2020-11-24'),
+(38, 1234, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"1234\",\"TransactionAmount\":\"10000\",\"TransactionFee\":\"10000\",\"TransactionCash\":\"20000\"}', '19:26:14', '2020-11-24'),
+(39, 15730500, '1', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"50\",\"TransactionFee\":0,\"TransactionCash\":\"6990\"}', '20:57:01', '2020-11-24'),
+(40, 15730500, '1', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"50\",\"TransactionFee\":0,\"TransactionCash\":\"6940\"}', '20:57:09', '2020-11-24'),
+(41, 15730500, 'COLLEGE PAYMENT SLIP', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"600\",\"TransactionFee\":0,\"TransactionCash\":\"6890\"}', '21:49:40', '2020-11-24');
 
 --
 -- Indexes for dumped tables
@@ -544,6 +608,12 @@ ALTER TABLE `registration`
   ADD PRIMARY KEY (`RegisterID`);
 
 --
+-- Indexes for table `request`
+--
+ALTER TABLE `request`
+  ADD PRIMARY KEY (`RequestID`);
+
+--
 -- Indexes for table `store`
 --
 ALTER TABLE `store`
@@ -581,19 +651,19 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `AssessmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `AssessmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -617,7 +687,7 @@ ALTER TABLE `gift`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2224;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2253;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -629,7 +699,13 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `request`
+--
+ALTER TABLE `request`
+  MODIFY `RequestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `store`
@@ -659,7 +735,7 @@ ALTER TABLE `timeline`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
