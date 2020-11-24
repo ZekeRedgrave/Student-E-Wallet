@@ -87,9 +87,9 @@
 <div id="StoreView_DynamicArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
 	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
 		<div class="d-flex flex-column rounded p-3" style="background: #282828; color: #ffffff; width: 400px;">
-			<div class="mb-4" style="color: #7289da; font-weight: bold;">ARE YOU SURE?</div>
+			<div class="ml-2" style="color: #7289da; font-weight: bold;">ARE YOU SURE?</div>
 
-			<h4 id="StoreView_TFLabel" class="hide">XXX-XXX-XXX</h4>
+			<div id="StoreView_DisplayLabel" class="mt-4 mb-4" class="" style="font-size: 14px;">This '??????' Price is XXXX.</div>
 
 			<div class="d-flex flex-row" style="width: 100%">
 				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Yes</button>
@@ -304,7 +304,6 @@
 
 		this.StoreView_PostButton = function(id) {
 			var StorePost_ViewArea = $("#StorePost_ViewArea")
-			var StoreView_HomeArea = $("#StoreView_HomeArea")
 
 			var StorePost_ImageLoader = $("#StorePost_ImageLoader")
 			var StorePost_HostName = $("#StorePost_HostName")
@@ -318,7 +317,6 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						StoreView_HomeArea.addClass('hide')
 						StorePost_ViewArea.removeClass('hide')
 
 						StorePost_DescriptionLoader.html('')
@@ -360,6 +358,21 @@
 			$("#StoreView_TuitionArea").addClass('hide')
 			$("#StoreView_DynamicArea").removeClass('hide')
 			$("#StoreView_DynamicButton").attr('onclick', 'new Store().DA_DynamicButton(' +id+ ')')
+
+			var StoreView_DisplayLabel = $("#StoreView_DisplayLabel")
+
+			$.ajax({
+				url: window.location.href.replace('/Access', '')+ "/Transaction/View_PriceButton?id="+ id, 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) StoreView_DisplayLabel.html("Item Name: " +data.StoreTitle+ "<br>Price (P): " +data.StorePrice)
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
 		}
 
 		this.DA_CancelButton = function() {

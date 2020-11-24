@@ -44,66 +44,71 @@ class RegisterStudent extends CI_Controller {
 				$mail->Subject = 'Verification Code';
 				$mail->Body    = 'Verification Code is <b>'. $Code .'</b>';
 				// Send
-				$mail->send();
+				if(!$mail->send())  echo json_encode(array(
+				    "isError" => true,
+				    "ErrorDisplay" => "The Server cannot send into your Email for Verification Code due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+				));
+					
+				else {
+					if($this->db->query("Select Count(*) as x from Registration")->result()[0]->x != 0) {
+				    	if($this->db->query("Select Count(*) as x from Registration where RegisterSI=". $_POST['RegisterSI'])->result()[0]->x == 0) {
+					    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
+								$this->db->insert("Registration", array(
+						    		"RegisterID" => null,
+						    		"RegisterUsername" => $_POST['RegisterUsername'],
+						    		"RegisterEmail" => $_POST['RegisterEmail'],
+						    		"RegisterPassword" => $_POST['RegisterPassword'],
+						    		"RegisterSI" => $_POST['RegisterSI'],
+						    		"RegisterCode" => $Code,
+						    		"RegisterType" => "STUDENT",
+						    		"RegisterExpire" => time() + (30 * 24 * 60 * 60),
+						    		"isApprove" => false,
+						    		"isDelete" => false,
+						    		"TimeRegister" => date("H:i:s"),
+						    		"DateRegister" => date("Y-m-d")
+						    	));
 
-				if($this->db->query("Select Count(*) as x from Registration")->result()[0]->x != 0) {
-			    	if($this->db->query("Select Count(*) as x from Registration where RegisterSI=". $_POST['RegisterSI'])->result()[0]->x == 0) {
-				    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
-							$this->db->insert("Registration", array(
-					    		"RegisterID" => null,
-					    		"RegisterUsername" => $_POST['RegisterUsername'],
-					    		"RegisterEmail" => $_POST['RegisterEmail'],
-					    		"RegisterPassword" => $_POST['RegisterPassword'],
-					    		"RegisterSI" => $_POST['RegisterSI'],
-					    		"RegisterCode" => $Code,
-					    		"RegisterType" => "STUDENT",
-					    		"RegisterExpire" => time() + (30 * 24 * 60 * 60),
-					    		"isApprove" => false,
-					    		"isDelete" => false,
-					    		"TimeRegister" => date("H:i:s"),
-					    		"DateRegister" => date("Y-m-d")
-					    	));
-
-					    	echo json_encode(array(
-							    "isError" => false
-							));
-				    	}
-				    	else echo json_encode(array(
-					    	"isError" => true,
-					    	"ErrorDisplay" => "Error: Password Mismatched!"
-					    ));
-				    }
-				    else echo json_encode(array(
-					   	"isError" => true,
-					   	"ErrorDisplay" => "Error: Student ID is already Registered!"
-					));
-			    }
-			    else {
-			    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
-					   	$this->db->insert("Registration", array(
-					    	"RegisterID" => null,
-					    	"RegisterUsername" => $_POST['RegisterUsername'],
-					    	"RegisterEmail" => $_POST['RegisterEmail'],
-					    	"RegisterPassword" => $_POST['RegisterPassword'],
-					    	"RegisterSI" => $_POST['RegisterSI'],
-					    	"RegisterCode" => $Code,
-					    	"RegisterType" => "STUDENT",
-					    	"RegisterExpire" => time() + (30 * 24 * 60 * 60),
-					    	"isApprove" => false,
-					    	"isDelete" => false,
-					    	"TimeRegister" => date("H:i:s"),
-					    	"DateRegister" => date("Y-m-d")
-					    ));
-
-					    echo json_encode(array(
-							"isError" => false
+						    	echo json_encode(array(
+								    "isError" => false
+								));
+					    	}
+					    	else echo json_encode(array(
+						    	"isError" => true,
+						    	"ErrorDisplay" => "Error: Password Mismatched!"
+						    ));
+					    }
+					    else echo json_encode(array(
+						   	"isError" => true,
+						   	"ErrorDisplay" => "Error: Student ID is already Registered!"
 						));
 				    }
-				    else echo json_encode(array(
-					    "isError" => true,
-					    "ErrorDisplay" => "Error: Password Mismatched!"
-					));
-			    }
+				    else {
+				    	if($_POST['RegisterPassword'] == $_POST['RegisterRP']) {
+						   	$this->db->insert("Registration", array(
+						    	"RegisterID" => null,
+						    	"RegisterUsername" => $_POST['RegisterUsername'],
+						    	"RegisterEmail" => $_POST['RegisterEmail'],
+						    	"RegisterPassword" => $_POST['RegisterPassword'],
+						    	"RegisterSI" => $_POST['RegisterSI'],
+						    	"RegisterCode" => $Code,
+						    	"RegisterType" => "STUDENT",
+						    	"RegisterExpire" => time() + (30 * 24 * 60 * 60),
+						    	"isApprove" => false,
+						    	"isDelete" => false,
+						    	"TimeRegister" => date("H:i:s"),
+						    	"DateRegister" => date("Y-m-d")
+						    ));
+
+						    echo json_encode(array(
+								"isError" => false
+							));
+					    }
+					    else echo json_encode(array(
+						    "isError" => true,
+						    "ErrorDisplay" => "Error: Password Mismatched!"
+						));
+				    }
+				}
   			}
   			else echo json_encode(array(
 				"isError" => true,

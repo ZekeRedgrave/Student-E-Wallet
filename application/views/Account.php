@@ -769,7 +769,7 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							$("#View_ImageLoad").attr('src', window.location.href.replace("/index.php/Access", "/avatar/" + data.Image))
+							$("#View_ImageLoad").attr('src', window.location.href.replace("/index.php/Access", "/avatar/")+ data.Image)
 							$("#View_NameLabel").text(data.Name)
 							$("#View_SILabel").text(data.StudentID)
 							$("#View_GenderLabel").text(data.Gender)
@@ -789,7 +789,7 @@
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-				 		alert("Error: Unexpected Error Occur!")
+				 		alert("Unexpected Error Occur!")
 					}
 				})
 			}
@@ -871,7 +871,7 @@
 
 			var Create_DoneButton = $("#Create_DoneButton")
 
-			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
 				Create_DoneButton.attr('disabled', 'disabled')
 
 				$.ajax({
@@ -924,7 +924,6 @@
 				if(SR_Middlenamebox.val() == "") ErrorDisplay += "(Middlename) "
 
 				if(SR_Agebox.val() == "") ErrorDisplay += "(Age) "
-				if(SR_Numberbox.val() == "") ErrorDisplay += "(Contact No.) "
 
 				if(SR_Coursebox.val() == "") ErrorDisplay += "(Course) "
 				if(SR_Levelbox.val() == "") ErrorDisplay += "(Level) "
@@ -1144,21 +1143,19 @@
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_SearchButton?id=" +ViewAssessment_Searchbox.val(), 
 					method: 'POST',
-					dataType: 'text',
+					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							var x = JSON.parse(data)
+							ViewAssessment_Image.attr('src', window.location.href.replace("/index.php/Access", "/")+ "avatar/" + data.Image)
+							ViewAssessment_NameLabel.text(data.Name)
+							ViewAssessment_CYLabel.text(data.CY)
+							ViewAssessment_StatusLabel.text(data.Status)
+							ViewAssessment_TuitionLabel.text('P '+ data.Tuition)
 
-							ViewAssessment_Image.attr('src', window.location.href.replace("/index.php/Access", "/")+ "avatar/" + x.Image)
-							ViewAssessment_NameLabel.text(x.Name)
-							ViewAssessment_CYLabel.text(x.CY)
-							ViewAssessment_StatusLabel.text(x.Status)
-							ViewAssessment_TuitionLabel.text('P '+ x.Tuition)
-
-							if(!x.isEmpty) {
+							if(!data.isEmpty) {
 								$("#ViewAssessment_TableLoad").html('')
 
-								for(var y in x.AssessmentArray) new Assessment().View_AssessmentLoad(x.AssessmentArray[y])
+								for(var y in data.AssessmentArray) new Assessment().View_AssessmentLoad(data.AssessmentArray[y])
 							}
 							else $("#ViewAssessment_TableLoad").html(`
 								<tr>
@@ -1175,7 +1172,7 @@
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-				 		alert("Error: Unexpected Error Occur!")
+				 		alert("Unexpected Error Occur!")
 					}
 				})
 			}

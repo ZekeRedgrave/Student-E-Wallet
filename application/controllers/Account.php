@@ -115,20 +115,24 @@ class Account extends CI_Controller {
 				$mail->Subject = 'Notice Information';
 				$mail->Body    = 'Your new Registration Account has been officially denied by the System Administrator. You are already created the Account. If there is a problem, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
 				// Send
-				$mail->send();
-
-				$this->db->query("Delete from Registration where RegisterID=". $_GET['RegisterID']);
-				$this->db->insert("Logs", array(
-					"AccountID" => $_SESSION['AccountID'],
-					"LogActivity" => json_encode(array(
-						"Page" => "Account",
-						"Action" => "Delete Account Registration"
-					)),
-					"TimeRegister" => date("H:i:s"),
-					"DateRegister" => date("Y-m-d")
+				if(!$mail->send())  echo json_encode(array(
+				    "isError" => true,
+				    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 				));
+				else {
+					$this->db->query("Delete from Registration where RegisterID=". $_GET['RegisterID']);
+					$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Account",
+							"Action" => "Delete Account Registration"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
 
-				echo json_encode($data);
+					echo json_encode($data);
+				}
 			}
 			else echo json_encode(array(
 			   	"isError" => true,
@@ -184,24 +188,28 @@ class Account extends CI_Controller {
 					$mail->Subject = 'Notice Information';
 					$mail->Body    = 'Your Account has been Accepted by the Official System Administrator by Student E-Wallet Staff';
 					// Send
-					$mail->send();
-
-					$this->db->update("Registration", array(
-						"isApprove" => true,
-						"isDelete" => true,
-						"RegisterExpire" => 0
-					), "RegisterID=". $_GET['RegisterID']);
-					$this->db->insert("Logs", array(
-						"AccountID" => $_SESSION['AccountID'],
-						"LogActivity" => json_encode(array(
-							"Page" => "Account",
-							"Action" => "Accept Account Registration"
-						)),
-						"TimeRegister" => date("H:i:s"),
-						"DateRegister" => date("Y-m-d")
+					if(!$mail->send())  echo json_encode(array(
+					    "isError" => true,
+					    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 					));
+					else {
+						$this->db->update("Registration", array(
+							"isApprove" => true,
+							"isDelete" => true,
+							"RegisterExpire" => 0
+						), "RegisterID=". $_GET['RegisterID']);
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Account",
+								"Action" => "Accept Account Registration"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
 
-					echo json_encode($data);
+						echo json_encode($data);
+					}
 				}
 				else echo json_encode(array(
 				   	"isError" => true,
@@ -323,6 +331,8 @@ class Account extends CI_Controller {
 						$query["AccountUsername"] = $Package->AccountUsername;
 						$query["AccountEmail"] = $Package->AccountEmail;
 
+						if($Package->Account_NewPassword != "") $query["AccountPassword"] = $Package->Account_NewPassword;
+
 						$this->db->update("Account", $query, "AccountID=". $_SESSION['AccountID'] ." and AccountPassword='" .$Package->AccountPassword. "'");
 
 						echo json_encode(array(
@@ -369,7 +379,7 @@ class Account extends CI_Controller {
 						$data['isError'] = false;
 						$data['Name'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
 						$data['CY'] = $StudentQuery->Course. "-" .$StudentQuery->Level;
-						$data['Image'] = $StudentQuery->Image;
+						$data['Image'] = $AccountQuery->AccountImage;
 						$data['Status'] = $StudentQuery->Status;
 						$data['Tuition'] = $AccountQuery->Account_TuitionBalance;
 						$data["AssessmentArray"] = [];
@@ -459,37 +469,41 @@ class Account extends CI_Controller {
 								$mail->Subject = 'Notification Alert';
 								$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
 								// Send
-								$mail->send();
-
-								$this->db->update("Account", array(
-									"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
-								), "StudentID=". $_POST['StudentID']);
-
-								$this->db->insert("Assessment", array(
-									"StudentID" => $_POST['StudentID'],
-									"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
-									"Assessment_OldTuition" => $AccountQuery->Account_TuitionBalance,
-									"Assessment_NewTuition" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'],
-									"isFullPaid" => false,
-									"isHalfPaid" => false,
-									"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
-									"DateRegister" => date("Y-m-d"),
-									"TimeRegister" => date("H:i:s")
+								if(!$mail->send())  echo json_encode(array(
+								    "isError" => true,
+								    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 								));
+								else {
+									$this->db->update("Account", array(
+										"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
+									), "StudentID=". $_POST['StudentID']);
 
-								$this->db->insert("Logs", array(
-									"AccountID" => $_SESSION['AccountID'],
-									"LogActivity" => json_encode(array(
-										"Page" => "Assessment",
-										"Action" => "Deploying Student Assessment Info"
-									)),
-									"TimeRegister" => date("H:i:s"),
-									"DateRegister" => date("Y-m-d")
-								));
+									$this->db->insert("Assessment", array(
+										"StudentID" => $_POST['StudentID'],
+										"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+										"Assessment_OldTuition" => $AccountQuery->Account_TuitionBalance,
+										"Assessment_NewTuition" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'],
+										"isFullPaid" => false,
+										"isHalfPaid" => false,
+										"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+										"DateRegister" => date("Y-m-d"),
+										"TimeRegister" => date("H:i:s")
+									));
 
-								echo json_encode(array(
-								   	"isError" => false
-								)); 
+									$this->db->insert("Logs", array(
+										"AccountID" => $_SESSION['AccountID'],
+										"LogActivity" => json_encode(array(
+											"Page" => "Assessment",
+											"Action" => "Deploying Student Assessment Info"
+										)),
+										"TimeRegister" => date("H:i:s"),
+										"DateRegister" => date("Y-m-d")
+									));
+
+									echo json_encode(array(
+									   	"isError" => false
+									)); 
+								}
 							}
 							else echo json_encode(array(
 							   	"isError" => true,
@@ -533,14 +547,20 @@ class Account extends CI_Controller {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
 				if($this->db->query("Select * from Student where StudentID=". $_GET['id'])->result()[0]->Status != 'graduated') {
-					$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
-					$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['id'])->result()[0];
+					if($this->db->query("Select Count(*) as x from Assessment where StudentID=". $_GET['id'])->result()[0]->x != 0) {
+						$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
+						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['id'])->result()[0];
 
-					$data["isError"] = false;
-					$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
-					$data["Current"] = $AssessmentQuery->Assessment_NewTuition;
+						$data["isError"] = false;
+						$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
+						$data["Current"] = $AssessmentQuery->Assessment_NewTuition;
 
-					echo json_encode($data);
+						echo json_encode($data);
+					}
+					else echo json_encode(array(
+					   	"isError" => true,
+					   	"ErrorDisplay" => "This student is don't have a Assessment Record.\nNot Allowed!"
+					)); 
 				}
 				else echo json_encode(array(
 				   	"isError" => true,
@@ -592,28 +612,31 @@ class Account extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Notification Alert';
-						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']). '.';
 						// Send
-						$mail->send();
-
-						$this->db->insert("Assessment", array(
-							"StudentID" => $_POST['StudentID'],
-							"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
-							"Assessment_OldTuition" => $AssessmentQuery->Assessment_OldTuition,
-							"Assessment_NewTuition" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'],
-							"isFullPaid" => false,
-							"isHalfPaid" => false,
-							"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
-							"DateRegister" => date("Y-m-d"),
-							"TimeRegister" => date("H:i:s")
+						if(!$mail->send())  echo json_encode(array(
+						    "isError" => true,
+						    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 						));
+						else {
+							$this->db->insert("Assessment", array(
+								"StudentID" => $_POST['StudentID'],
+								"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+								"Assessment_OldTuition" => $AssessmentQuery->Assessment_OldTuition,
+								"Assessment_NewTuition" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'],
+								"isFullPaid" => false,
+								"isHalfPaid" => false,
+								"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+								"DateRegister" => date("Y-m-d"),
+								"TimeRegister" => date("H:i:s")
+							));
 
-						$this->db->update("Account", array(
-							"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
-						), "StudentID=". $_POST['StudentID']);
+							$this->db->update("Account", array(
+								"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
+							), "StudentID=". $_POST['StudentID']);
 
-						echo json_encode($data);
-						
+							echo json_encode($data);
+						}
 					}
 					else echo json_encode(array(
 					   	"isError" => true,
@@ -716,11 +739,11 @@ class Account extends CI_Controller {
 				}
 				else echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Error: The Student is Already existed!"
+					"ErrorDisplay" => "The Student is Already existed!"
 				));
 			}
 			else {
-				$ErrorDisplay = "Error: ";
+				$ErrorDisplay = "";
 
 				if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
 				if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
@@ -740,7 +763,7 @@ class Account extends CI_Controller {
 		}
 		else echo json_encode(array(
 			"isError" => true,
-			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			"ErrorDisplay" => "Unexpected Error Occur!"
 		));  
 	}
 
@@ -750,7 +773,7 @@ class Account extends CI_Controller {
 				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
 					$StudentQuery = $this->db->query("Select * from Student where StudentID=". $_GET['ID'])->result()[0];
 					$data["isError"] = false;
-					$data["Name"] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). " (" .json_decode($StudentQuery->Name)->Middlename. ")";
+					$data["Name"] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($StudentQuery->Name)->Middlename. ")";
 					$data["StudentID"] = $StudentQuery->StudentID;
 					$data["Gender"] = $StudentQuery->Gender;
 					$data["Age"] = $StudentQuery->Age;
@@ -769,6 +792,7 @@ class Account extends CI_Controller {
 					}
 					else {
 						$data["Email"] =  "N / A";
+						$data["Image"] = $StudentQuery->Image;
 						$data["Username"] =  "N / A";
 						$data["Deposits"] =  "N / A";
 						$data["Tuition"] =  "N / A";
@@ -778,17 +802,17 @@ class Account extends CI_Controller {
 				}
 				else echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Error: Invalid Student ID!"
+					"ErrorDisplay" => "Invalid Student ID!"
 				));
 			}
 			else echo json_encode(array(
 				"isError" => true,
-				"ErrorDisplay" => "Error: Unexpected Error Occur!"
+				"ErrorDisplay" => "Unexpected Error Occur!"
 			));
 		}
 		else echo json_encode(array(
 			"isError" => true,
-			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			"ErrorDisplay" => "Unexpected Error Occur!"
 		)); 
 	}
 

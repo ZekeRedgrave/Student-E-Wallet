@@ -55,25 +55,29 @@ class RegisterAdmin extends CI_Controller {
 						$mail->Subject = 'Verification Code';
 						$mail->Body    = 'Verification Code is <b>'. $Code .'</b>';
 						// Send
-						$mail->send();
+						if(!$mail->send())  echo json_encode(array(
+                            "isError" => true,
+                            "ErrorDisplay" => "The Server cannot send into your Email for Verification Code due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+                        ));
+                        else {
+                            $this->db->insert("Registration", array(
+                                "RegisterID" => null,
+                                "RegisterUsername" => $_POST['RegisterUsername'],
+                                "RegisterEmail" => $_POST['RegisterEmail'],
+                                "RegisterPassword" => $_POST['RegisterPassword'],
+                                "RegisterType" => $_POST['RegisterType'],
+                                "RegisterCode" => $Code,
+                                "RegisterExpire" => time() + (30 * 24 * 60 * 60),
+                                "isApprove" => false,
+                                "isDelete" => false,
+                                "TimeRegister" => date("H:i:s"),
+                                "DateRegister" => date("Y-m-d")
+                            ));
 
-						$this->db->insert("Registration", array(
-							"RegisterID" => null,
-							"RegisterUsername" => $_POST['RegisterUsername'],
-							"RegisterEmail" => $_POST['RegisterEmail'],
-							"RegisterPassword" => $_POST['RegisterPassword'],
-							"RegisterType" => $_POST['RegisterType'],
-							"RegisterCode" => $Code,
-							"RegisterExpire" => time() + (30 * 24 * 60 * 60),
-							"isApprove" => false,
-							"isDelete" => false,
-							"TimeRegister" => date("H:i:s"),
-							"DateRegister" => date("Y-m-d")
-						));
-
-						echo json_encode(array(
-						   	"isError" => false
-						));
+                            echo json_encode(array(
+                                "isError" => false
+                            ));
+                        }						
 	    			}
 	    			else echo json_encode(array(
 					   	"isError" => true,
@@ -249,9 +253,11 @@ class RegisterAdmin extends CI_Controller {
 			    $mail->Subject = 'Verification Code';
 			    $mail->Body    = 'Verification Code is <b>'. $RegisterQuery->RegisterCode .'</b>';
 			    // Send
-			    $mail->send();
-
-			    echo json_encode(array(
+			    if(!$mail->send())  echo json_encode(array(
+                    "isError" => true,
+                    "ErrorDisplay" => "The Server cannot send into your Email for Verification Code due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+                ));
+                else echo json_encode(array(
 				   	"isError" => false
 				));
     		}

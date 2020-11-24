@@ -21,7 +21,7 @@
 		</div>
 		<!-- End of Setting Menu List -->
 		<!-- Setting Loader -->
-		<div class="container pt-5 pb-5" style="width: 100%; min-width: 750px; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="p-5" style="min-width: 750px; width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
 			<!-- Profile Area -->
 			<div id="SettingProfile_Area" class="d-flex flex-column" style="width: 100%; color: #ffffff">
 				<div class="d-flex justify-content-center" style="width: 100%">
@@ -54,7 +54,10 @@
 									<div id="SettingProfile_AccountIDLabel" class="d-flex align-items-center pl-3 pr-3" style="font-weight: bold;">@0001#01</div>
 								</div>
 
-								<div class="d-flex flex-row mt-2" style="width: 100%">
+								<h1 class="ml-2 mb-1 p-0 mt-4" style="font-weight: bold; font-size: 14px;">New Password (Optional: If you wanna change your Current into New Password)</h1>
+								<input id="SettingProfile_NPbox" type="password" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="XXX XXX XXX">
+
+								<div class="d-flex flex-row mt-4" style="width: 100%">
 									<div class="d-flex flex-column" style="width: 100%">
 										<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Email</h1>
 										<input id="SettingProfile_Emailbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="XXX XXX XXX">
@@ -90,8 +93,6 @@
 							
 							<h1 class="ml-2 mb-1 p-0" style="font-weight: bold; font-size: 14px;">Account Registration</h1>
 							<div id="SettingProfile_RegisterLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">2020-01-01 00:00:00</div>
-
-							
 						</div>
 					</div>
 				</div>
@@ -339,6 +340,7 @@
 			var SettingProfile_Emailbox = $("#SettingProfile_Emailbox")
 			var SettingProfile_Usernamebox = $("#SettingProfile_Usernamebox")
 			var SettingProfile_Passwordbox = $("#SettingProfile_Passwordbox")
+			var SettingProfile_NPbox = $("#SettingProfile_NPbox") // Optional
 			var SettingProfileEdit_DoneButton = $("#SettingProfileEdit_DoneButton")
 
 			if(SettingProfile_FileButton.prop('files').length != 0) {
@@ -348,7 +350,8 @@
 					temp.append('Package', JSON.stringify({
 						"AccountEmail": SettingProfile_Emailbox.val(),
 						"AccountUsername": SettingProfile_Usernamebox.val(),
-						"AccountPassword": SettingProfile_Passwordbox.val()
+						"AccountPassword": SettingProfile_Passwordbox.val(),
+						"Account_NewPassword": SettingProfile_NPbox.val()
 					}))
 
 					SettingProfileEdit_DoneButton.attr('disabled', 'disabled')
@@ -361,6 +364,7 @@
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
+								SettingProfile_NPbox.val('')
 								SettingProfileEdit_DoneButton.removeAttr('disabled')
 
 								new Setting().View_ProfileLoad()
@@ -413,13 +417,15 @@
 							Package: JSON.stringify({
 								"AccountEmail": SettingProfile_Emailbox.val(),
 								"AccountUsername": SettingProfile_Usernamebox.val(),
-								"AccountPassword": SettingProfile_Passwordbox.val()
+								"AccountPassword": SettingProfile_Passwordbox.val(),
+								"Account_NewPassword": SettingProfile_NPbox.val()
 							})
 						},
 						dataType: 'json',
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
+								SettingProfile_NPbox.val('')
 								SettingProfileEdit_DoneButton.removeAttr('disabled')
 
 								new Setting().View_ProfileLoad()

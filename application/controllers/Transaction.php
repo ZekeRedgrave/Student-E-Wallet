@@ -309,31 +309,6 @@ class Transaction extends CI_Controller {
 
 								if(isset($_POST['FEbox']) && isset($_POST['TEbox'])) {
 									if(!empty($_POST['FEbox']) && !empty($_POST['TEbox'])) {
-										$this->db->insert("Transaction", array(
-											"StudentID" => $_POST['StudentID'],
-											"TransactionType" => "GIFT",
-											"TransactionDescription" => json_encode(array(
-											"EmployeeID" => $_SESSION['AccountID'],
-											"StudentID" => $_POST['StudentID'],
-												"TransactionFee" => $Fee,
-												"TransactionAmount" => $_POST['Amountbox'],
-												"TransactionCash" => $_POST['Cashbox'],
-												"Transaction_RedeemCode" => $Code
-											)),
-											"DateRegister" => date("Y-m-d"),
-											"TimeRegister" => date("H:i:s")
-										));
-
-										$this->db->insert("Gift", array(
-											"EmployeeID" => $_SESSION['AccountID'],
-											"StudentID" => $_POST['StudentID'],
-											"GiftFE" => $_POST['FEbox'],
-											"GiftTE" => $_POST['TEbox'],
-											"GiftCode" => $Code,
-											"GiftAmount" => $_POST['Amountbox'],
-											"GiftFee" => $Fee,
-											"isClaim" => false,
-										));
 									    //Recipients
 									    $mail->setFrom($x['Email'], "Student EWallet Notifications");
 									    $mail->addAddress($_POST['FEbox']);
@@ -353,15 +328,46 @@ class Transaction extends CI_Controller {
 									    $mail->Subject = 'Redeem Gift Code';
 									    $mail->Body    = 'Redeem your Gift Code Today or Later and the Gift Code is <b>'. $Code .'</b>';
 									    // Send
-									    $mail->send();
-
-									    echo json_encode(array(
-											"isError" => false,
-											"Total" => $_POST['Amountbox'] + intval($Fee),
-											"Cash" => $_POST['Cashbox'],
-											"Change" => ($_POST['Amountbox'] + intval($Fee)) - $_POST['Cashbox'],
-											"Code" => $Code
+									    if(!$mail->send())  echo json_encode(array(
+										    "isError" => true,
+										    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 										));
+
+									    else {
+									    	$this->db->insert("Transaction", array(
+												"StudentID" => $_POST['StudentID'],
+												"TransactionType" => "GIFT",
+												"TransactionDescription" => json_encode(array(
+												"EmployeeID" => $_SESSION['AccountID'],
+												"StudentID" => $_POST['StudentID'],
+													"TransactionFee" => $Fee,
+													"TransactionAmount" => $_POST['Amountbox'],
+													"TransactionCash" => $_POST['Cashbox'],
+													"Transaction_RedeemCode" => $Code
+												)),
+												"DateRegister" => date("Y-m-d"),
+												"TimeRegister" => date("H:i:s")
+											));
+
+											$this->db->insert("Gift", array(
+												"EmployeeID" => $_SESSION['AccountID'],
+												"StudentID" => $_POST['StudentID'],
+												"GiftFE" => $_POST['FEbox'],
+												"GiftTE" => $_POST['TEbox'],
+												"GiftCode" => $Code,
+												"GiftAmount" => $_POST['Amountbox'],
+												"GiftFee" => $Fee,
+												"isClaim" => false,
+											));
+
+									    	echo json_encode(array(
+												"isError" => false,
+												"Total" => $_POST['Amountbox'] + intval($Fee),
+												"Cash" => $_POST['Cashbox'],
+												"Change" => ($_POST['Amountbox'] + intval($Fee)) - $_POST['Cashbox'],
+												"Code" => $Code
+											));
+									    }
 									}
 									else {
 										$ErrorDisplay = '';
@@ -376,30 +382,6 @@ class Transaction extends CI_Controller {
 									}
 								}
 								else {
-									$this->db->insert("Transaction", array(
-										"StudentID" => $_POST['StudentID'],
-										"TransactionType" => "GIFT",
-										"TransactionDescription" => json_encode(array(
-										"EmployeeID" => $_SESSION['AccountID'],
-										"StudentID" => $_POST['StudentID'],
-											"TransactionFee" => $Fee,
-											"TransactionAmount" => $_POST['Amountbox'],
-											"TransactionCash" => $_POST['Cashbox'],
-											"Transaction_RedeemCode" => $Code
-										)),
-										"DateRegister" => date("Y-m-d"),
-										"TimeRegister" => date("H:i:s")
-									));
-
-									$this->db->insert("Gift", array(
-										"EmployeeID" => $_SESSION['AccountID'],
-										"StudentID" => $_POST['StudentID'],
-										"GiftCode" => $Code,
-										"GiftAmount" => $_POST['Amountbox'],
-										"GiftFee" => $Fee,
-										"isClaim" => false,
-									));
-
 									//Recipients
 									$mail->setFrom($x['Email'], "Student EWallet Notifications");
 									$mail->addAddress($this->db->query("Select * from Account where StudentID=". $_POST["StudentID"])->result()[0]->AccountEmail);
@@ -408,15 +390,45 @@ class Transaction extends CI_Controller {
 									$mail->isHTML(true);
 									$mail->Subject = 'Redeem Gift Code';
 									$mail->Body    = 'Redeem Gift Code is <b>'. $Code .'</b>';
-									$mail->send();
-
-									echo json_encode(array(
-										"isError" => false,
-										"Total" => $_POST['Amountbox'] + intval($Fee),
-										"Cash" => $_POST['Cashbox'],
-										"Change" => ($_POST['Amountbox'] + intval($Fee)) - $_POST['Cashbox'],
-										"Code" => $Code
+									// Send
+									if(!$mail->send())  echo json_encode(array(
+									    "isError" => true,
+									    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 									));
+
+									else {
+										$this->db->insert("Transaction", array(
+											"StudentID" => $_POST['StudentID'],
+											"TransactionType" => "GIFT",
+											"TransactionDescription" => json_encode(array(
+											"EmployeeID" => $_SESSION['AccountID'],
+											"StudentID" => $_POST['StudentID'],
+												"TransactionFee" => $Fee,
+												"TransactionAmount" => $_POST['Amountbox'],
+												"TransactionCash" => $_POST['Cashbox'],
+												"Transaction_RedeemCode" => $Code
+											)),
+											"DateRegister" => date("Y-m-d"),
+											"TimeRegister" => date("H:i:s")
+										));
+
+										$this->db->insert("Gift", array(
+											"EmployeeID" => $_SESSION['AccountID'],
+											"StudentID" => $_POST['StudentID'],
+											"GiftCode" => $Code,
+											"GiftAmount" => $_POST['Amountbox'],
+											"GiftFee" => $Fee,
+											"isClaim" => false,
+										));
+
+										echo json_encode(array(
+											"isError" => false,
+											"Total" => $_POST['Amountbox'] + intval($Fee),
+											"Cash" => $_POST['Cashbox'],
+											"Change" => ($_POST['Amountbox'] + intval($Fee)) - $_POST['Cashbox'],
+											"Code" => $Code
+										));
+									}
 								}
 							}
 							else {
@@ -538,44 +550,6 @@ class Transaction extends CI_Controller {
 							"ErrorDisplay" => "Error: Please Input the Correct Amount!"
 						));
 						else {
-							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $this->db->update("Assessment", array(
-								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
-								"Assessment_NewTuition" => $FeeLeft,
-								"isHalfPaid" => true,
-								"AssessmentStatus" => "Half Paid (Can now Enroll)"
-							), "AssessmentID=". $AssessmentQuery->AssessmentID);
-
-							if($FeeLeft == 0) $this->db->update("Assessment", array(
-								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
-								"Assessment_NewTuition" => 0,
-								"isHalfPaid" => true,
-								"isFullPaid" => true,
-								"AssessmentStatus" => "Fully Paid! (Can now Enroll)"
-							), "AssessmentID=". $AssessmentQuery->AssessmentID);
-
-							else $this->db->update("Assessment", array(
-								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
-								"Assessment_NewTuition" => $FeeLeft,
-							), "AssessmentID=". $AssessmentQuery->AssessmentID);
-
-							$this->db->insert("Transaction", array(
-								"StudentID" => $AccountQuery->StudentID,
-								"TransactionType" => "FEE(SCHOOL TUITION)",
-								"TransactionDescription" => json_encode(array(
-									"EmployeeID" => "N/A",
-									"StudentID" => $AccountQuery->StudentID,
-									"TransactionAmount" => $_POST['Amount'],
-									"TransactionFee" => $AccountQuery->Account_TuitionBalance,
-									"TransactionCash" => $AccountQuery->Account_AvailableBalance,
-								)),
-								"DateRegister" => date("Y-m-d"),
-								"TimeRegister" => date("H:i:s")
-							));
-							$this->db->update("Account", array(
-								"Account_AvailableBalance" => $BalanceLeft,
-								"Account_TuitionBalance" => $FeeLeft
-							), "AccountID=". $_SESSION['AccountID']);
-
 							$x = include APPPATH.'third_party/SMTPConfig.php';
 
 						 	// Sending a Verification Key Code to Email Account
@@ -588,7 +562,6 @@ class Transaction extends CI_Controller {
 							$mail->Password = $x['Password'];
 							$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 							$mail->Port = 465;
-
 							//Recipients
 							$mail->setFrom($x['Email'], "Student EWallet Notifications");
 							$mail->addAddress($AccountQuery->AccountEmail);
@@ -597,11 +570,55 @@ class Transaction extends CI_Controller {
 							$mail->isHTML(true);
 							$mail->Subject = 'Student EWallet Notifications';
 							$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
-							$mail->send();
-
-							echo json_encode(array(
-								"isError" => false
+							// Send
+							if(!$mail->send())  echo json_encode(array(
+							    "isError" => true,
+							    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 							));
+
+							else {
+								if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $this->db->update("Assessment", array(
+									"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+									"Assessment_NewTuition" => $FeeLeft,
+									"isHalfPaid" => true,
+									"AssessmentStatus" => "Half Paid (Can now Enroll)"
+								), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+								if($FeeLeft == 0) $this->db->update("Assessment", array(
+									"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+									"Assessment_NewTuition" => 0,
+									"isHalfPaid" => true,
+									"isFullPaid" => true,
+									"AssessmentStatus" => "Fully Paid! (Can now Enroll)"
+								), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+								else $this->db->update("Assessment", array(
+									"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+									"Assessment_NewTuition" => $FeeLeft,
+								), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+								$this->db->insert("Transaction", array(
+									"StudentID" => $AccountQuery->StudentID,
+									"TransactionType" => "FEE(SCHOOL TUITION)",
+									"TransactionDescription" => json_encode(array(
+										"EmployeeID" => "N/A",
+										"StudentID" => $AccountQuery->StudentID,
+										"TransactionAmount" => $_POST['Amount'],
+										"TransactionFee" => $AccountQuery->Account_TuitionBalance,
+										"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+									)),
+									"DateRegister" => date("Y-m-d"),
+									"TimeRegister" => date("H:i:s")
+								));
+								$this->db->update("Account", array(
+									"Account_AvailableBalance" => $BalanceLeft,
+									"Account_TuitionBalance" => $FeeLeft
+								), "AccountID=". $_SESSION['AccountID']);
+
+								echo json_encode(array(
+									"isError" => false
+								));
+							}
 						}
 					}
 				}
@@ -621,6 +638,28 @@ class Transaction extends CI_Controller {
 		));
 	}
 
+	function View_PriceButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				$StoreQuery = $this->db->query("Select * from Store where StoreID=". $_GET['id'])->result()[0];
+
+				$data["isError"] = false;
+				$data["StoreTitle"] = $StoreQuery->StoreTitle;
+				$data["StorePrice"] = $StoreQuery->StorePrice;
+
+				echo json_encode($data);
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Unexpected Error Occur!"
+			)); 
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Unexpected Error Occur!"
+		)); 
+	}
+
 	function View_DynamicButton() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
@@ -633,26 +672,9 @@ class Transaction extends CI_Controller {
 
 					if($CheckChar == 2) echo json_encode(array(
 						"isError" => true,
-						"ErrorDisplay" => "Error: Invalid Input Amount!"
+						"ErrorDisplay" => "Invalid Input Amount!"
 					));
 					else {
-						$this->db->insert("Transaction", array(
-							"StudentID" => $AccountQuery->StudentID,
-							"TransactionType" => strtoupper($StoreQuery->StoreTitle),
-							"TransactionDescription" => json_encode(array(
-								"EmployeeID" => "N/A",
-								"StudentID" => $AccountQuery->StudentID,
-								"TransactionAmount" => $StoreQuery->StorePrice,
-								"TransactionFee" => 0,
-								"TransactionCash" => $AccountQuery->Account_AvailableBalance,
-							)),
-							"DateRegister" => date("Y-m-d"),
-							"TimeRegister" => date("H:i:s")
-						));
-						$this->db->update("Account", array(
-							"Account_AvailableBalance" => $BalanceLeft
-						), "AccountID=". $_SESSION['AccountID']);
-
 						$x = include APPPATH.'third_party/SMTPConfig.php';
 
 						// Sending a Verification Key Code to Email Account
@@ -673,27 +695,58 @@ class Transaction extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Student EWallet Notifications';
-						$mail->Body    = 'Purchase Item<br<br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
-						$mail->send();
-
-						echo json_encode(array(
-							"isError" => false
+						$mail->Body    = 'Purchase Item<br<br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please Claim this Item Today or Later into your School!';
+						// Send
+						if(!$mail->send())  echo json_encode(array(
+						    "isError" => true,
+						    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 						));
+
+						else {
+							$this->db->insert("Transaction", array(
+								"StudentID" => $AccountQuery->StudentID,
+								"TransactionType" => strtoupper($StoreQuery->StoreType),
+								"TransactionDescription" => json_encode(array(
+									"EmployeeID" => "N/A",
+									"StudentID" => $AccountQuery->StudentID,
+									"TransactionAmount" => $StoreQuery->StorePrice,
+									"TransactionFee" => 0,
+									"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+								)),
+								"DateRegister" => date("Y-m-d"),
+								"TimeRegister" => date("H:i:s")
+							));
+							$this->db->insert("Request", array(
+								"StudentID" =>$AccountQuery->StudentID,
+								"RequestName" => $StoreQuery->StoreTitle,
+								"isProcess" => false,
+								"isClaim" => false,
+								"Start_DateRegister" => date("Y-m-d"),
+								"Start_TimeRegister" => date("H:i:s")
+							));
+							$this->db->update("Account", array(
+								"Account_AvailableBalance" => $BalanceLeft
+							), "AccountID=". $_SESSION['AccountID']);
+
+							echo json_encode(array(
+								"isError" => false
+							));
+						}
 					}
 				}
 				else echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Error: Unexpected Error Occur!"
+					"ErrorDisplay" => "Unexpected Error Occur!"
 				));
 			}
 			else echo json_encode(array(
 				"isError" => true,
-				"ErrorDisplay" => "Error: Please Enter your Amount!"
+				"ErrorDisplay" => "Please Enter your Amount!"
 			));
 		}
 		else echo json_encode(array(
 			"isError" => true,
-			"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			"ErrorDisplay" => "Unexpected Error Occur!"
 		));
 	}
 }
