@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2020 at 03:03 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: Nov 24, 2020 at 06:25 AM
+-- Server version: 10.4.16-MariaDB
+-- PHP Version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,7 +47,39 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`AccountID`, `StudentID`, `EmployeeID`, `AccountUsername`, `AccountEmail`, `AccountPassword`, `AccountType`, `Account_AvailableBalance`, `Account_TuitionBalance`, `AccountImage`, `TimeRegister`, `DateRegister`) VALUES
-(4, 0, 1, 'Zeke', 'zekeredgrave@gmail.com', '1234', 'ADMIN', 0, 0, '4.png', '06:44:28', '2020-10-11');
+(4, 0, 1, 'Zeke', 'zekeredgrave@gmail.com', '1234', 'CASHIER', 0, 0, '4.png', '06:44:28', '2020-10-11'),
+(7, 0, 25, 'orekiredgrave', 'orekiredgrave@gmail.com', '1234', 'DEPARTMENT', 0, 0, '7.png', '20:55:39', '2020-11-22'),
+(10, 15730500, 0, 'zeroredgrave', 'zeroredgrave@gmail.com', '1234', 'STUDENT', 6990, 0, '10.png', '2020-11-23', '00:10:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assessment`
+--
+
+CREATE TABLE `assessment` (
+  `AssessmentID` int(11) NOT NULL,
+  `StudentID` int(11) NOT NULL,
+  `EmployeeID` int(11) NOT NULL,
+  `Assessment_OldTuition` int(11) NOT NULL,
+  `Assessment_NewTuition` int(11) NOT NULL,
+  `isFullPaid` tinyint(1) NOT NULL,
+  `isHalfPaid` tinyint(1) NOT NULL,
+  `AssessmentStatus` text NOT NULL,
+  `DateRegister` text NOT NULL,
+  `TimeRegister` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `assessment`
+--
+
+INSERT INTO `assessment` (`AssessmentID`, `StudentID`, `EmployeeID`, `Assessment_OldTuition`, `Assessment_NewTuition`, `isFullPaid`, `isHalfPaid`, `AssessmentStatus`, `DateRegister`, `TimeRegister`) VALUES
+(5, 15730500, 25, 0, 1000, 0, 0, 'Not Valid Anymore', '2020-11-24', '03:43:42'),
+(6, 15730500, 25, 0, 15000, 0, 0, 'Not Valid Anymore', '2020-11-24', '03:45:21'),
+(7, 15730500, 25, 20999, 2999, 0, 1, 'Half Paid (Can now Enroll)', '2020-11-24', '03:58:08'),
+(9, 15730500, 25, 3999, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '06:15:20'),
+(10, 15730500, 25, 10, 0, 1, 1, 'Fully Paid! (Can now Enroll)', '2020-11-24', '06:20:17');
 
 -- --------------------------------------------------------
 
@@ -76,7 +108,11 @@ INSERT INTO `comment` (`CommentID`, `TimelineID`, `UserID`, `AccountID`, `Commen
 (18, 41, 0, 2, '{\"Text\":\"123qwadas\",\"Image\":[]}', 0, '2020-10-11', '07:30:24'),
 (32, 42, 0, 4, '{\"Text\":\"1\",\"Image\":[]}', 0, '2020-10-13', '08:34:50'),
 (35, 42, 0, 2, '{\"Text\":\"3232312\",\"Image\":[]}', 0, '2020-10-13', '08:43:36'),
-(37, 42, 0, 2, '{\"Text\":\"dwadwada\",\"Image\":[]}', 0, '2020-11-07', '04:32:45');
+(37, 42, 0, 2, '{\"Text\":\"dwadwada\",\"Image\":[]}', 0, '2020-11-07', '04:32:45'),
+(38, 43, 0, 7, '{\"Text\":\"dawdadwadawdawdaw\",\"Image\":[]}', 0, '2020-11-22', '21:43:39'),
+(39, 43, 0, 7, '{\"Text\":\"dwadwada\",\"Image\":[]}', 0, '2020-11-22', '21:48:54'),
+(40, 43, 0, 7, '{\"Text\":\"3esa dasda qd sa \",\"Image\":[]}', 0, '2020-11-22', '21:50:19'),
+(44, 43, 0, 10, '{\"Text\":\"3213\",\"Image\":[]}', 0, '2020-11-24', '04:40:14');
 
 -- --------------------------------------------------------
 
@@ -115,7 +151,8 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`EmployeeID`, `Name`, `Age`, `Gender`, `ContactNumber`, `Image`, `Position`, `Department`) VALUES
-(1, '{\r\n    	\"Lastname\": \"Redgrave\",\r\n    	\"Firstname\": \"Zeke\",\r\n    	\"Middlename\": \"Saber\"\r\n    }', 369, 'Male', 0, 'avatar.png', 'IT Teacher', 'Computer Science Department');
+(1, '{\r\n    	\"Lastname\": \"Redgrave\",\r\n    	\"Firstname\": \"Zeke\",\r\n    	\"Middlename\": \"Saber\"\r\n    }', 369, 'Male', 0, 'avatar.png', 'IT Teacher', 'Computer Science Department'),
+(25, '{\"Lastname\":\"A\",\"Firstname\":\"B\",\"Middlename\":\"C\"}', 69, 'Male', 0, 'avatar.png', 'IT', 'IT Department');
 
 -- --------------------------------------------------------
 
@@ -164,35 +201,89 @@ CREATE TABLE `logs` (
 --
 
 INSERT INTO `logs` (`LogID`, `AccountID`, `LogActivity`, `TimeRegister`, `DateRegister`) VALUES
-(941, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '03:15:09', '2020-11-12'),
-(942, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '03:20:30', '2020-11-12'),
-(943, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:46:48', '2020-11-16'),
-(944, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:55:02', '2020-11-16'),
-(945, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:55:45', '2020-11-16'),
-(946, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:57:45', '2020-11-16'),
-(947, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:09:21', '2020-11-16'),
-(948, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:10:21', '2020-11-16'),
-(949, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:11:15', '2020-11-16'),
-(950, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:24:50', '2020-11-16'),
-(951, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '05:37:43', '2020-11-16'),
-(952, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '07:12:54', '2020-11-16'),
-(953, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '07:14:11', '2020-11-16'),
-(954, 4, '{\"Page\":\"Account\",\"Action\":\"School Registry(Edit Student)\"}', '07:14:32', '2020-11-16'),
-(955, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:07:26', '2020-11-17'),
-(956, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:08:11', '2020-11-17'),
-(957, 2, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '04:08:18', '2020-11-17'),
-(958, 2, '{\"Page\":\"App\",\"Action\":\"View\"}', '04:08:18', '2020-11-17'),
-(959, 2, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:08:47', '2020-11-17'),
-(960, 0, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:29:36', '2020-11-21'),
-(961, 2, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '02:34:48', '2020-11-21'),
-(962, 2, '{\"Page\":\"App\",\"Action\":\"View\"}', '02:34:49', '2020-11-21'),
-(963, 2, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:34:56', '2020-11-21'),
-(964, 0, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:39:59', '2020-11-21'),
-(965, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '02:57:40', '2020-11-21'),
-(966, 4, '{\"Page\":\"App\",\"Action\":\"View\"}', '02:57:40', '2020-11-21'),
-(967, 4, '{\"Page\":\"Account\",\"Action\":\"View Account Registration\"}', '02:57:45', '2020-11-21'),
-(968, 4, '{\"Page\":\"Account\",\"Action\":\"Accept Account Registration\"}', '02:58:00', '2020-11-21'),
-(969, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:59:01', '2020-11-21');
+(2141, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '21:20:33', '2020-11-23'),
+(2142, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '21:20:45', '2020-11-23'),
+(2143, 10, '{\"Page\":\"Profile\",\"Action\":\"Updating His\\/Her Account Profile\"}', '21:21:26', '2020-11-23'),
+(2144, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '21:21:40', '2020-11-23'),
+(2145, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '21:21:47', '2020-11-23'),
+(2146, 7, '{\"Page\":\"Store\",\"Action\":\"Write Store Item\"}', '22:09:03', '2020-11-23'),
+(2147, 7, '{\"Page\":\"Store\",\"Action\":\"Edit Store Item\"}', '22:19:51', '2020-11-23'),
+(2148, 7, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '22:20:39', '2020-11-23'),
+(2149, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '22:20:52', '2020-11-23'),
+(2150, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '22:21:01', '2020-11-23'),
+(2151, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '22:21:19', '2020-11-23'),
+(2152, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '22:22:03', '2020-11-23'),
+(2153, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '22:22:23', '2020-11-23'),
+(2154, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '22:22:26', '2020-11-23'),
+(2155, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '02:06:03', '2020-11-24'),
+(2156, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '02:06:44', '2020-11-24'),
+(2157, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '02:11:10', '2020-11-24'),
+(2158, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '02:27:33', '2020-11-24'),
+(2159, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '02:29:49', '2020-11-24'),
+(2160, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '02:35:40', '2020-11-24'),
+(2161, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '03:43:43', '2020-11-24'),
+(2162, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '03:59:32', '2020-11-24'),
+(2163, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '03:59:37', '2020-11-24'),
+(2164, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '03:59:48', '2020-11-24'),
+(2165, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '03:59:53', '2020-11-24'),
+(2166, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:00:17', '2020-11-24'),
+(2167, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '04:00:22', '2020-11-24'),
+(2168, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:15:12', '2020-11-24'),
+(2169, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:21:22', '2020-11-24'),
+(2170, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:21:29', '2020-11-24'),
+(2171, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:22:28', '2020-11-24'),
+(2172, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:25:53', '2020-11-24'),
+(2173, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:28:02', '2020-11-24'),
+(2174, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:29:34', '2020-11-24'),
+(2175, 10, '{\"Page\":\"Timeline\",\"Action\":\"Write Comment\"}', '04:29:36', '2020-11-24'),
+(2176, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:30:00', '2020-11-24'),
+(2177, 10, '{\"Page\":\"Timeline\",\"Action\":\"Write Comment\"}', '04:30:09', '2020-11-24'),
+(2178, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:35:30', '2020-11-24'),
+(2179, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:37:17', '2020-11-24'),
+(2180, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:37:47', '2020-11-24'),
+(2181, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:38:28', '2020-11-24'),
+(2182, 10, '{\"Page\":\"Timeline\",\"Action\":\"Write Comment\"}', '04:38:31', '2020-11-24'),
+(2183, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:38:31', '2020-11-24'),
+(2184, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:40:09', '2020-11-24'),
+(2185, 10, '{\"Page\":\"Timeline\",\"Action\":\"Delete Comment\"}', '04:40:10', '2020-11-24'),
+(2186, 10, '{\"Page\":\"Timeline\",\"Action\":\"Delete Comment\"}', '04:40:11', '2020-11-24'),
+(2187, 10, '{\"Page\":\"Timeline\",\"Action\":\"Delete Comment\"}', '04:40:12', '2020-11-24'),
+(2188, 10, '{\"Page\":\"Timeline\",\"Action\":\"Write Comment\"}', '04:40:14', '2020-11-24'),
+(2189, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:40:14', '2020-11-24'),
+(2190, 10, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:41:10', '2020-11-24'),
+(2191, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:41:15', '2020-11-24'),
+(2192, 0, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:41:39', '2020-11-24'),
+(2193, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '04:41:46', '2020-11-24'),
+(2194, 7, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:41:56', '2020-11-24'),
+(2195, 7, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:42:30', '2020-11-24'),
+(2196, 7, '{\"Page\":\"Timeline\",\"Action\":\"View Post\"}', '04:47:04', '2020-11-24'),
+(2197, 7, '{\"Page\":\"Timeline\",\"Action\":\"Write Post\"}', '04:47:09', '2020-11-24'),
+(2198, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '04:47:33', '2020-11-24'),
+(2199, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '04:47:37', '2020-11-24'),
+(2200, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:00:32', '2020-11-24'),
+(2201, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:00:36', '2020-11-24'),
+(2202, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:03:06', '2020-11-24'),
+(2203, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:03:21', '2020-11-24'),
+(2204, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:14:11', '2020-11-24'),
+(2205, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:14:16', '2020-11-24'),
+(2206, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:14:28', '2020-11-24'),
+(2207, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:14:36', '2020-11-24'),
+(2208, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:14:52', '2020-11-24'),
+(2209, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:14:56', '2020-11-24'),
+(2210, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '06:15:20', '2020-11-24'),
+(2211, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:18:18', '2020-11-24'),
+(2212, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:18:22', '2020-11-24'),
+(2213, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:18:28', '2020-11-24'),
+(2214, 4, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:18:31', '2020-11-24'),
+(2215, 4, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:18:55', '2020-11-24'),
+(2216, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:19:01', '2020-11-24'),
+(2217, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:19:23', '2020-11-24'),
+(2218, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:19:34', '2020-11-24'),
+(2219, 7, '{\"Page\":\"Assessment\",\"Action\":\"Deploying Student Assessment Info\"}', '06:20:17', '2020-11-24'),
+(2220, 7, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:21:12', '2020-11-24'),
+(2221, 10, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:21:39', '2020-11-24'),
+(2222, 10, '{\"Page\":\"Logout\",\"Action\":\"Session Out\"}', '06:21:53', '2020-11-24'),
+(2223, 7, '{\"Page\":\"Login\",\"Action\":\"Session In\"}', '06:21:58', '2020-11-24');
 
 -- --------------------------------------------------------
 
@@ -238,7 +329,9 @@ CREATE TABLE `registration` (
 --
 
 INSERT INTO `registration` (`RegisterID`, `RegisterUsername`, `RegisterEmail`, `RegisterPassword`, `RegisterSI`, `RegisterCode`, `RegisterType`, `RegisterExpire`, `isApprove`, `isDelete`, `TimeRegister`, `DateRegister`) VALUES
-(28, 'zekeredgrave', 'zekeredgrave@gmail.com', '1', '1', 274637685, 'ADMIN', 0, 1, 1, '06:08:00', '2020-10-11');
+(28, 'zekeredgrave', 'zekeredgrave@gmail.com', '1', '1', 0, 'ADMIN', 0, 1, 1, '06:08:00', '2020-10-11'),
+(39, 'zeroredgrave', 'zeroredgrave@gmail.com', '1234', '15730500', 0, 'STUDENT', 0, 1, 1, '18:31:38', '2020-11-22'),
+(45, 'orekiredgrave', 'orekiredgrave@gmail.com', '1234', '', 0, 'DEPARTMENT', 0, 1, 1, '20:55:00', '2020-11-22');
 
 -- --------------------------------------------------------
 
@@ -248,12 +341,10 @@ INSERT INTO `registration` (`RegisterID`, `RegisterUsername`, `RegisterEmail`, `
 
 CREATE TABLE `store` (
   `StoreID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
   `AccountID` int(11) NOT NULL,
   `StoreTitle` text NOT NULL,
   `StoreType` text NOT NULL,
   `isOthers` tinyint(1) NOT NULL,
-  `isPurchasable` tinyint(1) NOT NULL,
   `isPhysical` tinyint(1) NOT NULL,
   `StorePrice` double NOT NULL,
   `StoreIcon` text DEFAULT NULL,
@@ -265,9 +356,12 @@ CREATE TABLE `store` (
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`StoreID`, `UserID`, `AccountID`, `StoreTitle`, `StoreType`, `isOthers`, `isPurchasable`, `isPhysical`, `StorePrice`, `StoreIcon`, `TimeRegister`, `DateRegister`) VALUES
-(22, 15730500, 0, 'Grade Slip', '1', 0, 0, 0, 50, 'receipt_long', '2020-09-27', '10:29:52'),
-(28, 15730500, 0, 'Diploma', '1', 0, 0, 0, 0, '', '2020-11-07', '04:07:52');
+INSERT INTO `store` (`StoreID`, `AccountID`, `StoreTitle`, `StoreType`, `isOthers`, `isPhysical`, `StorePrice`, `StoreIcon`, `TimeRegister`, `DateRegister`) VALUES
+(22, 0, 'Grade Slip', '1', 0, 0, 50, 'receipt_long', '2020-09-27', '10:29:52'),
+(28, 7, 'Diploma', 'College Payment Slip', 0, 1, 600, 'school', '2020-11-23', '22:19:51'),
+(31, 4, 'Student ID', '1', 0, 1, 50, '', '2020-11-22', '05:43:18'),
+(32, 4, 'Enrollment Fee', '1', 0, 1, 50, '', '2020-11-22', '06:54:51'),
+(33, 7, 'esad', '31232 dasda', 1, 1, 12, '', '2020-11-23', '22:09:03');
 
 -- --------------------------------------------------------
 
@@ -338,7 +432,8 @@ CREATE TABLE `timeline` (
 --
 
 INSERT INTO `timeline` (`TimelineID`, `UserID`, `AccountID`, `TimelineDescription`, `DateRegister`, `TimeRegister`) VALUES
-(42, 0, 4, '{\"Text\":\"Testing\",\"Image\":[\"7.gif\",\"8.gif\",\"9.png\",\"10.gif\"]}', '2020-10-11', '07:40:34');
+(43, 0, 7, '{\"Text\":\"Add some Text here\",\"Image\":[\"12.png\"]}', '2020-11-22', '21:08:16'),
+(44, 0, 7, '{\"Text\":\"dawdawdaw\",\"Image\":[]}', '2020-11-24', '04:47:09');
 
 -- --------------------------------------------------------
 
@@ -371,7 +466,24 @@ INSERT INTO `transaction` (`TransactionID`, `StudentID`, `TransactionType`, `Tra
 (16, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"20000\",\"TransactionFee\":\"20000\",\"TransactionCash\":\"21011\"}', '07:35:41', '2020-11-03'),
 (17, 15730500, '', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":null,\"TransactionFee\":0,\"TransactionCash\":\"1011\"}', '01:33:46', '2020-11-07'),
 (18, 15730500, 'GRADE SLIP', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"50\",\"TransactionFee\":0,\"TransactionCash\":\"1011\"}', '01:34:28', '2020-11-07'),
-(19, 15730500, 'GRADE SLIP', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"50\",\"TransactionFee\":0,\"TransactionCash\":\"961\"}', '01:58:16', '2020-11-07');
+(19, 15730500, 'GRADE SLIP', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"50\",\"TransactionFee\":0,\"TransactionCash\":\"961\"}', '01:58:16', '2020-11-07'),
+(20, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"1000\",\"TransactionAmount\":\"20000\",\"TransactionCash\":\"21000\"}', '03:55:23', '2020-11-21'),
+(21, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"10000\",\"TransactionFee\":\"10000\",\"TransactionCash\":\"20000\"}', '03:55:59', '2020-11-21'),
+(22, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"100\",\"TransactionAmount\":\"1000\",\"TransactionCash\":\"1100\"}', '04:09:08', '2020-11-21'),
+(23, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '04:13:01', '2020-11-21'),
+(24, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '08:02:35', '2020-11-22'),
+(25, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '08:05:01', '2020-11-22'),
+(26, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '08:06:17', '2020-11-22'),
+(27, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '08:07:30', '2020-11-22'),
+(28, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"0\",\"TransactionAmount\":\"1\",\"TransactionCash\":\"1\"}', '08:08:04', '2020-11-22'),
+(29, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"1000\",\"TransactionAmount\":\"21000\",\"TransactionCash\":\"22000\"}', '04:00:12', '2020-11-24'),
+(30, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"1000\",\"TransactionFee\":\"19000\",\"TransactionCash\":\"21000\"}', '05:58:14', '2020-11-24'),
+(31, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"1000\",\"TransactionFee\":\"18000\",\"TransactionCash\":\"20000\"}', '06:00:07', '2020-11-24'),
+(32, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"1\",\"TransactionFee\":\"21000\",\"TransactionCash\":\"19000\"}', '06:13:59', '2020-11-24'),
+(33, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"18000\",\"TransactionFee\":\"20999\",\"TransactionCash\":\"18999\"}', '06:14:45', '2020-11-24'),
+(34, 15730500, 'DEPOSITS', '{\"EmployeeID\":\"4\",\"StudentID\":\"15730500\",\"TransactionFee\":\"1000\",\"TransactionAmount\":\"10000\",\"TransactionCash\":\"11000\"}', '06:18:50', '2020-11-24'),
+(35, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"3999\",\"TransactionFee\":\"3999\",\"TransactionCash\":\"10999\"}', '06:19:15', '2020-11-24'),
+(36, 15730500, 'FEE(SCHOOL TUITION)', '{\"EmployeeID\":\"N\\/A\",\"StudentID\":\"15730500\",\"TransactionAmount\":\"10\",\"TransactionFee\":\"10\",\"TransactionCash\":\"7000\"}', '06:21:46', '2020-11-24');
 
 --
 -- Indexes for dumped tables
@@ -382,6 +494,12 @@ INSERT INTO `transaction` (`TransactionID`, `StudentID`, `TransactionType`, `Tra
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`AccountID`);
+
+--
+-- Indexes for table `assessment`
+--
+ALTER TABLE `assessment`
+  ADD PRIMARY KEY (`AssessmentID`);
 
 --
 -- Indexes for table `comment`
@@ -463,13 +581,19 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `AccountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `assessment`
+--
+ALTER TABLE `assessment`
+  MODIFY `AssessmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -481,7 +605,7 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `EmployeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `EmployeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `gift`
@@ -493,7 +617,7 @@ ALTER TABLE `gift`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=970;
+  MODIFY `LogID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2224;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -505,13 +629,13 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `RegisterID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `StoreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `StoreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `storetype`
@@ -529,13 +653,13 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `timeline`
 --
 ALTER TABLE `timeline`
-  MODIFY `TimelineID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `TimelineID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `TransactionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
