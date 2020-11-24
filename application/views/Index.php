@@ -64,7 +64,7 @@
 		}
 
 		.a-hover:hover {
-			background: transparent !important;
+			background: #333333 !important;
 		}
 
 		.hideScrollbar::-webkit-scrollbar {

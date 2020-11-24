@@ -45,11 +45,11 @@
 					<!-- Create Payment Area -->
 					<div class="d-flex flex-column mt-5">
 						<div class="ml-2 mb-4" style="color: #7289da; font-weight: bold;">CREATE PAYMENT INFO</div>
-						<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Title</h6>
+						<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Name</h6>
 						<input id="PaymentCreate_Titlebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="e.g. Tuition Fee, Old Account .....">
 
 						<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
-							<div class="mr-2" style="width: 100%">
+							<div class="mr-2" style="width: 400px;">
 								<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Payment Slip Type</h6>
 								<select id="PaymentCreate_TypeButton" onchange="new Payment().Create_TypeButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%; height: 40px;">
 									<?php
@@ -59,11 +59,10 @@
 									?>
 								</select>
 							</div>
-							<div class="ml-2" style="width: 100%">
-								<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Write if Payment Slip Type not Exist</h6>
+							<div class="ml-1" style="width: 100%">
+								<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Write if Others (Optional)</h6>
 								<div class="d-flex flex-row">
-									<input id="PaymentCreate_Typebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff;">
-									<button id="PaymentCreate_AddButton" onclick="new Payment().Create_AddButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 100%; font-weight: bold;">ADD</button>
+									<input id="PaymentCreate_Otherbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="e.g. Donation, Party, ......">
 								</div>
 							</div>
 						</div>
@@ -90,13 +89,13 @@
 				<div id="Payment_EditArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
 					<div id="PaymentEdit_StoreID" class="d-flex align-items-center ml-2 mb-5" style="color: #7289da; width: 100%; font-weight: bold; ">STORE ID: #0123456789</div>
 
-					<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Title</h6>
+					<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Name</h6>
 					<input id="PaymentEdit_Titlebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="e.g. Tuition Fee, Old Account .....">
 
 					<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
-						<div class="mr-2" style="width: 100%">
+						<div class="mr-2">
 							<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Payment Slip Type</h6>
-							<select id="PaymentEdit_TypeButton" onchange="new Payment().Edit_TypeButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%; height: 40px;">
+							<select id="PaymentEdit_TypeButton" onchange="new Payment().Edit_TypeButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 300px; height: 40px;">
 								<?php
 									
 									foreach (json_decode($SlipType) as $value) echo '<option value="' .$value->StoreType_ID. '">' .$value->StoreType_Name. '</option>';
@@ -104,11 +103,10 @@
 								?>
 							</select>
 						</div>
-						<div class="ml-2" style="width: 100%">
-							<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Write if Payment Slip Type not Exist</h6>
+						<div class="ml-1" style="width: 100%">
+							<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Write if Others (Optional)</h6>
 							<div class="d-flex flex-row">
-								<input id="PaymentEdit_Typebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff;">
-								<button id="PaymentEdit_AddButton" onclick="new Payment().Edit_AddButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 100%; font-weight: bold;">ADD</button>
+								<input id="PaymentEdit_Otherbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="e.g. Donation, Party, ......">
 							</div>
 						</div>
 					</div>
@@ -224,52 +222,6 @@
 			})	
 		}
 
-		this.Create_TypeButton = function() {
-			var PaymentCreate_TypeButton = $("#PaymentCreate_TypeButton option:selected")
-			var PaymentCreate_OtherArea = $("#PaymentCreate_OtherArea")
-
-			if(PaymentCreate_TypeButton.text().toLowerCase() == "others" || PaymentCreate_TypeButton.text().toLowerCase() == "other") PaymentCreate_OtherArea.removeClass('hide')
-			else PaymentCreate_OtherArea.addClass('hide')
-		}
-
-		this.Create_AddButton = function() {
-			$(document).ready(function() {
-				var PaymentCreate_Typebox = $("#PaymentCreate_Typebox")
-				var PaymentCreate_AddButton = $("#PaymentCreate_AddButton")
-
-				if(PaymentCreate_Typebox.val() != "") {
-					$.ajax({
-						url: window.location.href.replace("/Access", "")+ "/Payment/Create_AddButton", 
-						method: 'POST',
-						data: {
-							Name: PaymentCreate_Typebox.val()
-						},
-						dataType: 'json',
-						success: function(data) {
-							if(!data.isError) {
-								PaymentCreate_TypeButton.append('<option value="' +data.Value+ '">' +data.Name+ '</option>')
-								PaymentCreate_Typebox.val('')
-								PaymentCreate_AddButton.removeClass('hide')
-							}
-							else {
-								alert(data.ErrorDisplay)
-
-								PaymentCreate_AddButton.removeClass('hide')
-							}
-						},
-						error: function(ex) {
-					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-
-					 		PaymentCreate_AddButton.removeClass('hide')
-						},
-						beforeSend: function() {
-							PaymentCreate_AddButton.addClass('hide')
-						}
-					})
-				}
-			})
-		}
-
 		this.Create_DoneButton = function() {
 			$(document).ready(function() {
 				var PaymentCreate_Titlebox = $("#PaymentCreate_Titlebox")
@@ -282,7 +234,9 @@
 				var PaymentView_ItemLoader = $("#PaymentView_ItemLoader")
 				var PaymentView_ItemDisplay = $("#PaymentView_ItemDisplay")
 
-				if(PaymentCreate_Titlebox.val() != "") {
+				var PaymentCreate_Otherbox = $("#PaymentCreate_Otherbox")
+
+				if(PaymentCreate_Titlebox.val() != "" && PaymentCreate_Pricebox.val() != "") {
 					var data = {}
 
 					PaymentCreate_DoneButton.attr('disabled', 'disabled')
@@ -295,6 +249,7 @@
 						 		"Text": PaymentCreate_TypeButton.text()
 						 	},
 						 	isOther: true,
+						 	Otherbox: PaymentCreate_Otherbox.val(),
 						 	isPhysical: PaymentCreate_PhysicalButton.is(":checked"),
 						 	Price: PaymentCreate_Pricebox.val(),
 						 	Icon: PaymentCreate_Iconbox.val()
@@ -308,7 +263,8 @@
 						 		"Text": PaymentCreate_TypeButton.text()
 						 	},
 						 	isOther: false,
-						 	isPhysical: true,
+						 	Otherbox: PaymentCreate_Otherbox.val(),
+						 	isPhysical: PaymentCreate_PhysicalButton.is(":checked"),
 						 	Price: PaymentCreate_Pricebox.val(),
 						 	Icon: PaymentCreate_Iconbox.val()
 						}
@@ -350,67 +306,34 @@
 								PaymentView_ItemLoader.append(HTML)
 								PaymentView_ItemDisplay.addClass('hide')
 								PaymentCreate_Titlebox.val('')
-								PaymentCreate_DoneButton.attr('disabled', '')
+								PaymentCreate_Otherbox.val('')
+								PaymentCreate_Pricebox.val('')
+								PaymentCreate_DoneButton.removeAttr('disabled')
 							}
 							else {
 								alert(data.ErrorDisplay)
 
-								PaymentCreate_DoneButton.removeClass('hide')
+								PaymentCreate_DoneButton.removeAttr('disabled')
 							}
 						},
 						error: function(ex) {
 					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-					 		PaymentCreate_DoneButton.attr('disabled', '')
+					 		PaymentCreate_DoneButton.removeAttr('disabled')
 						}
 					})
 				}
-				else alert("Error: Title is Empty!")
+				else {
+					var ErrorDisplay = ''
+
+					if(PaymentCreate_Titlebox.val() == "") ErrorDisplay += "(Name) "
+					if(PaymentCreate_Pricebox.val() == "") ErrorDisplay += "(Price) "
+
+					alert(ErrorDisplay + "is Empty!")
+
+					ErrorDisplay = ''
+				}
 			})
-		}
-
-		this.Edit_TypeButton = function() {
-			var PaymentEdit_TypeButton = $("#PaymentEdit_TypeButton option:selected")
-			var PaymentEdit_OtherArea = $("#PaymentEdit_OtherArea")
-
-			if(PaymentEdit_TypeButton.text().toLowerCase() == "others" || PaymentEdit_TypeButton.text().toLowerCase() == "other") PaymentEdit_OtherArea.removeClass('hide')
-			else PaymentEdit_OtherArea.addClass('hide')
-		}
-
-		this.Edit_AddButton = function() {
-			var PaymentEdit_Typebox = $("#PaymentEdit_Typebox")
-			var PaymentEdit_AddButton = $("#PaymentEdit_AddButton")
-
-			if(PaymentEdit_Typebox.val() != "") {
-				$.ajax({
-					url: window.location.href.replace("/Access", "")+ "/Payment/Edit_AddButton", 
-					method: 'POST',
-					data: {
-						Name: PaymentEdit_Typebox.val()
-					},
-					dataType: 'json',
-					success: function(data) {
-						if(!data.isError) {
-							PaymentCreate_TypeButton.append('<option value="' +data.Value+ '">' +data.Name+ '</option>')
-							PaymentEdit_Typebox.val('')
-							PaymentEdit_AddButton.removeClass('hide')
-						}
-						else {
-							alert(data.ErrorDisplay)
-
-							PaymentEdit_AddButton.removeClass('hide')
-						}
-					},
-					error: function(ex) {
-				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-
-				 		PaymentEdit_AddButton.removeClass('hide')
-					},
-					beforeSend: function() {
-						PaymentEdit_AddButton.addClass('hide')
-					}
-				})
-			}
 		}
 
 		this.Edit_DoneButton = function(id) {
@@ -424,7 +347,9 @@
 
 			var PaymentView_ItemLoader = $("#PaymentView_ItemLoader")
 
-			if(PaymentEdit_Titlebox.val() != "") {
+			var PaymentEdit_Otherbox = $("#PaymentEdit_Otherbox")
+
+			if(PaymentEdit_Titlebox.val() != "" && PaymentEdit_Pricebox.val() != "") {
 				var data = {}
 
 				PaymentEdit_DoneButton.attr('disabled', 'disabled')
@@ -437,6 +362,7 @@
 					 		"Text": PaymentEdit_TypeButton.text()
 					 	},
 					 	isOther: true,
+					 	Otherbox: PaymentEdit_Pricebox.val(),
 					 	isPhysical: PaymentEdit_PhysicalButton.is(":checked"),
 					 	Price: PaymentEdit_Pricebox.val(),
 					 	Icon: PaymentEdit_Iconbox.val()
@@ -450,6 +376,7 @@
 					 		"Text": PaymentEdit_TypeButton.text()
 					 	},
 					 	isOther: false,
+					 	Otherbox: PaymentEdit_Pricebox.val(),
 					 	isPhysical: PaymentEdit_PhysicalButton.is(":checked"),
 					 	Price: PaymentEdit_Pricebox.val(),
 					 	Icon: PaymentEdit_Iconbox.val()
@@ -493,8 +420,10 @@
 							`
 
 							PaymentView_ItemLoader.append(HTML)
-							PaymentEdit_DoneButton.attr('disabled', '')
+							PaymentEdit_DoneButton.removeAttr('disabled')
 							PaymentEdit_Titlebox.val('')
+							PaymentEdit_Otherbox.val('')
+							PaymentEdit_Pricebox.val('')
 
 							$("#Payment_ViewArea").removeClass('hide')
 							$("#Payment_EditArea").addClass('hide')
@@ -502,17 +431,24 @@
 						else {
 							alert(data.ErrorDisplay)
 
-							PaymentEdit_DoneButton.attr('disabled', '')
+							PaymentEdit_DoneButton.removeAttr('disabled')
 						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-				 		PaymentEdit_DoneButton.attr('disabled', '')
+				 		PaymentEdit_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
-			else alert("Error: Title is Empty!")
+			else {
+				var ErrorDisplay = ''
+
+				if(PaymentEdit_Titlebox.val() == "") ErrorDisplay += '(Name) '
+				if(PaymentEdit_Pricebox.val() == "") ErrorDisplay += '(Price) '
+
+				alert(ErrorDisplay+ "is Empty!")
+			}
 		}
 
 		this.Edit_BackButton = function() {

@@ -93,7 +93,9 @@
 	var PostView_ImageCurrent = 0
 	var PostView_ImageLast = 0
 
-	$(document).ready(function() {
+	$(document).ready(TimelineLoad())
+
+	function TimelineLoad() {
 		var TimelineView_LoaderArea = $("#TimelineView_LoaderArea")
 
 		$.ajax({
@@ -149,7 +151,7 @@
 		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 			}
 		})
-	})
+	}
 
 	function Timeline() {
 		this.View_ItemLoad = function(id) {
@@ -376,30 +378,11 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							var HTML = `
-								<div onload="new Timeline().View_ItemLoad(`+ data.TimelineID +`)" id="TimelineView_ItemID`+ data.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
-									<img id="TimelineView_ImageID`+ data.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-										<h4 id="TimelineView_UsernameID`+ data.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
-										<h4 id="TimelineView_DateTimeID`+ data.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
-
-										<div id="TimelineView_DescriptionID`+ data.TimelineID +`" class="mt-3 mb-3"></div>
-										<div id="TimelineView_LoaderID`+ data.TimelineID +`"></div>
-
-										<div class="d-flex flex-row mt-1">	
-											<a onclick="new Timeline().View_PostButton(`+ data.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center">comment</a>
-											<a class="material-icons mr-1 d-flex align-items-center justify-content-center">edit</a>
-											<div style="width: 100%"></div>
-											<a onclick="new Timeline().View_DeleteButton(`+ data.TimelineID +`)" class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
-										</div>
-									</div>
-								</div>
-							`
-
 							TimelineCreate_SendButton.removeClass('hide')
 							TimelineCreate_ImageLoader.html('')
 							TimelineCreate_Descriptionbox.val('')
-							TimelineView_LoaderArea.prepend(HTML).load(new Timeline().View_ItemLoad(data.TimelineID))
+
+							TimelineLoad()
 
 							TimelineCreate_UploadForm = []
 						}
@@ -571,25 +554,9 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							if(data.isNew) PostView_CommentLoader.html('')
-
-							var HTML = `
-								<div id="CommentView_ItemID` +data.CommentID+ `" class="d-flex flex-row p-3" style="width: 100%;">
-									<img id="CommentView_ImageID` +data.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<div class="d-flex flex-row" style="width: 100%">
-											<h4 id="CommentView_NameID` +data.CommentID+ `" style="color: #7289da; width: 100%; margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-											<a id="CommentView_DeleteButtonID` +data.CommentID+ `" onclick="new Comment().View_DeleteButton(` +data.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
-										</div>
-
-										<div id="CommentView_LoaderID` +data.CommentID+ `" class="mt-3 mb-3"></div>
-									</div>
-								</div>
-							`
-							PostView_CommentLoader.prepend(HTML)
 							CommentCreate_Writebox.val('')
 
-							new Comment().View_ItemLoad(data.CommentID)
+							new Timeline().View_PostButton(id)
 						}
 						else alert(data.ErrorDisplay)
 					},

@@ -372,27 +372,60 @@ class Account extends CI_Controller {
 						$data['Image'] = $StudentQuery->Image;
 						$data['Status'] = $StudentQuery->Status;
 						$data['Tuition'] = $AccountQuery->Account_TuitionBalance;
+						$data["AssessmentArray"] = [];
+						$data["isEmpty"] = false;
+
+						foreach ($this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." Order by AssessmentID DESC LIMIT 7")->result() as $value) array_push($data["AssessmentArray"], $value->AssessmentID);
+
+						if(count($data["AssessmentArray"]) != 0) $data["isEmpty"] = false;
+						else $data["isEmpty"] = true;
 
 						echo json_encode($data);
 					}
 					else echo json_encode(array(
 					   	"isError" => true,
-					   	"ErrorDisplay" => "Error: Not Found!"
+					   	"ErrorDisplay" => "Not Found!"
 					));
 				}
 				else echo json_encode(array(
 				   	"isError" => true,
-				   	"ErrorDisplay" => "Error: Not Found!"
+				   	"ErrorDisplay" => "Not Found!"
 				));
 			}
 			else echo json_encode(array(
 			   	"isError" => true,
-			   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+			   	"ErrorDisplay" => "Unexpected Error Occur!"
 			));
 		}
 		else echo json_encode(array(
 		   	"isError" => true,
-		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
+		)); 
+	}
+
+	function ViewAssessment_AssessmentLoad() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				$AssessmentQuery = $this->db->query("Select * from Assessment where AssessmentID=". $_GET['id'])->result()[0];
+				$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $AssessmentQuery->EmployeeID)->result()[0];
+
+				$data["isError"] = false;
+				$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
+				$data["New"] = $AssessmentQuery->Assessment_NewTuition;
+				$data["Name"] = strtoupper(substr(json_decode($EmployeeQuery->Name)->Firstname, 0, 1)). ". " .json_decode($EmployeeQuery->Name)->Lastname;
+				$data["Status"] = $AssessmentQuery->AssessmentStatus;
+				$data["Timeline"] = $AssessmentQuery->DateRegister. ' ' .$AssessmentQuery->TimeRegister;
+
+				echo json_encode($data);
+			}
+			else echo json_encode(array(
+			   	"isError" => true,
+			   	"ErrorDisplay" => "Unexpected Error Occur!"
+			)); 
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
 		)); 
 	}
 
@@ -400,13 +433,13 @@ class Account extends CI_Controller {
 		if(isset($_POST['StudentID']) && isset($_POST['TuitionFee'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee'])) {
 				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
-					if($_SESSION['AccountType'] == "DEPARTMENT") {
+					if($_SESSION['AccountType'] == "DEPARTMENT" || $_SESSION['AccountType'] == "CASHIER") {
 						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
 
 						$x = include APPPATH.'third_party/SMTPConfig.php';
 
 						// Sending a Verification Key Code to Email Account
-		  				$mail = new PHPMailer();
+				  		$mail = new PHPMailer();
 						$mail->isSMTP();
 						$mail->Host = 'smtp.gmail.com'; 
 						$mail->SMTPSecure = 'ssl';
@@ -415,46 +448,71 @@ class Account extends CI_Controller {
 						$mail->Password = $x['Password'];
 						$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 						$mail->Port = 465;
-						//Recipients
-						$mail->setFrom($x['Email'], "Student EWallet Notifications");
-						$mail->addAddress($AccountQuery);
-						// Content
-						$mail->isHTML(true);
-						$mail->Subject = 'Notification Alert';
-						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. We would like to notnice you that your bill is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
-						// Send
-						$mail->send();
 
-						$this->db->update("Account", array(
-							"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
-						), "StudentID=". $_POST['StudentID']);
+						if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status != 'graduated') {
+							if($this->db->query("Select Count(*) as x from Assessment where StudentID=".$_POST['StudentID']. " and isFullPaid=true or isHalfPaid=true Order by AssessmentID DESC LIMIT 1")->result()[0]->x == 1 || $this->db->query("Select * from Account where StudentID=".$_POST['StudentID'])->result()[0]->Account_TuitionBalance == 0) {
+								//Recipients
+								$mail->setFrom($x['Email'], "Student EWallet Notifications");
+								$mail->addAddress($AccountQuery->AccountEmail);
+								// Content
+								$mail->isHTML(true);
+								$mail->Subject = 'Notification Alert';
+								$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+								// Send
+								$mail->send();
 
-						$this->db->insert("Logs", array(
-							"AccountID" => $_SESSION['AccountID'],
-							"LogActivity" => json_encode(array(
-								"Page" => "Assessment",
-								"Action" => "Deploying Student Assessment Info"
-							)),
-							"TimeRegister" => date("H:i:s"),
-							"DateRegister" => date("Y-m-d")
-						));
+								$this->db->update("Account", array(
+									"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
+								), "StudentID=". $_POST['StudentID']);
 
-						echo json_encode(array(
-						   	"isError" => false
+								$this->db->insert("Assessment", array(
+									"StudentID" => $_POST['StudentID'],
+									"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+									"Assessment_OldTuition" => $AccountQuery->Account_TuitionBalance,
+									"Assessment_NewTuition" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'],
+									"isFullPaid" => false,
+									"isHalfPaid" => false,
+									"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+									"DateRegister" => date("Y-m-d"),
+									"TimeRegister" => date("H:i:s")
+								));
+
+								$this->db->insert("Logs", array(
+									"AccountID" => $_SESSION['AccountID'],
+									"LogActivity" => json_encode(array(
+										"Page" => "Assessment",
+										"Action" => "Deploying Student Assessment Info"
+									)),
+									"TimeRegister" => date("H:i:s"),
+									"DateRegister" => date("Y-m-d")
+								));
+
+								echo json_encode(array(
+								   	"isError" => false
+								)); 
+							}
+							else echo json_encode(array(
+							   	"isError" => true,
+							  	"ErrorDisplay" => "This Student cannot Added a new Tuition Fee due to is not Fully Paid Yet or is not Half Paid!"
+							));
+						}
+						else echo json_encode(array(
+						   	"isError" => true,
+						   	"ErrorDisplay" => "This student is already Graduated.\nNot Allowed!"
 						)); 
 					}
 					else echo json_encode(array(
 					   	"isError" => true,
-					   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+					   	"ErrorDisplay" => "Role [". $_SESSION['AccountType'] . "] is not Allowed for Assessment. \n\nOnly DEPARTMENT or CASHIER"
 					));  
 				}
 				else echo json_encode(array(
 				   	"isError" => true,
-				   	"ErrorDisplay" => "Error: Not Found!"
+				   	"ErrorDisplay" => "Not Found!"
 				));
 			}
 			else {
-				$ErrorDisplay = "Error: ";
+				$ErrorDisplay = "";
 
 				if(empty($_POST['StudentID'])) $ErrorDisplay .= "(Student ID) ";
 				if(empty($_POST['TuitionFee'])) $ErrorDisplay .= "(Tuition Fee) ";
@@ -467,7 +525,124 @@ class Account extends CI_Controller {
 		}
 		else echo json_encode(array(
 		   	"isError" => true,
-		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
+		));  
+	}
+
+	function AssessmentEdit_SearchButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				if($this->db->query("Select * from Student where StudentID=". $_GET['id'])->result()[0]->Status != 'graduated') {
+					$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
+					$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['id'])->result()[0];
+
+					$data["isError"] = false;
+					$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
+					$data["Current"] = $AssessmentQuery->Assessment_NewTuition;
+
+					echo json_encode($data);
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "This student is already Graduated.\nNot Allowed!"
+				)); 
+			}
+			else echo json_encode(array(
+			   	"isError" => true,
+			   	"ErrorDisplay" => "Unexpected Error Occur!"
+			)); 
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
+		));  
+	}
+
+	function AssessmentEdit_DoneButton() {
+		if(isset($_POST['StudentID']) && isset($_POST['OldTuition']) && isset($_POST['CurrentTuition']) && isset($_POST['NewTuition'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['OldTuition']) && !empty($_POST['CurrentTuition']) && !empty($_POST['NewTuition'])) {
+				if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status != 'graduated') {
+					$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
+
+					$x = include APPPATH.'third_party/SMTPConfig.php';
+
+					// Sending a Verification Key Code to Email Account
+				  	$mail = new PHPMailer();
+					$mail->isSMTP();
+					$mail->Host = 'smtp.gmail.com'; 
+					$mail->SMTPSecure = 'ssl';
+					$mail->SMTPAuth = true;
+					$mail->Username = $x['Email'];
+					$mail->Password = $x['Password'];
+					$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+					$mail->Port = 465;
+
+					if($this->db->query("Select Count(*) as x from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0]->x == 1 || $this->db->query("Select * from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0]->Assessment_NewTuition == $AccountQuery->Account_TuitionBalance) {
+						$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
+
+						$data["isError"] = false;
+						
+						$this->db->update("Assessment", array(
+							"AssessmentStatus" => "Not Valid Anymore",
+						), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+						//Recipients
+						$mail->setFrom($x['Email'], "Student EWallet Notifications");
+						$mail->addAddress($AccountQuery->AccountEmail);
+						// Content
+						$mail->isHTML(true);
+						$mail->Subject = 'Notification Alert';
+						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+						// Send
+						$mail->send();
+
+						$this->db->insert("Assessment", array(
+							"StudentID" => $_POST['StudentID'],
+							"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+							"Assessment_OldTuition" => $AssessmentQuery->Assessment_OldTuition,
+							"Assessment_NewTuition" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'],
+							"isFullPaid" => false,
+							"isHalfPaid" => false,
+							"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+							"DateRegister" => date("Y-m-d"),
+							"TimeRegister" => date("H:i:s")
+						));
+
+						$this->db->update("Account", array(
+							"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
+						), "StudentID=". $_POST['StudentID']);
+
+						echo json_encode($data);
+						
+					}
+					else echo json_encode(array(
+					   	"isError" => true,
+					   	"ErrorDisplay" => "Cannot Updating This Student Tuition!\n\nThis Student is now Ongoing Payment. Can only Edit if the Tuition Fee of a Student is not changing."
+					)); 
+					
+				}
+				else echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => "This student is already Graduated.\nNot Allowed!"
+				)); 
+			}
+			else {
+				$ErrorDisplay = "";
+
+				if(empty($_POST['StudentID'])) $ErrorDisplay += "(Student ID) ";
+				if(empty($_POST['OldTuition'])) $ErrorDisplay += "(Old Tuition Fee) ";
+				if(empty($_POST['CurrentTuition'])) $ErrorDisplay += "(Current Tuition Fee) ";
+				if(empty($_POST['NewTuition'])) $ErrorDisplay += "(New Tuition Fee) ";
+
+				echo json_encode(array(
+				   	"isError" => true,
+				   	"ErrorDisplay" => $ErrorDisplay. "is Empty!"
+				));  
+			}
+		}
+		else echo json_encode(array(
+		   	"isError" => true,
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
 		));  
 	}
 

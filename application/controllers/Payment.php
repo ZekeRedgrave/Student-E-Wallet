@@ -55,43 +55,38 @@ class Payment extends CI_Controller {
 			"ErrorDisplay" => "Error: Invalid!"
 		));
 	}
-	
-	function Create_AddButton() {
-		if(isset($_POST['Name']) && !empty($_POST['Name'])) {
-			$data["isError"] = false;
-
-			$this->db->query("Insert into StoreType values(null, 15730500, '" .$_POST['Name']. "', '" .date("Y-m-d"). "', '" .date("H:i:s"). "')");
-			$query = $this->db->query("Select * from StoreType")->result();
-
-			foreach ($query as $value) {
-				$data["Value"] = $value->StoreType_ID;
-				$data["Name"] = $value->StoreType_Name;
-			}
-
-			echo json_encode($data);
-		}
-		else echo json_encode(array(
-			"isError" => true,
-			"ErrorDisplay" => "Error: Invalid!"
-		));
-	}
 
 	function Create_DoneButton() {
 		if(isset($_POST['Package']) && !empty($_POST['Package'])){
 			try {
 				$Package = json_decode($_POST['Package']);
-					
-				$this->db->insert("Store", array(
-					"AccountID" => $_SESSION['AccountID'],
-					"StoreTitle" => $Package->Titlebox,
-					"StoreType" => $Package->SlipType->Number,
-					"isOthers" => $Package->isOther,
-					"isPhysical" => $Package->isPhysical,
-					"StorePrice" => $Package->Price,
-					"StoreIcon" => $Package->Icon,
-					"TimeRegister" => date("Y-m-d"),
-					"DateRegister" => date("H:i:s")
-				));
+
+				if($Package->isOther) { 
+					$this->db->insert("Store", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"StoreTitle" => $Package->Titlebox,
+						"StoreType" => $Package->Otherbox, 
+						"isOthers" => $Package->isOther,
+						"isPhysical" => $Package->isPhysical,
+						"StorePrice" => $Package->Price,
+						"StoreIcon" => $Package->Icon,
+						"TimeRegister" => date("Y-m-d"),
+						"DateRegister" => date("H:i:s")
+					));
+				}
+				else {
+					$this->db->insert("Store", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"StoreTitle" => $Package->Titlebox,
+						"StoreType" => $Package->SlipType->Text, 
+						"isOthers" => $Package->isOther,
+						"isPhysical" => $Package->isPhysical,
+						"StorePrice" => $Package->Price,
+						"StoreIcon" => $Package->Icon,
+						"TimeRegister" => date("Y-m-d"),
+						"DateRegister" => date("H:i:s")
+					));
+				}
 
 				$data["isError"] = false;
 
@@ -122,42 +117,37 @@ class Payment extends CI_Controller {
 		));
 	}
 
-	function Edit_AddButton() {
-		if(isset($_POST['Name']) && !empty($_POST['Name'])) {
-			$data["isError"] = false;
-
-			$this->db->query("Insert into StoreType values(null, 15730500, '" .$_POST['Name']. "', '" .date("Y-m-d"). "', '" .date("H:i:s"). "')");
-			$query = $this->db->query("Select * from StoreType")->result();
-
-			foreach ($query as $value) {
-				$data["Value"] = $value->StoreType_ID;
-				$data["Name"] = $value->StoreType_Name;
-			}
-
-			echo json_encode($data);
-		}
-		else echo json_encode(array(
-			"isError" => true,
-			"ErrorDisplay" => "Error: Invalid!"
-		));
-	}
-
 	function Edit_DoneButton() {
 		if(isset($_POST['Package']) && isset($_GET['StoreID']) && !empty($_POST['Package']) && !empty($_GET['StoreID'])) {
 			try {
 				$Package = json_decode($_POST['Package']);
 
-				$this->db->update("Store", array(
-					"AccountID" => $_SESSION['AccountID'],
-					"StoreTitle" => $Package->Titlebox,
-					"StoreType" => $Package->SlipType->Number,
-					"isOthers" => $Package->isOther,
-					"isPhysical" => $Package->isPhysical,
-					"StorePrice" => $Package->Price,
-					"StoreIcon" => $Package->Icon,
-					"TimeRegister" => date("Y-m-d"),
-					"DateRegister" => date("H:i:s")
-				), "StoreID = ". $_GET['StoreID']);
+				if($Package->isOther) {
+					$this->db->update("Store", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"StoreTitle" => $Package->Titlebox,
+						"StoreType" => $Package->Otherbox,
+						"isOthers" => $Package->isOther,
+						"isPhysical" => $Package->isPhysical,
+						"StorePrice" => $Package->Price,
+						"StoreIcon" => $Package->Icon,
+						"TimeRegister" => date("Y-m-d"),
+						"DateRegister" => date("H:i:s")
+					), "StoreID = ". $_GET['StoreID']);
+				}
+				else {
+					$this->db->update("Store", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"StoreTitle" => $Package->Titlebox,
+						"StoreType" => $Package->SlipType->Text,
+						"isOthers" => $Package->isOther,
+						"isPhysical" => $Package->isPhysical,
+						"StorePrice" => $Package->Price,
+						"StoreIcon" => $Package->Icon,
+						"TimeRegister" => date("Y-m-d"),
+						"DateRegister" => date("H:i:s")
+					), "StoreID = ". $_GET['StoreID']);
+				}
 
 				$data["isError"] = false;
 

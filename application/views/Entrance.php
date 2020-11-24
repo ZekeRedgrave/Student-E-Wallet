@@ -154,7 +154,7 @@
 							$("#root").html('').load(window.location.href+ "/LoadView?" + data.QueryParag)
 						}
 						else {
-							LoginView_DoneButton.attr('disabled', '')
+							LoginView_DoneButton.removeAttr('disabled')
 							alert(data.ErrorDisplay)
 						}
 					},
@@ -163,7 +163,7 @@
 
 				 		alert("Error: Unexpected Error Occur!")
 
-				 		LoginView_DoneButton.attr('disabled', '')
+				 		LoginView_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -199,11 +199,11 @@
 						if(!data.isError) {
 							Forgot_ConfirmationArea.removeClass('hide')
 							Edit_EmailLabel.text(Edit_Emailbox.val())
-							LoginEdit_SendButton.attr('disabled', '')
+							LoginEdit_SendButton.removeAttr('disabled')
 						} 
 						else {
 							alert(data.ErrorDisplay)
-							LoginEdit_SendButton.attr('disabled', '')
+							LoginEdit_SendButton.removeAttr('disabled')
 						}
 					},
 					error: function(ex) {
@@ -211,7 +211,7 @@
 
 				 		alert("Error: Unexpected Error Occur!")
 
-				 		LoginEdit_SendButton.attr('disabled', '')
+				 		LoginEdit_SendButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -461,7 +461,7 @@
 						if(!data.isError) {
 							EntranceVerification_Area.addClass('hide')
 							EntranceDone_Area.removeClass('hide')
-							RegisterCreate_DoneButton.attr('disabled', '')
+							RegisterCreate_DoneButton.removeAttr('disabled')
 
 							Create_Codebox.val('')
 							Create_IDbox.val('')
@@ -473,7 +473,7 @@
 						else {
 							alert(data.ErrorDisplay)
 
-							RegisterCreate_DoneButton.attr('disabled', '')
+							RegisterCreate_DoneButton.removeAttr('disabled')
 						}
 					},
 					error: function(ex) {
@@ -481,7 +481,7 @@
 
 				 		alert("Error: Unexpected Error Occur!\nPlease Try Again")
 
-				 		RegisterCreate_DoneButton.attr('disabled', '')
+				 		RegisterCreate_DoneButton.removeAttr('disabled')
 					}
 				})
 			}

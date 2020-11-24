@@ -519,6 +519,7 @@ class Transaction extends CI_Controller {
 			if(!empty($_POST['Amount'])) {
 				if($this->db->query("Select Count(*) as x from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->x != 0) {
 					$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0];
+					$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $AccountQuery->StudentID ." and isFullPaid=false  Order by AssessmentID DESC LIMIT 1")->result()[0];
 
 					$BalanceLeft = $AccountQuery->Account_AvailableBalance - $_POST["Amount"];
 					$CheckChar = count(explode("-", (string)$BalanceLeft));
@@ -537,6 +538,26 @@ class Transaction extends CI_Controller {
 							"ErrorDisplay" => "Error: Please Input the Correct Amount!"
 						));
 						else {
+							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $this->db->update("Assessment", array(
+								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+								"Assessment_NewTuition" => $FeeLeft,
+								"isHalfPaid" => true,
+								"AssessmentStatus" => "Half Paid (Can now Enroll)"
+							), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+							if($FeeLeft == 0) $this->db->update("Assessment", array(
+								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+								"Assessment_NewTuition" => 0,
+								"isHalfPaid" => true,
+								"isFullPaid" => true,
+								"AssessmentStatus" => "Fully Paid! (Can now Enroll)"
+							), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
+							else $this->db->update("Assessment", array(
+								"Assessment_OldTuition" => $AssessmentQuery->Assessment_NewTuition,
+								"Assessment_NewTuition" => $FeeLeft,
+							), "AssessmentID=". $AssessmentQuery->AssessmentID);
+
 							$this->db->insert("Transaction", array(
 								"StudentID" => $AccountQuery->StudentID,
 								"TransactionType" => "FEE(SCHOOL TUITION)",

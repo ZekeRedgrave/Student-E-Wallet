@@ -1,16 +1,84 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
-	<div id="ViewAccount_MainArea" class="d-flex flex-row hide" style="width: 100%; height: 100%">
+	<div id="ViewAccount_MainArea" class="d-flex flex-row" style="width: 100%; height: 100%">
 		<div class="" style="width: 100%; height: 100%;">
 			<div id="Account_HomeArea" class="d-flex flex-column" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+				<!-- Assessment Area -->
+				<div id="" class="d-flex flex-column p-3">
+					<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">ASSESSMENT</div>
+
+					<!-- View Student Assessment Area-->
+					<div id="View_AssessmentArea" class="">
+						<div class="d-flex flex-row mb-2">
+							<input id="ViewAssessment_Searchbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="Search Student ID">
+							<button onclick="new Assessment().View_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Search</button>
+
+							<div style="width: 100%"></div>
+
+							<button onclick="new Assessment().View_EditButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Edit</button>
+							<button onclick="new Assessment().View_AddButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; min-width: 135px;">Add Tuition</button>
+						</div>
+						<div class="d-flex flex-row rounded p-3 mb-4" style="background: #1e2124;">
+							<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="100px" height="100px" class="border-0 rounded-circle" style="background: #333333; color: #7289da;">
+							<div class="d-flex flex-column ml-4" style="width: 100%">
+								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
+								<div id="ViewAssessment_NameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
+
+								<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
+										<div id="ViewAssessment_CYLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 100%">
+										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
+										<div id="ViewAssessment_StatusLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
+									</div>
+								</div>
+
+								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
+								<div id="ViewAssessment_TuitionLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">P XXXX.XX</div>
+							</div>
+						</div>
+						<!-- ------------------------------------------------------------------------------------------------ -->
+						<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">ASSESSMENT RECORD</div>
+						<table class="table mb-4 " style="color: #7289da;">
+							<thead>
+								<tr>
+									<th class="pt-2 pb-2 pl-4 border-0 red-text" style="min-width: 200px;">Old Tuition</th>
+									<th class="pt-2 pb-2 pl-4 border-0" style="min-width: 200px;">New Tuition</th>
+									<th class="pt-2 pb-2 pl-4 border-0" style="color: #ffffff; min-width: 200px;">Employee Name</th>
+									<th class="pt-2 pb-2 pl-4 border-0 red-text" style="min-width: 200px;">Status</th>
+									<th class="pt-2 pb-2 pl-4 border-0" style="color: #ffffff; min-width: 125px; max-width: 125px">Timeline</th>
+								</tr>
+							</thead>
+							<tbody id="ViewAssessment_TableLoad">
+								<!-- <tr>
+									<th style="width: 100%">P XXXX.XX</th>
+									<th class="red-text" style="width: 100%">P XXXX.XX</th>
+									<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
+									<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
+									<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
+								</tr> -->
+								<tr>
+									<th class="red-text" style="width: 100%">N / A</th>
+									<th style="width: 100%">N / A</th>
+									<th style="color: #ffffff; min-width: 135px; max-width: 135px">N / A</th>
+									<th class="red-text" style="min-width: 125px; max-width: 125px">N / A</th>
+									<th style="color: #ffffff; min-width: 175px; max-width: 175px">N / A</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- End of View Student Assessment Area-->
+				</div>
+				<!-- End of Assessment Area -->
 				<!-- Logs Area -->
 				<div class="d-flex flex-row pl-4 pr-4 pt-2 pb-2 mb-4" style="width: 100%">
 					<div class="d-flex align-items-center" style="color: #7289da; width: 100%; font-weight: bold;">LOGS</div>
 					<div class="d-flex flex-row">
 						<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Student Registry</button>
-						<button class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Account Info</button>
 					</div>
 				</div>
-				<table class="table" style="color: #7289da;">
+				<table class="table mb-4" style="color: #7289da;">
 					<thead>
 						<tr>
 							<th class="pt-2 pb-2 pl-4 border-0" style="font-weight: bold; width: 50%">Name</th>
@@ -24,80 +92,6 @@
 					</tbody>
 				</table>
 				<!-- End of Logs Area -->
-				<div style="width: 100%"></div>
-				<!-- Assessment Area -->
-				<div id="" class="d-flex flex-column p-3">
-					<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">ASSESSMENT</div>
-
-					<!-- View Student Assessment Area-->
-					<div id="View_AssessmentArea" class="">
-						<div class="d-flex flex-row mb-2">
-							<input id="ViewAssessment_Searchbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" placeholder="Search Student ID">
-							<button onclick="new Assessment().View_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Search</button>
-
-							<div style="width: 100%"></div>
-
-							<button class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Edit</button>
-							<button onclick="new Assessment().View_AddButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Add</button>
-						</div>
-						<div class="d-flex flex-row rounded p-3 mb-5" style="background: #1e2124;">
-							<img id="ViewAssessment_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="100px" height="100px" class="border-0 rounded-circle" style="background: #333333; color: #7289da;">
-							<div class="d-flex flex-column ml-4" style="width: 100%">
-								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Name</h4>
-								<div id="ViewAssessment_NameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
-
-								<div class="d-flex flex-row" style="width: 100%">
-									<div class="d-flex flex-column" style="width: 100%">
-										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Course and Year</h4>
-										<div id="ViewAssessment_CYLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
-									</div>
-									<div class="d-flex flex-column ml-1" style="width: 100%">
-										<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Status</h4>
-										<div id="ViewAssessment_StatusLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
-									</div>
-								</div>
-
-								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
-								<input id="ViewAssessment_TuitionLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="XXX-XXX-XXX">
-							</div>
-						</div>
-						<table class="table border-top hide">
-							<thead>
-								<tr>
-									<th style="width: 100%">Amount</th>
-									<th style="width: 100%">Remainding</th>
-									<th style="min-width: 135px; max-width: 135px">Course and Year</th>
-									<th style="min-width: 125px; max-width: 125px">Status</th>
-									<th style="min-width: 125px; max-width: 125px">Timeline</th>
-								</tr>
-							</thead>
-							<tbody id="ViewAssessment_TableLoad">
-								<!-- <tr>
-									<th style="width: 100%">P XXXX.XX</th>
-									<th class="red-text" style="width: 100%">P XXXX.XX</th>
-									<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
-									<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
-									<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
-								</tr> -->
-							</tbody>
-						</table>
-					</div>
-					<!-- End of View Student Assessment Area-->
-					<!-- Add Student Assessment Area -->
-					<div id="Create_AssessmentArea" class="hide">
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
-						<input id="CreateAssessment_SIbox" class="form-control mb-4" type="number" placeholder="XXX-XXX-XXX">
-
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
-						<input id="CreateAssessment_TFbox" class="form-control mb-4" type="number" placeholder="P XXXX.XX">
-
-						<div style="min-width: 125px; max-width: 125px;">
-							<button onclick="new Assessment().Create_DoneButton()" class="form-control mb-1">Done</button>
-							<button onclick="new Assessment().Create_CancelButton()" class="form-control">Cancel</button>
-						</div>
-					</div>
-				</div>
-				<!-- End of Assessment Area -->
 			</div>
 			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
 				<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
@@ -179,167 +173,291 @@
 	</div>
 
 	<!-- Student Registry -->
-	<div id="ViewAccount_SR" class="pt-3 pb-3" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+	<div id="ViewAccount_SR" class="pt-3 pb-3 hide" style="width: 100%; overflow: hidden; overflow-y: scroll;">
 		<div class="pl-3 pr-3" style="width: 100%">
-			<div class="ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">SCHOOL REGISTRY</div>
-
 			<!-- Create -->
-			<div id="SR_CreateArea" class="mt-5 hide">
-				<h4 class="m-0 p-0 mb-3" style="font-weight: bold; font-size: 14px;">Create New Student</h4>
+			<div id="SR_CreateArea" class=" mt-5 hide">
+				<div class="ml-2 mb-1" style="color: #7289da; font-weight: bold; font-size: 14px;">CREATE NEW STUDENT</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
-				<div class="d-flex flex-row mb-2">
-					<input id="SR_Lastnamebox" class="form-control m-0 mr-1" placeholder="Lastname">
-					<input id="SR_Firstnamebox" class="form-control m-0" placeholder="Firstname">
-					<div style="width: 100%"></div>
-					<input id="SR_Middlenamebox" class="form-control m-0" placeholder="Middlename">
-				</div>
+				<div class="d-flex justify-content-center mt-4" style="width: 100%">
+					<div class="d-flex flex-column">
+						<!-- Profile -->
+						<div class="ml-2 mb-1" style="color: #7289da; font-weight: bold; font-size: 14px;">PROFILE</div>
+						<div class="d-flex flex-row rounded p-3 mb-4" style="background: #1e2124; width: 700px;">
+							<div>
+							</div>
+							<div class="d-flex flex-column" style="width: 100%">
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Name</div>
+								<div class="d-flex flex-row">
+									<div class="d-flex flex-row rounded" style="background: #333333; width: 100%">
+										<input id="SR_Lastnamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="Lastname">
+										<input id="SR_Firstnamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="Firstname">
+									</div>
+									<input id="SR_Middlenamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;" placeholder="Middlename">
+								</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Student ID</h4>
-				<input id="SR_IDbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+								<div class="d-flex flex-row mt-4 mb-4">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Gender</div>
+										<select id="SR_GenderButton" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;">
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+										</select>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Age</div>
+										<input id="SR_Agebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;" type="number" placeholder="XXX">
+									</div>
+								</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
-				<select id="SR_GenderButton" class="custom-select form-control mb-2">
-					<option value="Male">Male</option>
-					<option value="Female">Female</option>
-				</select>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Contact No. (Optional)</div>
+								<input id="SR_Numberbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" type="number" placeholder="+6391234567890">
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
-				<input id="SR_Agebox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+								<div class="ml-2 mb-1 mt-4" style="width: 100%; font-weight: bold;">Status</div>
+								<select id="SR_StatusButton" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;">
+									<option value="non-graduated">Non-Graduated / Enrolled</option>
+									<option value="graduated">Graduated</option>
+									<option value="not enrolled">Not Enrolled</option>
+									<option value="dropped">Dropped</option>
+								</select>
+							</div>
+						</div>
+						<!-- End of Profile -->
+						<!-- Account -->
+						<div class="ml-2 mb-1" style="color: #7289da; font-weight: bold; font-size: 14px;">ACCOUNT</div>
+						<div class="d-flex flex-column rounded p-3" style="background: #1e2124; width: 700px;">
+							<div class="ml-2 mb-1" style="font-weight: bold; font-size: 14px;">Student ID</div>
+							<input id="SR_IDbox" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;" type="number" placeholder="XXX">
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact No. (Optional)</h4>
-				<input id="SR_Numberbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
-
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
-				<select id="SR_StatusButton" class="custom-select mb-2">
-					<option value="non-graduated">Non-Graduated / Enrolled</option>
-					<option value="graduated">Graduated</option>
-					<option value="not enrolled">Not Enrolled</option>
-					<option value="dropped">Dropped</option>
-				</select>
-
-				<h4 class="m-0 p-0 mt-3 mb-3" style="font-weight: bold; font-size: 14px;">Course</h4>
-				<input id="SR_Coursebox" class="form-control m-0 mb-2" placeholder="XXX">
-
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Level</h4>
-				<input id="SR_Levelbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
-
-				<div class="d-flex flex-row">
-					<button onclick="new SR().Create_DoneButton()" class="form-control mr-1" style="min-width: 125px; max-width: 125px;">Done</button>
-					<button onclick="new SR().Create_CancelButton()" class="form-control" style="min-width: 125px; max-width: 125px;">Cancel</button>
+							<div class="d-flex flex-row mt-4" style="width: 100%">
+								<div class="d-flex flex-column" style="width: 100%">
+									<div class="ml-2 mb-1" style="font-weight: bold; font-size: 14px;">Course</div>
+									<input id="SR_Coursebox" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;" placeholder="XXX">
+								</div>
+								<div class="d-flex flex-column ml-1" style="width: 100%">
+									<div class="ml-2 mb-1" style="font-weight: bold; font-size: 14px;">Level</div>
+									<input id="SR_Levelbox" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;" type="number" placeholder="XXX">
+								</div>
+							</div>
+						</div>
+						<!-- End of Account -->
+						<div class="d-flex flex-row mt-2">
+							<button onclick="new SR().Create_DoneButton()" id="Create_DoneButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Done</button>
+							<button onclick="new SR().Create_CancelButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1 red-text" style="background: #333333; color: #7289da; width: 150px;">Cancel</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- End of Create -->
 			<!-- View -->
 			<div id="SR_ViewArea" class="mt-5" style="width: 100%">
+				<div class="ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">SCHOOL REGISTRY</div>
+
 				<div class="d-flex flex-row">
-					<input id="SR_ViewSDbox" class="form-control m-0" type="number" placeholder="Search Student ID">
-					<button onclick="new SR().View_SearchButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Search</button>
-					<button onclick="new SR().View_BackButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Back</button>
+					<input id="SR_ViewSDbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="Search Student ID">
+					<button onclick="new SR().View_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Search</button>
+					<button onclick="new SR().View_BackButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Back</button>
 
 					<div style="width: 100%"></div>
 
-					<button onclick="new SR().View_CreateButton()" class="form-control" style="min-width: 75px; max-width: 75px;">Add</button>
-					<button onclick="new SR().View_EditButton()" class="form-control ml-1" style="min-width: 75px; max-width: 75px;">Edit</button>
+					<button onclick="new SR().View_CreateButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 150px;">Add</button>
+					<button onclick="new SR().View_EditButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Edit</button>
 				</div>
-				<div class="d-flex flex-row mt-5" style="width: 100%">
-					<img id="View_ImageLoad" src="" style="min-width: 150px; max-width: 150px; height: 150px">
-					<div class="d-flex flex-column ml-4" style="width: 100%">
-						<h4 class="m-0 p-0 mb-4" style="font-weight: bold; font-size: 14px;">Personal</h4>
+				<div class="d-flex justify-content-center" style="width: 100%">
+					<div class="d-flex flex-column" style="width: 600px;">
+						<div class="d-flex flex-row mt-5" style="width: 100%">
+							<img id="View_ImageLoad" class="rounded-circle border-0 mt-4" style="background: #7289da; min-width: 150px; max-width: 150px; height: 150px">
+							<div class="d-flex flex-column ml-4" style="width: 100%">
+								<div class="ml-2 mb-5" style="color: #7289da; width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
-						<div id="View_NameLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Student ID</div>
+								<div id="View_SILabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">012345679</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Student ID</h4>
-						<div id="View_SILabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="ml-2 mb-1 mt-4" style="width: 100%; font-weight: bold;">Name</div>
+								<div id="View_NameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">XXX-XXX-XXX</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
-						<div id="View_GenderLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Gender</div>
+										<div id="View_GenderLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">Male / Female</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 200px">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Age</div>
+										<div id="View_AgeLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">99</div>
+									</div>
+								</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
-						<div id="View_AgeLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Contact Number</div>
+								<div id="View_ContactLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">+6391234678</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact Number</h4>
-						<div id="View_ContactLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Status</div>
+								<div id="View_StatusLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">N / A</div>
+							</div>
+						</div>
 
-						<h4 class="m-0 p-0 mt-3" style="font-weight: bold; font-size: 14px;">Course and Level</h4>
-						<div id="View_CYLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+						<div class="d-flex flex-column mt-5" style="width: 100%">
+							<div class="ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">ACCOUNT</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
-						<div id="View_StatusLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+							<div class="rounded p-3 mb-2" style="background: #1e2124">
+								<div class="d-flex flex-row mb-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Email</div>
+										<div id="View_EmailLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">Example@email.com</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 300px">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Username</div>
+										<div id="View_UsernameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">Alias_Name</div>
+									</div>
+								</div>
 
-						<h4 class="m-0 p-0 mt-5 mb-4" style="font-weight: bold; font-size: 14px;">Account</h4>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Course and Level</div>
+								<div id="View_CYLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%"> BS-EXAMPLE 4</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Email</h4>
-						<div id="View_EmailLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
+								<div class="d-flex flex-row mt-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Deposits</div>
+										<div id="View_DepositLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">Male / Female</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 200px">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Tuition</div>
+										<div id="View_TuitionLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">99</div>
+									</div>
+								</div>
+							</div>
 
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Username</h4>
-						<div id="View_UsernameLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
-
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Deposits</h4>
-						<div id="View_DepositLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
-
-						<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Tuition Fee Left</h4>
-						<div id="View_TuitionLabel" class="form-control mb-2" style="width: 100%">XXX-XXX-XXX</div>
-
-
-						<button onclick="new SR().View_RemoveButton()" id="View_RemoveButton" class="form-control mt-5" style="min-width: 200px; max-width: 200px;">Delete Permanently</button>
+							<button onclick="new SR().View_RemoveButton()" id="View_RemoveButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 200px;">Delete Permanently</button>
+						</div>
 					</div>
+					
 				</div>
 			</div>
 			<!-- End of View -->
 			<!-- Edit -->
 			<div id="SR_EditArea" class="mt-5 hide" style="width: 100%">
-				<h4 class="m-0 p-0 mb-3" style="font-weight: bold; font-size: 14px;">Edit Student Info</h4>
+				<div class="ml-2 mb-1" style="color: #7289da; font-weight: bold; font-size: 14px;">UPDATING STUDENT INFO</div>
 
 				<div class="d-flex flex-row mb-5">
-					<input id="SR_EditIDbox" class="form-control m-0 mb-2" type="number" placeholder="Search Student ID">
-					<button onclick="new SR().Edit_SearchButton()" class="form-control ml-1" style="min-width: 125px; max-width: 125px;">Search</button>
-				</div>
-
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Name</h4>
-				<div class="d-flex flex-row mb-2">
-					<input id="SR_EditLastnamebox" class="form-control m-0 mr-1" placeholder="Lastname">
-					<input id="SR_EditFirstnamebox" class="form-control m-0" placeholder="Firstname">
+					<input id="SR_EditIDbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" type="number" placeholder="Search Student ID">
+					<button onclick="new SR().Edit_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Search</button>
 					<div style="width: 100%"></div>
-					<input id="SR_EditMiddlenamebox" class="form-control m-0" placeholder="Middlename">
+					<button onclick="new SR().Edit_CancelButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 red-text" style="background: #333333; color: #7289da; width: 150px;">Cancel</button>
+					<button onclick="new SR().Edit_DoneButton()" id="Edit_DoneButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 150px;">Done</button>
 				</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Gender</h4>
-				<select id="SR_EditGenderButton" class="custom-select form-control mb-2">
-					<option value="Male">Male</option>
-					<option value="Female">Female</option>
-				</select>
+				<div class="d-flex justify-content-center" style="width: 100%">
+					<div class="d-flex flex-row">
+						<div class="d-flex flex-column" style="width: 600px">
+							<div class="ml-2 mb-1" style="color: #7289da; font-weight: bold; font-size: 14px;">DISPLAY INFORMATION</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Age</h4>
-				<input id="SR_EditAgebox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+							<div class="d-flex flex-column rounded p-3" style="background: #1e2124; width: 100%">
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Name</div>
+								<div class="d-flex flex-row mb-2">
+									<div class="d-flex flex-row rounded mr-1" style="background: #333333; width: 100%">
+										<input id="SR_EditLastnamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="Lastname">
+										<input id="SR_EditFirstnamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="Firstname">
+									</div>
+									<input id="SR_EditMiddlenamebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 200px;" placeholder="Middlename">
+								</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Contact No. (Optional)</h4>
-				<input id="SR_EditNumberbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
+								<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Gender</div>
+										<select id="SR_EditGenderButton" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;">
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+										</select>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 200px">
+										<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Age</div>
+										<input id="SR_EditAgebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;" type="number" placeholder="Ex. 69">
+									</div>
+								</div>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Status</h4>
-				<select id="SR_EditStatusButton" class="custom-select mb-2">
-					<option value="non-graduated">Non-Graduated / Enrolled</option>
-					<option value="graduated">Graduated</option>
-					<option value="not enrolled">Not Enrolled</option>
-					<option value="dropped">Dropped</option>
-				</select>
+								<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Contact No. (Optional)</div>
+								<input id="SR_EditNumberbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" type="number" placeholder="Ex. 09485158548">
+							</div>
+						</div>
 
-				<h4 class="m-0 p-0 mt-3 mb-3" style="font-weight: bold; font-size: 14px;">Course</h4>
-				<input id="SR_EditCoursebox" class="form-control m-0 mb-2" placeholder="XXX">
+						<div class="d-flex flex-column p-3" style="width: 300px;">
+							<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Status</div>
+							<select id="SR_EditStatusButton" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%; height: 40px;">
+								<option value="non-graduated">Non-Graduated / Enrolled</option>
+								<option value="graduated">Graduated</option>
+								<option value="not enrolled">Not Enrolled</option>
+								<option value="dropped">Dropped</option>
+							</select>
 
-				<h4 class="m-0 p-0" style="font-weight: bold; font-size: 14px;">Level</h4>
-				<input id="SR_EditLevelbox" class="form-control m-0 mb-2" type="number" placeholder="XXX">
-
-				<div class="d-flex flex-row">
-					<button onclick="new SR().Edit_DoneButton()" class="form-control mr-1" style="min-width: 125px; max-width: 125px;">Done</button>
-					<button onclick="new SR().Edit_CancelButton()" class="form-control" style="min-width: 125px; max-width: 125px;">Cancel</button>
+							<div class="d-flex flex-row mt-4" style="width: 100%">
+								<div class="d-flex flex-column" style="width: 100%">
+									<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Course</div>
+									<input id="SR_EditCoursebox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="XXX">
+								</div>
+								<div class="d-flex flex-column ml-1" style="width: 100%">
+									<div class="ml-2 mb-1" style="width: 100%; font-weight: bold;">Level</div>
+									<input id="SR_EditLevelbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;" placeholder="XXX">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<!-- End of View -->
+			<!-- End of Edit-->
 		</div>
 	</div>
 	<!-- End of Student Registry -->
+</div>
+
+<div id="Create_AssessmentArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
+		<div style="width: 400px;">
+			<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">ADD TUITION</div>
+
+			<div class="d-flex flex-column rounded p-3" style="background: #1e2124;">
+				<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+				<input id="CreateAssessment_SIbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="#1234567890">
+
+				<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Tuition Fee</h4>
+				<input id="CreateAssessment_TFbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="P XXXX.XX">
+
+				<div class="d-flex flex-row mt-2">
+					<button onclick="new Assessment().Create_DoneButton()" id="AssessmentCreate_DoneButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 100px;">Done</button>
+					<button onclick="new Assessment().Create_CancelButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1 red-text" style="background: #333333; color: #7289da; width: 100px;">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="Edit_AssessmentArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
+		<div style="width: 400px;">
+			<div class="p-0 ml-2 mb-1" style="color: #7289da; min-width: 125px; font-weight: bold;">EDITING TUITION FEE</div>
+
+			<div class="d-flex flex-column rounded p-3" style="background: #1e2124;">
+				<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+				<div class="d-flex flex-row">
+					<input id="EditAssessment_SIbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%; height: 40px;" type="number" placeholder="#1234567890">
+					<button onclick="new Assessment().Edit_SearchButton()" id="AssessmentEdit_SearchButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 100px; height: 40px;">Search</button>
+				</div>
+
+				<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Old Tuition Fee</h4>
+				<input id="EditAssessment_OTbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" disabled placeholder="P XXXX.XX">
+
+				<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Current Tuition Fee</h4>
+				<input id="EditAssessment_CTbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" disabled placeholder="P XXXX.XX">
+
+				<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">New Tuition Fee</h4>
+				<input id="EditAssessment_NTbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%" type="number" placeholder="P XXXX.XX">
+
+				<div class="p-0 ml-2 mb-1 mt-4" style="color: #7289da; min-width: 125px; font-weight: bold;">ARE YOU SURE YOU WANNA CONTINUE REFACTORING THE STUDENT'S TUITION INTO NEW?</div>
+
+				<div class="d-flex flex-row mt-2">
+					<button onclick="new Assessment().Edit_DoneButton()" id="AssessmentEdit_DoneButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 100px;">Yes</button>
+					<button onclick="new Assessment().Edit_CancelButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1 red-text" style="background: #333333; color: #7289da; width: 100px;">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -455,22 +573,6 @@
 				}
 			})
 		}
-		// this.getLogData = function() {
-		// 	$.ajax({
-		// 		url: window.location.href.replace("/Access", "")+ "/Logs/getLogData", 
-		// 		method: 'GET',
-		// 		dataType: 'json',
-		// 		success: function(data) {
-		// 			if(!data.isError) {
-						
-		// 			}
-		// 			else alert(data.ErrorDisplay)
-		// 		},
-		// 		error: function(ex) {
-		// 	 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-		// 		}
-		// 	})
-		// }
 	}
 
 	function Account() {
@@ -695,7 +797,11 @@
 		}
 
 		this.View_RemoveButton = function(id) {
+			var View_RemoveButton = $("#View_RemoveButton")
+
 			if(id != "") {
+				View_RemoveButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/SRView_RemoveButton?ID="+ id, 
 					method: 'POST',
@@ -718,11 +824,19 @@
 
 
 							$("#View_RemoveButton").attr('onclick', 'new SR().View_RemoveButton()')
+
+							View_RemoveButton.removeAttr('disabled')
 						}
-						else alert(data.ErrorDisplay)
+						else {
+							alert(data.ErrorDisplay)
+
+							View_RemoveButton.removeAttr('disabled')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		View_RemoveButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -755,7 +869,11 @@
 
 			var SR_IDbox = $("#SR_IDbox")
 
+			var Create_DoneButton = $("#Create_DoneButton")
+
 			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+				Create_DoneButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/SRCreate_DoneButton", 
 					method: 'POST',
@@ -778,11 +896,23 @@
 					},
 					dataType: 'json',
 					success: function(data) {
-						if(!data.isError) new SR().Create_CancelButton()
-						else alert(data.ErrorDisplay)
+						if(!data.isError) {
+							new SR().Create_CancelButton()
+
+							alert("Student Info is now Added!")
+
+							Create_DoneButton.removeAttr('disabled')
+						}
+						else {
+							alert(data.ErrorDisplay)
+
+							Create_DoneButton.removeAttr('disabled')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		Create_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -882,7 +1012,11 @@
 
 			var SR_IDbox = $("#SR_EditIDbox")
 
+			var Edit_DoneButton = $("#Edit_DoneButton")
+
 			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+				Edit_DoneButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/SREdit_DoneButton", 
 					method: 'POST',
@@ -905,11 +1039,23 @@
 					},
 					dataType: 'json',
 					success: function(data) {
-						if(!data.isError) new SR().Edit_CancelButton()
-						else alert(data.ErrorDisplay)
+						if(!data.isError) {
+							new SR().Edit_CancelButton()
+
+							alert("Student Info is now Updated!")
+
+							Edit_DoneButton.removeAttr('disabled')
+						}
+						else {
+							alert(data.ErrorDisplay)
+
+							Edit_DoneButton.removeAttr('disabled')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		Edit_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -998,16 +1144,31 @@
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_SearchButton?id=" +ViewAssessment_Searchbox.val(), 
 					method: 'POST',
-					dataType: 'json',
+					dataType: 'text',
 					success: function(data) {
 						if(!data.isError) {
-							ViewAssessment_Image.attr('src', window.location.href.replace("/index.php/Access", "/")+ "avatar/" + data.Image)
-							ViewAssessment_NameLabel.text(data.Name)
-							ViewAssessment_CYLabel.text(data.CY)
-							ViewAssessment_StatusLabel.text(data.Status)
-							ViewAssessment_TuitionLabel.text(data.Tuition)
+							var x = JSON.parse(data)
 
-							new Assessment().View_TableLoad(ViewAssessment_Searchbox.val())
+							ViewAssessment_Image.attr('src', window.location.href.replace("/index.php/Access", "/")+ "avatar/" + x.Image)
+							ViewAssessment_NameLabel.text(x.Name)
+							ViewAssessment_CYLabel.text(x.CY)
+							ViewAssessment_StatusLabel.text(x.Status)
+							ViewAssessment_TuitionLabel.text('P '+ x.Tuition)
+
+							if(!x.isEmpty) {
+								$("#ViewAssessment_TableLoad").html('')
+
+								for(var y in x.AssessmentArray) new Assessment().View_AssessmentLoad(x.AssessmentArray[y])
+							}
+							else $("#ViewAssessment_TableLoad").html(`
+								<tr>
+									<th class="red-text" style="width: 100%">N / A</th>
+									<th style="width: 100%">N / A</th>
+									<th style="color: #ffffff; min-width: 135px; max-width: 135px">N / A</th>
+									<th class="red-text" style="min-width: 125px; max-width: 125px">N / A</th>
+									<th style="color: #ffffff; min-width: 175px; max-width: 175px">N / A</th>
+								</tr>
+							`)
 						}
 						else alert(data.ErrorDisplay)
 					},
@@ -1018,28 +1179,39 @@
 					}
 				})
 			}
-			else alert("Error: Student ID's Searchbox is Emtpy!")
+			else alert("(Student ID's Searchbox) is Emtpy!")
 		}
 
-		this.View_TableLoad = function(id) {
-			var ViewAssessment_TableLoad = $("#ViewAssessment_TableLoad")
-
-			// $.ajax({
-			// 	url: window.location.href.replace("/Access", "")+ "/Account/View_TableLoad?id=" +id, 
-			// 	method: 'POST',
-			// 	dataType: 'json',
-			// 	success: function(data) {
-					
-			// 	},
-			// 	error: function(ex) {
-			//  		console.log('Error: ' + JSON.stringify(ex, null, 2))
-			// 	}
-			// })
+		this.View_AssessmentLoad = function(id) {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_AssessmentLoad?id=" +id, 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						$("#ViewAssessment_TableLoad").append(`
+							<tr>
+								<th class="red-text" style="width: 100%">` +data.Old+ `</th>
+								<th style="width: 100%">` +data.New+ `</th>
+								<th style="color: #ffffff; min-width: 135px; max-width: 135px">` +data.Name+ `</th>
+								<th class="red-text" style="min-width: 125px; max-width: 125px">` +data.Status+ `</th>
+								<th style="color: #ffffff; min-width: 175px; max-width: 175px">` +data.Timeline+ `</th>
+							</tr>
+						`)
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
 		}
 
 		this.View_AddButton = function() {
 			$("#Create_AssessmentArea").removeClass('hide')
-			$("#View_AssessmentArea").addClass('hide')
+		}
+
+		this.View_EditButton = function() {
+			$("#Edit_AssessmentArea").removeClass('hide')
 		}
 
 		this.Create_DoneButton = function() {
@@ -1047,9 +1219,11 @@
 			var CreateAssessment_SIbox = $("#CreateAssessment_SIbox")
 			var CreateAssessment_TFbox = $("#CreateAssessment_TFbox")
 
-			var View_AssessmentArea = $("#View_AssessmentArea")
+			var AssessmentCreate_DoneButton = $("#AssessmentCreate_DoneButton")
 
 			if(CreateAssessment_SIbox.val() != "" && CreateAssessment_TFbox.val() != "") {
+				AssessmentCreate_DoneButton.attr('disabled', 'disabled')
+
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Account/CreateAssessment_DoneButton", 
 					method: 'POST',
@@ -1064,14 +1238,20 @@
 							CreateAssessment_TFbox.val('')
 
 							Create_AssessmentArea.addClass('hide')
-							View_AssessmentArea.removeClass('hide')
+							AssessmentCreate_DoneButton.removeAttr('disabled')
 						}
-						else alert(data.ErrorDisplay)
+						else {
+							alert(data.ErrorDisplay)
+
+							AssessmentCreate_DoneButton.removeAttr('disabled')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 				 		alert("Error: Unexpected Error Occur!")
+
+				 		AssessmentCreate_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -1090,6 +1270,87 @@
 		this.Create_CancelButton = function() {
 			$("#View_AssessmentArea").removeClass('hide')
 			$("#Create_AssessmentArea").addClass('hide')
+		}
+
+		this.Edit_SearchButton = function() {
+			var EditAssessment_SIbox = $("#EditAssessment_SIbox")
+
+			if(EditAssessment_SIbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/AssessmentEdit_SearchButton?id="+ EditAssessment_SIbox.val(), 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							$("#EditAssessment_OTbox").val(data.Old)
+							$("#EditAssessment_CTbox").val(data.Current)
+						}
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+					}
+				})
+			}
+			else alert("(Student ID) is Empty!")
+		}
+
+		this.Edit_DoneButton = function() {
+			var EditAssessment_SIbox = $("#EditAssessment_SIbox")
+
+			var EditAssessment_OTbox = $("#EditAssessment_SIbox")
+			var EditAssessment_CTbox = $("#EditAssessment_CTbox")
+			var EditAssessment_NTbox = $("#EditAssessment_NTbox")
+
+			var AssessmentEdit_DoneButton = $("#AssessmentEdit_DoneButton")
+
+			if(EditAssessment_SIbox.val() != '' && EditAssessment_OTbox.val() != '' && EditAssessment_CTbox.val() != '' && EditAssessment_NTbox.val() != '') {
+				AssessmentEdit_DoneButton.attr('disabled', 'disabled')
+
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Account/AssessmentEdit_DoneButton", 
+					method: 'POST',
+					data: {
+				 		StudentID: EditAssessment_SIbox.val(),
+				 		OldTuition: EditAssessment_OTbox.val(),
+				 		CurrentTuition: EditAssessment_CTbox.val(),
+				 		NewTuition: EditAssessment_NTbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							AssessmentEdit_DoneButton.removeAttr('disabled')
+							$("#Edit_AssessmentArea").addClass('hide')
+						}
+						else {
+							alert(data.ErrorDisplay)
+
+							AssessmentEdit_DoneButton.removeAttr('disabled')
+						}
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		AssessmentEdit_DoneButton.removeAttr('disabled')
+					}
+				})
+			}
+			else {
+				var ErrorDisplay = ""
+
+				if(EditAssessment_SIbox.val() == "") ErrorDisplay += "(Student ID) "
+				if(EditAssessment_OTbox.val() == "") ErrorDisplay += "(Old Tuition Fee) "
+				if(EditAssessment_CTbox.val() == "") ErrorDisplay += "(Current Tuition Fee) "
+				if(EditAssessment_NTbox.val() == "") ErrorDisplay += "(New Tuition Fee) "
+
+				alert(ErrorDisplay+ "is Empty!")
+
+				ErrorDisplay = ""
+			}
+		}
+
+		this.Edit_CancelButton = function() {
+			$("#Edit_AssessmentArea").addClass('hide')
 		}
 	}
 </script>

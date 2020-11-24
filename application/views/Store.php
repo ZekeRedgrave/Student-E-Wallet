@@ -51,61 +51,19 @@
 			</div>
 			<!-- End of Store Item Area -->			
 			<!-- End of Payments Area -->
-			<div class="d-flex flex-column mt-5" style="background: #36393e; width: 100%; height: 100%">
+			<div class="d-flex flex-column mt-5 mb-5" style="width: 100%; height: 100%">
 				<div class="pl-3 pr-3 pt-2 pb-2" style="color: #7289da; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
-				<div id="StoreView_LoaderArea" class="d-flex flex-column pl-3 pt-2" style="width: 100%">
-					<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
+				<div class="d-flex justify-content-center" style="width: 100%">
+					<div id="StoreView_LoaderArea" class="d-flex flex-column pl-3 pt-2" style="width: 600px">
+						<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
+					</div>
 				</div>
 			</div>
 		</div>
 		<!-- End of Store Area -->		
 	</div>
 	<!-- End of Store View Area -->
-	<!-- Store Post View Area -->
-	<div id="StorePost_ViewArea" class="d-flex flex-row hide" style="width: 100%; height: 100%">
-		<div class="d-flex flex-column" style="width: 100%; height: 100%">
-			<div id="StorePost_ImageLoader" class="" style="width: 100%; height: 100%; overflow-y: hidden;">
-				<h4 class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">No Image!</h4>
-			</div>
-			<div class="d-flex flex-row border-top pt-1 pb-1" style="width: 100%;">
-				<button onclick="new StorePost().View_BackButton()" class="material-icons form-control ml-1" style="width: 50px">first_page</button>
-				<div class="d-flex justify-content-center" style="width: 100%;">
-					<div class="d-flex flex-row">
-						<button onclick="new StorePost().View_PreviewButton()" class="material-icons form-control mr-1" style="width: 50px">keyboard_arrow_left</button>
-						<button onclick="new StorePost().View_ForwardButton()" class="material-icons form-control" style="width: 50px">keyboard_arrow_right</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="d-flex flex-column border-left" style="min-width: 500px; max-width: 350px; height: 100%">
-			<div class="d-flex flex-row border-bottom p-2" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-				<img id="StorePost_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-				<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-					<h4 id="StorePost_HostName" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-					<h4 id="StorePost_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
-
-					<div id="StorePost_DescriptionLoader" class="mt-3 mb-3" style="font-size: 12px;">
-						<span>Add some text here!</span>
-					</div>
-				</div>
-			</div>
-			<!-- Write Comment Area -->
-			<div class="d-flex flex-row p-2 border-bottom" style="width: 100%">
-				<img id="StorePost_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px">
-				<div class="d-flex flex-row ml-2" style="width: 100%">
-					<textarea id="StoreComment_Writebox" class="form-control border rounded pl-2 pr-2" placeholder="Any Comment?" style="width: 100%; height: 100px; resize: none;"></textarea>
-					<button id="StoreComment_SendButton" onclick="new StoreComment().Create_SendButton()" class="material-icons form-control ml-2" style="width: 50px">send</button>
-				</div>
-			</div>
-			<!-- End of Write Comment Area -->
-			<!-- Comment Loader Area -->
-			<div id="StorePost_CommentLoader" class="" style="width: 100%; height: 100%; min-height: 250px; overflow: hidden; overflow-y: scroll;">
-				<h4 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Comment Yet!</h4>
-			</div>
-			<!-- End of Comment Loader Area -->
-		</div>
-	</div>
-	<!-- End of Store Post View Area -->
+	
 </div>
 <!-- Store Tuition Area -->
 <div id="StoreView_TuitionArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
@@ -143,6 +101,57 @@
 </div>
 <!-- End of Store Dynamic Form Area -->
 
+<!-- Store Post View Area -->
+<div id="StorePost_ViewArea" class="position-fixed d-flex flex-row hide" style="top: 0; bottom: 0; left: 0; right: 0; background: #00000099; width: 100%; height: 100%">
+	<div class="d-flex flex-column" style="width: 100%; height: 100%">
+		<div id="StorePost_ImageLoader" class="" style="width: 100%; height: 100%; overflow-y: hidden;">
+			<h4 class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">No Image!</h4>
+		</div>
+		<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4" style="width: 100%;">
+			<div class="d-flex justify-content-center" style="width: 100%;">
+				<div class="d-flex flex-row">
+					<a onclick="new StorePost().View_PreviewButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle" style="color: #7289da; background: #7289da20; min-width: 50px; max-width: 50px; height: 50px;">keyboard_arrow_left</a>
+					<a onclick="new StorePost().View_BackButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle ml-1 mr-1" style="background: #7289da20; color: #e91e63; min-width: 50px; max-width: 50px; height: 50px;">close</a>
+					<a onclick="new StorePost().View_ForwardButton()" class="material-icons d-flex justify-content-center align-items-center rounded-circle" style="color: #7289da; background: #7289da20; min-width: 50px; max-width: 50px; height: 50px;">keyboard_arrow_right</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="d-flex flex-column" style="background: #282828; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="d-flex flex-row p-3" style="width: 100%;">
+			<img id="StorePost_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+			<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
+				<h4 id="StorePost_HostName" style="color: #7289da; margin: 0; font-size: 14px; font-weight: bold;">XXXXXXX [System Administrator]</h4>
+				<h4 id="StorePost_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
+
+				<div id="StorePost_DescriptionLoader" class="mt-3 mb-2" style="font-size: 12px;">
+					<span>Add some text here!</span>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex flex-column" style="background: #282828; width: 100%; height: 100%;">
+			<!-- Write Comment Area -->
+			<div class="d-flex flex-row p-2" style="width: 100%">
+				<!-- <img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px"> -->
+				<div class="d-flex flex-row ml-2" style="width: 100%">
+					<textarea id="StoreComment_Writebox" class="rounded border-0 pl-2 pr-2" placeholder="Any Comment?" style="background: #333333; color: #ffffff; width: 100%; height: 100px; resize: none;"></textarea>
+					<div class="ml-2">
+						<button id="StoreComment_SendButton" onclick="new StoreComment().Create_SendButton()" class="material-icons rounded border-0" style="background: #333333; color: #7289da; width: 50px; height: 50px;">send</button>
+					</div>
+				</div>
+			</div>
+			<!-- End of Write Comment Area -->
+			<!-- Comment Loader Area -->
+			<div id="StorePost_CommentLoader" class="d-flex flex-column" style="background: #1e2124; width: 100%; height: 100%"></div>
+			<!-- End of Comment Loader Area -->
+		</div>
+		<!-- End of Comment Loader Area -->
+	</div>
+</div>
+<!-- End of Store Post View Area -->
+
+
+
 <script type="text/javascript">
 	var StoreView_ImageCurrent = 0
 	var StoreView_ImageLast = 0
@@ -162,16 +171,16 @@
 						StoreView_LoaderArea.html('')
 
 						for(var value of data.TimelineArray) StoreView_LoaderArea.append(`
-							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row border p-2 mb-1" style="width: 100%">
+							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
 								<img id="StoreView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 								<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-									<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="margin: 0; font-size: 18px; font-weight: bold;"></h4>
+									<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
 									<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
 
-									<div id="StoreView_DescriptionID`+ value +`" class="mt-3 mb-3"></div>
+									<div id="StoreView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
 									<div id="StoreView_LoaderID`+ value.TimelineID +`"></div>
 
-									<div class="d-flex flex-row mt-1">	
+									<div class="d-flex flex-row mt-3">	
 										<a onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" title="Show Comment">comment</a>
 									</div>
 								</div>
@@ -234,21 +243,25 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							StoreView_TuitionButton.attr('disabled', '')
+							
 
 							$("#StoreView_DynamicArea").addClass('hide')
 							
 							new Store().View_CancelButton()
 							new Store().View_ItemLoad()
 						}
-						else alert(data.ErrorDisplay)
+						else {
+							alert(data.ErrorDisplay)
+
+							StoreView_TuitionButton.removeAttr('disabled')
+						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 				 		alert("Error: Unexpected Error Occur!")
 
-				 		StoreView_TuitionButton.attr('disabled', '')
+				 		StoreView_TuitionButton.removeAttr('disabled')
 					}
 				})
 			}
@@ -364,7 +377,7 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						StoreView_DynamicButton.attr('disabled', '')
+						StoreView_DynamicButton.removeAttr('disabled')
 
 						new Store().DA_CancelButton()
 						new Store().View_ItemLoad()
@@ -374,7 +387,7 @@
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		StoreView_DynamicButton.attr('disabled', '')
+			 		StoreView_DynamicButton.removeAttr('disabled')
 
 			 		alert("Error: Unexpected Error Occur!")
 				}
@@ -398,7 +411,7 @@
 							for(var x of data.CommentArray) {
 								if(<?php echo $AccountID ?> == x.AccountID) {
 									StorePost_CommentLoader.append( `
-										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="border-bottom: 1px solid #333333; width: 100%;">
 											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
@@ -415,7 +428,7 @@
 								}
 								else {
 									StorePost_CommentLoader.append( `
-										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="border-bottom: 1px solid #333333; width: 100%;">
 											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
@@ -530,27 +543,9 @@
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							if(data.isNew) StorePost_CommentLoader.html('')
-
-							var HTML = `
-								<div id="StoreComment_ItemID` +data.CommentID+ `" class="d-flex flex-row p-2 border-bottom" style="width: 100%;">
-									<img id=StoreComment_ImageID` +data.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-										<h4 id="StoreComment_NameID` +data.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
-
-										<div id="StoreComment_LoaderID` +data.CommentID+ `" class="mt-3 mb-3"></div>
-										<div class="d-flex flex-row" style="width: 100%">
-											<div style="width: 100%"></div>
-
-											<a id="StoreComment_DeleteButtonID` +data.CommentID+ `" onclick="new StoreComment().View_DeleteButton(` +data.CommentID+ `)" class="material-icons red-text ml-2">delete</a>
-										</div>
-									</div>
-								</div>
-							`
-							StorePost_CommentLoader.prepend(HTML)
 							StoreComment_Writebox.val('')
 
-							new StoreComment().View_ItemLoad(data.CommentID)
+							new Store().StoreView_PostButton(id)
 						}
 						else alert(data.ErrorDisplay)
 					},

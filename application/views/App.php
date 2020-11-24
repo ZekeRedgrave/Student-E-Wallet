@@ -361,7 +361,7 @@
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
-								SettingProfileEdit_DoneButton.attr('disabled', '')
+								SettingProfileEdit_DoneButton.removeAttr('disabled')
 
 								new Setting().View_ProfileLoad()
 
@@ -370,13 +370,15 @@
 							else {
 								alert(data.ErrorDisplay)
 
-								SettingProfileEdit_DoneButton.attr('disabled', '')
+								SettingProfileEdit_DoneButton.removeAttr('disabled')
 							}
 						},
 						error: function(ex) {
 					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 					 		alert("Error: Unexpected Error Occur!")
+
+					 		SettingProfileEdit_DoneButton.removeAttr('disabled')
 						},
 						xhr: function() {
 							var xhr = new XMLHttpRequest()
@@ -418,7 +420,7 @@
 						success: function(data) {
 							if(!data.isError) {
 								SettingProfile_Passwordbox.val('')
-								SettingProfileEdit_DoneButton.attr('disabled', '')
+								SettingProfileEdit_DoneButton.removeAttr('disabled')
 
 								new Setting().View_ProfileLoad()
 
@@ -427,7 +429,7 @@
 							else {
 								alert(data.ErrorDisplay)
 
-								SettingProfileEdit_DoneButton.attr('disabled', '')
+								SettingProfileEdit_DoneButton.removeAttr('disabled')
 							}
 						},
 						error: function(ex) {
@@ -435,7 +437,7 @@
 
 					 		alert("Error: Unexpected Error Occur!")
 
-					 		SettingProfileEdit_DoneButton.attr('disabled', '')
+					 		SettingProfileEdit_DoneButton.removeAttr('disabled')
 						}
 					})
 				}
@@ -459,7 +461,7 @@
 					success: function(data) {
 						if(!data.isError) {
 							SettingBilling_Redeembox.val('')
-							SettingBillingUpdate_RedeemButton.attr('disabled', '')
+							SettingBillingUpdate_RedeemButton.removeAttr('disabled')
 
 							new Setting().View_BalanceLoad()
 
@@ -468,14 +470,14 @@
 						else {
 							alert(data.ErrorDisplay)
 
-							SettingBillingUpdate_RedeemButton.attr('disabled', '')
+							SettingBillingUpdate_RedeemButton.removeAttr('disabled')
 						}
 					},
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
 				 		alert("Error: Unexpected Error Occur!")
-				 		SettingBillingUpdate_RedeemButton.attr('disabled', '')
+				 		SettingBillingUpdate_RedeemButton.removeAttr('disabled')
 					}
 				})
 			}
