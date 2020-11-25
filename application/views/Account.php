@@ -1013,7 +1013,7 @@
 
 			var Edit_DoneButton = $("#Edit_DoneButton")
 
-			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Numberbox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
+			if(SR_Lastnamebox.val() != "" && SR_Firstnamebox.val() != "" && SR_Middlenamebox.val() != "" && SR_Agebox.val() != "" && SR_Coursebox.val() != "" && SR_Levelbox.val() != "" && SR_IDbox.val() != "") {
 				Edit_DoneButton.attr('disabled', 'disabled')
 
 				$.ajax({
@@ -1066,7 +1066,6 @@
 				if(SR_Middlenamebox.val() == "") ErrorDisplay += "(Middlename) "
 
 				if(SR_Agebox.val() == "") ErrorDisplay += "(Age) "
-				if(SR_Numberbox.val() == "") ErrorDisplay += "(Contact No.) "
 
 				if(SR_Coursebox.val() == "") ErrorDisplay += "(Course) "
 				if(SR_Levelbox.val() == "") ErrorDisplay += "(Level) "
