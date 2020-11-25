@@ -304,8 +304,12 @@
 							else $("#StoreView_DescriptionID"+ id).append('<br />')
 						}
 
-						if(JSON.parse(data.TimelineDescription).Image.length != 0) for(var image of JSON.parse(data.TimelineDescription).Image) {
-							$("#StoreView_LoaderID"+ id).append('<img src="'+ window.location.href.replace("/index.php/Access", "/storage/"+ image) +'" width="100%">')
+						if(JSON.parse(data.TimelineDescription).Image.length != 0) {
+							for(var image of JSON.parse(data.TimelineDescription).Image) {
+								var x = window.location.href.replace("/index.php/Access", "/storage/")+ image
+
+								$("#StoreView_LoaderID"+ id).append('<img src="' +x+ '" width="100%">')
+							}
 						}
 						
 					}
@@ -349,7 +353,9 @@
 
 						if(data.PostImage.length != 0) {
 							data.PostImage.forEach(function(element, index) {
-								StorePost_ImageLoader.append('<div id="StoreView_HostImageID' +index+ '" class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%"><img src="' +window.location.href.replace("/index.php/Access", "/storage/"+ data.PostImage[index])+ '" width="100%" /></div>')
+								var x = window.location.href.replace("/index.php/Access", "/storage/")+ data.PostImage[index]
+
+								StorePost_ImageLoader.append('<div id="StoreView_HostImageID' +index+ '" class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%"><img src="' +x+ '" width="100%" /></div>')
 							})
 
 							StoreView_ImageLast = data.PostImage.length
