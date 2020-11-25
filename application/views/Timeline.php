@@ -174,7 +174,7 @@
 						}
 
 						if(JSON.parse(data.TimelineDescription).Image.length != 0) for(var image of JSON.parse(data.TimelineDescription).Image) {
-							$("#TimelineView_LoaderID"+ id).append('<img class="rounded mb-1" src="'+ window.location.href.replace("/index.php/Access", "/storage/")+ image +'" width="100%">')
+							$("#TimelineView_LoaderID"+ id).append('<img class="rounded mb-1" src="'+ window.location.href.replace("/index.php/Access", "/storage/")+ image.split("/")[0] +'" width="100%">')
 						}
 						
 					}	
@@ -219,7 +219,7 @@
 
 						if(data.PostImage.length != 0) {
 							data.PostImage.forEach(function(element, index) {
-								PostView_ImageLoader.append('<div id="PostView_HostImageID' +index+ '" class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%"><img src="' +window.location.href.replace("/index.php/Access", "/storage/"+ data.PostImage[index])+ '" width="100%" /></div>')
+								PostView_ImageLoader.append('<div id="PostView_HostImageID' +index+ '" class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%"><img src="' +window.location.href.replace("/index.php/Access", "/storage/")+ data.PostImage[index].split("/")[0]+ '" width="100%" /></div>')
 							})
 
 							PostView_ImageLast = data.PostImage.length
