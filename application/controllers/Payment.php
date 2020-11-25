@@ -78,7 +78,7 @@ class Payment extends CI_Controller {
 					$this->db->insert("Store", array(
 						"AccountID" => $_SESSION['AccountID'],
 						"StoreTitle" => $Package->Titlebox,
-						"StoreType" => $Package->SlipType->Text, 
+						"StoreType" => $Package->Otherbox, 
 						"isOthers" => $Package->isOther,
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,
@@ -139,7 +139,7 @@ class Payment extends CI_Controller {
 					$this->db->update("Store", array(
 						"AccountID" => $_SESSION['AccountID'],
 						"StoreTitle" => $Package->Titlebox,
-						"StoreType" => $Package->SlipType->Text,
+						"StoreType" => $Package->Otherbox,
 						"isOthers" => $Package->isOther,
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,

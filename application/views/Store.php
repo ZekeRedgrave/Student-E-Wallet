@@ -32,7 +32,22 @@
 				<?php 
 
 					foreach ($Store as $value) {
-						if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
+						if(strtoupper($value['StoreType']) != strtoupper("Others")) {
+							if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
+								<div class="d-flex flex-column rounded mr-1" style="background: #7289da; width: 175px; min-height: 125px;">
+									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
+									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
+								</div>
+							</div>';
+							else echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
+								<div class="d-flex flex-column rounded mr-1" style="background: #7289da; width: 175px; min-height: 125px;">
+									<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Icon Yet!</div>
+									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
+								</div>
+							</div>';
+						}
+						else {
+							if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
 								<div class="d-flex flex-column rounded mr-1" style="background: #36393e; width: 175px; min-height: 125px;">
 									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
 									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
@@ -43,7 +58,8 @@
 									<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Icon Yet!</div>
 									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
 								</div>
-							</div>';		
+							</div>';
+						}
 					}
 
 				?>

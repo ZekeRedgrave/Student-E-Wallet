@@ -174,7 +174,7 @@
 						}
 
 						if(JSON.parse(data.TimelineDescription).Image.length != 0) for(var image of JSON.parse(data.TimelineDescription).Image) {
-							$("#TimelineView_LoaderID"+ id).append('<img class="rounded mb-1" src="'+ window.location.href.replace("/index.php/Access", "/storage/"+ image) +'" width="100%">')
+							$("#TimelineView_LoaderID"+ id).append('<img class="rounded mb-1" src="'+ window.location.href.replace("/index.php/Access", "/storage/")+ image +'" width="100%">')
 						}
 						
 					}	
