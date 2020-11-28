@@ -135,7 +135,25 @@
 
 	function Search() {
 		this.View_SearchButton = function() {
+			var View_Searchbox = $("#View_Searchbox")
 
+			if(View_Searchbox.val() != "") {
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/RegisterAdmin/View_SearchButton?id=" +View_Searchbox.val(), 
+					method: 'GET',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) alert(data.SuccessDisplay)
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Searching Employee ID is Empty")
 		}
 
 		this.View_LogoutButton = function() {

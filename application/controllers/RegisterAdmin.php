@@ -26,6 +26,29 @@ class RegisterAdmin extends CI_Controller {
     	));
     }
 
+    function View_SearchButton() {
+        if(isset($_GET['id'])) {
+            if(!empty($_GET['id'])) {
+                if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'])->result()[0]->x != 0) echo json_encode(array(
+                    "isError" => false,
+                    "SuccessDisplay" => "This EmployeeID #". $_GET['id'] ." is Existed!"
+                ));
+                else echo json_encode(array(
+                    "isError" => false,
+                    "SuccessDisplay" => "This EmployeeID #". $_GET['id'] ." is not existed yet!"
+                ));
+            }
+            else echo json_encode(array(
+                "isError" => true,
+                "ErrorDisplay" => "Searching Employee ID is Empty!"
+            ));
+        }
+        else echo json_encode(array(
+            "isError" => true,
+            "ErrorDisplay" => "Unexpected Error Occur!"
+        ));
+    }
+
     function Create_NextButton() {
     	if(isset($_POST['RegisterEmail']) && isset($_POST['RegisterUsername']) && isset($_POST['RegisterPassword']) && isset($_POST['RegisterRP']) && isset($_POST['RegisterType'])) {
     		if(!empty($_POST['RegisterEmail']) && !empty($_POST['RegisterUsername']) && !empty($_POST['RegisterPassword']) && !empty($_POST['RegisterRP']) && !empty($_POST['RegisterType'])) {
@@ -81,16 +104,16 @@ class RegisterAdmin extends CI_Controller {
 	    			}
 	    			else echo json_encode(array(
 					   	"isError" => true,
-					   	"ErrorDisplay" => "Error: Invalid Code!"
+					   	"ErrorDisplay" => "This Email is Existed!"
 					));
     			}
     			else echo json_encode(array(
 				   	"isError" => true,
-				   	"ErrorDisplay" => "Error: Password Mismatch!"
+				   	"ErrorDisplay" => "Password Mismatch!"
 				));
     		}
     		else {
-    			$ErrorDisplay = "Error: ";
+    			$ErrorDisplay = "";
 
     			if(empty($_POST['RegisterEmail'])) $ErrorDisplay .= "(Email) ";
     			if(empty($_POST['RegisterUsername'])) $ErrorDisplay .= "(Username) ";
@@ -106,7 +129,7 @@ class RegisterAdmin extends CI_Controller {
     	}
     	else echo json_encode(array(
 		   	"isError" => true,
-		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
 		));
     }
 
@@ -163,7 +186,7 @@ class RegisterAdmin extends CI_Controller {
     			}
     			else echo json_encode(array(
 				   	"isError" => true,
-				   	"ErrorDisplay" => "Error: Invalid Code!"
+				   	"ErrorDisplay" => "Invalid Code!"
 				));
     		}
     		else {
@@ -202,22 +225,22 @@ class RegisterAdmin extends CI_Controller {
 	    			}
 	    			else echo json_encode(array(
 					   	"isError" => true,
-					   	"ErrorDisplay" => "Error: This account is already Registered!"
+					   	"ErrorDisplay" => "This account is already Registered!"
 					));
     			}
     			else echo json_encode(array(
 				   	"isError" => true,
-				   	"ErrorDisplay" => "Error: This account is not Exist Yet!"
+				   	"ErrorDisplay" => "This account is not Exist Yet!"
 				));
     		}
     		else echo json_encode(array(
 			   	"isError" => true,
-			   	"ErrorDisplay" => "Error: (Email) is Empty!"
+			   	"ErrorDisplay" => "(Email) is Empty!"
 			));
     	}
     	else echo json_encode(array(
 		   	"isError" => true,
-		   	"ErrorDisplay" => "Error: Unexpected Error Occur!"
+		   	"ErrorDisplay" => "Unexpected Error Occur!"
 		));
     }
 
@@ -263,12 +286,12 @@ class RegisterAdmin extends CI_Controller {
     		}
     		else echo json_encode(array(
 	    		"isError" => true,
-	    		"ErrorDisplay" => "Error: Email is not Existed!"
+	    		"ErrorDisplay" => "Email is not Existed!"
 	    	)); 
     	}
     	else echo json_encode(array(
     		"isError" => true,
-    		"ErrorDisplay" => "Error: Emailbox is Empty!"
+    		"ErrorDisplay" => "Emailbox is Empty!"
     	)); 
     }
 
@@ -287,12 +310,12 @@ class RegisterAdmin extends CI_Controller {
 	    			}
 	    			else echo json_encode(array(
 			    		"isError" => true,
-			    		"ErrorDisplay" => "Error: Incorrect Verification Code!"
+			    		"ErrorDisplay" => "Incorrect Verification Code!"
 			    	));
     			}
     			else echo json_encode(array(
 			    	"isError" => true,
-			    	"ErrorDisplay" => "Error: Password Mismatch!"
+			    	"ErrorDisplay" => "Password Mismatch!"
 			    ));
     		}
     		else {
@@ -311,7 +334,7 @@ class RegisterAdmin extends CI_Controller {
     	}
     	else echo json_encode(array(
     		"isError" => true,
-    		"ErrorDisplay" => "Error: Unexpected Error Occur!"
+    		"ErrorDisplay" => "Unexpected Error Occur!"
     	)); 
     }
 }

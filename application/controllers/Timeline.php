@@ -151,7 +151,7 @@ class Timeline extends CI_Controller {
 
         			$Filename = count(glob("storage/*")). "." .pathinfo(basename($_FILES['TimelineImage']['name'][$i]), PATHINFO_EXTENSION);
 
-                    if(!file_exists(str_replace("application", "", dirname(__DIR__)) . "storage/". $Filename)) mkdir(str_replace("application", "", dirname(__DIR__)) . "storage/");
+                    if(!file_exists(str_replace("application", "", dirname(__DIR__)) . "storage")) mkdir(str_replace("application", "", dirname(__DIR__)) . "storage/");
 
         			move_uploaded_file($_FILES['TimelineImage']['tmp_name'][$i], str_replace("application", "", dirname(__DIR__)) . "storage/". $Filename);
 
