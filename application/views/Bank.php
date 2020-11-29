@@ -343,13 +343,13 @@
 			var DepositsCreate_STLabel = $("#DepositsCreate_STLabel")
 
 			if(DepositsCreate_Amountbox.val() != "") {
-				var Fee = '1'
+				var Fee = 0.01
 
-				if(DepositsCreate_Amountbox.val().length >= 2) for (var i = 2; i < DepositsCreate_Amountbox.val().length; i++) Fee += '0'
-				if(DepositsCreate_Amountbox.val().length == 1) Fee = '0'
+				// if(DepositsCreate_Amountbox.val().length >= 2) for (var i = 2; i < DepositsCreate_Amountbox.val().length; i++) Fee += '0'
+				// if(DepositsCreate_Amountbox.val().length == 1) Fee = '0'
 				DepositsCreate_FeeLabel.text('P '+ Fee)
 
-				Fee = parseInt(Fee) + parseInt(DepositsCreate_Amountbox.val())
+				Fee = Fee * parseFloat(DepositsCreate_Amountbox.val())
 				DepositsCreate_STLabel.text('P '+ Fee)
 			}
 			else {
@@ -445,13 +445,13 @@
 			var RedeemCreate_STLabel = $("#RedeemCreate_STLabel")
 
 			if(RedeemCreate_Amountbox.val() != "") {
-				var Fee = '1'
+				var Fee = 0.01
 
-				if(RedeemCreate_Amountbox.val().length >= 2) for (var i = 2; i < RedeemCreate_Amountbox.val().length; i++) Fee += '0'
-				if(RedeemCreate_Amountbox.val().length == 1) Fee = '0'
+				// if(RedeemCreate_Amountbox.val().length >= 2) for (var i = 2; i < RedeemCreate_Amountbox.val().length; i++) Fee += '0'
+				// if(RedeemCreate_Amountbox.val().length == 1) Fee = '0'
 				RedeemCreate_FeeLabel.text('P '+ Fee)
 
-				Fee = parseInt(Fee) + parseInt(RedeemCreate_Amountbox.val())
+				Fee = Fee * parseFloat(RedeemCreate_Amountbox.val())
 				RedeemCreate_STLabel.text('P '+ Fee)
 			}
 			else {

@@ -201,12 +201,12 @@ class Transaction extends CI_Controller {
 	function Deposits_NextButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['Amountbox']) && isset($_POST['Cashbox'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['Amountbox']) && !empty($_POST['Cashbox'])) {
-				$Fee = '1';
+				$Fee = '0.01';
 
-				if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';
-				if(strlen($_POST['Amountbox']) == 1) $Fee = '0';
+				// if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';
+				// if(strlen($_POST['Amountbox']) == 1) $Fee = '0';
 
-				if($_POST['Amountbox'] + intval($Fee) <= $_POST['Cashbox']) {
+				if($_POST['Amountbox'] * $Fee < $_POST['Cashbox']) {
 
 					// Checking if the StudentID is Valid
 					if($this->db->query("Select Count(*) as x from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->x != 0) {
@@ -281,13 +281,12 @@ class Transaction extends CI_Controller {
 	function Redeem_NextButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['Amountbox']) && isset($_POST['Cashbox'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['Amountbox']) && !empty($_POST['Cashbox'])) {
-				$Fee = '1';
 				$Code = rand(0, 999999999);
 
-				if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';
-				if(strlen($_POST['Amountbox']) == 1) $Fee = '0';
+				// if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';
+				// if(strlen($_POST['Amountbox']) == 1) $Fee = '0';
 
-				if($_POST['Amountbox'] + intval($Fee) <= $_POST['Cashbox']) {
+				if($_POST['Amountbox'] * $Fee < $_POST['Cashbox']) {
 
 					// Checking if the StudentID is Valid
 					if($this->db->query("Select Count(*) as x from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->x != 0) {
