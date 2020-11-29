@@ -86,7 +86,7 @@
 <body>
 	<div class="position-fixed d-flex flex-column" style="top: 0; bottom: 0; left: 0; right: 0; background: #282828; color: #ffffff; width: 100%; height: 100%">
 		<div class="pt-3 pb-3" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-			<div class="mb-1 ml-4" style="color: #7289da; font-weight: bold;">REQUST STUDENT</div>
+			<div class="mb-1 ml-4" style="color: #7289da; font-weight: bold;">REQUEST STUDENT</div>
 
 			<div class="d-flex flex-row mb-1 ml-4 mr-4">
 				<input id="View_Searchbox" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1" style="background: #333333; color: #4caf50; width: 100%;" placeholder="Search Request Name or Student ID Only!">
