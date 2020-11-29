@@ -162,7 +162,7 @@
 						break;
 
 					case "CASHIER":
-						echo 'var DownloadBlob = ["payment", "bank"]';
+						echo 'var DownloadBlob = ["payment", "bank", "account"]';
 						break;
 
 					case "DEPARTMENT":

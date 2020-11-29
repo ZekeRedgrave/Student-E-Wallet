@@ -170,7 +170,9 @@ class Access extends CI_Controller {
 						break;
 
 					case "account":
-						$this->load->view("Account");
+						$data['AccountType'] = $_SESSION['AccountType'];
+
+						$this->load->view("Account", $data);
 						break;
 							
 					default:

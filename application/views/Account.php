@@ -75,7 +75,7 @@
 				<div class="d-flex flex-row pl-4 pr-4 pt-2 pb-2 mb-4" style="width: 100%">
 					<div class="d-flex align-items-center" style="color: #7289da; width: 100%; font-weight: bold;">LOGS</div>
 					<div class="d-flex flex-row">
-						<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Student Registry</button>
+						<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1 <?php echo ($AccountType == "CASHIER" ? "hide":""); ?>" style="background: #333333; color: #7289da; width: 200px; height: 32px;">Student Registry</button>
 					</div>
 				</div>
 				<table class="table mb-4" style="color: #7289da;">
@@ -165,7 +165,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="d-flex flex-column border-left" style="min-width: 300px; height: 100%">
+		<div class="d-flex flex-column border-left <?php echo ($AccountType == "CASHIER" ? "hide":""); ?>" style="min-width: 300px; height: 100%">
 			<div class="m-3" style="color: #7289da; width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
 
 			<div id="AccountView_RegistrationLoader" class="" style="background: #333333; width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;"></div>
