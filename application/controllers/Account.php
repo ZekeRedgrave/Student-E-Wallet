@@ -821,7 +821,7 @@ class Account extends CI_Controller {
 		if(isset($_GET['ID'])) {
 			if(!empty($_GET['ID'])) {
 				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_GET['ID'])->result()[0]->x != 0) {
-					$this->db->query("Delete from Student where StudentID=". $_GET['ID']);
+					// $this->db->query("Delete from Student where StudentID=". $_GET['ID']);
 					$this->db->query("Delete from Account where StudentID=". $_GET['ID']);
 					$this->db->query("Delete from Registration where RegisterSI=". $_GET['ID']);
 
