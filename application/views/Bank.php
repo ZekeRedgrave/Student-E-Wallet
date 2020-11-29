@@ -130,6 +130,29 @@
 			</div>
 		</div>
 		<!-- End of Redeem Area -->
+		<!-- Cash Out Area -->
+		<div id="CashArea" class="d-flex justify-content-center hide">
+			<div id="" class="d-flex flex-column mt-5" style="width: 400px;">
+				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">CASHOUT</div>
+
+				<div class="d-flex flex-row mt-4" style="width: 100%">
+					<div class="d-flex flex-column" style="width: 100%">
+						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+						<div class="d-flex flex-row mb-4">
+							<input id="CashView_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+							<button onclick="new Cash().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
+						</div>
+
+						<h4 class="ml-2 mb-1 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Balance</h4>
+						<h4 id="CashView_BalanceLabel" class="border-0 rounded m-0 pl-4 pr-4 pt-3 pb-3" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+
+						<button onclick="new Cash().View_NextButton()" id="CashView_NextButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Go!</button>
+						<button onclick="new Cash().View_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Cash Out Area -->
 		<!-- View Area -->
 		<div id="ViewArea" class="mt-3">
 			<div class="m-0 p-0 mb-4 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">TRANSACTION RECORD</div>
@@ -145,6 +168,7 @@
 						<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Top-ups</button>
 						<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
 					</div>
+					<button onclick="new Bank().View_COButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 red-text" style="background: #333333; width: 125px; font-size: 14px; font-weight: bold;">Cashout</button>
 					<div style="width: 100%"></div>
 					
 					<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">
@@ -202,6 +226,12 @@
 
 			$("#ViewArea").addClass('hide')
 			$("#Redeem_DoneArea").addClass('hide')
+		}
+
+		this.View_COButton = function() {
+			$("#CashArea").removeClass('hide')
+
+			$("#ViewArea").addClass('hide')
 		}
 	}
 
@@ -535,7 +565,7 @@
 						error: function(ex) {
 					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-					 		alert("Error: Unexpected Error Occur!")
+					 		alert("Unexpected Error Occur!")
 						}
 					})
 				}
@@ -575,6 +605,77 @@
 		this.Create_BackButton = function() {
 			$("#RedeemArea").addClass('hide')
 			$("#ViewArea").removeClass('hide')
+		}
+	}
+
+	function Cash() {
+		this.View_SearchButton = function() {
+			var CashView_Studentbox = $("#CashView_Studentbox")
+			var CashView_BalanceLabel = $("#CashView_BalanceLabel")
+
+			if(CashView_Studentbox.val() != "") {
+
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Transaction/CashView_SearchButton?id=" + CashView_Studentbox.val(), 
+					method: 'POST',
+					data: {
+				 		StudentID: CashView_Studentbox.val()
+					},
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) CashView_BalanceLabel.text(data.Balance)
+						else alert(data.ErrorDisplay)
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		alert("Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Student ID is Empty!")
+		}
+
+		this.View_NextButton = function() {
+			var CashView_Studentbox = $("#CashView_Studentbox")
+			var CashView_NextButton = $("#CashView_NextButton")
+
+			if(CashView_Studentbox.val() != "") {
+				CashView_NextButton.attr('disabled', 'disabled')
+
+				$.ajax({
+					url: window.location.href.replace("/Access", "")+ "/Transaction/CashView_NextButton?id=" + CashView_Studentbox.val(), 
+					method: 'POST',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							CashView_NextButton.removeAttr('disabled')
+
+							alert("Done")
+
+							new Cash().View_BackButton()
+						}
+						else {
+							alert(data.ErrorDisplay)
+
+							CashView_NextButton.removeAttr('disabled')
+						}
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				 		CashView_NextButton.removeAttr('disabled')
+
+				 		alert("Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Student ID is Empty!")
+		}
+
+		this.View_BackButton = function() {
+			$("#ViewArea").removeClass('hide')
+
+			$("#CashArea").addClass('hide')
 		}
 	}
 </script>

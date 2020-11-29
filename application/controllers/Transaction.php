@@ -363,6 +363,15 @@ class Transaction extends CI_Controller {
 												"GiftFee" => $Fee,
 												"isClaim" => false,
 											));
+											$this->db->insert("Logs", array(
+												"AccountID" => $_SESSION['AccountID'],
+												"LogActivity" => json_encode(array(
+													"Page" => "Deposits",
+													"Action" => "Redeem Code Gift for Student"
+												)),
+												"TimeRegister" => date("H:i:s"),
+												"DateRegister" => date("Y-m-d")
+											));
 
 									    	echo json_encode(array(
 												"isError" => false,
@@ -423,6 +432,16 @@ class Transaction extends CI_Controller {
 											"GiftAmount" => $_POST['Amountbox'],
 											"GiftFee" => $Fee,
 											"isClaim" => false,
+										));
+
+										$this->db->insert("Logs", array(
+											"AccountID" => $_SESSION['AccountID'],
+											"LogActivity" => json_encode(array(
+												"Page" => "Redeem",
+												"Action" => "Redeem Code Gift for Student"
+											)),
+											"TimeRegister" => date("H:i:s"),
+											"DateRegister" => date("Y-m-d")
 										));
 
 										echo json_encode(array(
@@ -508,6 +527,15 @@ class Transaction extends CI_Controller {
 						)),
 						"DateRegister" => date("Y-m-d"),
 						"TimeRegister" => date("H:i:s")
+					));
+					$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Redeem",
+							"Action" => "Claimed"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
 					));
 
 					echo json_encode(array(
@@ -613,6 +641,15 @@ class Transaction extends CI_Controller {
 									)),
 									"DateRegister" => date("Y-m-d"),
 									"TimeRegister" => date("H:i:s")
+								));
+								$this->db->insert("Logs", array(
+									"AccountID" => $_SESSION['AccountID'],
+									"LogActivity" => json_encode(array(
+										"Page" => "Store",
+										"Action" => "Paying Tuition Fee"
+									)),
+									"TimeRegister" => date("H:i:s"),
+									"DateRegister" => date("Y-m-d")
 								));
 								$this->db->update("Account", array(
 									"Account_AvailableBalance" => $BalanceLeft,
@@ -728,6 +765,15 @@ class Transaction extends CI_Controller {
 								"Start_DateRegister" => date("Y-m-d"),
 								"Start_TimeRegister" => date("H:i:s")
 							));
+							$this->db->insert("Logs", array(
+								"AccountID" => $_SESSION['AccountID'],
+								"LogActivity" => json_encode(array(
+									"Page" => "Store",
+									"Action" => "Purchase an Item ID#" .$_GET['id']
+								)),
+								"TimeRegister" => date("H:i:s"),
+								"DateRegister" => date("Y-m-d")
+							));
 							$this->db->update("Account", array(
 								"Account_AvailableBalance" => $BalanceLeft
 							), "AccountID=". $_SESSION['AccountID']);
@@ -752,6 +798,94 @@ class Transaction extends CI_Controller {
 			"isError" => true,
 			"ErrorDisplay" => "Unexpected Error Occur!"
 		));
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+	function CashView_SearchButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_GET['id'])->result()[0];
+
+				$data["isError"] = false;
+				$data["Balance"] = $AccountQuery->Account_AvailableBalance;
+
+				echo json_encode($data);
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Unexpected Error Occur!"
+			)); 
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Unexpected Error Occur!"
+		)); 
+	}
+
+	function CashView_NextButton() {
+		if(isset($_GET['id'])) {
+			if(!empty($_GET['id'])) {
+				if($this->db->query("Select Count(*) as x from Account where Account_AvailableBalance!=0 and StudentID=". $_GET['id'])->result()[0]->x == 1) {
+					$x = include APPPATH.'third_party/SMTPConfig.php';
+
+					// Sending a Verification Key Code to Email Account
+					$mail = new PHPMailer();
+					$mail->isSMTP();
+					$mail->Host = 'smtp.gmail.com'; 
+					$mail->SMTPSecure = 'ssl';
+					$mail->SMTPAuth = true;
+					$mail->Username = $x['Email'];
+					$mail->Password = $x['Password'];
+					$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+					$mail->Port = 465;
+					//Recipients
+					$mail->setFrom($x['Email'], "Student EWallet Notifications");
+					$mail->addAddress($AccountQuery->AccountEmail);
+					// Content
+					$mail->isHTML(true);
+					$mail->Subject = 'Student EWallet Notifications';
+					$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
+					// Send
+					if(!$mail->send())  echo json_encode(array(
+					    "isError" => true,
+					    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+						));
+
+					else {
+						$data["isError"] = false;
+
+						$this->db->insert("Logs", array(
+							"AccountID" => $_SESSION['AccountID'],
+							"LogActivity" => json_encode(array(
+								"Page" => "Bank",
+								"Action" => "Cashout Money for Student"
+							)),
+							"TimeRegister" => date("H:i:s"),
+							"DateRegister" => date("Y-m-d")
+						));
+						$this->db->update("Account", array(
+							"Account_AvailableBalance" => 0
+						), "StudentID=". $_GET['id']);
+
+						echo json_encode(array(
+							"isError" => false
+						));
+					}
+				}
+				else echo json_encode(array(
+					"isError" => true,
+					"ErrorDisplay" => "Amount Balance is Zero!\nCannot Cashout Anymore!"
+				));
+			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Unexpected Error Occur!"
+			)); 
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Unexpected Error Occur!"
+		)); 
 	}
 }
 
