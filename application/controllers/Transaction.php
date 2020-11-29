@@ -10,10 +10,11 @@ use PHPMailer\PHPMailer\Exception;
 class Transaction extends CI_Controller {
 	function __construct()
 	{
-          parent::__construct();
-          $this->load->database('default');
+        parent::__construct();
+        $this->load->database('default');
 
-          session_start();
+        session_start();
+        date_default_timezone_set("Asia/Taipei");
     }
 
     function View_StoreLoad() {
@@ -695,7 +696,7 @@ class Transaction extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Student EWallet Notifications';
-						$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please Claim this Item Today or Later into your School!';
+						$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
 						// Send
 						if(!$mail->send())  echo json_encode(array(
 						    "isError" => true,

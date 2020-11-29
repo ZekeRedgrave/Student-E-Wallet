@@ -6,6 +6,7 @@ class Login extends CI_Controller {
         $this->load->database('default');
 
         session_start();
+        date_default_timezone_set("Asia/Taipei");
     }
 
     function View_DoneButton() {

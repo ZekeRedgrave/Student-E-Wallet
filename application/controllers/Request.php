@@ -11,6 +11,7 @@ class Request extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->database('default');
+		date_default_timezone_set("Asia/Taipei");
 	}
 
 	function index() {

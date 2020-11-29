@@ -14,6 +14,7 @@ class RegisterStudent extends CI_Controller {
 	{
         parent::__construct();
         $this->load->database('default');
+        date_default_timezone_set("Asia/Taipei");
     }
 
     function Create_NextButton() {
