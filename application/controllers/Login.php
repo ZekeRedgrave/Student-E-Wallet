@@ -95,7 +95,7 @@ class Login extends CI_Controller {
 	    			}
 	    			else echo json_encode(array(
 				    	"isError" => true,
-				    	"ErrorDisplay" => "Error: Username Incorrect!"
+				    	"ErrorDisplay" => "Error: Email Incorrect!"
 				    ));
 	    		}
     		}

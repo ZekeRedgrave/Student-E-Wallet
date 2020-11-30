@@ -265,6 +265,8 @@
 							
 							new Store().View_CancelButton()
 							new Store().View_ItemLoad()
+
+							StoreView_TuitionButton.removeAttr('disabled')
 						}
 						else {
 							alert(data.ErrorDisplay)
@@ -417,7 +419,11 @@
 						new Store().DA_CancelButton()
 						new Store().View_ItemLoad()
 					}
-					else alert(data.ErrorDisplay)
+					else {
+						StoreView_DynamicButton.removeAttr('disabled')
+
+						alert(data.ErrorDisplay)
+					}
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))

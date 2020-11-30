@@ -17,6 +17,51 @@ class Transaction extends CI_Controller {
         date_default_timezone_set("Asia/Taipei");
     }
 
+    function Receipt($ReceiptNo, $ItemName, $ItemPrice, $SubTotal, $Balance, $Total, $Message, $Status) {
+    	return '
+				<div style="position: fixed; display: flex; justify-content: center; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%; background: #282828; color: white;">
+					<div style="width: 500px;">
+						<h1 style="text-align: center; color: #7289da; font-weight: bold;">STUDENT E-WALLET</h1>
+						<div style="text-align: center; color: #7289da; font-weight: bold;">OFFICIAL RECEIPT</div>
+						<div style="text-align: center; color: #7289da; font-weight: bold;">RECEIPT NO. #' .$ReceiptNo. '</div>
+						<div style="text-align: center; color: #7289da; font-weight: bold;">TIMELINE #' .date('Y/m/d'). ' ' .date('H:i:s'). '</div>
+
+						<div style="margin-top: 8%; padding-left: 15%; padding-right: 15%;">
+							<div style="display: flex; background: #333333; padding: 5%; border-radius: 6px;">
+								<div style="width: 200px; color: #7289da; font-weight: bold;">ITEM NAME : </div>
+								<div style="width: 100%; font-weight: bold;">' .$ItemName. '</div>
+							</div>
+							<div style="display: flex; background: #333333; padding: 5%; margin-top: 1%; border-radius: 6px;">
+								<div class="" style="width: 200px; color: #7289da; font-weight: bold;">ITEM PRICE : </div>
+								<div style="width: 100%; font-weight: bold;">P ' .$ItemPrice. '</div>
+							</div>
+						</div>
+
+						<div style="margin-top: 2%; padding-top: 2%; border-top: 2px solid #7289da">
+							<div style="padding-left: 15%; padding-right: 15%;">
+								<div style="display: flex; background: #333333; padding: 5%; border-radius: 6px;">
+									<div style="width: 200px; color: #7289da; font-weight: bold;">BALANCE : </div>
+									<div style="width: 100%; font-weight: bold;">P ' .$Balance. '</div>
+								</div>
+
+								<div style="display: flex; background: #333333; padding: 5%; margin-top: 1%; border-radius: 6px;">
+									<div class="mr-4" style="width: 200px; color: #7289da; font-weight: bold;">SUB TOTAL : </div>
+									<div style="width: 100%; font-weight: bold;">P ' .$SubTotal. '</div>
+								</div>
+
+								<div style="display: flex; margin-top: 5%; margin-bottom: 5%; margin-left: 10%; margin-right: 10%;">
+									<div style="width: 200px; padding: 5%; font-weight: bold;">TOTAL : </div>
+									<div style="background: #333333; width: 100%; padding: 5%; border-radius: 6px; font-weight: bold;">P ' .$Total. '</div>
+								</div>
+							</div>
+						</div>
+
+						<div style="border: 2px solid #7289da; padding: 3%; border-radius: 6px; text-align: center; font-weight: bold; margin-left: 10%; margin-right: 10%">' .$Message. '</div>
+						<div style="text-align: center; margin-top: 3%; font-weight: bold; color: #f44336; margin-bottom: 5%; margin-left: 10%; margin-right: 10%">' .$Status. '</div>
+					</div>
+				</div>';
+    }
+
     function View_StoreLoad() {
 		echo json_encode(array(
 			"isError" => true,
@@ -601,7 +646,14 @@ class Transaction extends CI_Controller {
 							// Content
 							$mail->isHTML(true);
 							$mail->Subject = 'Student EWallet Notifications';
-							$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
+
+							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Half Paid (Can now Enroll)');
+
+							if($FeeLeft == 0) $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Fully Paid! (Can now Enroll)');
+
+							else $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', '');
+
+							//$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
 							// Send
 							if(!$mail->send())  echo json_encode(array(
 							    "isError" => true,
@@ -736,7 +788,8 @@ class Transaction extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Student EWallet Notifications';
-						$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
+						$mail->Body    = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, $StoreQuery->StoreTitle, $StoreQuery->StorePrice, $StoreQuery->StorePrice, $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Please wait for the verification of the process.');
+						//$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
 						// Send
 						if(!$mail->send())  echo json_encode(array(
 						    "isError" => true,
