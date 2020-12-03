@@ -13,18 +13,19 @@
 			case "CASHIER":
 				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
 				echo '<button id="App_BankButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Transaction & Bank">account_balance</button>';
-				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Account">how_to_reg</button>';
+				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Student Account">account_circle</button>';
 				break;
 
 			case "DEPARTMENT":
 				echo '<button id="App_TimelineButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="News & Announcement">timeline</button>';
-				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Account">how_to_reg</button>';
+				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Student Account">account_circle</button>';
 				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
 				break;
 
 			case "ADMIN":
 				echo '<button id="App_TimelineButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="News & Announcement">timeline</button>';
-				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Account">how_to_reg</button>';
+				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Student Account">account_circle</button>';
+				echo '<button id="App_EmployeeButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Employee Account">supervised_user_circle</button>';
 				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment">receipt_long</button>';
 				break;
 			
@@ -47,6 +48,7 @@
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
 			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Home")
@@ -57,6 +59,7 @@
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
 			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 
 			$("title").text("E-Student Wallet Access - Records")
@@ -67,6 +70,7 @@
 			$("#App_TimelineArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
 			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_PaymentArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - Generate Store")
@@ -77,6 +81,7 @@
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
 			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_TimelineArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - News and Announcement")
@@ -87,9 +92,10 @@
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_AccountArea").removeClass('hide')
 
-			$("title").text("E-Student Wallet Access - Account")
+			$("title").text("E-Student Wallet Access - Student Account")
 		})
 		$("#App_BankButton").click(function(event) {
 			$("#App_HomeArea").addClass('hide')
@@ -97,9 +103,21 @@
 			$("#App_PaymentArea").addClass('hide')
 			$("#App_TimelineArea").addClass('hide')
 			$("#App_AccountArea").addClass('hide')
+			$("#App_EmployeeArea").addClass('hide')
 			$("#App_BankArea").removeClass('hide')
 
 			$("title").text("E-Student Wallet Access - Bank")
+		})
+		$("#App_EmployeeButton").click(function(event) {
+			$("#App_HomeArea").addClass('hide')
+			$("#App_RecordsArea").addClass('hide')
+			$("#App_PaymentArea").addClass('hide')
+			$("#App_TimelineArea").addClass('hide')
+			$("#App_AccountArea").addClass('hide')
+			$("#App_BankArea").addClass('hide')
+			$("#App_EmployeeArea").removeClass('hide')
+
+			$("title").text("E-Student Wallet Access - Employee Account")
 		})
 
 		$("#App_SettingButton").click(function() {

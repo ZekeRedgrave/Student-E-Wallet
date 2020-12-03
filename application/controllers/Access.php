@@ -175,6 +175,9 @@ class Access extends CI_Controller {
 						$this->load->view("Account", $data);
 						break;
 							
+					case "employee": 
+						$this->load->view("Employee");
+						break;
 					default:
 						echo "Error Code : 404";
 						break;

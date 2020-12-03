@@ -50,7 +50,7 @@ class Transaction extends CI_Controller {
 								</div>
 
 								<div style="display: flex; margin-top: 5%; margin-bottom: 5%; margin-left: 10%; margin-right: 10%;">
-									<div style="width: 200px; padding: 5%; font-weight: bold;">TOTAL : </div>
+									<div style="width: 200px; padding: 5%; font-weight: bold;">TOTAL / BALANCE : </div>
 									<div style="background: #333333; width: 100%; padding: 5%; border-radius: 6px; font-weight: bold;">P ' .$Total. '</div>
 								</div>
 							</div>
@@ -688,7 +688,7 @@ class Transaction extends CI_Controller {
 										"EmployeeID" => "N/A",
 										"StudentID" => $AccountQuery->StudentID,
 										"TransactionAmount" => $_POST['Amount'],
-										"TransactionFee" => $AccountQuery->Account_TuitionBalance,
+										"TransactionFee" => 0,
 										"TransactionCash" => $AccountQuery->Account_AvailableBalance,
 									)),
 									"DateRegister" => date("Y-m-d"),
@@ -879,6 +879,7 @@ class Transaction extends CI_Controller {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
 				if($this->db->query("Select Count(*) as x from Account where Account_AvailableBalance!=0 and StudentID=". $_GET['id'])->result()[0]->x == 1) {
+					$AccountQuery = $this->db->query("Select * from Account where Account_AvailableBalance!=0 and StudentID=". $_GET['id'])->result()[0];
 					$x = include APPPATH.'third_party/SMTPConfig.php';
 
 					// Sending a Verification Key Code to Email Account
@@ -897,7 +898,7 @@ class Transaction extends CI_Controller {
 					// Content
 					$mail->isHTML(true);
 					$mail->Subject = 'Student EWallet Notifications';
-					$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
+					$mail->Body    = 'Cash-Out P ' .$AccountQuery->Account_AvailableBalance. ' out of your Account.<br><br><br><br>Thank you for Widthrawal today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please enjoy!';
 					// Send
 					if(!$mail->send())  echo json_encode(array(
 					    "isError" => true,
@@ -915,6 +916,19 @@ class Transaction extends CI_Controller {
 							)),
 							"TimeRegister" => date("H:i:s"),
 							"DateRegister" => date("Y-m-d")
+						));
+						$this->db->insert("Transaction", array(
+							"StudentID" => $AccountQuery->StudentID,
+							"TransactionType" => "WIDTHDRAWAL",
+							"TransactionDescription" => json_encode(array(
+								"EmployeeID" => $this->db->query("Select * from Account where AccountID=". $_SESSION["AccountID"])->result()[0]->EmployeeID,
+								"StudentID" => $AccountQuery->StudentID,
+								"TransactionAmount" => $AccountQuery->Account_AvailableBalance,
+								"TransactionFee" => 0,
+								"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+							)),
+							"DateRegister" => date("Y-m-d"),
+							"TimeRegister" => date("H:i:s")
 						));
 						$this->db->update("Account", array(
 							"Account_AvailableBalance" => 0

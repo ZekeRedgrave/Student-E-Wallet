@@ -170,7 +170,7 @@
 						break;
 
 					case "ADMIN":
-						echo 'var DownloadBlob = ["timeline", "account", "payment"]';
+						echo 'var DownloadBlob = ["timeline", "account", "payment", "employee"]';
 						break;
 					
 					default:
