@@ -62,11 +62,21 @@ class Transaction extends CI_Controller {
 				</div>';
     }
 
-    function View_StoreLoad() {
-		echo json_encode(array(
-			"isError" => true,
-			"ErrorDisplay" => "Testing"
+    function View_DynamicLoad() {
+    	$data["isError"] = false;
+    	$data["StoreArray"] = [];
+		$data["isStoreEmpty"] = false;
+
+		if($this->db->query("Select Count(*) as x from Store Order by StoreID DESC")->result()[0]->x == 0) $data["isStoreEmpty"] = true;
+		else foreach ($this->db->query("Select * from Store Order by StoreID DESC")->result() as $value) array_push($data["StoreArray"], array(
+			"StoreID" => $value->StoreID,
+			"StoreTitle" => $value->StoreTitle,
+			"StoreType" => $value->StoreType,
+			"StorePrice" => $value->StorePrice,
+			"StoreIcon" => $value->StoreIcon
 		));
+
+		echo json_encode($data);
 	}
 
 	function View_RecordLoad() {
@@ -246,63 +256,68 @@ class Transaction extends CI_Controller {
 	function Deposits_NextButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['Amountbox']) && isset($_POST['Cashbox'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['Amountbox']) && !empty($_POST['Cashbox'])) {
-				$Fee = .01;
+				$Fee = .005;
 
 				// if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';
 				// if(strlen($_POST['Amountbox']) == 1) $Fee = '0';
 				$Fee = $Fee * $_POST['Amountbox'];
 
-				if($_POST['Amountbox'] + $Fee <= $_POST['Cashbox']) {
+				if($_POST['Amountbox'] >= 100) {
+					if($_POST['Amountbox'] + $Fee <= $_POST['Cashbox']) {
+						// Checking if the StudentID is Valid
+						if($this->db->query("Select Count(*) as x from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->x != 0) {
+							// Checking if the StudentID is Exist
+							if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
+								// Checking if the StudentID is not graduated yet
+								if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status == "non-graduated") {
+									$this->db->insert("Transaction", array(
+										"StudentID" => $_POST['StudentID'],
+										"TransactionType" => "DEPOSITS",
+										"TransactionDescription" => json_encode(array(
+												"EmployeeID" => $_SESSION['AccountID'],
+												"StudentID" => $_POST['StudentID'],
+												"TransactionFee" => $Fee,
+												"TransactionAmount" => $_POST['Amountbox'],
+												"TransactionCash" => $_POST['Cashbox']
+										)),
+										"DateRegister" => date("Y-m-d"),
+										"TimeRegister" => date("H:i:s")
+									));
 
-					// Checking if the StudentID is Valid
-					if($this->db->query("Select Count(*) as x from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->x != 0) {
-						// Checking if the StudentID is Exist
-						if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
-							// Checking if the StudentID is not graduated yet
-							if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status == "non-graduated") {
-								$this->db->insert("Transaction", array(
-									"StudentID" => $_POST['StudentID'],
-									"TransactionType" => "DEPOSITS",
-									"TransactionDescription" => json_encode(array(
-											"EmployeeID" => $_SESSION['AccountID'],
-											"StudentID" => $_POST['StudentID'],
-											"TransactionFee" => $Fee,
-											"TransactionAmount" => $_POST['Amountbox'],
-											"TransactionCash" => $_POST['Cashbox']
-									)),
-									"DateRegister" => date("Y-m-d"),
-									"TimeRegister" => date("H:i:s")
-								));
+									$this->db->update("Account", array(
+										"Account_AvailableBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $_POST['Amountbox']
+									), "StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'");
 
-								$this->db->update("Account", array(
-									"Account_AvailableBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $_POST['Amountbox']
-								), "StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'");
-
-								echo json_encode(array(
-									"isError" => false,
-									"Total" => $_POST['Amountbox'] + $Fee,
-									"Cash" => $_POST['Cashbox'],
-									"Change" => ($_POST['Amountbox'] + $Fee) - $_POST['Cashbox']
+									echo json_encode(array(
+										"isError" => false,
+										"Total" => $_POST['Amountbox'] + $Fee,
+										"Cash" => $_POST['Cashbox'],
+										"Change" => ($_POST['Amountbox'] + $Fee) - $_POST['Cashbox']
+									));
+								}
+								else echo json_encode(array(
+									"isError" => true,
+									"ErrorDisplay" => "Error: This Student is already Graduated, Therefore not allowed to do any 'Transaction' anymore!"
 								));
 							}
 							else echo json_encode(array(
 								"isError" => true,
-								"ErrorDisplay" => "Error: This Student is already Graduated, Therefore not allowed to do any 'Transaction' anymore!"
+								"ErrorDisplay" => "Error: Not Existed!"
 							));
 						}
 						else echo json_encode(array(
 							"isError" => true,
-							"ErrorDisplay" => "Error: Not Existed!"
+							"ErrorDisplay" => "Error: Invalid Student ID!"
 						));
 					}
 					else echo json_encode(array(
 						"isError" => true,
-						"ErrorDisplay" => "Error: Invalid Student ID!"
+						"ErrorDisplay" => "Error: Cash not enough!"
 					));
 				}
 				else echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Error: Cash not enough!"
+					"ErrorDisplay" => "The Minimum Amount for Deposits is 100!"
 				));
 			}
 			else {
@@ -314,7 +329,7 @@ class Transaction extends CI_Controller {
 
 				echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Error: " .$ErrorDisplay. "is Empty!"
+					"ErrorDisplay" => $ErrorDisplay. "is Empty!"
 				)); 
 			}
 		}
@@ -327,7 +342,7 @@ class Transaction extends CI_Controller {
 	function Redeem_NextButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['Amountbox']) && isset($_POST['Cashbox'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['Amountbox']) && !empty($_POST['Cashbox'])) {
-				$Fee = 0.01;
+				$Fee = 0.005;
 				$Code = rand(0, 999999999);
 
 				// if(strlen($_POST['Amountbox']) >= 2) for ($i = 2; $i < strlen($_POST['Amountbox']); $i++) $Fee .= '0';

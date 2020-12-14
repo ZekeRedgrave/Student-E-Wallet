@@ -36,8 +36,9 @@ class Timeline extends CI_Controller {
 
     		if(json_encode($TimelineQuery) != null) {
     			$AccountQuery = $this->db->query("Select * from Account where AccountID=". $TimelineQuery->AccountID)->result()[0];
+                $EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $AccountQuery->EmployeeID)->result()[0];
 
-    			$data['TimelineName'] = $AccountQuery->AccountUsername. " [". $AccountQuery->AccountType ."]";
+    			$data['TimelineName'] = json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1). ". [". $AccountQuery->AccountType ."]";
     			$data['TimelineImage'] = $AccountQuery->AccountImage;
 
     			foreach ($TimelineQuery as $key => $value) $data[$key] = $value;
@@ -62,9 +63,10 @@ class Timeline extends CI_Controller {
 
     		if(json_encode($TimelineQuery) != null) {
     			$AccountQuery = $this->db->query("Select * from Account where AccountID=". $TimelineQuery->AccountID)->result()[0];
+                $EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $AccountQuery->EmployeeID)->result()[0];
 
     			$data["PostID"] = $TimelineQuery->TimelineID;
-    			$data["PostHostname"] = $AccountQuery->AccountUsername. ' [' .$AccountQuery->AccountType. ']';
+    			$data["PostHostname"] = json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1). '. [' .$AccountQuery->AccountType. ']';
     			$data["PostHostimage"] = $AccountQuery->AccountImage;
     			$data["PostDT"] = $TimelineQuery->DateRegister. " " .$TimelineQuery->TimeRegister;
     			$data["PostText"] = json_decode($TimelineQuery->TimelineDescription)->Text;

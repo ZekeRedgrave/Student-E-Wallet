@@ -30,7 +30,7 @@ class RegisterAdmin extends CI_Controller {
     function View_SearchButton() {
         if(isset($_GET['id'])) {
             if(!empty($_GET['id'])) {
-                if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'])->result()[0]->x != 0) echo json_encode(array(
+                if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'] ." and isRetired=false")->result()[0]->x != 0) echo json_encode(array(
                     "isError" => false,
                     "SuccessDisplay" => "This EmployeeID #". $_GET['id'] ." is Existed!"
                 ));
@@ -140,50 +140,80 @@ class RegisterAdmin extends CI_Controller {
     			if($this->db->query("Select Count(*) as x from Registration where RegisterCode=" .$_POST['RegisterCode'])->result()[0]->x != 0) {
     				$RegisterQuery = $this->db->query("Select * from Registration where RegisterCode='" .$_POST['RegisterCode']. "'")->result()[0];
 
-    				$this->db->insert("Account", array(
-    					"EmployeeID" => $_POST['RegisterEI'],
-    					"AccountUsername" => $RegisterQuery->RegisterUsername,
-    					"AccountEmail" => $RegisterQuery->RegisterEmail,
-    					"AccountPassword" => $RegisterQuery->RegisterPassword,
-    					"AccountType" => $RegisterQuery->RegisterType,
-    					"Account_AvailableBalance" => 0.0,
-    					"Account_TuitionBalance" => 0.0,
-    					"AccountImage" => "avatar.png",
-    					"TimeRegister" => date("H:i:s"),
-    					"DateRegister" => date("Y-m-d")
-    				));
+    				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['RegisterEI'])->result()[0]->x == 0) {
+                            $this->db->insert("Account", array(
+                                "EmployeeID" => $_POST['RegisterEI'],
+                                "AccountUsername" => $RegisterQuery->RegisterUsername,
+                                "AccountEmail" => $RegisterQuery->RegisterEmail,
+                                "AccountPassword" => $RegisterQuery->RegisterPassword,
+                                "AccountType" => $RegisterQuery->RegisterType,
+                                "Account_AvailableBalance" => 0.0,
+                                "Account_TuitionBalance" => 0.0,
+                                "AccountImage" => "avatar.png",
+                                "TimeRegister" => date("H:i:s"),
+                                "DateRegister" => date("Y-m-d")
+                            ));
+                            $this->db->insert("Employee", array(
+                                "EmployeeID" => $_POST['RegisterEI'],
+                                "Name" => $_POST['RegisterName'],
+                                "Age" => $_POST['RegisterAge'],
+                                "Gender" => $_POST['RegisterGender'],
+                                "ContactNumber" => $_POST['RegisterContact'],
+                                "Image" => "avatar.png",
+                                "Position" => $_POST['RegisterPosition'],
+                                "Department" => $_POST['RegisterDepartment']
+                            ));
+                            $this->db->update("Registration", array(
+                                "RegisterExpire" => 0,
+                                "RegisterCode" => 0,
+                                "isApprove" => true,
+                                "isDelete" => true
+                            ), "RegisterCode='" .$_POST['RegisterCode']. "' and RegisterCode=". $_POST['RegisterCode']);
 
-    				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['RegisterEI'])->result()[0]->x == 0) $this->db->insert("Employee", array(
-    					"EmployeeID" => $_POST['RegisterEI'],
-    					"Name" => $_POST['RegisterName'],
-    					"Age" => $_POST['RegisterAge'],
-    					"Gender" => $_POST['RegisterGender'],
-    					"ContactNumber" => $_POST['RegisterContact'],
-    					"Image" => "avatar.png",
-    					"Position" => $_POST['RegisterPosition'],
-    					"Department" => $_POST['RegisterDepartment']
-    				));
-    				else $this->db->update("Employee", array(
-    					"EmployeeID" => $_POST['RegisterEI'],
-    					"Name" => $_POST['RegisterName'],
-    					"Age" => $_POST['RegisterAge'],
-    					"Gender" => $_POST['RegisterGender'],
-    					"ContactNumber" => $_POST['RegisterContact'],
-    					"Image" => "avatar.png",
-    					"Position" => $_POST['RegisterPosition'],
-    					"Department" => $_POST['RegisterDepartment']
-    				), "EmployeeID=". $_POST['RegisterEI']);
+                            echo json_encode(array(
+                                "isError" => false
+                            ));
+                    }
+    				else {
+                        if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['RegisterEI'] ." and isRetired=false")->result()[0]->x == 1) {
+                            $this->db->insert("Account", array(
+                                "EmployeeID" => $_POST['RegisterEI'],
+                                "AccountUsername" => $RegisterQuery->RegisterUsername,
+                                "AccountEmail" => $RegisterQuery->RegisterEmail,
+                                "AccountPassword" => $RegisterQuery->RegisterPassword,
+                                "AccountType" => $RegisterQuery->RegisterType,
+                                "Account_AvailableBalance" => 0.0,
+                                "Account_TuitionBalance" => 0.0,
+                                "AccountImage" => "avatar.png",
+                                "TimeRegister" => date("H:i:s"),
+                                "DateRegister" => date("Y-m-d")
+                            ));
+                            $this->db->update("Employee", array(
+                                "EmployeeID" => $_POST['RegisterEI'],
+                                "Name" => $_POST['RegisterName'],
+                                "Age" => $_POST['RegisterAge'],
+                                "Gender" => $_POST['RegisterGender'],
+                                "ContactNumber" => $_POST['RegisterContact'],
+                                "Image" => "avatar.png",
+                                "Position" => $_POST['RegisterPosition'],
+                                "Department" => $_POST['RegisterDepartment']
+                            ), "EmployeeID=". $_POST['RegisterEI']);
+                            $this->db->update("Registration", array(
+                                "RegisterExpire" => 0,
+                                "RegisterCode" => 0,
+                                "isApprove" => true,
+                                "isDelete" => true
+                            ), "RegisterCode='" .$_POST['RegisterCode']. "' and RegisterCode=". $_POST['RegisterCode']);
 
-    				$this->db->update("Registration", array(
-    					"RegisterExpire" => 0,
-    					"RegisterCode" => 0,
-    					"isApprove" => true,
-    					"isDelete" => true
-    				), "RegisterCode='" .$_POST['RegisterCode']. "' and RegisterCode=". $_POST['RegisterCode']);
-
-					echo json_encode(array(
-					   	"isError" => false
-					));
+                            echo json_encode(array(
+                                "isError" => false
+                            ));
+                        }
+                        else echo json_encode(array(
+                            "isError" => true,
+                            "ErrorDisplay" => "Not Enabled to Registered!"
+                        ));
+                    }    				
     			}
     			else echo json_encode(array(
 				   	"isError" => true,

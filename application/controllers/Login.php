@@ -39,6 +39,32 @@ class Login extends CI_Controller {
 			    	"ErrorDisplay" => "Error: Password Mismatch!"
 			    ));
     		}
+    		else if($this->db->query("Select Count(*) as x from Account where StudentID='". $_POST['AccountUsername'] ."' and AccountType='STUDENT'")->result()[0]->x != 0) {
+    			if($this->db->query("Select Count(*) as x from Account where StudentID='". $_POST['AccountUsername'] ."' and AccountPassword='". $_POST['AccountPassword'] ."' and AccountType='STUDENT'")->result()[0]->x != 0) {
+	    			$AccountQuery = $this->db->query("Select * from Account where StudentID='". $_POST['AccountUsername'] ."' and AccountPassword='". $_POST['AccountPassword'] ."' and AccountType='STUDENT'")->result()[0];
+	    			$_SESSION['AccountID'] = $AccountQuery->AccountID;
+		    		$_SESSION['AccountType'] = $AccountQuery->AccountType;
+
+		    		$this->db->insert("Logs", array(
+						"AccountID" => $_SESSION['AccountID'],
+						"LogActivity" => json_encode(array(
+							"Page" => "Login",
+							"Action" => "Session In"
+						)),
+						"TimeRegister" => date("H:i:s"),
+						"DateRegister" => date("Y-m-d")
+					));
+
+		    		echo json_encode(array(
+				   		"isError" => false,
+				   		"QueryParag" => "Load=views&Name=app"
+				   	));
+		    	}
+		    	else echo json_encode(array(
+			    	"isError" => true,
+			    	"ErrorDisplay" => "Error: Password Mismatch!"
+			    ));
+    		}
     		else {
     			if($_POST['AccountUsername'] == $x["Username"]) {
 	    			if($_POST['AccountUsername'] == $x["Username"] && $_POST['AccountPassword'] == $x["Password"]) {
@@ -95,7 +121,7 @@ class Login extends CI_Controller {
 	    			}
 	    			else echo json_encode(array(
 				    	"isError" => true,
-				    	"ErrorDisplay" => "Error: Email Incorrect!"
+				    	"ErrorDisplay" => "Error: Email/ID Incorrect!"
 				    ));
 	    		}
     		}

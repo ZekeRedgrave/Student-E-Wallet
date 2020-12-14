@@ -1,29 +1,28 @@
 <div id="App_TimelineArea" class="d-flex flex-row" style="width:100%; height: 100%">
-	<div id="TimelineView_HomeArea" class="d-flex flex-row" style="width: 100%; height: 100%">
-		<div class="d-flex justify-content-center pt-5" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+	<div id="TimelineView_HomeArea" class="d-flex flex-column companyLabel" style="width: 100%; height: 100%">
+		<div class="pt-3 pb-3 pl-4 pr-4 mb-2 shadow-sm" style=" min-width: 125px; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
+		<div class="d-flex justify-content-center" style="width: 100%; overflow: hidden; overflow-y: scroll;">
 			<div class="d-flex flex-column" style="width: 600px">
-				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
 				<!-- Write Timeline -->
-				<div class="d-flex flex-column rounded p-3 mb-4" style="background: #1e2124; width: 100%;">
+				<div class="d-flex flex-column rounded p-3 mb-5 rounded shadow" style=" width: 100%;">
 					<h4 class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Write a post</h4>
-					<textarea id="TimelineCreate_Descriptionbox" class="border-0 rounded-0 pl-4 pr-4 pt-2 pb-2" style="background: #1e2124; color: #ffffff; width: 100%; height: 150px; resize: none;" placeholder="Any Announcement, News or Update?"></textarea>
+					<textarea id="TimelineCreate_Descriptionbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 companyInput" style="width: 100%; height: 150px; resize: none;" placeholder="Any Announcement, News or Update?"></textarea>
 					<!-- Upload Image Display -->
 					<div id="TimelineCreate_ImageLoader" class="row mt-1 ml-0 mr-0 mb-0"></div>
 					<!-- End of Upload Image Display -->
 					<div class="d-flex flex-row mt-1">
-						<button onclick="new Timeline().Create_UploadButton()" class="material-icons border-0 rounded" style="background: #333333; color: #7289da; width: 50px; height: 45px;" title="Upload Image">add</button>
-						<button onclick="new Timeline().Create_SendButton()" id="TimelineCreate_SendButton" class="material-icons border-0 rounded ml-1" style="background: #333333; color: #7289da; width: 50px; height: 45px;" title="Upload Image">send</button>
+						<button onclick="new Timeline().Create_UploadButton()" class="material-icons border-0 rounded" style="min-width: 50px; max-width: 50px; height: 50px;" title="Upload Image">add</button>
+						<button onclick="new Timeline().Create_SendButton()" id="TimelineCreate_SendButton" class="material-icons border-0 rounded ml-1 companyBackground" style="min-width: 50px; max-width: 50px; height: 50px;" title="Post Now!">send</button>
 						<div style="width: 100%"></div>
 						<input id="TimelineCreate_FileUpload" type="file" class="hide" multiple="multiple">
-					</div>
-
-					<div class="progress p-0 rounded-0 mt-1" style="background: #1e2124;">
-						<div id="TimelineCreate_Progressbar" class="red" style="width: 0%; height: 1px;"></div>
+						<div class="progress p-0 rounded-0 mt-1">
+							<div id="TimelineCreate_Progressbar" class="red" style="width: 0%; height: 1px;"></div>
+						</div>
 					</div>
 				</div>
 				<!-- End of Write Timeline -->
 				<!-- View Timeline -->
-				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">TIMELINE</div>
+				<div class="p-0 ml-2" style="min-width: 125px; font-weight: bold;">TIMELINE</div>
 				<div id="TimelineView_LoaderArea">
 					<h1 class="p-3">No Posting Timeline Yet!</h1>
 				</div>
@@ -52,34 +51,36 @@
 	</div>
 	<!-- End of Load Image -->
 	<!-- Detail Area -->
-	<div class="d-flex flex-column" style="background: #282828; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
-		<div class="d-flex flex-row p-3" style="width: 100%;">
-			<img id="PostView_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-			<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
-				<h4 id="PostView_HostName" style="color: #7289da; margin: 0; font-size: 14px; font-weight: bold;">XXXXXXX [System Administrator]</h4>
-				<h4 id="PostView_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
+	<div class="d-flex flex-column companyLabel" style="background: white !important; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="d-flex flex-column shadow-sm">
+			<div class="d-flex flex-row p-3" style="width: 100%;">
+				<img id="PostView_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+				<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
+					<h4 id="PostView_HostName" style="color: #7289da; margin: 0; font-size: 14px; font-weight: bold;">XXXXXXX [System Administrator]</h4>
+					<h4 id="PostView_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
 
-				<div id="PostView_DescriptionLoader" class="mt-3 mb-2" style="font-size: 12px;">
-					<span>Add some text here!</span>
-				</div>
-			</div>
-		</div>
-		<div class="d-flex flex-column" style="background: #282828; width: 100%; height: 100%;">
-			<!-- Write Comment Area -->
-			<div class="d-flex flex-row p-2" style="width: 100%">
-				<!-- <img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px"> -->
-				<div class="d-flex flex-row ml-2" style="width: 100%">
-					<textarea id="CommentCreate_Writebox" class="rounded border-0 pl-2 pr-2" placeholder="Any Comment?" style="background: #333333; color: #ffffff; width: 100%; height: 100px; resize: none;"></textarea>
-					<div class="ml-2">
-						<button id="CommentCreate_SendButton" onclick="new Comment().Create_SendButton()" class="material-icons rounded border-0" style="background: #333333; color: #7289da; width: 50px; height: 50px;">send</button>
+					<div id="PostView_DescriptionLoader" class="mt-3 mb-2" style="font-size: 12px;">
+						<span>Add some text here!</span>
 					</div>
 				</div>
 			</div>
-			<!-- End of Write Comment Area -->
-			<!-- Comment Loader Area -->
-			<div id="PostView_CommentLoader" class="d-flex flex-column" style="background: #1e2124; width: 100%; height: 100%"></div>
-			<!-- End of Comment Loader Area -->
+			<div class="d-flex flex-column" style="width: 100%; height: 100%;">
+				<!-- Write Comment Area -->
+				<div class="d-flex flex-row p-2" style="width: 100%">
+					<!-- <img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px"> -->
+					<div class="d-flex flex-row ml-2" style="width: 100%">
+						<textarea id="CommentCreate_Writebox" class="rounded border-0 pl-2 pr-2 companyInput" placeholder="Any Comment?" style="width: 100%; height: 100px; resize: none;"></textarea>
+						<div class="ml-2">
+							<button id="CommentCreate_SendButton" onclick="new Comment().Create_SendButton()" class="material-icons rounded border-0 companyBackground" style="width: 50px; height: 50px;">send</button>
+						</div>
+					</div>
+				</div>
+				<!-- End of Write Comment Area -->
+			</div>
 		</div>
+		<!-- Comment Loader Area -->
+		<div id="PostView_CommentLoader" class="d-flex flex-column" style="width: 100%; height: 100%"></div>
+		<!-- End of Comment Loader Area -->
 	</div>
 	<!-- End of Detail Area -->
 </div>
@@ -109,7 +110,7 @@
 
 						for(var value of data.TimelineArray) {
 							if(<?php echo $AccountID; ?> == value.AccountID) TimelineView_LoaderArea.append(`
-								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1 shadow-sm rounded" style="width: 100%">
 									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
 										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
@@ -118,15 +119,15 @@
 										<div id="TimelineView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
 										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
 
-										<div class="d-flex flex-row mt-1">	
-											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" style="color: #7289da">comment</a>
-											<a onclick="new Timeline().View_DeleteButton(`+ value.TimelineID +`)" class="material-icons mr-1 d-flex align-items-center justify-content-center red-text">delete</a>
+										<div class="d-flex flex-row mt-1" style="width: 250px;">	
+											<button onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center rounded pt-2 pb-2 mr-1">Show Comment</button>
+											<button onclick="new Timeline().View_DeleteButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center rounded pt-2 pb-2 mr-1 red">Delete Post</button>
 										</div>
 									</div>
 								</div>
 							`)
 							else TimelineView_LoaderArea.append(`
-								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
+								<div id="TimelineView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1 shadow-sm rounded" style="width: 100%">
 									<img id="TimelineView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
 										<h4 id="TimelineView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
@@ -136,7 +137,7 @@
 										<div id="TimelineView_LoaderID`+ value.TimelineID +`"></div>
 
 										<div class="d-flex flex-row mt-1">	
-											<a onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" style="color: #7289da">comment</a>
+											<button onclick="new Timeline().View_PostButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center rounded pt-2 pb-2 mr-1">Show Comment</button>
 										</div>
 									</div>
 								</div>
@@ -423,7 +424,7 @@
 					if(!data.isError){
 						if(data.CommentArray.length != 0) {
 							for(var x of data.CommentArray) PostView_CommentLoader.append( `
-								<div id="CommentView_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="width: 100%;">
+								<div id="CommentView_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3 border-bottom" style="width: 100%;">
 									<img id="CommentView_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 									<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 										<div class="d-flex flex-row" style="width: 100%">

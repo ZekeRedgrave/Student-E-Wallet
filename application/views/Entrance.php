@@ -1,80 +1,13 @@
 <div class="position-fixed" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
-	<div class="d-flex justify-content-center align-items-center" style="background: #282828; width: 100%; height: 100%; color: #4caf50;">
+	<div class="d-flex justify-content-center align-items-center hide" style="background: #282828; width: 100%; height: 100%; color: #4caf50;">
 		<div class="d-flex flex-row">
-			<div class="d-flex flex-column pt-3 mr-2 pl-2 pr-2">
-				<button onclick="new Entrance().View_LoginButton()" class="material-icons rounded form-control mb-2 border-0" style="background: #333333; color: #4caf50; width: 50px; height: 50px">login</button>
-				<button onclick="new Entrance().View_RegisterButton()" class="material-icons rounded form-control border-0" style="background: #333333; color: #4caf50; width: 50px; height: 50px">how_to_reg</button>
-			</div>
+			
 			<div class="d-flex flex-column p-3 rounded" style="width: 500px; height: 100%;">
-				<div id="EntranceLogin_Area" class="d-flex flex-column" style="width: 100%">
-					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Student E-Wallet</h2>
+				
 
-					<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Email</h6>
-					<input id="View_Usernamebox" class="mb-4 border-0 rounded p-3" placeholder="Ex. 123456789" style="background: #333333; color: #4caf50; width: 100%;">
-					<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Password</h6>
-					<input id="View_Passwordbox" type="password" placeholder="*************" class="mb-4 border-0 rounded p-3" style="background: #333333; color: #4caf50; width: 100%">
+				
 
-					<button id="LoginView_DoneButton" onclick="new Login().View_DoneButton()" class="border-0 mb-5 rounded pt-3 pb-3" style="background: #7289da; color: #ffffff; font-size: 14px; font-weight: bold;">LOGIN</button>
-					<a onclick="new Login().View_ForgotButton()" class="border-0" style="color: #7289da; font-size: 14px; font-weight: bold;">FORGOT PASSWORD</a>
-				</div>
-
-				<div id="EntranceRegister_Area" class="d-flex flex-column hide" style="width: 100%">
-					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Student E-Wallet</h2>
-
-					<div class="d-flex flex-row" style="width: 100%">
-						<div class="d-flex flex-column mr-1" style="width: 100%">
-							<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Username</h6>
-							<input id="Create_Usernamebox" class="mb-4 border-0 rounded p-3" placeholder="Ex. XXX XXX" style="background: #333333; color: #4caf50; width: 100%;">
-						</div>
-						<div class="d-flex flex-column ml-1" style="width: 100%">
-							<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Email</h6>
-							<input id="Create_Emailbox" class="mb-4 border-0 rounded p-3" placeholder="Ex. studentewallet@email.com" style="background: #333333; color: #4caf50; width: 100%;">
-						</div>
-					</div>
-
-					<div class="d-flex flex-row" style="width: 100%">
-						<div class="d-flex flex-column mr-1" style="width: 100%">
-							<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Password</h6>
-							<input id="Create_Passwordbox" type="password" placeholder="*************" class="mb-4 border-0 rounded p-3" style="background: #333333; color: #4caf50; width: 100%;">
-						</div>
-						<div class="d-flex flex-column ml-1" style="width: 100%">
-							<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Repeat Password</h6>
-							<input id="Create_Repeatbox" type="password" placeholder="*************" class="mb-4 border-0 rounded p-3" style="background: #333333; color: #4caf50; width: 100%;">
-						</div>
-					</div>
-
-					<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Student ID</h6>
-					<input id="Create_IDbox" type="number" placeholder="Ex. 15730500" class="mb-4 border-0 rounded p-3" style="background: #333333; color: #4caf50; width: 100%;">
-
-					<button id="RegisterCreate_NextButton" onclick="new Register().Create_NextButton()" class="border-0 rounded pt-3 pb-3" style="background: #333333; color: #4caf50; font-size: 14px; font-weight: bold;">NEXT</button>
-				</div>
-
-				<div id="EntranceVerification_Area" class="d-flex flex-column hide" style="width: 100%">
-					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Verification Code</h2>
-
-					<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">To get your Verification Code, check your Email Account name <span id="View_EmailLabel"></span> and if the Verification Code is already send to your Inbox.</h6>
-
-					<div class="d-flex flex-row" style="width: 100%">
-						<div class="d-flex flex-column mr-1" style="width: 100%">
-							<input id="Create_Codebox" type="number" placeholder="XXX-XXX-XXX" class="border-0 rounded p-3 mb-1" style="background: #333333; color: #4caf50; width: 100%; height: 50px;">
-						</div>
-						<div class="d-flex flex-column ml-1" style="width: 50%">
-							<button id="RegisterCreate_ResendButton" onclick="new Register().Create_ResendButton()" class="border-0 rounded p-3 mb-5" style="background: #333333; color: #4caf50; font-size: 14px; font-weight: bold; height: 50px;">RESEND CODE</button>
-						</div>
-					</div>
-					
-
-					<button onclick="new Register().Create_DoneButton()" id="RegisterCreate_DoneButton" class="border-0 rounded pt-3 pb-3 mb-1" style="background: #7289da; color: #ffffff; font-size: 14px; font-weight: bold;">DONE</button>
-					<button onclick="new Register().Create_BackButton()" class="border-0 rounded pt-3 pb-3" style="background: #333333; color: #4caf50; font-size: 14px; font-weight: bold;">BACK</button>
-				</div>
-
-				<div id="EntranceDone_Area" class="d-flex flex-column hide" style="width: 100%">
-					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Registration Complete!</h2>
-
-					<h6 class="mb-0 pl-2 pb-1 pr-2" style="font-size: 14px; font-weight: bold;">The School will send you a message to your inbox at least 1 month. If you never got a message in just 1 month, you will have to register again or contact the School to fix the issue.</h6>
-
-					<button onclick="new Register().Create_OkButton()" class="border-0 rounded pt-3 pb-3" style="background: #7289da; color: #ffffff; font-size: 14px; font-weight: bold;">OK</button>
-				</div>
+				
 
 				<div id="EntranceForgot_Area" class="d-flex flex-column hide" style="width: 100%">
 					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Forgot Password</h2>
@@ -106,11 +39,98 @@
 			</div>
 		</div>
 	</div>
+	<div class="d-flex flex-row" style="width: 100%; height: 100%">
+		<div id="View_LogoImage" class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%">
+			
+		</div>
+		<div class="d-flex flex-column p-1">
+			<button onclick="new Entrance().View_LoginButton()" class="material-icons rounded form-control mb-1 border-0" style="min-width: 50px; max-width: 50px; height: 50px">login</button>
+			<button onclick="new Entrance().View_RegisterButton()" class="material-icons rounded form-control border-0" style="min-width: 50px; max-width: 50px; height: 50px">how_to_reg</button>
+		</div>
+		<div class="companyBackground" style="width: 100%; height: 100%; overflow-y: hidden;">
+			<div id="EntranceLogin_Area" class="d-flex justify-content-center align-items-center companyForeground" style="width: 100%; height: 100%">
+				<div style="min-width: 285px; max-width: 285px;">
+					<h2 class="m-0" style="font-weight: bold;">Student E-Wallet</h2>
+
+					<h5 class="mb-5" style="font-weight: bold;">Login</h5>
+
+					<h6 class="mb-0 pl-2 pb-1" style="color: #ffffff; font-size: 14px; font-weight: bold;">Email / ID</h6>
+					<input id="View_Usernamebox" class="mb-2 border-0 rounded p-3" placeholder="Ex. 123456789 or acccount@email.com">
+					<h6 class="mb-0 pl-2 pb-1" style="color: #ffffff; font-size: 14px; font-weight: bold;">Password</h6>
+					<input id="View_Passwordbox" type="password" placeholder="*************" class="border-0 rounded p-3">
+					<a onclick="new Login().View_ForgotButton()" class="border-0" style="color: #ffffff; font-size: 14px; font-weight: bold;">FORGOT PASSWORD</a>
+
+					<button id="LoginView_DoneButton" onclick="new Login().View_DoneButton()" class="border-0 mt-5 rounded pt-3 pb-3">LOGIN</button>
+				</div>
+			</div>
+
+			<div id="EntranceRegister_Area" class="d-flex flex-column p-4 companyForeground hide" style="width: 100%">
+				<h2 class="m-0" style="font-weight: bold;">Student E-Wallet</h2>
+
+				<h5 class="mb-5" style="font-weight: bold;">Registration</h5>
+
+				<div class="d-flex flex-row" style="width: 100%">
+					<div class="d-flex flex-column mr-1" style="width: 100%">
+						<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Username</h6>
+						<input id="Create_Usernamebox" class="border-0 rounded p-3" placeholder="Ex. XXX XXX">
+					</div>
+					<div class="d-flex flex-column" style="width: 100%">
+						<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Email</h6>
+						<input id="Create_Emailbox" class="border-0 rounded p-3" placeholder="Ex. studentewallet@email.com">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row mt-2 mb-2" style="width: 100%">
+					<div class="d-flex flex-column mr-1" style="width: 100%">
+						<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Password</h6>
+						<input id="Create_Passwordbox" type="password" placeholder="*************" class="border-0 rounded p-3">
+					</div>
+					<div class="d-flex flex-column" style="width: 100%">
+						<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Repeat Password</h6>
+						<input id="Create_Repeatbox" type="password" placeholder="*************" class="border-0 rounded p-3">
+					</div>
+				</div>
+
+				<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">Student ID</h6>
+				<input id="Create_IDbox" type="number" placeholder="Ex. 15730500" class="mb-5 border-0 rounded p-3">
+
+				<button id="RegisterCreate_NextButton" onclick="new Register().Create_NextButton()" class="border-0 rounded pt-3 pb-3">NEXT</button>
+			</div>
+
+			<div id="EntranceVerification_Area" class="d-flex flex-column p-4 companyForeground hide" style="width: 100%">
+				<h2 class="mb-5" style="font-weight: bold;">Verification Code</h2>
+
+				<h6 class="mb-0 pl-2 pb-1" style="font-size: 14px; font-weight: bold;">To get your Verification Code, check your Email Account name <span id="View_EmailLabel"></span> and if the Verification Code is already send to your Inbox.</h6>
+
+				<div class="d-flex flex-row mt-2 mb-5" style="width: 100%">
+					<div class="d-flex flex-column mr-1" style="width: 100%">
+						<input id="Create_Codebox" type="number" placeholder="XXX-XXX-XXX" class="border-0 rounded p-3" style="height: 50px;">
+					</div>
+					<div class="d-flex flex-column" style="width: 50%">
+						<button id="RegisterCreate_ResendButton" onclick="new Register().Create_ResendButton()" class="border-0 rounded p-3" style="height: 50px;">RESEND CODE</button>
+					</div>
+				</div>
+					
+
+				<button onclick="new Register().Create_DoneButton()" id="RegisterCreate_DoneButton" class="border-0 rounded pt-3 pb-3 mb-1" style="background: #7289da; color: #ffffff; font-size: 14px; font-weight: bold;">DONE</button>
+				<button onclick="new Register().Create_BackButton()" class="border-0 rounded pt-3 pb-3" style="background: #333333; color: #4caf50; font-size: 14px; font-weight: bold;">BACK</button>
+			</div>
+
+			<div id="EntranceDone_Area" class="d-flex flex-column p-4 companyForeground hide" style="width: 100%">
+				<h2 class="mb-5" style="font-weight: bold;">Registration Complete!</h2>
+
+				<h6 class="mb-0 pl-2 pb-1 pr-2" style="font-size: 14px; font-weight: bold;">The School will send you a message to your inbox at least 1 month. If you never got a message in just 1 month, you will have to register again or contact the School to fix the issue.</h6>
+
+				<button onclick="new Register().Create_OkButton()" class="border-0 rounded pt-3 pb-3">OK</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("title").text("E-Student Wallet Access - Login")
+		$("#View_LogoImage").html('<img src="' +window.location.href.replace("index.php/Access", "avatar")+ "/Logo.png"+ '" width="250px" height="250px">')
 	})
 
 	function Entrance() {
@@ -149,10 +169,7 @@
 					},
 					dataType: 'json',
 					success: function(data) {
-						if(!data.isError) {
-							
-							$("#root").html('').load(window.location.href+ "/LoadView?" + data.QueryParag)
-						}
+						if(!data.isError) $("#root").html('').load(window.location.href+ "/LoadView?" + data.QueryParag)
 						else {
 							LoginView_DoneButton.removeAttr('disabled')
 							alert(data.ErrorDisplay)
@@ -161,13 +178,13 @@
 					error: function(ex) {
 				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-				 		alert("Error: Unexpected Error Occur!")
+				 		alert("Unexpected Error Occur!")
 
 				 		LoginView_DoneButton.removeAttr('disabled')
 					}
 				})
 			}
-			else alert("Error: Either Student ID or Password is Empty!")
+			else alert("Either Email/ID or Password is Empty!")
 		}
 
 		this.View_ForgotButton = function() {

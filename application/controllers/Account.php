@@ -386,7 +386,7 @@ class Account extends CI_Controller {
 						$data["AssessmentArray"] = [];
 						$data["isEmpty"] = false;
 
-						foreach ($this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." Order by AssessmentID DESC LIMIT 7")->result() as $value) array_push($data["AssessmentArray"], $value->AssessmentID);
+						foreach ($this->db->query("Select * from Assessment where StudentID=". $_GET['id'] ." Order by AssessmentID DESC LIMIT 25")->result() as $value) array_push($data["AssessmentArray"], $value->AssessmentID);
 
 						if(count($data["AssessmentArray"]) != 0) $data["isEmpty"] = false;
 						else $data["isEmpty"] = true;
@@ -417,13 +417,13 @@ class Account extends CI_Controller {
 	function ViewAssessment_AssessmentLoad() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
-				$AssessmentQuery = $this->db->query("Select * from Assessment where AssessmentID=". $_GET['id'])->result()[0];
+				$AssessmentQuery = $this->db->query("Select * from Assessment where AssessmentID=". $_GET['id'] ." Order By AssessmentID DESC LIMIT 25")->result()[0];
 				$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $AssessmentQuery->EmployeeID)->result()[0];
 
 				$data["isError"] = false;
 				$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
 				$data["New"] = $AssessmentQuery->Assessment_NewTuition;
-				$data["Name"] = strtoupper(substr(json_decode($EmployeeQuery->Name)->Firstname, 0, 1)). ". " .json_decode($EmployeeQuery->Name)->Lastname;
+				$data["Type"] = $AssessmentQuery->AssessmentType;
 				$data["Status"] = $AssessmentQuery->AssessmentStatus;
 				$data["Timeline"] = $AssessmentQuery->DateRegister. ' ' .$AssessmentQuery->TimeRegister;
 
@@ -441,8 +441,8 @@ class Account extends CI_Controller {
 	}
 
 	function CreateAssessment_DoneButton() {
-		if(isset($_POST['StudentID']) && isset($_POST['TuitionFee'])) {
-			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee'])) {
+		if(isset($_POST['StudentID']) && isset($_POST['TuitionFee']) && isset($_POST['Miscellaneous']) && isset($_POST['Laboratory']) && isset($_POST['Type'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee']) && !empty($_POST['Miscellaneous']) && !empty($_POST['Laboratory']) && !empty($_POST['Type'])) {
 				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
 					if($_SESSION['AccountType'] == "DEPARTMENT" || $_SESSION['AccountType'] == "CASHIER") {
 						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
@@ -461,55 +461,55 @@ class Account extends CI_Controller {
 						$mail->Port = 465;
 
 						if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status != 'graduated') {
-							if($this->db->query("Select Count(*) as x from Assessment where StudentID=".$_POST['StudentID']. " and isFullPaid=true or isHalfPaid=true Order by AssessmentID DESC LIMIT 1")->result()[0]->x == 1 || $this->db->query("Select * from Account where StudentID=".$_POST['StudentID'])->result()[0]->Account_TuitionBalance == 0) {
-								//Recipients
-								$mail->setFrom($x['Email'], "Student EWallet Notifications");
-								$mail->addAddress($AccountQuery->AccountEmail);
-								// Content
-								$mail->isHTML(true);
-								$mail->Subject = 'Notification Alert';
-								$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']). '.</b><br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
-								// Send
-								if(!$mail->send())  echo json_encode(array(
-								    "isError" => true,
-								    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
-								));
-								else {
-									$this->db->update("Account", array(
-										"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee']
-									), "StudentID=". $_POST['StudentID']);
-
-									$this->db->insert("Assessment", array(
-										"StudentID" => $_POST['StudentID'],
-										"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
-										"Assessment_OldTuition" => $AccountQuery->Account_TuitionBalance,
-										"Assessment_NewTuition" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'],
-										"isFullPaid" => false,
-										"isHalfPaid" => false,
-										"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
-										"DateRegister" => date("Y-m-d"),
-										"TimeRegister" => date("H:i:s")
-									));
-
-									$this->db->insert("Logs", array(
-										"AccountID" => $_SESSION['AccountID'],
-										"LogActivity" => json_encode(array(
-											"Page" => "Assessment",
-											"Action" => "Deploying Student Assessment Info"
-										)),
-										"TimeRegister" => date("H:i:s"),
-										"DateRegister" => date("Y-m-d")
-									));
-
-									echo json_encode(array(
-									   	"isError" => false
-									)); 
-								}
-							}
-							else echo json_encode(array(
-							   	"isError" => true,
-							  	"ErrorDisplay" => "This Student cannot Added a new Tuition Fee due to is not Fully Paid Yet or is not Half Paid!"
+							//Recipients
+							$mail->setFrom($x['Email'], "Student EWallet Notifications");
+							$mail->addAddress($AccountQuery->AccountEmail);
+							// Content
+							$mail->isHTML(true);
+							$mail->Subject = 'Notification Alert';
+							$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Total Tuition Bill on Semester you Enrolled is <b>P ' .($AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'] + $_POST['Miscellaneous'] + $_POST['Laboratory']). '.</b> This Information is for ' .$_POST['Type']. '.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+							// Send
+							if(!$mail->send())  echo json_encode(array(
+							    "isError" => true,
+							    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 							));
+							else {
+								$this->db->update("Account", array(
+									"Account_TuitionBalance" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'] + $_POST['Miscellaneous'] + $_POST['Laboratory']
+								), "StudentID=". $_POST['StudentID']);
+
+								$this->db->insert("Assessment", array(
+									"StudentID" => $_POST['StudentID'],
+									"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+									"Assessment_OldTuition" => $AccountQuery->Account_TuitionBalance,
+									"Assessment_NewTuition" => $AccountQuery->Account_TuitionBalance + $_POST['TuitionFee'] + $_POST['Miscellaneous'] + $_POST['Laboratory'],
+									"isFullPaid" => false,
+									"isHalfPaid" => false,
+									"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+									"AssessmentType" => $_POST['Type'],
+									"AssessmentInfo" => json_encode(array(
+										"TuitionFee" => $_POST['TuitionFee'],
+										"Miscellaneous" => $_POST['Miscellaneous'],
+										"Laboratory" => $_POST['Laboratory']
+									)),
+									"DateRegister" => date("Y-m-d"),
+									"TimeRegister" => date("H:i:s")
+								));
+
+								$this->db->insert("Logs", array(
+									"AccountID" => $_SESSION['AccountID'],
+									"LogActivity" => json_encode(array(
+										"Page" => "Assessment",
+										"Action" => "Deploying Student Assessment Info"
+									)),
+									"TimeRegister" => date("H:i:s"),
+									"DateRegister" => date("Y-m-d")
+								));
+
+								echo json_encode(array(
+								   	"isError" => false
+								)); 
+							}
 						}
 						else echo json_encode(array(
 						   	"isError" => true,
@@ -531,6 +531,9 @@ class Account extends CI_Controller {
 
 				if(empty($_POST['StudentID'])) $ErrorDisplay .= "(Student ID) ";
 				if(empty($_POST['TuitionFee'])) $ErrorDisplay .= "(Tuition Fee) ";
+				if(empty($_POST['Miscellaneous'])) $ErrorDisplay .= "(Miscellaneous) ";
+				if(empty($_POST['Laboratory'])) $ErrorDisplay .= "(Laboratory) ";
+				if(empty($_POST['Type'])) $ErrorDisplay .= "(Quarterly Payment Type) ";
 
 				echo json_encode(array(
 				   	"isError" => true,
@@ -555,6 +558,9 @@ class Account extends CI_Controller {
 						$data["isError"] = false;
 						$data["Old"] = $AssessmentQuery->Assessment_OldTuition;
 						$data["Current"] = $AssessmentQuery->Assessment_NewTuition;
+						$data["Miscellaneous"] = json_decode($AssessmentQuery->AssessmentInfo)->Miscellaneous;
+						$data["Laboratory"] = json_decode($AssessmentQuery->AssessmentInfo)->Laboratory;
+						$data["Type"] = $AssessmentQuery->AssessmentType;
 
 						echo json_encode($data);
 					}
@@ -580,8 +586,8 @@ class Account extends CI_Controller {
 	}
 
 	function AssessmentEdit_DoneButton() {
-		if(isset($_POST['StudentID']) && isset($_POST['OldTuition']) && isset($_POST['CurrentTuition']) && isset($_POST['NewTuition'])) {
-			if(!empty($_POST['StudentID']) && !empty($_POST['OldTuition']) && !empty($_POST['CurrentTuition']) && !empty($_POST['NewTuition'])) {
+		if(isset($_POST['StudentID']) && isset($_POST['OldTuition']) && isset($_POST['CurrentTuition']) && isset($_POST['NewTuition']) && isset($_POST['Miscellaneous']) && isset($_POST['Laboratory']) && isset($_POST['Type'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['OldTuition']) && !empty($_POST['CurrentTuition']) && !empty($_POST['NewTuition']) && !empty($_POST['Miscellaneous']) && !empty($_POST['Laboratory']) && !empty($_POST['Type'])) {
 				if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status != 'graduated') {
 					$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
 
@@ -598,52 +604,51 @@ class Account extends CI_Controller {
 					$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 					$mail->Port = 465;
 
-					if($this->db->query("Select Count(*) as x from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0]->x == 1 || $this->db->query("Select * from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0]->Assessment_NewTuition == $AccountQuery->Account_TuitionBalance) {
-						$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
+					$AssessmentQuery = $this->db->query("Select * from Assessment where StudentID=". $_POST['StudentID'] ." and isFullPaid=false or isHalfPaid=false Order by AssessmentID DESC LIMIT 1")->result()[0];
 
-						$data["isError"] = false;
+					$data["isError"] = false;
 						
-						$this->db->update("Assessment", array(
-							"AssessmentStatus" => "Not Valid Anymore",
-						), "AssessmentID=". $AssessmentQuery->AssessmentID);
+					$this->db->update("Assessment", array(
+						"AssessmentStatus" => "Not Valid Anymore",
+					), "AssessmentID=". $AssessmentQuery->AssessmentID);
 
-						//Recipients
-						$mail->setFrom($x['Email'], "Student EWallet Notifications");
-						$mail->addAddress($AccountQuery->AccountEmail);
-						// Content
-						$mail->isHTML(true);
-						$mail->Subject = 'Notification Alert';
-						$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']). '.';
-						// Send
-						if(!$mail->send())  echo json_encode(array(
-						    "isError" => true,
-						    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+					//Recipients
+					$mail->setFrom($x['Email'], "Student EWallet Notifications");
+					$mail->addAddress($AccountQuery->AccountEmail);
+					// Content
+					$mail->isHTML(true);
+					$mail->Subject = 'Notification Alert';
+					$mail->Body    = 'You got a new Tuition Fee Bills this Semester. The Tuition Bill on Semester you Enrolled is <b>P ' .($AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'] + $_POST['Miscellaneous'] + $_POST['Laboratory']). '.';
+					// Send
+					if(!$mail->send())  echo json_encode(array(
+					    "isError" => true,
+					    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+					));
+					else {
+						$this->db->insert("Assessment", array(
+							"StudentID" => $_POST['StudentID'],
+							"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
+							"Assessment_OldTuition" => $AssessmentQuery->Assessment_OldTuition,
+							"Assessment_NewTuition" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'] + $_POST['Miscellaneous'] + $_POST['Laboratory'],
+							"isFullPaid" => false,
+							"isHalfPaid" => false,
+							"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
+							"AssessmentType" => $_POST['Type'],
+							"AssessmentInfo" => json_encode(array(
+								"TuitionFee" => $_POST['NewTuition'],
+								"Miscellaneous" => $_POST['Miscellaneous'],
+								"Laboratory" => $_POST['Laboratory']
+							)),
+							"DateRegister" => date("Y-m-d"),
+							"TimeRegister" => date("H:i:s")
 						));
-						else {
-							$this->db->insert("Assessment", array(
-								"StudentID" => $_POST['StudentID'],
-								"EmployeeID" =>$this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->EmployeeID,
-								"Assessment_OldTuition" => $AssessmentQuery->Assessment_OldTuition,
-								"Assessment_NewTuition" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'],
-								"isFullPaid" => false,
-								"isHalfPaid" => false,
-								"AssessmentStatus" => "Not Eligable to Enroll Next Semester",
-								"DateRegister" => date("Y-m-d"),
-								"TimeRegister" => date("H:i:s")
-							));
 
-							$this->db->update("Account", array(
-								"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
-							), "StudentID=". $_POST['StudentID']);
+						$this->db->update("Account", array(
+							"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
+						), "StudentID=". $_POST['StudentID']);
 
-							echo json_encode($data);
-						}
+						echo json_encode($data);
 					}
-					else echo json_encode(array(
-					   	"isError" => true,
-					   	"ErrorDisplay" => "Cannot Updating This Student Tuition!\n\nThis Student is now Ongoing Payment. Can only Edit if the Tuition Fee of a Student is not changing."
-					)); 
-					
 				}
 				else echo json_encode(array(
 				   	"isError" => true,
@@ -657,6 +662,10 @@ class Account extends CI_Controller {
 				if(empty($_POST['OldTuition'])) $ErrorDisplay += "(Old Tuition Fee) ";
 				if(empty($_POST['CurrentTuition'])) $ErrorDisplay += "(Current Tuition Fee) ";
 				if(empty($_POST['NewTuition'])) $ErrorDisplay += "(New Tuition Fee) ";
+
+				if(empty($_POST['Miscellaneous'])) $ErrorDisplay += "(Miscellaneous) ";
+				if(empty($_POST['Laboratory'])) $ErrorDisplay += "(Laboratory) ";
+				if(empty($_POST['Type'])) $ErrorDisplay += "(Quarterly Payment Type) ";
 
 				echo json_encode(array(
 				   	"isError" => true,

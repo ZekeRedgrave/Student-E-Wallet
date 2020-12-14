@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+    <link id="setIcon" rel="icon" type="text/css" href="">
 
      <style type="text/css">
      	@font-face {
@@ -64,7 +65,12 @@
 		}
 
 		.a-hover:hover {
-			background: #333333 !important;
+			background: #375692 !important;
+			color: white !important;
+		}
+
+		.button-hover:hover {
+			border-right: 5px solid #375692;
 		}
 
 		.hideScrollbar::-webkit-scrollbar {
@@ -81,6 +87,43 @@
 		  	/*outline: 1px solid white;*/
 		}
 
+		.companyBackground {
+			background: #375692 !important;
+		}
+
+		.companyForeground {
+			color: #ffffff !important;
+		}
+
+		.companyStatus {
+			background: #e8d15f !important;
+			color: #ffffff !important;
+		}
+
+		.companyLabel {
+			color: #555555 !important;
+			font-weight: bold;
+		}
+
+		.companyInput {
+			color: #555555 !important;
+			font-weight: bold;
+			background: #eeeeee !important;
+		}
+
+		input, button, select, textarea {
+			background: #e8d15f !important;
+			color: #ffffff !important;
+			width: 100%;
+			font-size: 14px;
+			font-weight: bold;
+			border: 0px;
+		}
+
+		/*body, div {
+			color: #1e2124 !important;
+		}*/
+
      </style>
 </head>
 <body>
@@ -95,6 +138,7 @@
 	
 	<script type="text/javascript">
 		$("#root").load(window.location+ "/LoadView?<?php echo $QueryParam; ?>")
+		$("#setIcon").attr('href', window.location.href.replace("index.php/Access", "avatar")+ "/Logo.png")
 	</script>
 </body>
 </html>

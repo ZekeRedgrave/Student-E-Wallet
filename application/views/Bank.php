@@ -1,177 +1,25 @@
-<div id="App_BankArea" class="d-flex flex-column" style="width:100%; height: 100%">
+<div id="App_BankArea" class="d-flex flex-column companyLabel" style="width:100%; height: 100%">
 	<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-		<!-- Deposits Area -->
-		<div id="DepositsArea" class="d-flex justify-content-center mt-5 hide" style="width: 100%">
-			<div id="Deposits_FormArea" class="d-flex flex-column" style="width: 600px;">
-				<div class="m-0 p-0 mb-4 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">ADD MONEY FORM</div>
-
-				<div class="d-flex flex-row" style="width: 100%">
-					<div class="d-flex flex-column" style="width: 100%">
-						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
-						<input id="DepositsCreate_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-
-						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Amount</h4>
-						<input onkeypress="new Deposits().Create_AmountKey(this)" onkeyup="new Deposits().Create_AmountKey(this)" onkeydown="new Deposits().Create_AmountKey(this)" id="DepositsCreate_Amountbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-					</div>
-					<!-- Display Sub Amount -->
-					<div class="d-flex flex-column rounded ml-2 p-3" style="background: #1e2124; width: 100%">
-						<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-							<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Fee</h4>
-							<h4 id="DepositsCreate_FeeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-						</div>
-						<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-							<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Sub Total</h4>
-							<h4 id="DepositsCreate_STLabel" class="d-flex justify-content-end m-0 p-0 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-						</div>
-
-						<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Cash</h4>
-						<input id="DepositsCreate_Cashbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-
-						<button onclick="new Deposits().Create_NextButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Next</button>
-						<button onclick="new Deposits().Create_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
-					</div>
-					<!-- End of Display Sub Amount -->
-				</div>
-
-			</div>
-			<div id="Deposits_DoneArea" class="d-flex flex-column mt-5 hide">
-				<div class="p-0 mb-1 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">RECEIPT</div>
-
-				<div class="d-flex flex-column rounded ml-2 p-3" style="background: #1e2124; width: 100%">
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
-						<h4 id="DepositsCreate_CashLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
-					</div>
-
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Total</h4>
-						<h4 id="DepositsCreate_TotalLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-					</div>
-
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Change</h4>
-						<h4 id="DepositsCreate_ChangeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-					</div>
-
-					<button onclick="new Deposits().Create_DoneButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Done</button>
-				</div>
-			</div>
-		</div>
-		<!-- End of Deposits Area -->
-		<!-- Redeem Area -->
-		<div id="RedeemArea" class="d-flex justify-content-center hide">
-			<div id="Redeem_FormArea" class="d-flex flex-column mt-5" style="width: 750px;">
-				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">REEDEM GIFT FORM</div>
-
-				<div class="d-flex flex-row mt-4" style="width: 100%">
-					<div class="d-flex flex-column" style="width: 100%">
-						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
-						<input id="RedeemCreate_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-
-						<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Amount</h4>
-						<input onkeypress="new Redeem().Create_AmountKey(this)" onkeyup="new Redeem().Create_AmountKey(this)" onkeydown="new Redeem().Create_AmountKey(this)" id="RedeemCreate_Amountbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-
-						<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Email(Optional)</h4>
-						<div class="d-flex flex-row mb-2 pl-2 pr-2 pb-2 pt-1 rounded" style="border: 1px solid white">
-							<div class="d-flex flex-column" style="width: 100%">
-								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">From</h4>
-								<input id="RedeemCreate_FEbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" placeholder="XXXXX@XXXX.XXX">
-							</div>
-
-							<div class="d-flex flex-column ml-2" style="width: 100%">
-								<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">To</h4>
-								<input id="RedeemCreate_TEbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" placeholder="XXXXX@XXXX.XXX">
-							</div>
-						</div>
-
-					</div>
-					<div class="d-flex flex-column rounded ml-4 p-3" style="background: #1e2124; width: 500px;">
-						<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-							<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Fee</h4>
-							<h4 id="RedeemCreate_FeeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
-						</div>
-						<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-							<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Sub Total</h4>
-							<h4 id="RedeemCreate_STLabel"4 class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
-						</div>
-
-						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
-						<input id="RedeemCreate_Cashbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-2" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px;" type="number" placeholder="XXX-XXX-XXX">
-
-						<button onclick="new Redeem().Create_NextButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Next</button>
-						<button onclick="new Redeem().Create_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
-					</div>
-				</div>
-			</div>
-			<div id="Redeem_DoneArea" class="d-flex flex-column mt-5 hide" style="width: 500px;">
-				<div class="p-0 mb-1 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">RECEIPT</div>
-
-				<div class="d-flex flex-column rounded ml-2 p-3" style="background: #1e2124; width: 100%">
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
-						<h4 id="RedeemCreate_CashLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
-					</div>
-
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Total</h4>
-						<h4 id="RedeemCreate_TotalLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-					</div>
-
-					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
-						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Change</h4>
-						<h4 id="RedeemCreate_ChangeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-					</div>
-				</div>
-
-				<h4 class="ml-2 mb-1 p-0 mt-4" style="min-width: 100px; font-size: 14px; font-weight: bold;">Redeem Gift Code</h4>
-				<h4 id="RedeemCreate_CodeLabel" class="d-flex justify-content-center border-0 rounded pl-4 pr-4 pt-3 pb-3 mb-2" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">XXX-XXX-XXX</h4>
-
-				<button onclick="new Redeem().Create_DoneButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Done</button>
-			</div>
-		</div>
-		<!-- End of Redeem Area -->
-		<!-- Cash Out Area -->
-		<div id="CashArea" class="d-flex justify-content-center hide">
-			<div id="" class="d-flex flex-column mt-5" style="width: 400px;">
-				<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">CASHOUT</div>
-
-				<div class="d-flex flex-row mt-4" style="width: 100%">
-					<div class="d-flex flex-column" style="width: 100%">
-						<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
-						<div class="d-flex flex-row mb-4">
-							<input id="CashView_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
-							<button onclick="new Cash().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
-						</div>
-
-						<h4 class="ml-2 mb-1 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Balance</h4>
-						<h4 id="CashView_BalanceLabel" class="border-0 rounded m-0 pl-4 pr-4 pt-3 pb-3" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
-
-						<button onclick="new Cash().View_NextButton()" id="CashView_NextButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Go!</button>
-						<button onclick="new Cash().View_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End of Cash Out Area -->
 		<!-- View Area -->
-		<div id="ViewArea" class="mt-3">
-			<div class="m-0 p-0 mb-4 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">TRANSACTION RECORD</div>
+		<div id="ViewArea">
+			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 mb-4 shadow-sm">
+				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">TRANSACTION RECORD</div>
+				<div class="d-flex flex-row">
+					<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Students will Deposits there money as a Balance Account" style="width: 125px; font-size: 14px; font-weight: bold;">Deposits</button>
+					<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="It's a Gift Card with an Actual Money Inside" style="width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
+					<button onclick="new Bank().View_COButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 red" title="Withdrawal" style="width: 125px; font-size: 14px; font-weight: bold;">Withdrawal</button>
+				</div>
+			</div>
 
 			<div class="">
 				<div class="d-flex flex-row mb-1 ml-4 mr-4">
-					<input id="View_Searchbox" type="number" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1" style="background: #333333; color: #4caf50; width: 100%;" placeholder="Search Student ID">
+					<input id="View_Searchbox" type="number" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1 companyInput" style="width: 100%;" placeholder="Search Student ID">
 					<button onclick="new Record().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
-					<button onclick="new Record().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Refresh</button>
-					
-					<div style="width: 100%"></div>
-					<div class="d-flex flex-row">
-						<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Top-ups</button>
-						<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
-					</div>
-					<button onclick="new Bank().View_COButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 red-text" style="background: #333333; width: 125px; font-size: 14px; font-weight: bold;">Cashout</button>
+					<button onclick="new Record().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Refresh</button>
+
 					<div style="width: 100%"></div>
 					
-					<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">
+					<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyInput" title="Display Number of Rows" style="width: 125px; font-size: 14px; font-weight: bold;">
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
@@ -181,17 +29,17 @@
 						<option value="1000">1000</option>
 						<option value="999999999999">All (This is might you break your Browser or CPU)</option>
 					</select>
-					<button onclick="new Record().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Load</button>
+					<button onclick="new Record().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Load</button>
 				</div>
-				<table class="table" style="color: #7289da;">
+				<table class="table">
 					<thead>
 						<tr>
-							<td class="border-0" style="color: #ffffff; font-weight: bold;">Student Name</td>
+							<td class="border-0" style="font-weight: bold;">Student Name</td>
 							<td class="text-center border-0" style="color: #e91e63; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Type</td>
 							<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Amount</td>
 							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Transaction Fee</td>
 							<td class="border-0" style="color: #e91e63; min-width: 125px; max-width: 125px; font-weight: bold;">Cash</td>
-							<td class="border-0" style="color: #ffffff; min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
+							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
 						</tr>
 					</thead>
 					<tbody id="ViewTransaction_RecordLoad">
@@ -204,9 +52,172 @@
 	</div>
 </div>
 
+<!-- Deposits Area -->
+<div id="DepositsArea" class="position-fixed hide companyForeground" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%;">
+		<div id="Deposits_FormArea" class="d-flex flex-column rounded p-3" style="background: #1e2124; width: 600px;">
+			<div class="m-0 p-0 mb-4 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">DEPOSITS</div>
+
+			<div class="d-flex flex-row" style="width: 100%">
+				<div class="d-flex flex-column" style="width: 100%">
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+					<input id="DepositsCreate_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Amount</h4>
+					<input onkeypress="new Deposits().Create_AmountKey(this)" onkeyup="new Deposits().Create_AmountKey(this)" onkeydown="new Deposits().Create_AmountKey(this)" id="DepositsCreate_Amountbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+				</div>
+				<!-- Display Sub Amount -->
+				<div class="d-flex flex-column rounded ml-2 p-3" style="background: #1e2124; width: 100%">
+					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Fee</h4>
+						<h4 id="DepositsCreate_FeeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+					</div>
+					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Sub Total</h4>
+						<h4 id="DepositsCreate_STLabel" class="d-flex justify-content-end m-0 p-0 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+					</div>
+
+					<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Cash</h4>
+					<input id="DepositsCreate_Cashbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+
+					<button onclick="new Deposits().Create_NextButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Next</button>
+					<button onclick="new Deposits().Create_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+				</div>
+				<!-- End of Display Sub Amount -->
+			</div>
+		</div>
+		<div id="Deposits_DoneArea" class="d-flex flex-column rounded p-3 hide" style="background: #1e2124;">
+			<div class="p-0 mb-1 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">RECEIPT</div>
+
+			<div class="d-flex flex-column rounded" style="width: 100%">
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
+					<h4 id="DepositsCreate_CashLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
+				</div>
+
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Total</h4>
+					<h4 id="DepositsCreate_TotalLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+				</div>
+
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Change</h4>
+					<h4 id="DepositsCreate_ChangeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+				</div>
+
+				<button onclick="new Deposits().Create_DoneButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Done</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of Deposits Area -->
+
+<!-- Redeem Area -->
+<div id="RedeemArea" class="position-fixed hide companyForeground" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%;">
+		<div id="Redeem_FormArea" class="d-flex flex-column rounded p-3" style="background: #1e2124; width: 750px;">
+			<div class="p-0 ml-2" class="">REEDEM GIFT FORM</div>
+
+			<div class="d-flex flex-row mt-4" style="width: 100%">
+				<div class="d-flex flex-column" style="width: 100%">
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+					<input id="RedeemCreate_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+
+					<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Amount</h4>
+					<input onkeypress="new Redeem().Create_AmountKey(this)" onkeyup="new Redeem().Create_AmountKey(this)" onkeydown="new Redeem().Create_AmountKey(this)" id="RedeemCreate_Amountbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+
+					<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Email(Optional)</h4>
+					<div class="d-flex flex-row mb-2 pl-2 pr-2 pb-2 pt-1 rounded" style="border: 1px solid white">
+						<div class="d-flex flex-column" style="width: 100%">
+							<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">From</h4>
+							<input id="RedeemCreate_FEbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" placeholder="XXXXX@XXXX.XXX">
+						</div>
+
+						<div class="d-flex flex-column ml-2" style="width: 100%">
+							<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">To</h4>
+							<input id="RedeemCreate_TEbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #ffffff; width: 100%;" placeholder="XXXXX@XXXX.XXX">
+						</div>
+					</div>
+
+				</div>
+				<div class="d-flex flex-column rounded ml-4 p-3" style="background: #1e2124; width: 500px;">
+					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+						<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Fee</h4>
+						<h4 id="RedeemCreate_FeeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
+					</div>
+					<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+						<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Sub Total</h4>
+						<h4 id="RedeemCreate_STLabel"4 class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
+					</div>
+
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
+					<input id="RedeemCreate_Cashbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-2" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px;" type="number" placeholder="XXX-XXX-XXX">
+
+					<button onclick="new Redeem().Create_NextButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Next</button>
+					<button onclick="new Redeem().Create_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+				</div>
+			</div>
+		</div>
+		<div id="Redeem_DoneArea" class="d-flex flex-column rounded p-3 hide" style="background: #1e2124; width: 500px;">
+			<div class="p-0 mb-1 ml-4" style="color: #7289da; min-width: 125px; font-weight: bold;">RECEIPT</div>
+
+			<div class="d-flex flex-column rounded ml-2 p-3" style="background: #1e2124; width: 100%">
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="font-size: 14px; font-weight: bold;">Cash</h4>
+					<h4 id="RedeemCreate_CashLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px;">P XXXX.XX</h4>
+				</div>
+
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Total</h4>
+					<h4 id="RedeemCreate_TotalLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+				</div>
+
+				<div class="d-flex flex-row border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4" style="background: #333333; color: #7289da; width: 100%; font-size: 14px; font-weight: bold;">
+					<h4 class="m-0 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Change</h4>
+					<h4 id="RedeemCreate_ChangeLabel" class="d-flex justify-content-end m-0 p-0 ml-4 red-text" style="width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+				</div>
+			</div>
+
+			<h4 class="ml-2 mb-1 p-0 mt-4" style="min-width: 100px; font-size: 14px; font-weight: bold;">Redeem Gift Code</h4>
+			<h4 id="RedeemCreate_CodeLabel" class="d-flex justify-content-center border-0 rounded pl-4 pr-4 pt-3 pb-3 mb-2" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">XXX-XXX-XXX</h4>
+
+			<button onclick="new Redeem().Create_DoneButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Done</button>
+		</div>
+	</div>
+</div>
+<!-- End of Redeem Area -->
+
+<!-- Cash Out Area -->
+<div id="CashArea" class="position-fixed hide companyForeground" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
+	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%;">
+		<div id="" class="d-flex flex-column rounded p-3" style="background: #1e2124; width: 400px;">
+			<div class="p-0 ml-2" style="color: #7289da; min-width: 125px; font-weight: bold;">CASHOUT</div>
+
+			<div class="d-flex flex-row mt-4" style="width: 100%">
+				<div class="d-flex flex-column" style="width: 100%">
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+					<div class="d-flex flex-row mb-4">
+						<input id="CashView_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
+						<button onclick="new Cash().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
+					</div>
+
+					<h4 class="ml-2 mb-1 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Balance</h4>
+					<h4 id="CashView_BalanceLabel" class="border-0 rounded m-0 pl-4 pr-4 pt-3 pb-3" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+
+					<button onclick="new Cash().View_NextButton()" id="CashView_NextButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Go!</button>
+					<button onclick="new Cash().View_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of Cash Out Area -->
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		new Record().View_RecordLoad(10)
+
+		$('[title]').tooltip()
 	})
 
 	var changeColor_Table = 0
@@ -216,7 +227,6 @@
 			$("#DepositsArea").removeClass('hide')
 			$("#Deposits_FormArea").removeClass('hide')
 
-			$("#ViewArea").addClass('hide')
 			$("#Deposits_DoneArea").addClass('hide')
 		}
 
@@ -224,15 +234,10 @@
 			$("#RedeemArea").removeClass('hide')
 			$("#Redeem_FormArea").removeClass('hide')
 
-			$("#ViewArea").addClass('hide')
 			$("#Redeem_DoneArea").addClass('hide')
 		}
 
-		this.View_COButton = function() {
-			$("#CashArea").removeClass('hide')
-
-			$("#ViewArea").addClass('hide')
-		}
+		this.View_COButton = function() { $("#CashArea").removeClass('hide') }
 	}
 
 	function Record() {
@@ -249,12 +254,12 @@
 						})
 						else $("#ViewTransaction_RecordLoad").append(`
 							<tr>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
-								<td style="color: #ffffff; word-break: break-all;">N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
 							</tr>
 						`)
 					}
@@ -289,13 +294,13 @@
 						}
 
 						var HTML = `
-							<tr style="background: ` +color+ `">
-								<td class="border-0" style="color: #ffffff; word-break: break-all;">`+ data.StudentName +`</td>
+							<tr class="border-bottom button-hover">
+								<td class="border-0" style="word-break: break-all;">`+ data.StudentName +`</td>
 								<td class="border-0" style="word-break: break-all;">`+ data.TransactionType +`</td>
 								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionAmount +`</td>
 								<td class="border-0" style="word-break: break-all;">`+ data.TransactionFee +`</td>
 								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.Cash +`</td>
-								<td class="border-0" style="color: #ffffff; word-break: break-all;">`+ data.Timeline +`</td>
+								<td class="border-0" style="word-break: break-all;">`+ data.Timeline +`</td>
 							</tr>
 						`
 
@@ -373,7 +378,7 @@
 			var DepositsCreate_STLabel = $("#DepositsCreate_STLabel")
 
 			if(DepositsCreate_Amountbox.val() != "") {
-				var Fee = 0.01
+				var Fee = 0.005
 
 				// if(DepositsCreate_Amountbox.val().length >= 2) for (var i = 2; i < DepositsCreate_Amountbox.val().length; i++) Fee += '0'
 				// if(DepositsCreate_Amountbox.val().length == 1) Fee = '0'
@@ -401,34 +406,37 @@
 			var DepositsCreate_ChangeLabel = $("#DepositsCreate_ChangeLabel")
 
 			if(DepositsCreate_Studentbox.val() != "" && DepositsCreate_Amountbox.val() != "" && DepositsCreate_Cashbox.val() != "") {
-				$.ajax({
-					url: window.location.href.replace("/Access", "")+ "/Transaction/Deposits_NextButton", 
-					method: 'POST',
-					data: {
-						StudentID: DepositsCreate_Studentbox.val(),
-				 		Amountbox: DepositsCreate_Amountbox.val(),
-				 		Cashbox: DepositsCreate_Cashbox.val()
-					},
-					dataType: 'json',
-					success: function(data) {
-						if(!data.isError) {
-							Deposits_FormArea.addClass('hide')
-							Deposits_DoneArea.removeClass('hide')
+				if(DepositsCreate_Amountbox.val() >= 100) {
+					$.ajax({
+						url: window.location.href.replace("/Access", "")+ "/Transaction/Deposits_NextButton", 
+						method: 'POST',
+						data: {
+							StudentID: DepositsCreate_Studentbox.val(),
+					 		Amountbox: DepositsCreate_Amountbox.val(),
+					 		Cashbox: DepositsCreate_Cashbox.val()
+						},
+						dataType: 'json',
+						success: function(data) {
+							if(!data.isError) {
+								Deposits_FormArea.addClass('hide')
+								Deposits_DoneArea.removeClass('hide')
 
-							DepositsCreate_CashLabel.text('P '+ data.Cash)
-							DepositsCreate_TotalLabel.text('P '+ data.Total)
-							DepositsCreate_ChangeLabel.text('P '+ data.Change)
+								DepositsCreate_CashLabel.text('P '+ data.Cash)
+								DepositsCreate_TotalLabel.text('P '+ data.Total)
+								DepositsCreate_ChangeLabel.text('P '+ data.Change)
 
-							new Record().View_RecordLoad($("#View_ItemButton option:selected").val())
+								new Record().View_RecordLoad($("#View_ItemButton option:selected").val())
+							}
+							else alert(data.ErrorDisplay)
+						},
+						error: function(ex) {
+					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+					 		alert("Error: Unexpected Error Occur!")
 						}
-						else alert(data.ErrorDisplay)
-					},
-					error: function(ex) {
-				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-
-				 		alert("Error: Unexpected Error Occur!")
-					}
-				})
+					})
+				}
+				else alert("The Minimum Amount for Deposits is 100!")
 			}
 			else {
 				var ErrorDisplay = ""

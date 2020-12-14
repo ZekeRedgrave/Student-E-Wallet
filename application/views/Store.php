@@ -2,83 +2,64 @@
 	<!-- Store View Area -->
 	<div id="StoreView_HomeArea" class="d-flex flex-row" style="width: 100%;">
 		<!-- Store Area -->
-		<div id="StoreArea" class="d-flex flex-column" style="width: 100%; overflow: hidden; overflow-y: scroll;">
-			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4" style="background: #424549; width: 100%">
-				<div class="d-flex align-items-center" style="color: #7289da; width: 100%; font-weight: bold;">STORE</div>
-				
-				<div class="d-flex flex-row">
-					<!-- Student Balance -->
-					<div class="d-flex flex-column" style="min-width: 125px; max-width: 125px">
-						<h6 class="pl-2 pr-2" style="margin: 0; font-size: 12px;">MONEY</h6>
-						<h3 id="StoreView_DepositLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h3>
-					</div>
-					<!-- End of Student Balance -->
-					<!-- Tution Fee -->
-					<div class="d-flex flex-column" style="min-width: 125px; max-width: 125px">
-						<h1 class="pl-2 pr-2" style="margin: 0px; font-size: 12px;">TUITION</h1>
-						<h6 id="StoreView_TuitionLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h6>
-					</div>
-					<!-- End of Tution Fee -->
-				</div>	
+		<div class="d-flex flex-column shadow-sm companyLabel" style="min-width: 300px; max-width: 300px; height: 100%;">
+			<div class="d-flex flex-row pl-1 pr-1 mt-2 pb-2 shadow-sm" style="width: 100%">
+				<!-- Student Balance -->
+				<div class="d-flex flex-column rounded pb-2 companyStatus" title="Indicates the Total Balance Available" style="width: 100%; cursor: zoom-in;">
+					<div class="pl-3 pr-3 pt-2 companyForeground" style="font-weight: bold;">DEPOSITS</div>
+					<h3 id="StoreView_DepositLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h3>
+				</div>
+				<!-- End of Student Balance -->
+				<!-- Tution Fee -->
+				<div class="d-flex flex-column companyStatus rounded ml-1" title="Indicates the Total Tuition Available Left" style="width: 100%; cursor: zoom-in;">
+					<div class="pl-3 pr-3 pt-2 companyForeground" style="font-weight: bold;">TUITION</div>
+					<h6 id="StoreView_TuitionLabel" class="p-0 pl-2 pr-2 m-0" style="font-size: 12px;">P XXXX.XX</h6>
+				</div>
+				<!-- End of Tution Fee -->
 			</div>
-			<!-- Load Store Item Area -->
-			<div id="StoreView_ButtonLoad" class="d-flex justify-content-center row ml-1 mr-1 mt-3 mb-5" style="width: 100%">
 
-				<button onclick="new Store().View_OpenButton()" class="d-flex flex-column form-control rounded border-0 mr-2 mb-2 red" style="color: white;  width: 175px; min-height: 125px;">
-					<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">account_balance</div>
-					<div class="d-flex justify-content-center" style="width: 100%; font-size: 12px; font-weight: bold;">Tuition Fee(Default)<div>
+			<div class="pl-3 pr-3 pt-2 pb-2" style="font-weight: bold;">PAYMENT LIST</div>
+			<div style="width: 100%; height: 100%; overflow-y: scroll;">
+				<!-- Static Store Item -->
+				<button onclick="new Store().View_OpenButton()" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 button-hover" style="background: white !important;">
+					<div class="material-icons d-flex align-items-center justify-content-center companyLabel">account_balance</div>
+					<div class="d-flex align-items-center companyLabel ml-4" style="width: 100%; font-weight: bold;">Tuition Fee (Default)<div>
 				</button>
+				<!-- End Static Store Item -->
+				<div class="mb-1 mt-1 ml-4 mr-4 rounded" style="border: 1px solid #555555;"></div>
 
-				<?php 
-
-					foreach ($Store as $value) {
-						if(strtoupper($value['StoreType']) != strtoupper("Others")) {
-							if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
-								<div class="d-flex flex-column rounded mr-1" style="background: #7289da; width: 175px; min-height: 125px;">
-									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
-									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
-								</div>
-							</div>';
-							else echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
-								<div class="d-flex flex-column rounded mr-1" style="background: #7289da; width: 175px; min-height: 125px;">
-									<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Icon Yet!</div>
-									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
-								</div>
-							</div>';
-						}
-						else {
-							if($value['StoreIcon'] != "") echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
-								<div class="d-flex flex-column rounded mr-1" style="background: #36393e; width: 175px; min-height: 125px;">
-									<div class="material-icons d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">' .$value['StoreIcon']. '</div>
-									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
-								</div>
-							</div>';
-							else echo '<div id="School_DynamicItemID' .$value['StoreID']. '" onclick="new Store().View_DynamicButton(' .$value['StoreID']. ')" class="d-flex flex-row mr-1 mb-2">
-								<div class="d-flex flex-column rounded mr-1" style="background: #36393e; width: 175px; min-height: 125px;">
-									<div class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">No Icon Yet!</div>
-									<div class="d-flex justify-content-center pb-2" style="font-size: 12px; font-weight: bold;">' .$value['StoreTitle']. '</div>
-								</div>
-							</div>';
-						}
-					}
-
-				?>
-
+				<!-- Dynamic Store Item Area -->
+				<div id="StoreView_DynamicLoad">
+				</div>
+				<!-- End of Dynamic Store Item Area -->	
 			</div>
-			<!-- End of Store Item Area -->			
-			<!-- End of Payments Area -->
-			<div class="d-flex flex-column mt-5 mb-5" style="width: 100%; height: 100%">
-				<div class="pl-3 pr-3 pt-2 pb-2" style="color: #7289da; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
+
+			<div class="d-flex align-items-center companyStatus" style="min-height: 60px; max-height: 60px">
+				<div class="d-flex flex-row pl-3 pr-3" style="width: 100%;">
+					<div class="d-flex align-items-center">
+						<img id="StoreView_StudentImage" class="rounded-circle" width="40px" height="40px">
+					</div>
+					<div class="ml-3 pt-1">
+						<div class="companyForeground" id="StoreView_StudentName" style="font-weight: bold;"></div>
+						<div class="companyForeground" id="StoreView_StudentID" style="font-weight: bold; font-size: 12px; margin-top: -5px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Store View Area -->
+		<div class="d-flex flex-column companyLabel" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+			<!-- Timeline Area -->
+			<div class="d-flex flex-column" style="width: 100%; height: 100%">
+				<div class="pl-3 pr-3 pt-3 pb-3 shadow-sm" style="font-weight: bold;">NEWS / ANNOUNCEMENT</div>
 				<div class="d-flex justify-content-center" style="width: 100%">
 					<div id="StoreView_LoaderArea" class="d-flex flex-column pl-3 pt-2" style="width: 600px">
 						<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- End of Store Area -->		
+			<!-- End of Timeline Area -->
+		</div>	
 	</div>
-	<!-- End of Store View Area -->
 	
 </div>
 <!-- Store Tuition Area -->
@@ -91,9 +72,9 @@
 			<div class="d-flex flex-row" style="width: 100%">
 				<input id="StoreTuition_Amountbox" type="number" class="border-0 rounded p-3 mr-4" placeholder="Ex. 123456789" style="background: #333333; color: #ffffff; width: 100%;" placeholder="Ex. 10.59">
 
-				<button onclick="new Store().View_TuitionButton()" id="StoreView_TuitionButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Pay</button>
+				<button onclick="new Store().View_TuitionButton()" id="StoreView_TuitionButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Pay</button>
 
-				<button onclick="new Store().View_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+				<button onclick="new Store().View_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -105,12 +86,12 @@
 		<div class="d-flex flex-column rounded p-3" style="background: #282828; color: #ffffff; width: 400px;">
 			<div class="ml-2" style="color: #7289da; font-weight: bold;">ARE YOU SURE?</div>
 
-			<div id="StoreView_DisplayLabel" class="mt-4 mb-4" class="" style="font-size: 14px;">This '??????' Price is XXXX.</div>
+			<div id="StoreView_DisplayLabel" class="d-flex justify-content-center text-center mt-4 mb-4" class="" style="width: 100%; font-size: 14px;">This '??????' Price is XXXX.</div>
 
 			<div class="d-flex flex-row" style="width: 100%">
-				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Yes</button>
+				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Yes</button>
 
-				<button onclick="new Store().DA_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #e91e63; width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
+				<button onclick="new Store().DA_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -133,19 +114,19 @@
 			</div>
 		</div>
 	</div>
-	<div class="d-flex flex-column" style="background: #282828; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
+	<div class="d-flex flex-column companyLabel" style="background: white; min-width: 500px; max-width: 500px; height: 100%; overflow: hidden; overflow-y: scroll;">
 		<div class="d-flex flex-row p-3" style="width: 100%;">
-			<img id="StorePost_HostImage" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+			<img id="StorePost_HostImage" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 			<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 				<h4 id="StorePost_HostName" style="color: #7289da; margin: 0; font-size: 14px; font-weight: bold;">XXXXXXX [System Administrator]</h4>
-				<h4 id="StorePost_DateTime" style="margin: 0; font-size: 12px;">Date and Time : 2020-01-01 00:00:00</h4>
+				<h4 id="StorePost_DateTime" style="margin: 0; font-size: 12px;">Timeline # 2020-01-01 00:00:00</h4>
 
 				<div id="StorePost_DescriptionLoader" class="mt-3 mb-2" style="font-size: 12px;">
 					<span>Add some text here!</span>
 				</div>
 			</div>
 		</div>
-		<div class="d-flex flex-column" style="background: #282828; width: 100%; height: 100%;">
+		<div class="d-flex flex-column" style="width: 100%; height: 100%;">
 			<!-- Write Comment Area -->
 			<div class="d-flex flex-row p-2" style="width: 100%">
 				<!-- <img id="TimelineView_UserImage" src="http://localhost/Ewallet/avatar.png" class="rounded-circle" width="50px" height="50px"> -->
@@ -158,7 +139,7 @@
 			</div>
 			<!-- End of Write Comment Area -->
 			<!-- Comment Loader Area -->
-			<div id="StorePost_CommentLoader" class="d-flex flex-column" style="background: #1e2124; width: 100%; height: 100%"></div>
+			<div id="StorePost_CommentLoader" class="d-flex flex-column border-top" style="width: 100%; height: 100%"></div>
 			<!-- End of Comment Loader Area -->
 		</div>
 		<!-- End of Comment Loader Area -->
@@ -174,9 +155,10 @@
 
 	$(document).ready(function() {
 		$("title").text("E-Student Wallet Access - Dashboard")
+		$('[title]').tooltip()
 
 		var StoreView_LoaderArea = $("#StoreView_LoaderArea")
-
+		// Timeline
 		$.ajax({
 			url: window.location.href.replace("/Access", "/Timeline/View_PostLoad"), 
 			method: 'POST',
@@ -187,17 +169,17 @@
 						StoreView_LoaderArea.html('')
 
 						for(var value of data.TimelineArray) StoreView_LoaderArea.append(`
-							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1" style="background: #1e2124; width: 100%">
-								<img id="StoreView_ImageID`+ value.TimelineID +`" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1 shadow-sm rounded" style="width: 100%;">
+								<img id="StoreView_ImageID`+ value.TimelineID +`" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 								<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
 									<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
-									<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px;"></h4>
+									<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px; font-weight: bold;"></h4>
 
 									<div id="StoreView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
 									<div id="StoreView_LoaderID`+ value.TimelineID +`"></div>
 
 									<div class="d-flex flex-row mt-3">	
-										<a onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="material-icons mr-4 d-flex align-items-center justify-content-center" title="Show Comment">comment</a>
+										<button onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center pt-3 pb-3 rounded" title="Show Comment">Show Comment</button>
 									</div>
 								</div>
 							</div>
@@ -213,6 +195,8 @@
 		})
 
 		new Store().View_ItemLoad()
+		new Store().View_StudentLoad()
+		new Store().View_DynamicLoad()
 	})
 
 	function Store() {
@@ -227,6 +211,49 @@
 						$("#StoreView_TuitionLabel").text('P '+ data.AccountTuition)
 					}
 					else $("#root").load(window.location+ "/LoadView?Load=views&Name=entrance")
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this.View_StudentLoad = function() {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/View_ProfileLoad", 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						$("#StoreView_StudentImage").attr('src', window.location.href.replace("index.php/Access", "avatar/"+ data.AccountImage))
+						$("#StoreView_StudentName").text(data.AccountName)
+						$("#StoreView_StudentID").text(data.AccountID.split("#")[1])
+					}
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				}
+			})
+		}
+
+		this.View_DynamicLoad = function() {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_DynamicLoad", 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						for(var x in data.StoreArray) {
+							$("#StoreView_DynamicLoad").append(`
+								<button onclick="new Store().View_DynamicButton(` +data.StoreArray[x].StoreID+ `)" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 button-hover" style="background: white !important;">
+									<div class="material-icons d-flex align-items-center justify-content-center companyLabel">` +(data.StoreArray[x].StoreIcon == "" ? "block" : data.StoreArray[x].StoreIcon)+ `</div>
+									<div class="d-flex align-items-center ml-4 companyLabel" style="width: 100%; font-weight: bold;">` +data.StoreArray[x].StoreTitle+ `<div>
+								</button>
+							`)
+						}
+					}
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
@@ -299,7 +326,7 @@
 						$("#StoreView_ImageID"+ id).attr('src', 'http://localhost/Ewallet/avatar/'+ data.TimelineImage)
 						$("#StorePost_UserImage").attr('src', 'http://localhost/Ewallet/avatar/'+ data.TimelineImage)
 						$("#StoreView_UsernameID"+ id).text(data.TimelineName)
-						$("#StoreView_DateTimeID"+ id).text("Date and Time : "+ data.DateRegister +" "+ data.TimeRegister)
+						$("#StoreView_DateTimeID"+ id).text("Timeline # "+ data.DateRegister +" "+ data.TimeRegister)
 
 						for(var splitter of JSON.parse(data.TimelineDescription).Text.split("\n")) {
 							if(splitter != "") $("#StoreView_DescriptionID"+ id).append('<div style="word-break: break-all;">'+ splitter +'</div>')
@@ -346,7 +373,7 @@
 
 						StorePost_HostName.text(data.PostHostname)
 						StorePost_HostImage.attr('src', window.location.href.replace("/index.php/Access", "")+ "/avatar/" +data.PostHostimage)
-						StorePost_DateTime.text("Date and Time : "+ data.PostDT)
+						StorePost_DateTime.text("Timeline # "+ data.PostDT)
 
 						for(var splitter of data.PostText.split("\n")) {
 							if(splitter != "") StorePost_DescriptionLoader.append('<div style="word-break: break-all;">'+ splitter +'</div>')
@@ -390,7 +417,7 @@
 				method: 'POST',
 				dataType: 'json',
 				success: function(data) {
-					if(!data.isError) StoreView_DisplayLabel.html("Item Name: " +data.StoreTitle+ "<br>Price (P): " +data.StorePrice)
+					if(!data.isError) StoreView_DisplayLabel.html("This Item's Name ('" +data.StoreTitle+ "') is Cost P " +data.StorePrice+ ". Are you sure you wanna purchase now?")
 					else alert(data.ErrorDisplay)
 				},
 				error: function(ex) {
@@ -452,8 +479,8 @@
 							for(var x of data.CommentArray) {
 								if(<?php echo $AccountID ?> == x.AccountID) {
 									StorePost_CommentLoader.append( `
-										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="border-bottom: 1px solid #333333; width: 100%;">
-											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3 border-bottom" style="width: 100%;">
+											<img id="StoreComment_ImageID` +x.CommentID+ `" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 
@@ -469,8 +496,8 @@
 								}
 								else {
 									StorePost_CommentLoader.append( `
-										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3" style="border-bottom: 1px solid #333333; width: 100%;">
-											<img id="StoreComment_ImageID` +x.CommentID+ `" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+										<div id="StoreComment_ItemID` +x.CommentID+ `" class="d-flex flex-row p-3 border-bottom" style="width: 100%;">
+											<img id="StoreComment_ImageID` +x.CommentID+ `" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
 											<div class="d-flex flex-column ml-3 mr-3" style="width: 100%">
 												<h4 id="StoreComment_NameID` +x.CommentID+ `" style="margin: 0; font-size: 14px; font-weight: bold;">Zeke S. Redgrave [System Administrator]</h4>
 
