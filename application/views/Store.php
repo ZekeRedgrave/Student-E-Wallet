@@ -2,7 +2,7 @@
 	<!-- Store View Area -->
 	<div id="StoreView_HomeArea" class="d-flex flex-row" style="width: 100%;">
 		<!-- Store Area -->
-		<div class="d-flex flex-column shadow-sm companyLabel" style="min-width: 300px; max-width: 300px; height: 100%;">
+		<div class="d-flex flex-column shadow-sm companyLabel" style="min-width: 400px; max-width: 400px; height: 100%;">
 			<div class="d-flex flex-row pl-1 pr-1 mt-2 pb-2 shadow-sm" style="width: 100%">
 				<!-- Student Balance -->
 				<div class="d-flex flex-column rounded pb-2 companyStatus" title="Indicates the Total Balance Available" style="width: 100%; cursor: zoom-in;">
@@ -39,9 +39,12 @@
 					<div class="d-flex align-items-center">
 						<img id="StoreView_StudentImage" class="rounded-circle" width="40px" height="40px">
 					</div>
-					<div class="ml-3 pt-1">
+					<div class="ml-3 pt-1" style="width: 100%">
 						<div class="companyForeground" id="StoreView_StudentName" style="font-weight: bold;"></div>
 						<div class="companyForeground" id="StoreView_StudentID" style="font-weight: bold; font-size: 12px; margin-top: -5px;"></div>
+					</div>
+					<div class="d-flex align-items-center">
+						<button onclick="new Store().View_RefreshButton()" class="material-icons" title="Refresh If the Payment List, News / Announcement, and Balance not Completely Display">refresh</button>
 					</div>
 				</div>
 			</div>
@@ -157,46 +160,10 @@
 		$("title").text("E-Student Wallet Access - Dashboard")
 		$('[title]').tooltip()
 
-		var StoreView_LoaderArea = $("#StoreView_LoaderArea")
-		// Timeline
-		$.ajax({
-			url: window.location.href.replace("/Access", "/Timeline/View_PostLoad"), 
-			method: 'POST',
-			dataType: 'json',
-			success: function(data) {
-				if(!data.isError) {
-					if(data.TimelineCount != 0) {
-						StoreView_LoaderArea.html('')
-
-						for(var value of data.TimelineArray) StoreView_LoaderArea.append(`
-							<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1 shadow-sm rounded" style="width: 100%;">
-								<img id="StoreView_ImageID`+ value.TimelineID +`" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
-								<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
-									<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
-									<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px; font-weight: bold;"></h4>
-
-									<div id="StoreView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
-									<div id="StoreView_LoaderID`+ value.TimelineID +`"></div>
-
-									<div class="d-flex flex-row mt-3">	
-										<button onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center pt-3 pb-3 rounded" title="Show Comment">Show Comment</button>
-									</div>
-								</div>
-							</div>
-						`)
-						for(var value of data.TimelineArray) new Store().StoreView_ItemLoad(value.TimelineID)
-					}
-				}
-				else alert(!data.ErrorDisplay)
-			},
-			error: function(ex) {
-		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-			}
-		})
-
 		new Store().View_ItemLoad()
 		new Store().View_StudentLoad()
 		new Store().View_DynamicLoad()
+		new Store().View_PostLoad()
 	})
 
 	function Store() {
@@ -239,18 +206,25 @@
 		}
 
 		this.View_DynamicLoad = function() {
+			var StoreView_DynamicLoad = $("#StoreView_DynamicLoad")
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Transaction/View_DynamicLoad", 
 				method: 'POST',
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
+						StoreView_DynamicLoad.html('')
+
 						for(var x in data.StoreArray) {
-							$("#StoreView_DynamicLoad").append(`
-								<button onclick="new Store().View_DynamicButton(` +data.StoreArray[x].StoreID+ `)" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 button-hover" style="background: white !important;">
+							StoreView_DynamicLoad.append(`
+								<div onclick="new Store().View_DynamicButton(` +data.StoreArray[x].StoreID+ `)" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="background: white !important; cursor: pointer">
 									<div class="material-icons d-flex align-items-center justify-content-center companyLabel">` +(data.StoreArray[x].StoreIcon == "" ? "block" : data.StoreArray[x].StoreIcon)+ `</div>
-									<div class="d-flex align-items-center ml-4 companyLabel" style="width: 100%; font-weight: bold;">` +data.StoreArray[x].StoreTitle+ `<div>
-								</button>
+
+									<div class="d-flex flex-column ml-4" style="width: 100%;">
+										<div class="companyLabel" style="width: 100%; font-weight: bold;">` +data.StoreArray[x].StoreTitle+ `<div>
+										<div class="companyLabel" style="width: 100%; margin-top: -5px; font-size: 12px;">` +data.StoreArray[x].StoreType+ `<div>
+									</div>
+								</div>
 							`)
 						}
 					}
@@ -259,6 +233,52 @@
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 				}
 			})
+		}
+
+		this.View_PostLoad = function() {
+			var StoreView_LoaderArea = $("#StoreView_LoaderArea")
+			// Timeline
+			$.ajax({
+				url: window.location.href.replace("/Access", "/Timeline/View_PostLoad"), 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						if(data.TimelineCount != 0) {
+							StoreView_LoaderArea.html('')
+
+							for(var value of data.TimelineArray) StoreView_LoaderArea.append(`
+								<div id="StoreView_ItemID`+ value.TimelineID +`" class="d-flex flex-row p-3 mb-1 shadow-sm rounded" style="width: 100%;">
+									<img id="StoreView_ImageID`+ value.TimelineID +`" class="rounded-circle" src="http://localhost/Ewallet/avatar.png" width="50px" height="50px">
+									<div class="d-flex flex-column ml-4 mr-4" style="width: 100%">
+										<h4 id="StoreView_UsernameID`+ value.TimelineID +`" style="color: #7289da; margin: 0; font-size: 18px; font-weight: bold;"></h4>
+										<h4 id="StoreView_DateTimeID`+ value.TimelineID +`" style="margin: 0; font-size: 12px; font-weight: bold;"></h4>
+
+										<div id="StoreView_DescriptionID`+ value.TimelineID +`" class="mt-3 mb-3"></div>
+										<div id="StoreView_LoaderID`+ value.TimelineID +`"></div>
+
+										<div class="d-flex flex-row mt-3">	
+											<button onclick="new Store().StoreView_PostButton(`+ value.TimelineID +`)" class="d-flex align-items-center justify-content-center pt-3 pb-3 rounded" title="Show Comment">Show Comment</button>
+										</div>
+									</div>
+								</div>
+							`)
+							for(var value of data.TimelineArray) new Store().StoreView_ItemLoad(value.TimelineID)
+						}
+					}
+					else alert(!data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this.View_RefreshButton = function() {
+			new Store().View_ItemLoad()
+			new Store().View_StudentLoad()
+			new Store().View_DynamicLoad()
+			new Store().View_PostLoad()
 		}
 
 		this.View_OpenButton = function() {
