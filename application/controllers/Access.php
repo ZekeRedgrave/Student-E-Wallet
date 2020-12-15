@@ -116,7 +116,8 @@ class Access extends CI_Controller {
 
 							$data["Store"] = $temp;
 							$data["isStoreEmpty"] = false;
-							$data["AccountID"] = $_SESSION['AccountID'];
+							$data["StudentID"] = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'])->result()[0]->StudentID;
+							$data["AccountID"] = $_SESSION["AccountID"];
 						}
 
 						$this->load->view("Store", $data);

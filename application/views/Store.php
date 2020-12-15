@@ -53,7 +53,40 @@
 		<div class="d-flex flex-column companyLabel" style="width: 100%; overflow: hidden; overflow-y: scroll;">
 			<!-- Timeline Area -->
 			<div class="d-flex flex-column" style="width: 100%; height: 100%">
-				<div class="pl-3 pr-3 pt-3 pb-3 shadow-sm" style="font-weight: bold;">NEWS / ANNOUNCEMENT</div>
+				<div class="d-flex flex-row pl-4 pr-4 pt-2 pb-2 shadow-sm">
+					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">ASSESSMENT RECORD</div>
+					<div class="d-flex flex-row">
+						<select id="StoreView_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyInput" style="width: 125px; font-size: 14px; font-weight: bold;">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">25</option>
+						</select>
+						<button onclick="new Store()._View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="width: 125px; font-size: 14px; font-weight: bold;">Load</button>
+					</div>
+				</div>
+				<table class="table mb-4">
+					<thead>
+						<tr>
+							<th class="pt-2 pb-2 pl-4 border-0 red-text" style="min-width: 75px; max-width: 75px">Old Tuition</th>
+							<th class="pt-2 pb-2 pl-4 border-0" style="min-width: 125px;">New Tuition</th>
+							<th class="pt-2 pb-2 pl-4 border-0" style="min-width: 200px;">Quarterly Payment Type</th>
+							<th class="pt-2 pb-2 pl-4 border-0 red-text" style="width: 100%;">Status</th>
+							<th class="pt-2 pb-2 pl-4 border-0" style="min-width: 125px; max-width: 125px">Timeline</th>
+						</tr>
+					</thead>
+					<tbody id="StoreView_AssessmentLoad">
+								<!-- <tr>
+									<th style="width: 100%">P XXXX.XX</th>
+									<th class="red-text" style="width: 100%">P XXXX.XX</th>
+									<th style="min-width: 135px; max-width: 135px">BSIT-4</th>
+									<th class="red-text" style="min-width: 125px; max-width: 125px">BALANCE</th>
+									<th style="min-width: 175px; max-width: 175px">2020-01-01 00:00:00</th>
+								</tr> -->
+					</tbody>
+				</table>
+
+				<div class="p-0 ml-2 mb-1" style="min-width: 125px; font-weight: bold;">NEWS / ANNOUNCEMENT</div>
 				<div class="d-flex justify-content-center" style="width: 100%">
 					<div id="StoreView_LoaderArea" class="d-flex flex-column pl-3 pt-2" style="width: 600px">
 						<h1 class="mt-5 mb-5">There is no Currently Big News or Announcement Yet!</h1>
@@ -164,9 +197,68 @@
 		new Store().View_StudentLoad()
 		new Store().View_DynamicLoad()
 		new Store().View_PostLoad()
+		new Store().View_AssessmentLoad()
 	})
 
 	function Store() {
+		this.View_AssessmentLoad = function() {
+			var StoreView_ItemButton = $("#StoreView_ItemButton option:selected")
+			var StoreView_AssessmentLoad = $("#StoreView_AssessmentLoad")
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_SearchButton?id=<?php echo $StudentID; ?>", 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						if(!data.isEmpty) {
+							StoreView_AssessmentLoad.html('')
+
+							for(var x = 0; x < StoreView_ItemButton.val(); x++) new Store()._View_AssessmentLoad(data.AssessmentArray[x])
+						}
+						else StoreView_AssessmentLoad.html(`
+							<tr class="button-hover">
+								<th class="red-text" style="width: 100%">N / A</th>
+								<th style="width: 100%">N / A</th>
+								<th style="min-width: 135px; max-width: 135px">N / A</th>
+								<th class="red-text" style="min-width: 125px; max-width: 125px">N / A</th>
+								<th style="min-width: 175px; max-width: 175px">N / A</th>
+							</tr>
+						`)
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this._View_AssessmentLoad = function(id) {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_AssessmentLoad?id=" +id, 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						$("#StoreView_AssessmentLoad").append(`
+							<tr class="button-hover">
+								<th class="red-text" style="min-width: 135px; max-width: 135px">` +data.Old+ `</th>
+								<th style="min-width: 135px; max-width: 135px">` +data.New+ `</th>
+								<th style="min-width: 135px; max-width: 135px">` +data.Type+ `</th>
+								<th class="red-text" style="width: 100%">` +data.Status+ `</th>
+								<th style="min-width: 175px; max-width: 175px">` +data.Timeline+ `</th>
+							</tr>
+						`)
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this._View_RefreshButton = function() { new Store().View_AssessmentLoad() }
+
 		this.View_ItemLoad = function() {
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Account/StoreView_ItemLoad", 
@@ -192,7 +284,7 @@
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						$("#StoreView_StudentImage").attr('src', window.location.href.replace("index.php/Access", "avatar/"+ data.AccountImage))
+						$("#StoreView_StudentImage").attr('src', window.location.href.replace("index.php/Access", "avatar/")+ data.AccountImage)
 						$("#StoreView_StudentName").text(data.AccountName)
 						$("#StoreView_StudentID").text(data.AccountID.split("#")[1])
 					}

@@ -1,9 +1,9 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
 	<div id="ViewAccount_MainArea" class="d-flex flex-row companyLabel" style="<?php echo $AccountType == "ADMIN" ? '' : 'width: 100%;'; ?>" height: 100%">
 		<div class="d-flex flex-column shadow-sm" style="min-width: 300px; max-width: 300px; height: 100%;">
-			<div class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 shadow-sm ">
+			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
 				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">LOGS</div>
-				<?php echo $AccountType == "CASHIER" || $AccountType == "ADMIN" ? "":'<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="min-width: 175px; height: 36px;">Student Registry</button>'; ?>
+				<?php echo $AccountType == "CASHIER" || $AccountType == "ADMIN" ? "":'<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="min-width: 175px; height: 37px;">Student Registry</button>'; ?>
 			</div>
 			<div id="AccountLog_ListLoader" style="width: 100%; height: 100%; overflow-y: scroll;">
 				<!-- <div class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom" title="Timeline" style="cursor: zoom-in;">
@@ -26,7 +26,7 @@
 		<div id="View_AssessmentArea" class="d-flex flex-row" style="width: 100%; height: 100%;">
 			<div id="Account_HomeArea" class="d-flex flex-column" style="width: 96%; height: 100%;">
 				<!-- Assessment Area -->
-				<div class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 mb-3 shadow-sm" style="width: 100%">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm" style="width: 100%">
 					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">ASSESSMENT</div>
 					<div class="d-flex flex-row">
 						<input id="ViewAssessment_Searchbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="min-width: 200px; width: 100%" placeholder="Search Student ID">
@@ -94,72 +94,70 @@
 				</div>
 				<!-- End of Assessment Area -->
 			</div>
-			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%">
-				<div class="p-2" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-					<div class="d-flex flex-row" style="width: 100%">
-						<div class="d-flex align-items-center ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
+			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+				<div style="width: 100%; height: 100%;">
+					<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm" style="width: 100%">
+						<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
 
-						<div class="d-flex flex-column">
-							<button id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="border-0 rounded pt-2 pb-2" style="background: #333333; color: #7289da; width: 200px;">Back to Logs</button>
-						</div>
+						<button id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="border-0 rounded pt-2 pb-2 red" style="width: 200px;">Back to Logs</button>
 					</div>
 
-					<div class="d-flex justify-content-center mt-4">
-						<div class="d-flex flex-column" style="width: 600px;">
+					<div class="d-flex justify-content-center pt-4" style="width: 100%; height: 100%;">
+						<div class="d-flex flex-column" style="width: 600px; height: 100%;">
 							<!-- Account Info -->
-							<div class="d-flex flex-row rounded p-3" style="background: #1e2124;">
+							<div class="d-flex flex-row rounded p-3 shadow">
 								<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
 
 								<div class="d-flex flex-column ml-4" style="width: 100%">
-									<div class="ml-2 mb-4" style="color: #7289da; width: 100%; font-weight: bold;">ACCOUNT</div>
+									<div class="ml-2 mb-4" style="width: 100%; font-weight: bold;">ACCOUNT</div>
 
 									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Email</div>
-									<div id="AccountView_RegisterEmail" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+									<div id="AccountView_RegisterEmail" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 									<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
 										<div class="d-flex flex-column" style="width: 100%">
 											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
-											<div id="AccountView_RegisterDT" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+											<div id="AccountView_RegisterDT" class="border-0 rounded pt-2 pb-2 pl-4 pr-4  companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 										</div>
 										<div class="d-flex flex-column ml-1" style="width: 100%">
 											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Expiration</div>
-											<div id="AccountView_RegisterExpiration" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+											<div id="AccountView_RegisterExpiration" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 										</div>
 									</div>
 
 									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Username</div>
-									<div id="AccountView_RegisterUsername" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+									<div id="AccountView_RegisterUsername" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 								</div>
 							</div>
 							<!-- End of Account Info -->
 							<input id="AccountRegister_Searchbox" class="form-control hide companyLabel" type="number" placeholder="e.g. 15730500">
 							<!-- Personal Information -->
 							<div class="d-flex flex-column mt-4">
-								<div class="d-flex align-items-center ml-2 mb-1" style="color: #7289da; width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
+								<div class="d-flex align-items-center ml-2 mb-1" style="width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
 
 								<div class="d-flex flex-column rounded p-3" style="width: 100%">
 									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Student ID</div>
-									<div id="AccountView_RegisterSI" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+									<div id="AccountView_RegisterSI" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 									<div class="ml-2 mb-1 mt-4" style="font-size: 12px; font-weight: bold;">Name</div>
-									<div id="AccountRegister_StudentName" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX-XXX-XXX</div>
+									<div id="AccountRegister_StudentName" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 									<div class="d-flex flex-row mt-4" style="width: 100%;">
 										<div class="d-flex flex-column" style="width: 100%">
 											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Course and Year</div>
-											<div id="AccountRegister_StudentCY" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX XXX XXX</div>
+											<div id="AccountRegister_StudentCY" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
 										</div>
 										<div class="d-flex flex-column ml-1" style="width: 100%">
 											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Status</div>
-											<div id="AccountRegister_StudentStatus" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #7289da; width: 100%;">XXX XXX XXX</div>
+											<div id="AccountRegister_StudentStatus" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<!-- End of Personal Information -->
-							<div class="d-flex flex-row">
-								<button id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="border-0 rounded pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px;">Acccept</button>
-								<button id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="border-0 rounded pt-2 pb-2 ml-1 red-text" style="background: #333333; width: 125px;">Decline</button>
+							<div class="d-flex flex-row pb-5">
+								<button id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="border-0 rounded pt-2 pb-2 companyBackground" style="width: 125px;">Acccept</button>
+								<button id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="border-0 rounded pt-2 pb-2 ml-1 red" style="width: 125px;">Decline</button>
 							</div>
 						</div>
 					</div>
@@ -173,7 +171,7 @@
 		<div class="" style="width: 100%">
 			<!-- Create -->
 			<div id="SR_CreateArea" class="hide">
-				<div class="pt-3 pb-3 pl-4 pr-4 shadow-sm" style="font-weight: bold; font-size: 14px;">CREATE NEW STUDENT</div>
+				<div class="pt-2 pb-2 pl-4 pr-4 shadow-sm" style="font-weight: bold; font-size: 14px;">CREATE NEW STUDENT</div>
 
 				<div class="d-flex justify-content-center mt-4" style="width: 100%">
 					<div class="d-flex flex-row pl-5 pr-5">
@@ -252,7 +250,7 @@
 			<!-- End of Create -->
 			<!-- View -->
 			<div id="SR_ViewArea" class="" style="width: 100%">
-				<div class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 shadow-sm">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
 					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">SCHOOL REGISTRY</div>
 					<div class="d-flex flex-row">
 						<input id="SR_ViewSDbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput mr-1" style="min-width: 200px; width: 100%" type="number" placeholder="Search Student ID">
@@ -333,7 +331,7 @@
 			<!-- End of View -->
 			<!-- Edit -->
 			<div id="SR_EditArea" class="hide" style="width: 100%">
-				<div class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 shadow-sm">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
 					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold; font-size: 14px;">UPDATING STUDENT INFO</div>
 					<div class="d-flex flex-row">
 						<input id="SR_EditIDbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;" type="number" placeholder="Search Student ID">
@@ -426,7 +424,7 @@
 
 				<h4 class="ml-2 mb-1 p-0 mt-4" style="font-size: 14px; font-weight: bold;">Quarterly Payment Type</h4>
 				<select id="CreateAssessment_Typebox" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="background: #333333; color: #ffffff; width: 100%">
-					<option value="PRELEM">PRELEM</option>
+					<option value="PRELIM">PRELIM</option>
 					<option value="MIDTERM">MIDTERM</option>
 					<option value="SEMI-FINAL">SEMI-FINAL</option>
 					<option value="FINAL">FINAL</option>
@@ -480,7 +478,7 @@
 
 				<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Quarterly Payment Type</h4>
 				<select id="EditAssessment_Typebox" class="custom-select border-0 rounded pt-2 pb-2 pl-4 pr-4" style="width: 100%">
-					<option value="PRELEM">PRELEM</option>
+					<option value="PRELIM">PRELIM</option>
 					<option value="MIDTERM">MIDTERM</option>
 					<option value="SEMI-FINAL">SEMI-FINAL</option>
 					<option value="FINAL">FINAL</option>
@@ -506,34 +504,8 @@
 		$("#ViewAssessment_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png")
 		$("#View_ImageLoad").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png")
 		$('[title]').tooltip()
-
-		var AccountView_RegistrationLoader = $("#AccountView_RegistrationLoader")
+		
 		var AccountLog_ListLoader = $("#AccountLog_ListLoader")
-
-		$.ajax({
-			url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterLoader",
-			method: 'GET',
-			dataType: 'json',
-			success: function(data) {
-				if(!data.isError) {
-					if(data.RegisterID.length != 0) {
-						for(id of data.RegisterID) {
-							AccountView_RegistrationLoader.append(`
-								<div id="AccountView_RegistrationID` +id+ `" onclick="new Account().View_RegisterButton(` +id+ `)" class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom button-hover" style="cursor: zoom-in;">
-									<img src="` +window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png"+ `" width="50px" height="50px">
-									<div id="AccountView_RNID` +id+ `" class="d-flex align-items-center ml-4" style="width: 100%; font-size: 14px; font-weight: bold;">ZeroRedgrave@15730500#1</div>
-								</div>
-							`)
-
-							new Account().View_RegisterLoad(id)
-						}
-					}
-				}
-			},
-			error: function(ex) {
-		 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-			}
-		})
 
 		$.ajax({
 			url: window.location.href.replace("/Access", "")+ "/Logs/View_LogLoader", 
@@ -542,7 +514,7 @@
 			success: function(data) {
 				if(!data.isError) {
 					if(!data.isEmpty) {
-						var color = ""
+						AccountLog_ListLoader.html('')
 
 						for(var value of data.LogArray) {
 							AccountLog_ListLoader.append(`
@@ -568,6 +540,8 @@
 		 		alert("Error: Unexpected Error Occur!")
 			}
 		})
+
+		new Account().View_RegisterLoad()
 	})
 
 	function Log() {
@@ -604,12 +578,44 @@
 	}
 
 	function Account() {
-		this.View_RegisterLoad = function(id) {
+		this.View_RegisterLoad = function() {
+			var AccountView_RegistrationLoader = $("#AccountView_RegistrationLoader")
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterLoad",
+				method: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						if(data.RegisterID.length != 0) {
+							AccountView_RegistrationLoader.html('')
+
+							for(id of data.RegisterID) {
+								AccountView_RegistrationLoader.append(`
+									<div id="AccountView_RegistrationID` +id+ `" onclick="new Account().View_RegisterButton(` +id+ `)" class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom button-hover" style="cursor: zoom-in;">
+										<img src="` +window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png"+ `" width="50px" height="50px">
+										<div id="AccountView_RNID` +id+ `" class="d-flex align-items-center ml-4" style="width: 100%; font-size: 14px; font-weight: bold;">ZeroRedgrave@15730500#1</div>
+									</div>
+								`)
+
+								new Account().View_ItemLoad(id)
+							}
+						}
+						else AccountView_RegistrationLoader.html('<h3 class="d-flex align-items-center justify-content-center" style="width: 100%; height: 100%">Empty!</h3>')
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this.View_ItemLoad = function(id) {
 			var AccountView_RIID = $("#AccountView_RIID"+ id)
 			var AccountView_RNID = $("#AccountView_RNID"+ id)
 
 			$.ajax({
-				url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterLoad?RegisterID=" +id, 
+				url: window.location.href.replace("/Access", "")+ "/Account/View_ItemLoad?RegisterID=" +id, 
 				method: 'POST',
 				dataType: 'json',
 				success: function(data) {
@@ -618,7 +624,7 @@
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		new Account().View_RegisterLoad(id)
+			 		new Account().View_ItemLoad(id)
 				}
 			})
 		}
@@ -1244,7 +1250,9 @@
 
 			var AssessmentCreate_DoneButton = $("#AssessmentCreate_DoneButton")
 
-			if(CreateAssessment_SIbox.val() != "" && CreateAssessment_TFbox.val() != "" && CreateAssessment_Miscellaneousbox.val() != "" && CreateAssessment_Laboratorybox.val() != "") {
+			if(CreateAssessment_SIbox.val() != "" && CreateAssessment_TFbox.val() != "" && CreateAssessment_Miscellaneousbox.val() != "") {
+				var temp = CreateAssessment_Laboratorybox.val() == "" ? .0 : CreateAssessment_Laboratorybox.val()
+
 				AssessmentCreate_DoneButton.attr('disabled', 'disabled')
 
 				$.ajax({
@@ -1254,7 +1262,7 @@
 				 		StudentID: CreateAssessment_SIbox.val(),
 				 		TuitionFee: CreateAssessment_TFbox.val(),
 				 		Miscellaneous: CreateAssessment_Miscellaneousbox.val(),
-				 		Laboratory: CreateAssessment_Laboratorybox.val(),
+				 		Laboratory: temp,
 				 		Type: CreateAssessment_Typebox.val()
 					},
 					dataType: 'json',
@@ -1289,7 +1297,7 @@
 				if(CreateAssessment_SIbox.val() == "") ErrorDisplay += "(Student ID) "
 				if(CreateAssessment_TFbox.val() == "") ErrorDisplay += "(Tuition Fee) "
 				if(CreateAssessment_Miscellaneousbox.val() == "") ErrorDisplay += "(Miscellaneous) "
-				if(CreateAssessment_Laboratorybox.val() == "") ErrorDisplay += "(Laboratory) "
+				if(CreateAssessment_Laboratorybox.val().length == 0) ErrorDisplay += "(Laboratory) "
 
 				alert(ErrorDisplay+ "is Empty!")
 
@@ -1341,7 +1349,7 @@
 
 			var AssessmentEdit_DoneButton = $("#AssessmentEdit_DoneButton")
 
-			if(EditAssessment_SIbox.val() != '' && EditAssessment_OTbox.val() != '' && EditAssessment_CTbox.val() != '' && EditAssessment_NTbox.val() != '' && EditAssessment_Miscellaneousbox.val() != '' && EditAssessment_Laboratorybox.val() != '') {
+			if(EditAssessment_SIbox.val() != '' && EditAssessment_OTbox.val() != '' && EditAssessment_CTbox.val() != '' && EditAssessment_NTbox.val() != '' && EditAssessment_Miscellaneousbox.val() != '' && EditAssessment_Laboratorybox.val().length != 0) {
 				AssessmentEdit_DoneButton.attr('disabled', 'disabled')
 
 				$.ajax({
@@ -1383,8 +1391,8 @@
 				if(EditAssessment_CTbox.val() == "") ErrorDisplay += "(Current Tuition Fee) "
 				if(EditAssessment_NTbox.val() == "") ErrorDisplay += "(New Tuition Fee) "
 
-				if(Miscellaneous.val() == "") ErrorDisplay += "(Miscellaneous) "
-				if(Laboratory.val() == "") ErrorDisplay += "(Laboratory) "
+				if(EditAssessment_Miscellaneousbox.val() == "") ErrorDisplay += "(Miscellaneous) "
+				if(EditAssessment_Laboratorybox.val().length == 0) ErrorDisplay += "(Laboratory) "
 
 				alert(ErrorDisplay+ "is Empty!")
 

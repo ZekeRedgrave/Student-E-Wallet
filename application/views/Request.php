@@ -64,7 +64,12 @@
 		}
 
 		.a-hover:hover {
-			background: #333333 !important;
+			background: #375692 !important;
+			color: white !important;
+		}
+
+		.button-hover:hover {
+			border-right: 5px solid #375692;
 		}
 
 		.hideScrollbar::-webkit-scrollbar {
@@ -81,19 +86,56 @@
 		  	/*outline: 1px solid white;*/
 		}
 
+		.companyBackground {
+			background: #375692 !important;
+		}
+
+		.companyForeground {
+			color: #ffffff !important;
+		}
+
+		.companyStatus {
+			background: #e8d15f !important;
+			color: #ffffff !important;
+		}
+
+		.companyLabel {
+			color: #555555 !important;
+			font-weight: bold;
+		}
+
+		.companyInput {
+			color: #555555 !important;
+			font-weight: bold;
+			background: #eeeeee !important;
+		}
+
+		input, button, select, textarea {
+			background: #e8d15f !important;
+			color: #ffffff !important;
+			width: 100%;
+			font-size: 14px;
+			font-weight: bold;
+			border: 0px;
+		}
+
      </style>
 </head>
 <body>
-	<div class="position-fixed d-flex flex-column" style="top: 0; bottom: 0; left: 0; right: 0; background: #282828; color: #ffffff; width: 100%; height: 100%">
-		<div class="pt-3 pb-3" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-			<div class="mb-1 ml-4" style="color: #7289da; font-weight: bold;">REQUEST STUDENT</div>
+	<div class="position-fixed d-flex flex-column companyLabel" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
+		<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 mb-4 shadow-sm">
+				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">REQUEST STUDENT</div>
+
+				<button onclick="new Request().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Refresh</button>
+			</div>
 
 			<div class="d-flex flex-row mb-1 ml-4 mr-4">
-				<input id="View_Searchbox" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1" style="background: #333333; color: #4caf50; width: 100%;" placeholder="Search Request Name or Student ID Only!">
-				<button onclick="new Request().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
-				<button onclick="new Request().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Refresh</button>
+				<input id="View_Searchbox" class="border-0 rounded pl-3 pr-3 pt-2 pb-2 mr-1 companyInput" style="width: 100%;" placeholder="Search Request Name or Student ID Only!">
+				<button onclick="new Request().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Search</button>
+				
 				<div style="width: 100%"></div>
-				<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">
+				<select id="View_ItemButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyInput" style="width: 125px; font-size: 14px; font-weight: bold;">
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
@@ -105,7 +147,7 @@
 				</select>
 				<button onclick="new Request().View_RefreshButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Load</button>
 			</div>
-			<table class="table" style="width: 100%; color: #7289da;">
+			<table class="table" style="width: 100%; color: #375692;">
 				<thead style="width: 100%">
 					<tr class="d-flex flex-row align-items-center" style="width: 100%;">
 						<th class="border-0" style="min-width: 200px; width: 100%; font-weight: bold;">Request Name</th>
@@ -151,7 +193,7 @@
 
 							for(var x in data.RecordArray) {
 								var HTML = `
-									<tr id="` +data.RecordArray[x].RequestID+ `" class="d-flex flex-row align-items-center" style="width: 100%; border-bottom: 1px solid #333333">
+									<tr id="` +data.RecordArray[x].RequestID+ `" class="d-flex flex-row align-items-center border-bottom" style="width: 100%;">
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].RequestName+ `</th>
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentName+ `</th>
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentID+ `</th>
@@ -161,11 +203,11 @@
 								`
 
 								if(data.RecordArray[x].isProcess == false) {
-									HTML += `<a id="RequestView_ProcessButton` +data.RecordArray[x].RequestID+ `" onclick="new Request().View_ProcessButton(` +data.RecordArray[x].RequestID+ `)" class="d-flex justify-content-center rounded pt-2 pb-2" style="background: #333333; min-width: 125px; max-width: 125px;">Done Process</a>`
+									HTML += `<button id="RequestView_ProcessButton` +data.RecordArray[x].RequestID+ `" onclick="new Request().View_ProcessButton(` +data.RecordArray[x].RequestID+ `)" class="d-flex justify-content-center rounded pt-2 pb-2 companyBackground" style="min-width: 125px; max-width: 125px;">Done Process</button>`
 								}
 
 								HTML += `
-										<a onclick="new Request().View_ClaimButton(` +data.RecordArray[x].RequestID+ `)"  class="d-flex justify-content-center rounded pt-2 pb-2 ml-1 red-text" style="background: #333333; min-width: 100px; max-width: 100px;">Done Claim</a>
+										<button onclick="new Request().View_ClaimButton(` +data.RecordArray[x].RequestID+ `)"  class="d-flex justify-content-center rounded pt-2 pb-2 ml-1 red" style="min-width: 100px; max-width: 100px;">Done Claim</button>
 										</th>
 									</tr>
 								`
@@ -219,11 +261,11 @@
 										`
 
 										if(data.RecordArray[x].isProcess == false) {
-											HTML += `<a onclick="new Request().View_ProcessButton(` +data.RecordArray[x].RequestID+ `)" class="d-flex justify-content-center rounded pt-2 pb-2" style="background: #333333; min-width: 125px; max-width: 125px;">Done Process</a>`
+											HTML += `<button onclick="new Request().View_ProcessButton(` +data.RecordArray[x].RequestID+ `)" class="d-flex justify-content-center rounded pt-2 pb-2 companyBackground" style="min-width: 125px; max-width: 125px;">Done Process</button>`
 										}
 
 										HTML += `
-												<a onclick="new Request().View_ClaimButton(` +data.RecordArray[x].RequestID+ `)"  class="d-flex justify-content-center rounded pt-2 pb-2 ml-1 red-text" style="background: #333333; min-width: 100px; max-width: 100px;">Done Claim</a>
+												<button onclick="new Request().View_ClaimButton(` +data.RecordArray[x].RequestID+ `)"  class="d-flex justify-content-center rounded pt-2 pb-2 ml-1 red" style="min-width: 100px; max-width: 100px;">Done Claim</button>
 												</th>
 											</tr>
 										`

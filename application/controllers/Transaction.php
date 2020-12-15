@@ -198,6 +198,7 @@ class Transaction extends CI_Controller {
 					$data['TransactionArray'] = [];
 
 					foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) array_push($data['TransactionArray'], array(
+						'TransactionID' => $value->TransactionID,
 						'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
 						'TransactionType' => $value->TransactionType,
 						'TransactionAmount' => json_decode($value->TransactionDescription)->TransactionAmount,
@@ -253,6 +254,40 @@ class Transaction extends CI_Controller {
 		));
 	}
 
+	function View_InfoButton() {
+		if(isset($_GET['id']) && !empty($_GET['id'])) {
+			$TransactionQuery = $this->db->query('Select * from Transaction where TransactionID='. $_GET['id'])->result()[0];
+			$StudentQuery = $this->db->query("Select * from Student where StudentID=". $TransactionQuery->StudentID)->result()[0];
+			$AccountQuery = $this->db->query("Select * from Account where StudentID=". $TransactionQuery->StudentID)->result()[0];
+
+			$data["isError"] = false;
+			$data["StudentImage"] =  $AccountQuery->AccountImage;
+			$data["StudentName"] =  json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($StudentQuery->Name)->Middlename. ")";
+			$data["StudentCY"] =  $StudentQuery->Course. "-" .$StudentQuery->Level;
+			$data["StudentID"] =  $TransactionQuery->StudentID;
+			$data["StudentBalance"] =  $AccountQuery->Account_AvailableBalance;
+
+			$TransactionJSON = json_decode($TransactionQuery->TransactionDescription);
+
+			$data["TransactionType"] =  $TransactionQuery->TransactionType;
+
+			$data["TransactionName"] = $TransactionJSON->TransactionName;
+			$data["TransactionPrice"] = $TransactionJSON->TransactionAmount;
+			$data["TransactionFee"] =  $TransactionJSON->TransactionFee;
+			$data["TransactionST"] =  $TransactionJSON->TransactionAmount + $TransactionJSON->TransactionFee;
+			$data["TransactionCash"] =  $TransactionJSON->TransactionCash;
+
+			$data["TransactionTotal"] =  $TransactionJSON->TransactionAmount + $TransactionJSON->TransactionFee - $TransactionJSON->TransactionCash;
+			$data["TransactionBalance"] =  $TransactionJSON->TransactionBalance;
+
+			echo json_encode($data);
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Unexpected Error Occurs!"
+		));
+	}
+
 	function Deposits_NextButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['Amountbox']) && isset($_POST['Cashbox'])) {
 			if(!empty($_POST['StudentID']) && !empty($_POST['Amountbox']) && !empty($_POST['Cashbox'])) {
@@ -270,30 +305,62 @@ class Transaction extends CI_Controller {
 							if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
 								// Checking if the StudentID is not graduated yet
 								if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status == "non-graduated") {
-									$this->db->insert("Transaction", array(
-										"StudentID" => $_POST['StudentID'],
-										"TransactionType" => "DEPOSITS",
-										"TransactionDescription" => json_encode(array(
+									$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
+
+									$x = include APPPATH.'third_party/SMTPConfig.php';
+
+						  			// Sending a Verification Key Code to Email Account
+						  			$mail = new PHPMailer();
+									$mail->isSMTP();
+									$mail->Host = 'smtp.gmail.com'; 
+									$mail->SMTPSecure = 'ssl';
+									$mail->SMTPAuth = true;
+									$mail->Username = $x['Email'];
+									$mail->Password = $x['Password'];
+									$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+									$mail->Port = 465;
+
+									//Recipients
+									$mail->setFrom($x['Email'], "Student EWallet Notifications");
+									$mail->addAddress($AccountQuery->AccountEmail);
+
+									// Content
+									$mail->isHTML(true);
+									$mail->Subject = 'Deposits';
+									$mail->Body    = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, "Deposits", $_POST['Amountbox'], $_POST['Amountbox'] + $Fee, 0, $_POST['Cashbox'] - ($_POST['Amountbox'] + $Fee), "Thank you for your Patronage!", "");
+									// Send
+									if(!$mail->send())  echo json_encode(array(
+										"isError" => true,
+										"ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+									));
+									else {
+										$this->db->insert("Transaction", array(
+											"StudentID" => $_POST['StudentID'],
+											"TransactionType" => "DEPOSITS",
+											"TransactionDescription" => json_encode(array(
 												"EmployeeID" => $_SESSION['AccountID'],
 												"StudentID" => $_POST['StudentID'],
+												"TransactionName" => "DEPOSITS",
 												"TransactionFee" => $Fee,
 												"TransactionAmount" => $_POST['Amountbox'],
-												"TransactionCash" => $_POST['Cashbox']
-										)),
-										"DateRegister" => date("Y-m-d"),
-										"TimeRegister" => date("H:i:s")
-									));
+												"TransactionCash" => $_POST['Cashbox'],
+												"TransactionBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $_POST['Amountbox']
+											)),
+											"DateRegister" => date("Y-m-d"),
+											"TimeRegister" => date("H:i:s")
+										));
 
-									$this->db->update("Account", array(
-										"Account_AvailableBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $_POST['Amountbox']
-									), "StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'");
+										$this->db->update("Account", array(
+											"Account_AvailableBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance + $_POST['Amountbox']
+										), "StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'");
 
-									echo json_encode(array(
-										"isError" => false,
-										"Total" => $_POST['Amountbox'] + $Fee,
-										"Cash" => $_POST['Cashbox'],
-										"Change" => ($_POST['Amountbox'] + $Fee) - $_POST['Cashbox']
-									));
+										echo json_encode(array(
+											"isError" => false,
+											"Total" => $_POST['Amountbox'] + $Fee,
+											"Cash" => $_POST['Cashbox'],
+											"Change" => ($_POST['Amountbox'] + $Fee) - $_POST['Cashbox']
+										));
+									}
 								}
 								else echo json_encode(array(
 									"isError" => true,
@@ -404,10 +471,12 @@ class Transaction extends CI_Controller {
 												"TransactionDescription" => json_encode(array(
 												"EmployeeID" => $_SESSION['AccountID'],
 												"StudentID" => $_POST['StudentID'],
+													"TransactionName" => "GIFT",
 													"TransactionFee" => $Fee,
 													"TransactionAmount" => $_POST['Amountbox'],
 													"TransactionCash" => $_POST['Cashbox'],
-													"Transaction_RedeemCode" => $Code
+													"Transaction_RedeemCode" => $Code,
+													"TransactionBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance
 												)),
 												"DateRegister" => date("Y-m-d"),
 												"TimeRegister" => date("H:i:s")
@@ -479,7 +548,8 @@ class Transaction extends CI_Controller {
 												"TransactionFee" => $Fee,
 												"TransactionAmount" => $_POST['Amountbox'],
 												"TransactionCash" => $_POST['Cashbox'],
-												"Transaction_RedeemCode" => $Code
+												"Transaction_RedeemCode" => $Code,
+												"TransactionBalance" => $this->db->query("Select * from Account where StudentID=". $_POST['StudentID']. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance
 											)),
 											"DateRegister" => date("Y-m-d"),
 											"TimeRegister" => date("H:i:s")
@@ -702,9 +772,11 @@ class Transaction extends CI_Controller {
 									"TransactionDescription" => json_encode(array(
 										"EmployeeID" => "N/A",
 										"StudentID" => $AccountQuery->StudentID,
+										"TransactionName" => $Assessment->AssessmentType,
 										"TransactionAmount" => $_POST['Amount'],
 										"TransactionFee" => 0,
 										"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+										"TransactionBalance" => $this->db->query("Select * from Account where StudentID=". $AccountQuery->StudentID. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance - $_POST['Amount']
 									)),
 									"DateRegister" => date("Y-m-d"),
 									"TimeRegister" => date("H:i:s")
@@ -818,9 +890,11 @@ class Transaction extends CI_Controller {
 								"TransactionDescription" => json_encode(array(
 									"EmployeeID" => "N/A",
 									"StudentID" => $AccountQuery->StudentID,
+									"TransactionName" => $StoreQuery->StoreTitle,
 									"TransactionAmount" => $StoreQuery->StorePrice,
 									"TransactionFee" => 0,
 									"TransactionCash" => $AccountQuery->Account_AvailableBalance,
+									"TransactionBalance" => $this->db->query("Select * from Account where StudentID=". $AccountQuery->StudentID. " and AccountType ='STUDENT'")->result()[0]->Account_AvailableBalance - $StoreQuery->StorePrice
 								)),
 								"DateRegister" => date("Y-m-d"),
 								"TimeRegister" => date("H:i:s")

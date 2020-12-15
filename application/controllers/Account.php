@@ -17,7 +17,7 @@ class Account extends CI_Controller {
         date_default_timezone_set("Asia/Taipei");
     }
 
-	function View_RegisterLoader() {
+	function View_RegisterLoad() {
 		if($this->db->query("Select Count(*) as x from Registration where isDelete=false and RegisterType='STUDENT'")->result()[0]->x != 0) {
 			$RegisterQuery = $this->db->query("Select * from Registration where isDelete=false and RegisterType='STUDENT' Order by RegisterID DESC")->result();
 			$data['isError'] = false;
@@ -32,7 +32,7 @@ class Account extends CI_Controller {
 		));
 	}
 
-	function View_RegisterLoad() {
+	function View_ItemLoad() {
 		if(isset($_GET['RegisterID']) && !empty($_GET['RegisterID'])) {
 			$RegisterQuery = $this->db->query("Select * from Registration where RegisterID=". $_GET['RegisterID'])->result()[0];
 
@@ -442,7 +442,7 @@ class Account extends CI_Controller {
 
 	function CreateAssessment_DoneButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['TuitionFee']) && isset($_POST['Miscellaneous']) && isset($_POST['Laboratory']) && isset($_POST['Type'])) {
-			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee']) && !empty($_POST['Miscellaneous']) && !empty($_POST['Laboratory']) && !empty($_POST['Type'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['TuitionFee']) && !empty($_POST['Miscellaneous']) && strlen($_POST['Laboratory']) != 0 && !empty($_POST['Type'])) {
 				if($this->db->query("Select Count(*) as x from Student where StudentID=". $_POST['StudentID'])->result()[0]->x != 0) {
 					if($_SESSION['AccountType'] == "DEPARTMENT" || $_SESSION['AccountType'] == "CASHIER") {
 						$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
@@ -532,7 +532,7 @@ class Account extends CI_Controller {
 				if(empty($_POST['StudentID'])) $ErrorDisplay .= "(Student ID) ";
 				if(empty($_POST['TuitionFee'])) $ErrorDisplay .= "(Tuition Fee) ";
 				if(empty($_POST['Miscellaneous'])) $ErrorDisplay .= "(Miscellaneous) ";
-				if(empty($_POST['Laboratory'])) $ErrorDisplay .= "(Laboratory) ";
+				if(strlen($_POST['Laboratory']) == 0) $ErrorDisplay .= "(Laboratory) ";
 				if(empty($_POST['Type'])) $ErrorDisplay .= "(Quarterly Payment Type) ";
 
 				echo json_encode(array(
@@ -587,7 +587,7 @@ class Account extends CI_Controller {
 
 	function AssessmentEdit_DoneButton() {
 		if(isset($_POST['StudentID']) && isset($_POST['OldTuition']) && isset($_POST['CurrentTuition']) && isset($_POST['NewTuition']) && isset($_POST['Miscellaneous']) && isset($_POST['Laboratory']) && isset($_POST['Type'])) {
-			if(!empty($_POST['StudentID']) && !empty($_POST['OldTuition']) && !empty($_POST['CurrentTuition']) && !empty($_POST['NewTuition']) && !empty($_POST['Miscellaneous']) && !empty($_POST['Laboratory']) && !empty($_POST['Type'])) {
+			if(!empty($_POST['StudentID']) && !empty($_POST['OldTuition']) && !empty($_POST['CurrentTuition']) && !empty($_POST['NewTuition']) && !empty($_POST['Miscellaneous']) && strlen($_POST['Laboratory']) != 0 && !empty($_POST['Type'])) {
 				if($this->db->query("Select * from Student where StudentID=". $_POST['StudentID'])->result()[0]->Status != 'graduated') {
 					$AccountQuery = $this->db->query("Select * from Account where StudentID=". $_POST['StudentID'])->result()[0];
 
@@ -664,7 +664,7 @@ class Account extends CI_Controller {
 				if(empty($_POST['NewTuition'])) $ErrorDisplay += "(New Tuition Fee) ";
 
 				if(empty($_POST['Miscellaneous'])) $ErrorDisplay += "(Miscellaneous) ";
-				if(empty($_POST['Laboratory'])) $ErrorDisplay += "(Laboratory) ";
+				if(strlen($_POST['Laboratory']) == 0) $ErrorDisplay += "(Laboratory) ";
 				if(empty($_POST['Type'])) $ErrorDisplay += "(Quarterly Payment Type) ";
 
 				echo json_encode(array(
