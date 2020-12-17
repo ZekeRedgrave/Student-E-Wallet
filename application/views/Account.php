@@ -1,9 +1,9 @@
 <div id="App_AccountArea" class="d-flex flex-row hide" style="width:100%; height: 100%">
-	<div id="ViewAccount_MainArea" class="d-flex flex-row companyLabel" style="<?php echo $AccountType == "ADMIN" ? '' : 'width: 100%;'; ?>" height: 100%">
+	<div id="ViewAccount_MainArea" class="d-flex flex-row companyLabel" style="width: 100%; height: 100%">
 		<div class="d-flex flex-column shadow-sm" style="min-width: 300px; max-width: 300px; height: 100%;">
 			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
 				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">LOGS</div>
-				<?php echo $AccountType == "CASHIER" || $AccountType == "ADMIN" ? "":'<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="min-width: 175px; height: 37px;">Student Registry</button>'; ?>
+				<?php echo $AccountType == "CASHIER" ? "":'<button onclick="new Account().View_SRButton()" class="border-0 rounded pt-1 pb-1 pl-4 pr-4 ml-1" style="min-width: 175px; height: 37px;">Student Registry</button>'; ?>
 			</div>
 			<div id="AccountLog_ListLoader" style="width: 100%; height: 100%; overflow-y: scroll;">
 				<!-- <div class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom" title="Timeline" style="cursor: zoom-in;">
@@ -94,71 +94,71 @@
 				</div>
 				<!-- End of Assessment Area -->
 			</div>
-			<div id="AccountRegister_StudentArea" class="d-flex flex-column hide" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
-				<div style="width: 100%; height: 100%;">
-					<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm" style="width: 100%">
-						<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
+		</div>
+		<div id="AccountRegister_StudentArea" class="d-flex flex-column <?php $AccountType == "ADMIN" ? "" : "hide" ?>" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+			<div style="width: 100%; height: 100%;">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm" style="width: 100%">
+					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">NEW ACCOUNT REVIEW</div>
 
-						<button id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="border-0 rounded pt-2 pb-2 red" style="width: 200px;">Back to Logs</button>
-					</div>
+					<?php echo ($AccountType == "ADMIN" ? "":'<button id="AccountRegister_BackButton" onclick="new Account().View_BackButton()" class="border-0 rounded pt-2 pb-2 red" style="width: 200px;">Back to Logs</button>'); ?>
+				</div>
 
-					<div class="d-flex justify-content-center pt-4" style="width: 100%; height: 100%;">
-						<div class="d-flex flex-column" style="width: 600px; height: 100%;">
-							<!-- Account Info -->
-							<div class="d-flex flex-row rounded p-3 shadow">
-								<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
+				<div class="d-flex justify-content-center pt-4" style="width: 100%; height: 100%;">
+					<div class="d-flex flex-column" style="width: 600px; height: 100%;">
+						<!-- Account Info -->
+						<div class="d-flex flex-row rounded p-3 shadow">
+							<img id="AccountRegister_Image" src="http://localhost/Ewallet/avatar/avatar.png" width="150px" height="150px">
 
-								<div class="d-flex flex-column ml-4" style="width: 100%">
-									<div class="ml-2 mb-4" style="width: 100%; font-weight: bold;">ACCOUNT</div>
+							<div class="d-flex flex-column ml-4" style="width: 100%">
+								<div class="ml-2 mb-4" style="width: 100%; font-weight: bold;">ACCOUNT</div>
 
-									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Email</div>
-									<div id="AccountView_RegisterEmail" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+								<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Email</div>
+								<div id="AccountView_RegisterEmail" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-									<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
-										<div class="d-flex flex-column" style="width: 100%">
-											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
-											<div id="AccountView_RegisterDT" class="border-0 rounded pt-2 pb-2 pl-4 pr-4  companyInput" style="width: 100%;">XXX-XXX-XXX</div>
-										</div>
-										<div class="d-flex flex-column ml-1" style="width: 100%">
-											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Expiration</div>
-											<div id="AccountView_RegisterExpiration" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
-										</div>
+								<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Date and Time Register</div>
+										<div id="AccountView_RegisterDT" class="border-0 rounded pt-2 pb-2 pl-4 pr-4  companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 									</div>
-
-									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Username</div>
-									<div id="AccountView_RegisterUsername" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
-								</div>
-							</div>
-							<!-- End of Account Info -->
-							<input id="AccountRegister_Searchbox" class="form-control hide companyLabel" type="number" placeholder="e.g. 15730500">
-							<!-- Personal Information -->
-							<div class="d-flex flex-column mt-4">
-								<div class="d-flex align-items-center ml-2 mb-1" style="width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
-
-								<div class="d-flex flex-column rounded p-3" style="width: 100%">
-									<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Student ID</div>
-									<div id="AccountView_RegisterSI" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
-
-									<div class="ml-2 mb-1 mt-4" style="font-size: 12px; font-weight: bold;">Name</div>
-									<div id="AccountRegister_StudentName" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
-
-									<div class="d-flex flex-row mt-4" style="width: 100%;">
-										<div class="d-flex flex-column" style="width: 100%">
-											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Course and Year</div>
-											<div id="AccountRegister_StudentCY" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
-										</div>
-										<div class="d-flex flex-column ml-1" style="width: 100%">
-											<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Status</div>
-											<div id="AccountRegister_StudentStatus" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
-										</div>
+									<div class="d-flex flex-column ml-1" style="width: 100%">
+										<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Expiration</div>
+										<div id="AccountView_RegisterExpiration" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 									</div>
 								</div>
+
+								<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Username</div>
+								<div id="AccountView_RegisterUsername" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 							</div>
-							<!-- End of Personal Information -->
-							<div class="d-flex flex-row pb-5">
-								<button id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="border-0 rounded pt-2 pb-2 companyBackground" style="width: 125px;">Acccept</button>
-								<button id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="border-0 rounded pt-2 pb-2 ml-1 red" style="width: 125px;">Decline</button>
+						</div>
+						<!-- End of Account Info -->
+						<input id="AccountRegister_Searchbox" class="form-control hide companyLabel" type="number" placeholder="e.g. 15730500">
+						<!-- Personal Information -->
+						<div class="d-flex flex-column mt-4">
+							<div class="d-flex align-items-center ml-2 mb-1" style="width: 100%; font-weight: bold;">PERSONAL INFORMATION</div>
+
+							<div class="d-flex flex-column rounded p-3" style="width: 100%">
+								<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Student ID</div>
+								<div id="AccountView_RegisterSI" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+								<div class="ml-2 mb-1 mt-4" style="font-size: 12px; font-weight: bold;">Name</div>
+								<div id="AccountRegister_StudentName" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+								<div class="d-flex flex-row mt-4" style="width: 100%;">
+									<div class="d-flex flex-column" style="width: 100%">
+										<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Course and Year</div>
+										<div id="AccountRegister_StudentCY" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
+									</div>
+									<div class="d-flex flex-column ml-1" style="width: 100%">
+										<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Status</div>
+										<div id="AccountRegister_StudentStatus" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX XXX XXX</div>
+									</div>
+								</div>
 							</div>
+						</div>
+						<!-- End of Personal Information -->
+						<div class="d-flex flex-row pb-5">
+							<button id="AccountRegister_AcceptButton" onclick="new Account().View_AcceptButton()" class="border-0 rounded pt-2 pb-2 companyBackground" style="width: 125px;">Acccept</button>
+							<button id="AccountRegister_DeleteButton" onclick="new Account().View_DeleteButton()" class="border-0 rounded pt-2 pb-2 ml-1 red" style="width: 125px;">Decline</button>
 						</div>
 					</div>
 				</div>
@@ -167,7 +167,7 @@
 	</div>
 
 	<!-- Student Registry -->
-	<div id="ViewAccount_SR" class="pb-3 <?php if($AccountType != "ADMIN") echo 'hide'; ?>" style="width: 100%; overflow: hidden; overflow-y: scroll;">
+	<div id="ViewAccount_SR" class="pb-3 hide" style="width: 100%; overflow: hidden; overflow-y: scroll;">
 		<div class="" style="width: 100%">
 			<!-- Create -->
 			<div id="SR_CreateArea" class="hide">
@@ -255,7 +255,7 @@
 					<div class="d-flex flex-row">
 						<input id="SR_ViewSDbox" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput mr-1" style="min-width: 200px; width: 100%" type="number" placeholder="Search Student ID">
 						<button onclick="new SR().View_SearchButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 <?php echo $AccountType == "ADMIN" ? 'mr-4' : 'mr-1'; ?>" style="width: 150px;">Search</button>
-						<?php echo $AccountType == "ADMIN" ? '' : '<button onclick="new SR().View_BackButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mr-4 red" style="width: 150px;">Back</button>'; ?>
+						<button onclick="new SR().View_BackButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mr-4 red" style="width: 150px;">Back</button>
 						<button onclick="new SR().View_EditButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mr-1 companyBackground" style="width: 150px;">Edit</button>
 						<button onclick="new SR().View_CreateButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="width: 150px;">Add</button>
 					</div>
@@ -639,6 +639,7 @@
 			var AccountRegister_StudentArea = $("#AccountRegister_StudentArea")
 			var Account_HomeArea = $("#Account_HomeArea")
 
+			$("#View_AssessmentArea").addClass('hide')
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Account/View_RegisterButton?RegisterID=" +id, 
 				method: 'POST',
@@ -660,7 +661,7 @@
 						if(!data.isExpire) AccountView_RegisterExpiration.removeClass('red-text').text(data.RegisterExpire)
 						else AccountView_RegisterExpiration.text(data.RegisterExpire)
 
-						new Search().Register_SearchButton()
+						new Search().Register_SearchButton(data.RegisterSI)
 					}
 					else alert(data.ErrorDisplay)
 				},
@@ -675,6 +676,7 @@
 		this.View_BackButton = function() {
 			$("#AccountRegister_StudentArea").addClass('hide')
 			$("#Account_HomeArea").removeClass('hide')
+			$("#View_AssessmentArea").removeClass('hide')
 		}
 
 		this.View_DeleteButton = function(id) {
@@ -768,7 +770,7 @@
 
 						AccountRegister_AcceptButton.removeAttr('disabled')
 
-						new Account().View_BackButton()
+						<?php echo ($AccountType == "ADMIN" ? "":'new Account().View_BackButton()'); ?>
 					}
 					else {
 						alert(data.ErrorDisplay)
@@ -1129,7 +1131,7 @@
 	}
 
 	function Search() {
-		this.Register_SearchButton = function() {
+		this.Register_SearchButton = function(id) {
 			var AccountRegister_Searchbox = $("#AccountRegister_Searchbox")
 
 			var AccountRegister_Image = $("#AccountRegister_Image")
@@ -1138,14 +1140,16 @@
 			var AccountRegister_StudentStatus = $("#AccountRegister_StudentStatus")
 			var AccountRegister_StudentName = $("#AccountRegister_StudentName")
 
+			var temp = AccountRegister_Searchbox.val()
+			if(AccountRegister_Searchbox.val() == undefined) temp = id
 			if(AccountRegister_Searchbox.val() != "") {
 				$.ajax({
-					url: window.location.href.replace("/Access", "")+ "/Account/Register_SearchButton?RegisterSI=" +AccountRegister_Searchbox.val(), 
+					url: window.location.href.replace("/Access", "")+ "/Account/Register_SearchButton?RegisterSI=" + temp, 
 					method: 'POST',
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
-							AccountRegister_Image.attr('src', window.location.href.replace("index.php/Access", "avatar/"+ data.SearchImage));
+							AccountRegister_Image.attr('src', window.location.href.replace("index.php/Access", "avatar/")+ data.SearchImage);
 							AccountRegister_StudentID.text(data.SearchCY)
 							AccountRegister_StudentCY.text(data.SearchSI)
 							AccountRegister_StudentStatus.text(data.SearchStatus)

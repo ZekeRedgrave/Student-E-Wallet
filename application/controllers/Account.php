@@ -644,7 +644,7 @@ class Account extends CI_Controller {
 						));
 
 						$this->db->update("Account", array(
-							"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition']
+							"Account_TuitionBalance" => $AssessmentQuery->Assessment_OldTuition + $_POST['NewTuition'] + $_POST['Miscellaneous'] + $_POST['Laboratory']
 						), "StudentID=". $_POST['StudentID']);
 
 						echo json_encode($data);

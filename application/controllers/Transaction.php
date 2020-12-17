@@ -327,7 +327,7 @@ class Transaction extends CI_Controller {
 									// Content
 									$mail->isHTML(true);
 									$mail->Subject = 'Deposits';
-									$mail->Body    = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, "Deposits", $_POST['Amountbox'], $_POST['Amountbox'] + $Fee, 0, $_POST['Cashbox'] - ($_POST['Amountbox'] + $Fee), "Thank you for your Patronage!", "");
+									$mail->Body    = $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , "Deposits", $_POST['Amountbox'], $_POST['Amountbox'] + $Fee, 0, $_POST['Cashbox'] - ($_POST['Amountbox'] + $Fee), "Thank you for your Patronage!", "");
 									// Send
 									if(!$mail->send())  echo json_encode(array(
 										"isError" => true,
@@ -732,11 +732,11 @@ class Transaction extends CI_Controller {
 							$mail->isHTML(true);
 							$mail->Subject = 'Student EWallet Notifications';
 
-							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Half Paid (Can now Enroll)');
+							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Half Paid (Can now Enroll)');
 
-							if($FeeLeft == 0) $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Fully Paid! (Can now Enroll)');
+							if($FeeLeft == 0) $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Fully Paid! (Can now Enroll)');
 
-							else $mail->Body = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', '');
+							else $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', '');
 
 							//$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
 							// Send
@@ -772,7 +772,7 @@ class Transaction extends CI_Controller {
 									"TransactionDescription" => json_encode(array(
 										"EmployeeID" => "N/A",
 										"StudentID" => $AccountQuery->StudentID,
-										"TransactionName" => $Assessment->AssessmentType,
+										"TransactionName" => $AssessmentQuery->AssessmentType,
 										"TransactionAmount" => $_POST['Amount'],
 										"TransactionFee" => 0,
 										"TransactionCash" => $AccountQuery->Account_AvailableBalance,
@@ -875,7 +875,7 @@ class Transaction extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Student EWallet Notifications';
-						$mail->Body    = $this->Receipt($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1, $StoreQuery->StoreTitle, $StoreQuery->StorePrice, $StoreQuery->StorePrice, $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Please wait for the verification of the process.');
+						$mail->Body    = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , $StoreQuery->StoreTitle, $StoreQuery->StorePrice, $StoreQuery->StorePrice, $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Please wait for the verification of the process.');
 						//$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
 						// Send
 						if(!$mail->send())  echo json_encode(array(
