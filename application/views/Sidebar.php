@@ -18,6 +18,7 @@
 
 			case "DEPARTMENT":
 				echo '<button id="App_PaymentButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Payment / Store">receipt_long</button>';
+				echo '<button id="App_BankButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Transaction Records & Bank">account_balance</button>';
 				echo '<button id="App_TimelineButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="News & Announcement">timeline</button>';
 				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Student Account">account_circle</button>';
 				break;

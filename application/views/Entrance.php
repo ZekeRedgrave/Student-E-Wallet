@@ -3,12 +3,6 @@
 		<div class="d-flex flex-row">
 			
 			<div class="d-flex flex-column p-3 rounded" style="width: 500px; height: 100%;">
-				
-
-				
-
-				
-
 				<div id="EntranceForgot_Area" class="d-flex flex-column hide" style="width: 100%">
 					<h2 class="mb-5" style="color: #7289da; font-weight: bold;">Forgot Password</h2>
 
@@ -44,8 +38,8 @@
 			
 		</div>
 		<div class="d-flex flex-column p-1">
-			<button onclick="new Entrance().View_LoginButton()" class="material-icons rounded form-control mb-1 border-0" style="min-width: 50px; max-width: 50px; height: 50px">login</button>
-			<button onclick="new Entrance().View_RegisterButton()" class="material-icons rounded form-control border-0" style="min-width: 50px; max-width: 50px; height: 50px">how_to_reg</button>
+			<button onclick="new Entrance().View_LoginButton()" class="material-icons rounded form-control mb-1 border-0" title="Go to Login" style="min-width: 50px; max-width: 50px; height: 50px">login</button>
+			<button onclick="new Entrance().View_RegisterButton()" class="material-icons rounded form-control border-0" title="Go to Register" style="min-width: 50px; max-width: 50px; height: 50px">how_to_reg</button>
 		</div>
 		<div class="companyBackground" style="width: 100%; height: 100%; overflow-y: hidden;">
 			<div id="EntranceLogin_Area" class="d-flex justify-content-center align-items-center companyForeground" style="width: 100%; height: 100%">
@@ -112,8 +106,8 @@
 				</div>
 					
 
-				<button onclick="new Register().Create_DoneButton()" id="RegisterCreate_DoneButton" class="border-0 rounded pt-3 pb-3 mb-1" style="background: #7289da; color: #ffffff; font-size: 14px; font-weight: bold;">DONE</button>
-				<button onclick="new Register().Create_BackButton()" class="border-0 rounded pt-3 pb-3" style="background: #333333; color: #4caf50; font-size: 14px; font-weight: bold;">BACK</button>
+				<button onclick="new Register().Create_DoneButton()" id="RegisterCreate_DoneButton" class="border-0 rounded pt-3 pb-3 mb-1" style="font-size: 14px; font-weight: bold;">DONE</button>
+				<button onclick="new Register().Create_BackButton()" class="border-0 rounded pt-3 pb-3 red" style="font-size: 14px; font-weight: bold;">BACK</button>
 			</div>
 
 			<div id="EntranceDone_Area" class="d-flex flex-column p-4 companyForeground hide" style="width: 100%">
@@ -130,6 +124,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("title").text("E-Student Wallet Access - Login")
+		$("[title]").tooltip()
 		$("#View_LogoImage").html('<img src="' +window.location.href.replace("index.php/Access", "avatar")+ "/Logo.png"+ '" width="250px" height="250px">')
 	})
 

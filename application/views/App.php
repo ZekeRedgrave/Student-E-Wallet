@@ -167,7 +167,7 @@
 						break;
 
 					case "DEPARTMENT":
-						echo 'var DownloadBlob = ["timeline", "account", "payment"]';
+						echo 'var DownloadBlob = ["timeline", "account", "payment", "bank"]';
 						break;
 
 					case "ADMIN":

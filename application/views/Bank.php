@@ -4,11 +4,17 @@
 		<div id="ViewArea" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
 			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 mb-4 shadow-sm">
 				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">TRANSACTION RECORD</div>
-				<div class="d-flex flex-row">
-					<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Students will Deposits there money as a Balance Account" style="width: 125px; font-size: 14px; font-weight: bold;">Deposits</button>
-					<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="It's a Gift Card with an Actual Money Inside" style="width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
-					<button onclick="new Bank().View_COButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 red" title="Withdrawal" style="width: 125px; font-size: 14px; font-weight: bold;">Withdrawal</button>
-				</div>
+				<?php 
+
+					echo $AccountType == "CASHIER" ? '
+						<div class="d-flex flex-row">
+							<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Students will Deposits there money as a Balance Account" style="width: 125px; font-size: 14px; font-weight: bold;">Deposits</button>
+							<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Its a Gift Card with an Actual Money Inside" style="width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
+							<button onclick="new Bank().View_COButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 red" title="Withdrawal" style="width: 125px; font-size: 14px; font-weight: bold;">Withdrawal</button>
+						</div>
+					' : "";
+
+				?>
 			</div>
 
 			<div class="">
@@ -35,10 +41,8 @@
 					<thead>
 						<tr>
 							<td class="border-0" style="font-weight: bold;">Student Name</td>
-							<td class="text-center border-0" style="color: #e91e63; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Type</td>
-							<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Amount</td>
-							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Transaction Fee</td>
-							<td class="border-0" style="color: #e91e63; min-width: 125px; max-width: 125px; font-weight: bold;">Cash</td>
+							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Name</td>
+							<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Type</td>
 							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
 						</tr>
 					</thead>
@@ -271,6 +275,14 @@
 
 		$('[title]').tooltip()
 		$("#BankView_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png");
+
+		<?php 
+			echo $AccountType != "CASHIER" ? '
+				$("#DepositsArea").remove();
+				$("#RedeemArea").remove();
+				$("#CashArea").remove();
+			': ''; 
+		?>
 	})
 
 	function Bank() {
@@ -309,8 +321,6 @@
 								<td>N / A</td>
 								<td>N / A</td>
 								<td>N / A</td>
-								<td>N / A</td>
-								<td>N / A</td>
 							</tr>
 						`)
 					}
@@ -336,10 +346,8 @@
 						var HTML = `
 							<tr id="ViewTransaction_RecordID` +id+ `" onclick="new Record().View_InfoButton(` +id+ `)" title="Click for more info!" class="border-bottom button-hover" style="cursor: pointer;">
 								<td class="border-0" style="word-break: break-all;">`+ data.StudentName +`</td>
-								<td class="border-0" style="word-break: break-all;">`+ data.TransactionType +`</td>
-								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionAmount +`</td>
-								<td class="border-0" style="word-break: break-all;">`+ data.TransactionFee +`</td>
-								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.Cash +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionName +`</td>
+								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionType +`</td>
 								<td class="border-0" style="word-break: break-all;">`+ data.Timeline +`</td>
 							</tr>
 						`
@@ -371,10 +379,8 @@
 								ViewTransaction_RecordLoad.append(`
 									<tr id="ViewTransaction_RecordID` +data.TransactionArray[x].TransactionID+ `" onclick="new Record().View_InfoButton(` +data.TransactionArray[x].TransactionID+ `)" class="border-bottom button-hover" style="cursor: pointer;">
 										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].StudentName +`</td>
-										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].TransactionType +`</td>
-										<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionArray[x].TransactionAmount +`</td>
-										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].TransactionFee +`</td>
-										<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionArray[x].Cash +`</td>
+										<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionArray[x].TransactionName +`</td>
+										<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionArray[x].TransactionType +`</td>
 										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].Timeline +`</td>
 									</tr>
 								`)

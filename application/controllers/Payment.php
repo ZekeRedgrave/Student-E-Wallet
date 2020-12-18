@@ -23,7 +23,7 @@ class Payment extends CI_Controller {
 
 		if($this->db->query("Select Count(*) as x from Store")->result()[0]->x == 0) $data["isEmpty"] = true;
 		else {
-			foreach ($this->db->query("Select * from Store Order by StoreID DESC")->result() as $value) {
+			foreach ($this->db->query("Select * from Store where isDeleted=false Order by StoreID DESC")->result() as $value) {
 				array_push($data["PaymentArray"], array(
 					"StoreID" => $value->StoreID,
 					"StoreTitle" => $value->StoreTitle,
@@ -77,10 +77,10 @@ class Payment extends CI_Controller {
 		if(isset($_GET['StoreID']) && !empty($_GET['StoreID'])) {
 			$data["isError"] = false;
 
-			if($this->db->query("Select Count(*) as x from Store")->result()[0]->x == "0") $data["isEmpty"] = true;
-			else $data["isEmpty"] = false;
-
-			$this->db->query("Delete from Store where StoreID =". $_GET['StoreID']);
+			// $this->db->query("Delete from Store where StoreID =". $_GET['StoreID']);
+			$this->db->update("Store", array(
+				"isDeleted" => true
+			), "StoreID =". $_GET['StoreID']);
 			$this->db->insert("Logs", array(
 				"AccountID" => $_SESSION['AccountID'],
 				"LogActivity" => json_encode(array(
@@ -90,6 +90,9 @@ class Payment extends CI_Controller {
 				"TimeRegister" => date("H:i:s"),
 				"DateRegister" => date("Y-m-d")
 			));
+
+			if($this->db->query("Select Count(*) as x from Store")->result()[0]->x == "0") $data["isEmpty"] = true;
+			else $data["isEmpty"] = false;
 
 			echo json_encode($data);
 		}
@@ -115,6 +118,7 @@ class Payment extends CI_Controller {
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,
 						"StoreIcon" => $Package->Icon,
+						"isDeleted" => false,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
 					));

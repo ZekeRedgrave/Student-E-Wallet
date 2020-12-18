@@ -67,8 +67,8 @@ class Transaction extends CI_Controller {
     	$data["StoreArray"] = [];
 		$data["isStoreEmpty"] = false;
 
-		if($this->db->query("Select Count(*) as x from Store Order by StoreID DESC")->result()[0]->x == 0) $data["isStoreEmpty"] = true;
-		else foreach ($this->db->query("Select * from Store Order by StoreID DESC")->result() as $value) array_push($data["StoreArray"], array(
+		if($this->db->query("Select Count(*) as x from Store where isDeleted=false Order by StoreID DESC")->result()[0]->x == 0) $data["isStoreEmpty"] = true;
+		else foreach ($this->db->query("Select * from Store where isDeleted=false Order by StoreID DESC")->result() as $value) array_push($data["StoreArray"], array(
 			"StoreID" => $value->StoreID,
 			"StoreTitle" => $value->StoreTitle,
 			"StoreType" => $value->StoreType,
@@ -80,37 +80,78 @@ class Transaction extends CI_Controller {
 	}
 
 	function View_RecordLoad() {
+		// Employee Only
 		if(isset($_GET['item'])) {
 			if(!empty($_GET['item'])) {
-				if($_GET['item'] != 0) {
-					if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
-						$data['isError'] = false;
-						$data['isEmpty'] = false;
-						$data['TransactionArray'] = [];
+				// This is for Cashier Only
+				if($_SESSION["AccountType"] == "CASHIER") {
+					if($_GET['item'] != 0) {
+						if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
 
-						foreach ($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+							foreach ($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
 
-						echo json_encode($data);
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
 					}
-					else echo json_encode(array(
-						"isError" => false,
-						"isEmpty" => true
-					));
+					else {
+						if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
+
+							foreach ($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
+					}
 				}
 				else {
-					if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
-						$data['isError'] = false;
-						$data['isEmpty'] = false;
-						$data['TransactionArray'] = [];
+					if($_GET['item'] != 0) {
+						if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
+							// $getNonCashier = $this->db->query("Select * from Transaction where StoreID != 0")
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
 
-						foreach ($this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) array_push($data['TransactionArray'], $value->TransactionID);
+							foreach ($this->db->query("Select * from Transaction where StoreID !=0 Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) {
+								if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) array_push($data['TransactionArray'], $value->TransactionID);
+							}
 
-						echo json_encode($data);
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
 					}
-					else echo json_encode(array(
-						"isError" => false,
-						"isEmpty" => true
-					));
+					else {
+						if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
+							$data['isError'] = false;
+							$data['isEmpty'] = false;
+							$data['TransactionArray'] = [];
+
+							foreach ($this->db->query("Select * from Transaction where StoreID !=0 Order by TransactionID DESC LIMIT ". $_GET['item'])->result() as $value) {
+								if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) array_push($data['TransactionArray'], $value->TransactionID);
+							}
+
+							echo json_encode($data);
+						}
+						else echo json_encode(array(
+							"isError" => false,
+							"isEmpty" => true
+						));
+					}
 				}
 			}
 			else echo json_encode(array(
@@ -118,6 +159,7 @@ class Transaction extends CI_Controller {
 				"ErrorDisplay" => "Error: Unexpected Error Occurs!"
 			));
 		}
+		// Student Only
 		else {
 			if(isset($_GET['myItem'])) {
 				if(!empty($_GET['myItem'])) {
@@ -170,10 +212,8 @@ class Transaction extends CI_Controller {
 
 				$data['isError'] = false;
 				$data['StudentName'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
+				$data["TransactionName"] = json_decode($TransactionQuery->TransactionDescription)->TransactionName;
 				$data['TransactionType'] = $TransactionQuery->TransactionType;
-				$data['TransactionAmount'] = json_decode($TransactionQuery->TransactionDescription)->TransactionAmount;
-				$data['TransactionFee'] = json_decode($TransactionQuery->TransactionDescription)->TransactionFee;
-				$data['Cash'] = json_decode($TransactionQuery->TransactionDescription)->TransactionCash;
 				$data['Timeline'] = $TransactionQuery->DateRegister. " " .$TransactionQuery->TimeRegister;
 
 				echo json_encode($data);
@@ -197,15 +237,17 @@ class Transaction extends CI_Controller {
 					$data['isError'] = false;
 					$data['TransactionArray'] = [];
 
-					foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) array_push($data['TransactionArray'], array(
-						'TransactionID' => $value->TransactionID,
-						'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
-						'TransactionType' => $value->TransactionType,
-						'TransactionAmount' => json_decode($value->TransactionDescription)->TransactionAmount,
-						'TransactionFee' => json_decode($value->TransactionDescription)->TransactionFee,
-						'Cash' => json_decode($value->TransactionDescription)->TransactionCash,
-						'Timeline' => $value->DateRegister. " " .$value->TimeRegister
-					));
+					foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
+						if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) {
+							array_push($data['TransactionArray'], array(
+								'TransactionID' => $value->TransactionID,
+								'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
+								'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+								'TransactionType' => $value->TransactionType,
+								'Timeline' => $value->DateRegister. " " .$value->TimeRegister
+							));
+						}
+					}
 
 					echo json_encode($data);
 				}
@@ -732,11 +774,11 @@ class Transaction extends CI_Controller {
 							$mail->isHTML(true);
 							$mail->Subject = 'Student EWallet Notifications';
 
-							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Half Paid (Can now Enroll)');
+							if($AssessmentQuery->Assessment_NewTuition / 2 <= $_POST["Amount"]) $mail->Body = $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Half Paid (Can now Enroll)');
 
-							if($FeeLeft == 0) $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Fully Paid! (Can now Enroll)');
+							if($FeeLeft == 0) $mail->Body = $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Fully Paid! (Can now Enroll)');
 
-							else $mail->Body = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', '');
+							else $mail->Body = $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , 'Tuition', $_POST["Amount"], $_POST["Amount"], $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', '');
 
 							//$mail->Body    = 'Thank you for paying your School Tuition Fee today (' .date('Y-m-d'). ' ' .date('H:i:s'). ')';
 							// Send
@@ -875,7 +917,7 @@ class Transaction extends CI_Controller {
 						// Content
 						$mail->isHTML(true);
 						$mail->Subject = 'Student EWallet Notifications';
-						$mail->Body    = $this->Receipt( $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , $StoreQuery->StoreTitle, $StoreQuery->StorePrice, $StoreQuery->StorePrice, $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Please wait for the verification of the process.');
+						$mail->Body    = $this->Receipt( ($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0 ? $this->db->query("Select * from Transaction Order by TransactionID DESC LIMIT 1")->result()[0]->TransactionID + 1 : 1) , $StoreQuery->StoreTitle, $StoreQuery->StorePrice, $StoreQuery->StorePrice, $AccountQuery->Account_AvailableBalance, $BalanceLeft, 'Thank you for purchasing today', 'Please wait for the verification of the process.');
 						//$mail->Body    = 'Purchase Item<br><br>Item: ' .$StoreQuery->StoreTitle. '<br>Price: ' .$StoreQuery->StorePrice. '<br><br><br><br>Thank you for purchasing today (' .date('Y-m-d'). ' ' .date('H:i:s'). '). Please wait for the verification of the process.';
 						// Send
 						if(!$mail->send())  echo json_encode(array(
@@ -886,6 +928,7 @@ class Transaction extends CI_Controller {
 						else {
 							$this->db->insert("Transaction", array(
 								"StudentID" => $AccountQuery->StudentID,
+								"StoreID" => $StoreQuery->StoreID,
 								"TransactionType" => strtoupper($StoreQuery->StoreType),
 								"TransactionDescription" => json_encode(array(
 									"EmployeeID" => "N/A",
