@@ -1,5 +1,5 @@
-<div id="App_BankArea" class="d-flex flex-column companyLabel" style="width:100%; height: 100%">
-	<div class="d-flex flex-row" style="width: 100%; height: 100%;">
+<div id="App_BankArea" class="d-flex flex-row companyLabel" style="width:100%; height: 100%">
+	<div id="View_BankArea" class="d-flex flex-row" style="width: 100%; height: 100%;">
 		<!-- View Area -->
 		<div id="ViewArea" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
 			<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 mb-4 shadow-sm">
@@ -56,7 +56,7 @@
 		<!-- Basic Info Area -->
 		<div id="BankView_BasicArea" class="d-flex flex-column" style="min-width: 350px; max-width: 350px; height: 100%; margin-right: -350px; overflow-y: scroll;">
 			<div class="d-flex flex-column justify-content-center pt-3 pb-3 companyBackground companyForeground">
-				<div class="d-flex justify-content-center mb-3">
+				<div class="d-flex justify-content-center mb-3" style="width: 100%;">
 					<img id="BankView_Image" class="rounded-circle" width="125px" height="125px">
 				</div>
 				<div id="BankView_FNLabel" class="d-flex justify-content-center" style="font-weight: bold;">XXXX, XXXXXXX X.</div>
@@ -80,18 +80,18 @@
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Item Price</div>
 					<div id="BankView_PriceLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Sub Total</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Sub Total(Include Fee)</div>
 					<div id="BankView_STLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="rounded mt-2 mb-2" style="border: 1px solid #375692"></div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Cash</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Cash(Physical or Digital)</div>
 					<div id="BankView_CashLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Total</div>
 					<div id="BankView_TotalLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Balance</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Remaining Balance</div>
 					<div id="BankView_BalanceLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="rounded mt-4 mb-4" style="border: 1px solid #375692"></div>
@@ -99,12 +99,88 @@
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Available Balance</div>
 					<div id="BankView_ABLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<button id="BankView_AllButton" class="pt-2 pb-2 pl-4 pr-4 rounded mb-1">All Transaction</button>
+					<button id="BankView_AllButton" onclick="new Record().View_FullButton()" class="pt-2 pb-2 pl-4 pr-4 rounded mb-1">All Transaction</button>
 					<button id="BankView_BackButton" onclick="new Record().View_BackButton()" class="pt-2 pb-2 pl-4 pr-4 rounded red">Hide</button>
 				</div>
 			</div>
 		</div>
 		<!-- End of Basic Info Area -->
+	</div>
+	<div id="View_InformationArea" class="d-flex flex-row hide" style="width: 100%; height: 100%">
+		<div class="d-flex flex-row" style="width: 100%; height: 100%;">
+			<div class="d-flex flex-column" style="width: 100%; height: 100%">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
+					<div class="d-flex align-items-center" style="width: 100%">TRANSACTION RECORD & BALANCE</div>
+					<button onclick="new Record()._View_BackButton()" class="pt-2 pb-2 pl-4 pr-4 rounded red" style="width: 125px;">Back</button>
+				</div>
+
+				<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+					<div class="d-flex justify-content-center mt-4 mb-4" style="width: 100%">
+						<div class="d-flex justify-content-center align-items-center rounded pt-3 pb-3 companyBackground companyForeground" style="width: 50%;">
+							<div class="d-flex flex-row">
+								<div class="mr-1" style="width: 150px;">
+									<h4 style="margin: 0; font-weight: bold; font-size: 12px;">Student Deposits</h4>
+									<div class="">P <span id="InformationView_DepositsLabel">9999.99</span></div>
+								</div>
+								<div class="ml-1" style="width: 150px">
+									<h4 class="d-flex justify-content-end" style="margin: 0; font-weight: bold; font-size: 12px;">Student Tuition Fee</h4>
+									<div class="d-flex justify-content-end">P <span id="InformationView_TuitionLabel">999.99</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Name</td>
+								<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Type</td>
+
+
+								<td class="border-0" style="font-weight: bold;">Amount</td>
+
+								<td class="border-0" style="font-weight: bold;">Cash</td>
+
+								<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
+							</tr>
+						</thead>
+						<tbody id="InformationView_TableLoad">
+							
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="" style="min-width: 300px; max-width: 300px; height: 100%; overflow-y: scroll;">
+				<div class="d-flex justify-content-center pt-3 pb-3 companyBackground companyForeground" style="width: 100%;">
+					<div>
+						<div class="d-flex justify-content-center">
+							<img id="InformationView_Image" class="rounded-circle" width="100px" height="100px">
+						</div>
+
+						<div id="InformationView_NameLabel" class="d-flex justify-content-center mt-3" style="font-weight: bold;">XXX-XXX-XXX</div>
+						<div id="InformationView_IDLabel" class="d-flex justify-content-center" style="margin-top: -5px; font-size: 12px; font-weight: bold;">ID# XXX-XXX-XXX</div>
+					</div>
+				</div>
+
+				<div class="pt-2 pb-2 pl-4 pr-4 shadow-sm">STUDENT INFORMATION</div>
+				<div class="pl-3 pr-3 mt-4 mb-4">
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Course and Year</div>
+					<div id="InformationView_CYLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Gender</div>
+					<div id="InformationView_GenderLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Status</div>
+					<div id="InformationView_StatusLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Contact Number</div>
+					<div id="InformationView_NumberLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Email</div>
+					<div id="InformationView_EmailLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
+				</div>
+			</div>
 	</div>
 </div>
 
@@ -274,7 +350,7 @@
 		new Record().View_RecordLoad(10)
 
 		$('[title]').tooltip()
-		$("#BankView_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png");
+		$("#BankView_Image, #InformationView_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png")
 
 		<?php 
 			echo $AccountType != "CASHIER" ? '
@@ -449,6 +525,8 @@
 						BankView_BalanceLabel.text("P "+ data.TransactionBalance)
 
 						BankView_ABLabel.text("P "+ data.StudentBalance)
+
+						BankView_AllButton.attr('onclick', 'new Record().View_FullButton(' +data.StudentID+ ')')
 					}
 					else alert(data.ErrorDisplay)
 				},
@@ -465,6 +543,90 @@
 				'margin-right': '-350px',
 				'transition-duration': '.5s'
 			}).animate({ scrollTop: 0 })
+		}
+
+		this.View_FullButton = function(id) {
+			var InformationView_Image = $("#InformationView_Image")
+
+			var InformationView_NameLabel = $("#InformationView_NameLabel")
+			var InformationView_IDLabel = $("#InformationView_IDLabel")
+
+			var InformationView_CYLabel = $("#InformationView_CYLabel")
+			var InformationView_GenderLabel = $("#InformationView_GenderLabel")
+			var InformationView_StatusLabel = $("#InformationView_StatusLabel")
+			var InformationView_NumberLabel = $("#InformationView_NumberLabel")
+			var InformationView_EmailLabel = $("#InformationView_EmailLabel")
+
+
+			var InformationView_DepositsLabel = $("#InformationView_DepositsLabel")
+			var InformationView_TuitionLabel = $("#InformationView_TuitionLabel")
+			var InformationView_TableLoad = $("#InformationView_TableLoad")
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_FullButton?id=" +id, 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						$("#View_InformationArea").removeClass('hide')
+						$("#View_BankArea").addClass('hide')
+
+						InformationView_TableLoad.html('')
+
+						if(!data.isEmpty) {
+							for(var x in data.TransactionArray) {
+								InformationView_TableLoad.append(`
+									<tr id="InformationView_TableID` +data.TransactionArray[x].TransactionID+ `" class="border-bottom button-hover">
+										<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px;">` +data.TransactionArray[x].TransactionName+ `</td>
+										<td class="border-0" style="color: #e91e63;">` +data.TransactionArray[x].TransactionType+ `</td>
+
+
+										<td class="border-0">` +data.TransactionArray[x].TransactionPrice+ `</td>
+
+										<td class="border-0">` +data.TransactionArray[x].TransactionCash+ `</td>
+
+										<td class="border-0" style="min-width: 125px; max-width: 125px;">` +data.TransactionArray[x].Timeline+ `</td>
+									</tr>
+								`)
+							}
+						}
+						else InformationView_TableLoad.html(`
+							<tr>
+								<td class="border-0" style="min-width: 150px; max-width: 150px;">N / A</td>
+								<td class="border-0">N / A</td>
+
+
+								<td class="border-0">N / A</td>
+
+								<td class="border-0">N / A</td>
+
+								<td class="border-0" style="min-width: 125px; max-width: 125px;">N / A</td>
+							</tr>
+						`)
+
+						InformationView_Image.attr('src', window.location.href.replace("index.php/Access", "avatar/")+ data.StudentImage)
+						InformationView_NameLabel.text(data.StudentName)
+						InformationView_IDLabel.text("ID#"+ data.StudentID)
+
+						InformationView_CYLabel.text(data.StudentCY)
+						InformationView_GenderLabel.text(data.StudentGender)
+						InformationView_StatusLabel.text(data.StudentStatus)
+						InformationView_NumberLabel.text(data.StudentNumber)
+						InformationView_EmailLabel.text(data.StudentEmail)
+
+						InformationView_DepositsLabel.text(data.StudentDeposits)
+						InformationView_TuitionLabel.text(data.StudentTuition)
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
+		this._View_BackButton = function() {
+			$("#View_BankArea").removeClass('hide')
+			$("#View_InformationArea").addClass('hide')
 		}
 	}
 
@@ -751,7 +913,7 @@
 				CashView_NextButton.attr('disabled', 'disabled')
 
 				$.ajax({
-					url: window.location.href.replace("/Access", "")+ "/Account/ViewAssessment_SearchButton?id=" + CashView_Studentbox.val(), 
+					url: window.location.href.replace("/Access", "")+ "/Transaction/CashView_NextButton?id=" + CashView_Studentbox.val(), 
 					method: 'POST',
 					dataType: 'json',
 					success: function(data) {

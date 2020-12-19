@@ -62,18 +62,18 @@
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Item Price</div>
 					<div id="BankView_PriceLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Sub Total</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Sub Total(Include Fee)</div>
 					<div id="BankView_STLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="rounded mt-2 mb-2" style="border: 1px solid #375692"></div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Cash</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Cash(Physical or Digital)</div>
 					<div id="BankView_CashLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Total</div>
 					<div id="BankView_TotalLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Balance</div>
+					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Remaining Balance</div>
 					<div id="BankView_BalanceLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
 					<div class="rounded mt-4 mb-4" style="border: 1px solid #375692"></div>
@@ -81,7 +81,6 @@
 					<div class="ml-2 mb-1" style="font-size: 12px; font-weight: bold;">Available Balance</div>
 					<div id="BankView_ABLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-2 companyInput" style="width: 100%;">XXX-XXX-XXX</div>
 
-					<button id="BankView_AllButton" class="pt-2 pb-2 pl-4 pr-4 rounded mb-1">All Transaction</button>
 					<button id="BankView_BackButton" onclick="new StudentRecord().View_BackButton()" class="pt-2 pb-2 pl-4 pr-4 rounded red">Hide</button>
 				</div>
 			</div>

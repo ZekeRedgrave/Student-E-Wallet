@@ -237,8 +237,21 @@ class Transaction extends CI_Controller {
 					$data['isError'] = false;
 					$data['TransactionArray'] = [];
 
-					foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
-						if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) {
+					if($_SESSION["AccountType"] != "CASHIER") {
+						foreach ($this->db->query("Select * from Transaction where StoreID!=0 and StudentID=". $_GET['id'])->result() as $value) {
+							if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) {
+								array_push($data['TransactionArray'], array(
+									'TransactionID' => $value->TransactionID,
+									'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
+									'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+									'TransactionType' => $value->TransactionType,
+									'Timeline' => $value->DateRegister. " " .$value->TimeRegister
+								));
+							}
+						}
+					}
+					else {
+						foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
 							array_push($data['TransactionArray'], array(
 								'TransactionID' => $value->TransactionID,
 								'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
@@ -319,8 +332,55 @@ class Transaction extends CI_Controller {
 			$data["TransactionST"] =  $TransactionJSON->TransactionAmount + $TransactionJSON->TransactionFee;
 			$data["TransactionCash"] =  $TransactionJSON->TransactionCash;
 
-			$data["TransactionTotal"] =  $TransactionJSON->TransactionAmount + $TransactionJSON->TransactionFee - $TransactionJSON->TransactionCash;
-			$data["TransactionBalance"] =  $TransactionJSON->TransactionBalance;
+			$data["TransactionTotal"] =  ($TransactionJSON->TransactionAmount + $TransactionJSON->TransactionFee) - $TransactionJSON->TransactionCash;
+			$data["TransactionBalance"] =  $TransactionQuery->StoreID == 0 ? 0 : json_decode($TransactionQuery->TransactionDescription)->TransactionBalance;
+
+			echo json_encode($data);
+		}
+		else echo json_encode(array(
+			"isError" => true,
+			"ErrorDisplay" => "Unexpected Error Occurs!"
+		));
+	}
+
+	function View_FullButton() {
+		if(isset($_GET['id']) && !empty($_GET['id'])) {
+			$AccountQuery = $this->db->query("Select * from Account where StudentID=" .$_GET['id'])->result()[0];
+			$StudentQuery = $this->db->query("Select * from Student where StudentID=" .$AccountQuery->StudentID)->result()[0];
+
+			$data["isError"] = false;
+			$data["StudentImage"] =  $AccountQuery->AccountImage;
+			$data["StudentName"] =  json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($StudentQuery->Name)->Middlename. ")";
+			$data["StudentID"] =  $AccountQuery->StudentID;
+
+			$data["StudentCY"] =  $StudentQuery->Course. "-" .$StudentQuery->Level;
+			$data["StudentGender"] =  $StudentQuery->Gender;
+			$data["StudentAge"] =  $StudentQuery->Age;
+			$data["StudentStatus"] =  $StudentQuery->Status;
+			$data["StudentNumber"] =  $StudentQuery->ContactNumber;
+			$data["StudentEmail"] =  $AccountQuery->AccountEmail;
+
+			$data["StudentDeposits"] =  $AccountQuery->Account_AvailableBalance;
+			$data["StudentTuition"] =  $AccountQuery->Account_TuitionBalance;
+
+			$data["TransactionArray"] = [];
+			$data["isEmpty"] = false;
+			if($this->db->query("Select Count(*) as x from Transaction where StudentID=". $_GET['id'])->result()[0]->x == 0) $data["isEmpty"] = true;
+			foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
+				array_push($data['TransactionArray'], array(
+					'TransactionID' => $value->TransactionID,
+					'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+					'TransactionType' => $value->TransactionType,
+					'TransactionPrice' => json_decode($value->TransactionDescription)->TransactionAmount,
+					'TransactionCash' => json_decode($value->TransactionDescription)->TransactionCash,
+					'TransactionST' => json_decode($value->TransactionDescription)->TransactionAmount + json_decode($value->TransactionDescription)->TransactionFee,
+					'TransactionTotal' => (json_decode($value->TransactionDescription)->TransactionAmount + json_decode($value->TransactionDescription)->TransactionFee) - json_decode($value->TransactionDescription)->TransactionCash,
+					'TransactionBalance' => $value->StoreID == 0 ? 0 : json_decode($value->TransactionDescription)->TransactionBalance,
+					'Timeline' => $value->DateRegister. " " .$value->TimeRegister
+				));
+
+				$data["isEmpty"] = false;
+			}
 
 			echo json_encode($data);
 		}
@@ -1055,7 +1115,8 @@ class Transaction extends CI_Controller {
 							"TransactionDescription" => json_encode(array(
 								"EmployeeID" => $this->db->query("Select * from Account where AccountID=". $_SESSION["AccountID"])->result()[0]->EmployeeID,
 								"StudentID" => $AccountQuery->StudentID,
-								"TransactionAmount" => $AccountQuery->Account_AvailableBalance,
+								"TransactionName" => "WIDTHDRAWAL",
+								"TransactionAmount" => 0,
 								"TransactionFee" => 0,
 								"TransactionCash" => $AccountQuery->Account_AvailableBalance,
 							)),
