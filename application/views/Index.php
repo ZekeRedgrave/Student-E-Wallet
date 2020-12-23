@@ -120,6 +120,11 @@
 			border: 0px;
 		}
 
+		tr {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
 		/*body, div {
 			color: #1e2124 !important;
 		}*/

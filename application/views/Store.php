@@ -45,6 +45,7 @@
 					</div>
 					<div class="d-flex align-items-center">
 						<button onclick="new Store().View_RefreshButton()" class="material-icons" title="Refresh If the Payment List, News / Announcement, and Balance not Completely Display">refresh</button>
+						<button onclick="new Store().View_CartButton()" class="material-icons" title="Show All Item List After Adding Any Item in Payment List">shopping_cart</button>
 					</div>
 				</div>
 			</div>
@@ -120,12 +121,30 @@
 <div id="StoreView_DynamicArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
 	<div class="d-flex justify-content-center align-items-center" style="background: #00000099; width: 100%; height: 100%">
 		<div class="d-flex flex-column rounded p-3" style="background: #282828; color: #ffffff; width: 400px;">
-			<div class="ml-2" style="color: #7289da; font-weight: bold;">ARE YOU SURE?</div>
+			<div class="ml-2 mb-4" style="color: #7289da; font-weight: bold;">ADD PAYTMENT LIST</div>
 
-			<div id="StoreView_DisplayLabel" class="d-flex justify-content-center text-center mt-4 mb-4" class="" style="width: 100%; font-size: 14px;">This '??????' Price is XXXX.</div>
+			<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Name and Price</h6>
+			<div class="d-flex flex-row">
+				<div id="StoreView_NameLabel" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded mr-1" style="background: #e8d15f !important; width: 100%; color: #ffffff !important; font-size: 14px; font-weight: bold;">XXXXXXX</div>
+				<div id="StoreView_PriceLabel" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; width: 100%; color: #ffffff !important; font-size: 14px; font-weight: bold;">P XXXXXXX</div>
+			</div>
 
-			<div class="d-flex flex-row" style="width: 100%">
-				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Yes</button>
+			<div id="StoreView_QuantityArea" class="mt-2" style="width: 100%">
+				<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Quantity</h6>
+				<div class="d-flex flex-row" style="width: 100%">
+					<input id="StoreView_Quantitybox" type="number" disabled value="0" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; width: 100%; color: #ffffff !important; font-size: 14px; font-weight: bold;">
+					<div class="d-flex flex-row ml-2">
+						<button onclick="new Store().View_RemoveButton()" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1 red">remove</button>
+						<button onclick="new Store().View_AddButton()" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+					</div>
+				</div>
+			</div>
+
+			<h6 class="ml-2 mb-1 mt-4" style="margin: 0; font-size: 12px; font-weight: bold;">Total</h6>
+			<div id="StoreView_TotalLabel" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; width: 100%; color: #ffffff !important; font-size: 14px; font-weight: bold;">P XXXXXXX</div>
+
+			<div class="d-flex flex-row mt-2" style="width: 100%">
+				<button onclick="new Store().DA_DynamicButton()" id="StoreView_DynamicButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Add</button>
 
 				<button onclick="new Store().DA_CancelButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
 			</div>
@@ -133,7 +152,92 @@
 	</div>
 </div>
 <!-- End of Store Dynamic Form Area -->
+<!-- Cart Area -->
+<div id="StoreView_CartArea" class="position-fixed" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+	<div class="d-flex justify-content-center pt-4 pb-4" style="background: #00000099; width: 100%; height: 100%">
+		<div class="container" style="width: 100%; height: 100%">
+			<div id="View_CartArea" class="d-flex flex-column companyLabel" style="background: white; width: 100%; height: 100%;">
+				<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 shadow-sm">
+					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">VIEW PAYMENT</div>
+					<div>
+						<button onclick="new StoreCart().View_CloseButton()" class="pt-2 pb-2 pl-4 pr-4 rounded red" style="min-width: 100px; max-width: 100px;">Close</button>
+					</div>
+				</div>
 
+				<div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+					<div class="ml-4 mt-4 mb-2 pl-4 border-bottom" style="font-weight: bold;">CASHIER</div>
+					<div id="CartView_CashierLoad" style="min-width: 750px;">
+						<h1 class="d-flex justify-content-center">No one in here. Except you.</h1>
+					</div>
+
+					<div class="ml-4 mt-4 mb-2 pl-4 border-bottom" style="font-weight: bold;">DEPARTMENT</div>
+					<div id="CartView_DepartmentLoad" style="min-width: 750px;">
+						<h1 class="d-flex justify-content-center">No one in here. Except you.</h1>
+					</div>
+
+				</div>
+
+				<div class="d-flex flex-row border-top pl-4 pr-4 pt-2 pb-2" style="width: 100%">
+					<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">Total</div>
+					<div class="d-flex flex-row">
+						<div id="CartView_TotalLabel" class="d-flex align-items-center pl-4 pr-4 rounded companyInput" style="min-width: 250px; max-width: 250px;">P XXXXXXX</div>
+						<button onclick="new StoreCart().View_CloseButton()" class="p-2 rounded ml-1">Cancel</button>
+						<button id="StoreCV_PurchaseButton" onclick="new StoreCart().View_PurchaseButton()" class="p-2 rounded ml-1 companyBackground" style="min-width: 125px; max-width: 125px;">Purchase Now!</button>
+						<button id="StoreCV_ClearButton" onclick="new StoreCart().View_ClearButton()" class="material-icons p-2 ml-4 rounded red" title="Clear All Payment List">clear</button>
+					</div>
+				</div>
+			</div>
+			<div id="View_ReceiptArea" class="d-flex flex-column companyLabel hide" style="background: white; width: 100%; height: 100%;">
+				<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+					<img class="mt-2 ml-4 mr-4" id="ViewReceipt_Image" width="100px" height="100px">
+					<div class="pb-2 pl-4 pr-4">STUDENT E-WALLET</div>
+
+					<div class="p-4 border-bottom">
+						<div style="color: #375692; font-size: 12px;">OFFICIAL RECEIPT</div>
+						<div style="font-size: 12px;">RECEIPT NO. #<span id="ViewReceipt_IDLabel" class="red-text">XXXXXXX</span></div>
+						<div style="font-size: 12px;">TIMELINE # <span id="ViewReceipt_TimelineLabel" class="red-text">2021-01-01</span></div>
+					</div>
+
+					<div class="mb-4" style="width: 100%; height: 100%">
+						<div class="ml-4 mt-4 mb-2 pl-4" style="font-weight: bold;">CASHIER</div>
+						<div id="ViewReceipt_CashierLoad" class="mb-4">
+							<!-- <div class="d-flex flex-row pl-4 pr-4 pt-1 pb-1" style="width: 100%">
+								<div class="pl-4" style="width: 100%; color: #375692;">XXXXXXX</div>
+								<div class="ml-2 mr-2">69.69</div>
+								<div class="ml-2 mr-2">x</div>
+								<div class="ml-2 mr-2 red-text">3</div>
+								<div class="ml-2 mr-5">=</div>
+
+								<div class="ml-5">666</div>
+							</div> -->
+						</div>
+
+						<div class="ml-4 mt-4 mb-2 pl-4" style="font-weight: bold;">DEPARTMENT</div>
+						<div id="ViewReceipt_DepartmentLoad" class="mb-4">
+
+						</div>
+					</div>
+
+					<div class="d-flex flex-row justify-content-end pt-2 pb-5 border-top" style="width: 100%;">
+						<div>
+							<div>SUB-TOTAL</div>
+							<div>CASH</div>
+							<div class="mt-2 red-text">TOTAL</div>
+						</div>
+						<div class="ml-5 mr-4">
+							<div id="ViewReceipt_STLabel">69.69</div>
+							<div id="ViewReceipt_CashLabel">69.69</div>
+							<div id="ViewReceipt_TotalLabel" class="mt-2 red-text">69.69</div>
+						</div>
+					</div>
+
+					<button onclick="new StoreCart()._View_CloseButton()" class="pt-2 pb-2 companyBackground">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End of Cart Area -->
 <!-- Store Post View Area -->
 <div id="StorePost_ViewArea" class="position-fixed d-flex flex-row hide" style="top: 0; bottom: 0; left: 0; right: 0; background: #00000099; width: 100%; height: 100%">
 	<div class="d-flex flex-column" style="width: 100%; height: 100%">
@@ -182,22 +286,27 @@
 	</div>
 </div>
 <!-- End of Store Post View Area -->
+<!-- Process Area -->
 
-
+<!-- End of Process Area -->
 
 <script type="text/javascript">
 	var StoreView_ImageCurrent = 0
 	var StoreView_ImageLast = 0
+	var StoreCart_DepartmentList = []
+	var StoreCart_CashierList = []
 
 	$(document).ready(function() {
 		$("title").text("E-Student Wallet Access - Dashboard")
 		$('[title]').tooltip()
+		$("#ViewReceipt_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/Logo.png")
 
 		new Store().View_ItemLoad()
 		new Store().View_StudentLoad()
 		new Store().View_DynamicLoad()
 		new Store().View_PostLoad()
 		new Store().View_AssessmentLoad()
+		new Store().View_CartLoad()
 	})
 
 	function Store() {
@@ -366,16 +475,138 @@
 			})
 		}
 
+		this.View_CartLoad = function() {
+			var CartView_CashierLoad = $("#CartView_CashierLoad")
+			CartView_CashierLoad.html('')
+			var CartView_DepartmentLoad = $("#CartView_DepartmentLoad")
+			CartView_DepartmentLoad.html('')
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_CartLoad", 
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) {
+						var temp = 0
+
+						if(data.is_DepartmentEmpty == true) CartView_DepartmentLoad.html('<h1 class="d-flex justify-content-center">No one in here. Except you.</h1>')
+						else if(data.is_DepartmentEmpty == false) {
+							StoreCart_DepartmentList = []
+						
+							for(var x in data.Cart_DepartmentArray) {
+								CartView_DepartmentLoad.append(`
+									<div id="CartDV_ItemID` +x+ `" class="d-flex flex-row border-bottom pl-4 pr-4 pt-2 pb-2 button-hover" style="width: 100%">
+										<div class="d-flex align-items-center" style="width: 100%;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Item Name</div>
+												<div style="margin-top: -5px; font-weight: normal;">` +data.Cart_DepartmentArray[x].StoreName+ `</div>
+												</div>
+										</div>
+										<div class="d-flex align-items-center" style="min-width: 150px; max-width: 150px;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Item Price</div>
+												<div style="margin-top: -5px; color: #375692; font-weight: normal;">` +data.Cart_DepartmentArray[x].StorePrice+ `</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center" style="min-width: 150px; max-width: 150px;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Pre Total</div>
+												<div id="CartDV_TotalID` +x+ `" class="red-text" style="margin-top: -5px; font-weight: normal;">` +data.Cart_DepartmentArray[x].PreTotal+ `</div>
+											</div>
+										</div>
+										<div class="d-flex flex-row">
+											<div class="d-flex flex-row">
+												<input id="CartDV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_DepartmentArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
+												<div class="d-flex flex-row ml-2">
+													<button onclick="new StoreCart().View_DRButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
+													<button onclick="new StoreCart().View_DAButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+
+													<button onclick="new StoreCart().View_DDButton(` +data.Cart_DepartmentArray[x].StoreID+ `, ` +data.CartID+ `)" id="StoreView_AddButton" class="material-icons p-2 ml-4 rounded red">delete</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								`)
+								StoreCart_DepartmentList.push({
+									ArrayID : x,
+									StoreID: data.Cart_DepartmentArray[x].StoreID,
+									Price: data.Cart_DepartmentArray[x].StorePrice,
+									Quantity: data.Cart_DepartmentArray[x].StoreQuantity
+								})
+
+								temp += data.Cart_DepartmentArray[x].PreTotal
+							}
+						}
+
+						if(data.is_CashierEmpty == true) CartView_CashierLoad.html('<h1 class="d-flex justify-content-center">No one in here. Except you.</h1>')
+						else if(data.is_CashierEmpty == false) {
+							StoreCart_CashierList = []
+
+							for(var x in data.Cart_CashierArray) {
+								CartView_CashierLoad.append(`
+									<div id="CartCV_ItemID` +x+ `" class="d-flex flex-row border-bottom pl-4 pr-4 pt-2 pb-2 button-hover" style="width: 100%">
+										<div class="d-flex align-items-center" style="width: 100%;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Item Name</div>
+												<div style="margin-top: -5px; font-weight: normal;">` +data.Cart_CashierArray[x].StoreName+ `</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center" style="min-width: 150px; max-width: 150px;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Item Price</div>
+												<div style="margin-top: -5px; color: #375692; font-weight: normal;">` +data.Cart_CashierArray[x].StorePrice+ `</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center" style="min-width: 150px; max-width: 150px;">
+											<div class="d-flex flex-column">
+												<div style="font-size: 12px;">Pre Total</div>
+												<div id="CartCV_TotalID` +x+ `" class="red-text" style="margin-top: -5px; font-weight: normal;">` +data.Cart_CashierArray[x].PreTotal+ `</div>
+											</div>
+										</div>
+										<div class="d-flex flex-row">
+											<div class="d-flex flex-row">
+												<input id="CartCV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_CashierArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
+												<div class="d-flex flex-row ml-2">
+													<button onclick="new StoreCart().View_CRButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
+													<button onclick="new StoreCart().View_CAButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+
+													<button onclick="new StoreCart().View_CDButton(` +data.Cart_CashierArray[x].StoreID+ `, ` +data.CartID+ `)" id="StoreView_AddButton" class="material-icons p-2 ml-4 rounded red">delete</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								`)
+								StoreCart_CashierList.push({
+									ArrayID : x,
+									StoreID: data.Cart_CashierArray[x].StoreID,
+									Price: data.Cart_CashierArray[x].StorePrice,
+									Quantity: data.Cart_CashierArray[x].StoreQuantity
+								})
+
+								temp += data.Cart_CashierArray[x].PreTotal
+							}
+						}
+
+						$("#CartView_TotalLabel").text('P '+ temp)
+						$("#StoreCV_ClearButton").attr('onclick', 'new StoreCart().View_ClearButton(' +data.CartID+ ')')
+						$("#StoreCV_PurchaseButton").attr('onclick', 'new StoreCart().View_PurchaseButton(' +data.CartID+ ')')
+					}
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+				}
+			})
+		}
+
 		this.View_RefreshButton = function() {
 			new Store().View_ItemLoad()
 			new Store().View_StudentLoad()
 			new Store().View_DynamicLoad()
 			new Store().View_PostLoad()
+			new Store().View_CartLoad()
 		}
 
-		this.View_OpenButton = function() {
-			$("#StoreView_TuitionArea").removeClass('hide')
-		}
+		this.View_OpenButton = function() { $("#StoreView_TuitionArea").removeClass('hide') }
 
 		this.View_CancelButton = function() {
 			$("#StoreView_ButtonLoad").removeClass('hide')
@@ -529,13 +760,36 @@
 				method: 'POST',
 				dataType: 'json',
 				success: function(data) {
-					if(!data.isError) StoreView_DisplayLabel.html("This Item's Name ('" +data.StoreTitle+ "') is Cost P " +data.StorePrice+ ". Are you sure you wanna purchase now?")
+					if(!data.isError) {
+						$("#StoreView_NameLabel").text(data.StoreTitle)
+						$("#StoreView_PriceLabel").text("P "+ data.StorePrice)
+						$("#StoreView_TotalLabel").text("P "+ data.StorePrice)
+						$("#StoreView_RemoveButton").attr('onclick', 'new Store().View_RemoveButton(' +data.StorePrice+ ')')
+						$("#StoreView_AddButton").attr('onclick', 'new Store().View_AddButton(' +data.StorePrice+ ')')
+
+						if(data.StoreQuantity == "0") $("#StoreView_QuantityArea").addClass('hide')
+						else $("#StoreView_QuantityArea").removeClass('hide')
+
+						$("#StoreView_Quantitybox").val(1)
+					}
 					else alert(data.ErrorDisplay)
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 				}
 			})
+		}
+
+		this.View_AddButton = function(price) {
+			$("#StoreView_Quantitybox").val(parseInt($("#StoreView_Quantitybox").val()) + 1)
+			$("#StoreView_TotalLabel").text("P "+ (parseInt($("#StoreView_Quantitybox").val()) * price) )
+		}
+
+		this.View_RemoveButton = function(price) {
+			if(parseInt($("#StoreView_Quantitybox").val()) == 1) $("#StoreView_Quantitybox").val(1)
+			else $("#StoreView_Quantitybox").val(parseInt($("#StoreView_Quantitybox").val()) - 1)
+
+			$("#StoreView_TotalLabel").text("P "+ (parseInt($("#StoreView_Quantitybox").val()) * price) )
 		}
 
 		this.DA_CancelButton = function() {
@@ -545,33 +799,235 @@
 
 		this.DA_DynamicButton = function(id) {
 			var StoreView_DynamicButton = $("#StoreView_DynamicButton")
+			var StoreView_Quantitybox = $("#StoreView_Quantitybox")
 			StoreView_DynamicButton.attr('disabled', 'disabled')
 
+			if(StoreView_Quantitybox.val() != 0) {
+				$.ajax({
+					url: window.location.href.replace('/Access', '')+ "/Transaction/View_DynamicButton?id="+ id +"&quantity=" + StoreView_Quantitybox.val(), 
+					method: 'GET',
+					dataType: 'json',
+					success: function(data) {
+						if(!data.isError) {
+							StoreView_DynamicButton.removeAttr('disabled')
+							StoreView_Quantitybox.val(1)
+
+							new Store().View_CartLoad()
+							new Store().DA_CancelButton()
+						}
+						else {
+							StoreView_DynamicButton.removeAttr('disabled')
+
+							alert(data.ErrorDisplay)
+						}
+					},
+					error: function(ex) {
+				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+				 		StoreView_DynamicButton.removeAttr('disabled')
+
+				 		alert("Error: Unexpected Error Occur!")
+					}
+				})
+			}
+			else alert("Set Quantity to Zero is Invalid!")
+		}
+
+		this.View_CartButton = function() { $("#StoreView_CartArea").removeClass('hide') }
+	}
+
+	function StoreCart() {
+		this.View_CloseButton = function() { $("#StoreView_CartArea").addClass('hide') }
+		// Department
+		this.View_DRButton = function(id, price) {
+			if(parseInt($("#CartDV_QuantityboxID"+ id).val()) == 1) $("#CartDV_QuantityboxID"+ id).val(1)
+			else $("#CartDV_QuantityboxID"+ id).val(parseInt($("#CartDV_QuantityboxID"+ id).val()) - 1)
+
+			$("#CartDV_TotalID"+ id).text("P "+ (parseInt($("#CartDV_QuantityboxID"+ id).val()) * price) )
+
+			StoreCart_DepartmentList[id].Quantity = parseInt($("#CartDV_QuantityboxID"+ id).val())
+			
+			var temp = 0
+			for(var x in StoreCart_DepartmentList) temp += StoreCart_DepartmentList[x].Quantity * StoreCart_DepartmentList[x].Price
+			for(var x in StoreCart_CashierList) temp += StoreCart_CashierList[x].Quantity * StoreCart_CashierList[x].Price
+
+			$("#CartView_TotalLabel").text('P '+ temp)
+		}
+
+		this.View_DAButton = function(id, price) {
+			$("#CartDV_QuantityboxID"+ id).val(parseInt($("#CartDV_QuantityboxID"+ id).val()) + 1)
+			$("#CartDV_TotalID"+ id).text("P "+ (parseInt($("#CartDV_QuantityboxID"+ id).val()) * price) )
+
+			StoreCart_DepartmentList[id].Quantity = parseInt($("#CartDV_QuantityboxID"+ id).val())
+
+			var temp = 0
+			for(var x in StoreCart_DepartmentList) temp += StoreCart_DepartmentList[x].Quantity * StoreCart_DepartmentList[x].Price
+			for(var x in StoreCart_CashierList) temp += StoreCart_CashierList[x].Quantity * StoreCart_CashierList[x].Price
+
+			$("#CartView_TotalLabel").text('P '+ temp)
+		}
+
+		this.View_DDButton = function(StoreID, id) {
 			$.ajax({
-				url: window.location.href.replace('/Access', '')+ "/Transaction/View_DynamicButton?id="+ id, 
-				method: 'GET',
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_DDButton?StoreID=" +StoreID, 
+				method: 'POST',
+				data: { id:id },
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) new Store().View_CartLoad()
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		alert("Unexpected Error Occur!")
+				}
+			})
+		}
+		// Cashier
+		this.View_CRButton = function(id, price) {
+			if(parseInt($("#CartCV_QuantityboxID"+ id).val()) == 1) $("#CartCV_QuantityboxID"+ id).val(1)
+			else $("#CartCV_QuantityboxID"+ id).val(parseInt($("#CartCV_QuantityboxID"+ id).val()) - 1)
+
+			$("#CartCV_TotalID"+ id).text("P "+ (parseInt($("#CartCV_QuantityboxID"+ id).val()) * price) )
+
+			StoreCart_CashierList[id].Quantity = parseInt($("#CartCV_QuantityboxID"+ id).val())
+			
+			var temp = 0
+			for(var x in StoreCart_DepartmentList) temp += StoreCart_DepartmentList[x].Quantity * StoreCart_DepartmentList[x].Price
+			for(var x in StoreCart_CashierList) temp += StoreCart_CashierList[x].Quantity * StoreCart_CashierList[x].Price
+
+			$("#CartView_TotalLabel").text('P '+ temp)
+		}
+
+		this.View_CAButton = function(id, price) { 
+			$("#CartCV_QuantityboxID"+ id).val(parseInt($("#CartCV_QuantityboxID"+ id).val()) + 1)
+			$("#CartCV_TotalID"+ id).text("P "+ (parseInt($("#CartCV_QuantityboxID"+ id).val()) * price) )
+
+			StoreCart_CashierList[id].Quantity = parseInt($("#CartCV_QuantityboxID"+ id).val())
+			
+			var temp = 0
+			for(var x in StoreCart_DepartmentList) temp += StoreCart_DepartmentList[x].Quantity * StoreCart_DepartmentList[x].Price
+			for(var x in StoreCart_CashierList) temp += StoreCart_CashierList[x].Quantity * StoreCart_CashierList[x].Price
+
+			$("#CartView_TotalLabel").text('P '+ temp)
+		}
+
+		this.View_CDButton = function(StoreID, id) {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_CDButton?StoreID=" +StoreID, 
+				method: 'POST',
+				data: { id:id },
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) new Store().View_CartLoad()
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		alert("Unexpected Error Occur!")
+				}
+			})
+		}
+
+		this.View_ClearButton = function(CartID) {
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_ClearButton?id="+ CartID,
+				method: 'POST',
+				dataType: 'json',
+				success: function(data) {
+					if(!data.isError) new Store().View_CartLoad()
+					else alert(data.ErrorDisplay)
+				},
+				error: function(ex) {
+			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+			 		alert("Unexpected Error Occur!")
+				}
+			})
+		}
+
+		this.View_PurchaseButton = function(CartID) {
+			var StoreCV_PurchaseButton = $("#StoreCV_PurchaseButton")
+			StoreCV_PurchaseButton.attr('disabled', 'disabled')
+			var ViewReceipt_CashierLoad = $("#ViewReceipt_CashierLoad")
+			ViewReceipt_CashierLoad.html('')
+			var ViewReceipt_DepartmentLoad = $("#ViewReceipt_DepartmentLoad")
+			ViewReceipt_DepartmentLoad.html('')
+
+			$.ajax({
+				url: window.location.href.replace("/Access", "")+ "/Transaction/View_PurchaseButton?CartID="+ CartID,
+				method: 'POST',
+				data: {
+					StoreCart_CashierList: JSON.stringify(StoreCart_CashierList),
+					StoreCart_DepartmentList: JSON.stringify(StoreCart_DepartmentList)
+				},
 				dataType: 'json',
 				success: function(data) {
 					if(!data.isError) {
-						StoreView_DynamicButton.removeAttr('disabled')
+						StoreCV_PurchaseButton.removeAttr('disabled')
 
-						new Store().DA_CancelButton()
-						new Store().View_ItemLoad()
+						$("#View_CartArea").addClass('hide')
+						$("#View_ReceiptArea").removeClass('hide')
+
+						$("#ViewReceipt_IDLabel").text(data.ReceiptID)
+						$("#ViewReceipt_TimelineLabel").text(data.Timeline)
+
+						$("#ViewReceipt_STLabel").text(data.SubTotal)
+						$("#ViewReceipt_CashLabel").text(data.Cash)
+						$("#ViewReceipt_TotalLabel").text(data.Total)
+
+						for(var x in data.ReceiptArray) {
+							if(data.ReceiptArray[x].Type == "CASHIER") {
+								ViewReceipt_CashierLoad.append(`
+									<div class="d-flex flex-row pl-4 pr-4 pt-1 pb-1" style="width: 100%">
+										<div class="pl-4" style="width: 100%; color: #375692;">` +data.ReceiptArray[x].Name+ `</div>
+										<div class="ml-2 mr-2">` +data.ReceiptArray[x].Price+ `</div>
+										<div class="ml-2 mr-2">x</div>
+										<div class="ml-2 mr-2 red-text">` +data.ReceiptArray[x].Quantity+ `</div>
+										<div class="ml-2 mr-5">=</div>
+
+										<div class="ml-5">` +data.ReceiptArray[x].PreTotal+ `</div>
+									</div>
+								`)
+							}
+							else {
+								ViewReceipt_DepartmentLoad.append(`
+									<div class="d-flex flex-row pl-4 pr-4 pt-1 pb-1" style="width: 100%">
+										<div class="pl-4" style="width: 100%; color: #375692;">` +data.ReceiptArray[x].Name+ `</div>
+										<div class="ml-2 mr-2">` +data.ReceiptArray[x].Price+ `</div>
+										<div class="ml-2 mr-2">x</div>
+										<div class="ml-2 mr-2 red-text">` +data.ReceiptArray[x].Quantity+ `</div>
+										<div class="ml-2 mr-5">=</div>
+
+										<div class="ml-5">` +data.ReceiptArray[x].PreTotal+ `</div>
+									</div>
+								`)
+							}
+						}
+
+						new Store().View_RefreshButton()
 					}
 					else {
-						StoreView_DynamicButton.removeAttr('disabled')
-
 						alert(data.ErrorDisplay)
+
+						StoreCV_PurchaseButton.removeAttr('disabled')
 					}
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))
 
-			 		StoreView_DynamicButton.removeAttr('disabled')
+			 		alert("Unexpected Error Occur!")
 
-			 		alert("Error: Unexpected Error Occur!")
+			 		StoreCV_PurchaseButton.removeAttr('disabled')
 				}
 			})
+		}
+
+		this._View_CloseButton = function() {
+			$("#StoreView_CartArea, #View_ReceiptArea").addClass('hide')
+			$("#View_CartArea").removeClass('hide')
 		}
 	}
 

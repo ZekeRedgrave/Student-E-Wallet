@@ -57,6 +57,7 @@ class Payment extends CI_Controller {
 				$data["StoreTitle"] = $StoreQuery->StoreTitle;
 				$data["StoreType"] = $this->db->query("Select * from StoreType where StoreType_Name='" .$StoreQuery->StoreType. "'")->result()[0]->StoreType_ID;
 				$data["isPhysical"] = $StoreQuery->isPhysical;
+				$data["setQuantity"] = $StoreQuery->setQuantity;
 				$data["StorePrice"] = $StoreQuery->StorePrice;
 				$data["StoreIcon"] = $StoreQuery->StoreIcon;
 			}
@@ -118,7 +119,7 @@ class Payment extends CI_Controller {
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,
 						"StoreIcon" => $Package->Icon,
-						"isDeleted" => false,
+						"setQuantity" => $Package->setQuantity,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
 					));
@@ -137,6 +138,7 @@ class Payment extends CI_Controller {
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,
 						"StoreIcon" => $Package->Icon,
+						"setQuantity" => $Package->setQuantity,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
 					));
@@ -185,6 +187,7 @@ class Payment extends CI_Controller {
 						"isPhysical" => $Package->isPhysical,
 						"StorePrice" => $Package->Price,
 						"StoreIcon" => $Package->Icon,
+						"setQuantity" => $Package->setQuantity,
 						"TimeRegister" => date("Y-m-d"),
 						"DateRegister" => date("H:i:s")
 					), "StoreID = ". $_GET['StoreID']);
@@ -201,6 +204,7 @@ class Payment extends CI_Controller {
 						"StoreType" => $Package->SlipType->Text,
 						"isOthers" => $Package->isOther,
 						"isPhysical" => $Package->isPhysical,
+						"setQuantity" => $Package->setQuantity,
 						"StorePrice" => $Package->Price,
 						"StoreIcon" => $Package->Icon,
 						"TimeRegister" => date("Y-m-d"),

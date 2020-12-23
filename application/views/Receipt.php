@@ -1,41 +1,54 @@
-<div style="position: fixed; display: flex; justify-content: center; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%; background: #282828; color: white;">
-	<div style="width: 500px;">
-		<h1 style="text-align: center; color: #7289da; font-weight: bold;">STUDENT E-WALLET</h1>
-		<div style="text-align: center; color: #7289da; font-weight: bold;">OFFICIAL RECEIPT</div>
-		<div style="text-align: center; color: #7289da; font-weight: bold;">RECEIPT NO. #12465789</div>
-		<div style="text-align: center; color: #7289da; font-weight: bold;">TIMELINE #2020/12/30 23:59:59</div>
+<div style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll; color: #555555 !important; font-family: Roboto; font-weight: bold;">
+	<div style="margin: 2%">STUDENT E-WALLET</div>
 
-		<div style="margin-top: 8%; padding-left: 15%; padding-right: 15%;">
-			<div style="display: flex; background: #333333; padding: 5%; border-radius: 6px;">
-				<div style="width: 200px; color: #7289da; font-weight: bold;">ITEM NAME : </div>
-				<div style="width: 100%; font-weight: bold;">XXX-XXX-XXX</div>
+	<div style="padding: 2%; padding-top: 0; border-bottom: 1px solid #dee2e6!important;">
+		<div style="color: #375692 !important; font-size: 12px;">OFFICIAL RECEIPT</div>
+		<div style="font-size: 12px;">RECEIPT NO. # <span style="color: #f44336 !important;">XXXXXXX</span></div>
+		<div style="font-size: 12px;">TIMELINE # <span style="color: #f44336 !important;">2021-01-01</span></div>
+	</div>
+
+	<div style="padding: 2% 0%; margin-left: 2%; border-bottom: 1px solid #dee2e6!important;">
+		<div style="padding: 0% 2%">CASHIER</div>
+		<div style="margin-bottom: 2%; margin-top: 1%; padding: 0% 2%">
+			<div style="display: flex; flex-flow: row; width: 100%">
+				<div style="width: 100%; color: #375692;">XXXXXXX</div>
+				<div style="margin-left: 1%; margin-right: 1%">69.69</div>
+				<div style="margin-left: 1%; margin-right: 1%">x</div>
+				<div style="margin-left: 1%; margin-right: 1%">3</div>
+				<div style="margin-left: 1%; margin-right: 1%">=</div>
+
+				<div style="margin-left: 1%; margin-right: 2%">666</div>
 			</div>
-			<div style="display: flex; background: #333333; padding: 5%; margin-top: 1%; border-radius: 6px;">
-				<div class="" style="width: 200px; color: #7289da; font-weight: bold;">ITEM PRICE : </div>
-				<div style="width: 100%; font-weight: bold;">P XXX.XX</div>
-			</div>
-		</div>
+			<div style="display: flex; flex-flow: row; width: 100%">
+				<div style="width: 100%; color: #375692;">XXXXXXX</div>
+				<div style="margin-left: 1%; margin-right: 1%">69.69</div>
+				<div style="margin-left: 1%; margin-right: 1%">x</div>
+				<div style="margin-left: 1%; margin-right: 1%">3</div>
+				<div style="margin-left: 1%; margin-right: 1%">=</div>
 
-		<div style="margin-top: 2%; padding-top: 2%; border-top: 2px solid #7289da">
-			<div style="padding-left: 15%; padding-right: 15%;">
-				<div style="display: flex; background: #333333; padding: 5%; border-radius: 6px;">
-					<div style="width: 200px; color: #7289da; font-weight: bold;">BALANCE : </div>
-					<div style="width: 100%; font-weight: bold;">P XXX.XX</div>
-				</div>
-
-				<div style="display: flex; background: #333333; padding: 5%; margin-top: 1%; border-radius: 6px;">
-					<div class="mr-4" style="width: 200px; color: #7289da; font-weight: bold;">SUB TOTAL : </div>
-					<div style="width: 100%; font-weight: bold;">P XXX.XX</div>
-				</div>
-
-				<div style="display: flex; margin-top: 5%; margin-bottom: 5%; margin-left: 10%; margin-right: 10%;">
-					<div style="width: 200px; padding: 5%; font-weight: bold;">TOTAL : </div>
-					<div style="background: #333333; width: 100%; padding: 5%; border-radius: 6px; font-weight: bold;">P XXX.XX</div>
-				</div>
+				<div style="margin-left: 1%; margin-right: 2%">666</div>
 			</div>
 		</div>
 
-		<div style="border: 2px solid #7289da; padding: 3%; border-radius: 6px; display: flex; justify-content: center; font-weight: bold;">Thank you for paying your School Tuition Fee today!</div>
-		<div style="display: flex; justify-content: center; margin-top: 3%; font-weight: bold; color: #f44336">Half Paid (Can now Enroll)!</div>
+		<div style="padding: 0% 2%">DEPARTMENT</div>
+		<div style="margin-top: 1%; padding: 0% 2%"></div>
+	</div>
+
+	<div style="padding: 1%; width: 100%">
+		<div style="display: flex; flex-flow: row; width: 100%">
+			<div style="width: 100%"></div>
+			<div style="min-width: 125px; max-width: 125px;">SUB-TOTAL</div>
+			<div>XXXXXXX</div>
+		</div>
+		<div style="display: flex; flex-flow: row; width: 100%">
+			<div style="width: 100%"></div>
+			<div style="min-width: 125px; max-width: 125px;">CASH</div>
+			<div>XXXXXXX</div>
+		</div>
+		<div style="display: flex; flex-flow: row; margin-top: 2%; width: 100%; margin-top: 1%; color: #f44336 !important;">
+			<div style="width: 100%"></div>
+			<div style="min-width: 125px; max-width: 125px;">TOTAL</div>
+			<div>XXXXXXX</div>
+		</div>
 	</div>
 </div>

@@ -59,8 +59,13 @@
 
 							<!-- Set if the item is Physical like Clothes, Tickets, and etc... -->
 							<div class="d-flex flex-row align-items-center ml-2 mt-4 mb-2" style="width: 250px;">
-								<input id="PaymentCreate_PhysicalButton" class="form-check" type="checkbox" name="" checked="checked" style="width: 50px;">
+								<input id="PaymentCreate_PhysicalButton" class="form-check" type="checkbox" name="" style="width: 50px;">
 								<div class="ml-4" style="width: 100%">Is Physical Item?</div>
+							</div>
+
+							<div class="d-flex flex-row align-items-center ml-2 mt-4 mb-2" style="">
+								<input id="PaymentCreate_QuantityButton" class="form-check" type="checkbox" name="" style="width: 50px;">
+								<div class="ml-4" style="width: 100%">Set Quantity ? (if Yes Checked, Else Unchecked)</div>
 							</div>
 
 							<button id="PaymentCreate_DoneButton" onclick="new Payment().Create_DoneButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-4 companyBackground" style="width: 150px; font-weight: bold;">DISPLAY</button>
@@ -101,8 +106,13 @@
 						<!-- End of Purchasable Area -->
 						<!-- Set if the item is Physical like Clothes, Tickets, and etc... -->
 						<div class="d-flex flex-row align-items-center ml-2 mt-4 mb-2">
-							<input id="PaymentEdit_PhysicalButton" class="form-check" type="checkbox" name="" checked="checked" style="width: 50px;">
+							<input id="PaymentEdit_PhysicalButton" class="form-check" type="checkbox" name="" style="width: 50px;">
 							<div class="ml-4">is Physical Item?</div>
+						</div>
+
+						<div class="d-flex flex-row align-items-center ml-2 mt-4 mb-2">
+							<input id="PaymentEdit_QuantityButton" class="form-check" type="checkbox" name="" style="width: 50px;">
+							<div class="ml-4" style="width: 100%">Set Quantity ? (if Yes Checked, Else Unchecked)</div>
 						</div>
 
 						<div class="d-flex flex-row">
@@ -218,6 +228,8 @@
 
 		this.View_EditButton = function(id) {
 			var PaymentEdit_PhysicalButton = $("#PaymentEdit_PhysicalButton")
+			var PaymentEdit_QuantityButton = $("#PaymentEdit_QuantityButton")
+
 			$.ajax({
 				url: window.location.href.replace("/Access", "")+ "/Payment/View_EditButton?StoreID=" +id, 
 				method: 'GET',
@@ -231,8 +243,11 @@
 						$("#PaymentEdit_Titlebox").val(data.StoreTitle)
 						$('#PaymentEdit_TypeButton').val(data.StoreType)
 
-						if(data.isPhysical) PaymentEdit_PhysicalButton.attr('checked', data.isPhysical)
-						else PaymentEdit_PhysicalButton.removeAttr('checked')
+						if(data.isPhysical == true) PaymentEdit_PhysicalButton.prop('checked', true)
+						else PaymentEdit_PhysicalButton.prop('checked', false)
+
+						if(data.setQuantity == true) PaymentEdit_QuantityButton.prop('checked', true)
+						else PaymentEdit_QuantityButton.prop('checked', false)
 
 						$("#PaymentEdit_Pricebox").val(data.StorePrice)
 						$("#PaymentEdit_Iconbox").val(data.StoreIcon)
@@ -274,9 +289,11 @@
 				var PaymentCreate_Titlebox = $("#PaymentCreate_Titlebox")
 				var PaymentCreate_TypeButton = $("#PaymentCreate_TypeButton option:selected")
 				var PaymentCreate_DoneButton = $("#PaymentCreate_DoneButton")
-				var PaymentCreate_PhysicalButton = $("#PaymentCreate_PhysicalButton")
 				var PaymentCreate_Pricebox = $("#PaymentCreate_Pricebox")
 				var PaymentCreate_Iconbox = $("#PaymentCreate_Iconbox")
+
+				var PaymentCreate_PhysicalButton = $("#PaymentCreate_PhysicalButton")
+				var PaymentCreate_QuantityButton = $("#PaymentCreate_QuantityButton")
 
 				var PaymentView_ItemDisplay = $("#PaymentView_ItemDisplay")
 
@@ -297,6 +314,7 @@
 						 	isOther: true,
 						 	Otherbox: PaymentCreate_Otherbox.val(),
 						 	isPhysical: PaymentCreate_PhysicalButton.is(":checked"),
+						 	setQuantity: PaymentCreate_QuantityButton.is(":checked"),
 						 	Price: PaymentCreate_Pricebox.val(),
 						 	Icon: PaymentCreate_Iconbox.val()
 						}
@@ -311,6 +329,7 @@
 						 	isOther: false,
 						 	Otherbox: PaymentCreate_Otherbox.val(),
 						 	isPhysical: PaymentCreate_PhysicalButton.is(":checked"),
+						 	setQuantity: PaymentCreate_QuantityButton.is(":checked"),
 						 	Price: PaymentCreate_Pricebox.val(),
 						 	Icon: PaymentCreate_Iconbox.val()
 						}
@@ -363,11 +382,12 @@
 			var PaymentEdit_Titlebox = $("#PaymentEdit_Titlebox")
 			var PaymentEdit_TypeButton = $("#PaymentEdit_TypeButton option:selected")
 			var PaymentEdit_DoneButton = $("#PaymentEdit_DoneButton")
-			var PaymentEdit_PurchasableButton = $("#PaymentEdit_PurchasableButton")
-			var PaymentEdit_PhysicalButton = $("#PaymentEdit_PhysicalButton")
 			var PaymentEdit_Pricebox = $("#PaymentEdit_Pricebox")
 			var PaymentEdit_Iconbox = $("#PaymentEdit_Iconbox")
 			var PaymentEdit_Otherbox = $("#PaymentEdit_Otherbox")
+
+			var PaymentEdit_PhysicalButton = $("#PaymentEdit_PhysicalButton")
+			var PaymentEdit_QuantityButton = $("#PaymentEdit_QuantityButton")
 
 			if(PaymentEdit_Titlebox.val() != "" && PaymentEdit_Pricebox.val() != "") {
 				var data = {}
@@ -384,6 +404,7 @@
 					 	isOther: true,
 					 	Otherbox: PaymentEdit_Otherbox.val(),
 					 	isPhysical: PaymentEdit_PhysicalButton.is(":checked"),
+					 	setQuantity: PaymentEdit_QuantityButton.is(":checked"),
 					 	Price: PaymentEdit_Pricebox.val(),
 					 	Icon: PaymentEdit_Iconbox.val()
 					}
@@ -398,6 +419,7 @@
 					 	isOther: false,
 					 	Otherbox: PaymentEdit_Otherbox.val(),
 					 	isPhysical: PaymentEdit_PhysicalButton.is(":checked"),
+					 	setQuantity: PaymentEdit_QuantityButton.is(":checked"),
 					 	Price: PaymentEdit_Pricebox.val(),
 					 	Icon: PaymentEdit_Iconbox.val()
 					}
