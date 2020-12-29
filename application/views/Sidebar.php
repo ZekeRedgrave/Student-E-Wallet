@@ -28,6 +28,10 @@
 				echo '<button id="App_AccountButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Student Account">account_circle</button>';
 				echo '<button id="App_EmployeeButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Employee Account">supervised_user_circle</button>';
 				break;
+
+			case "3RD-PARTY":
+				echo '<button id="App_BankButton" class="material-icons border-0 rounded mb-1" style="background: #36393e; color: #2ad444; min-width: 50px; min-height: 50px; max-height: 50px;" title="Transaction Records & Bank">account_balance</button>';
+				break;
 			
 			default:
 				// code...

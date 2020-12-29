@@ -6,7 +6,7 @@
 				<div class="d-flex align-items-center" style="width: 100%; font-weight: bold;">TRANSACTION RECORD</div>
 				<?php 
 
-					echo $AccountType == "CASHIER" ? '
+					echo $AccountType == "CASHIER" || $AccountType == "3RD-PARTY" ? '
 						<div class="d-flex flex-row">
 							<button onclick="new Bank().View_TopupButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Students will Deposits there money as a Balance Account" style="width: 125px; font-size: 14px; font-weight: bold;">Deposits</button>
 							<button onclick="new Bank().View_RedeemButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" title="Its a Gift Card with an Actual Money Inside" style="width: 125px; font-size: 14px; font-weight: bold;">Gift Code</button>
@@ -353,11 +353,10 @@
 		$("#BankView_Image, #InformationView_Image").attr('src', window.location.href.replace("index.php/Access", "avatar")+ "/avatar.png")
 
 		<?php 
-			echo $AccountType != "CASHIER" ? '
+			echo $AccountType == "CASHIER" ? '' : ($AccountType == "3RD-PARTY" ? '' : '
 				$("#DepositsArea").remove();
 				$("#RedeemArea").remove();
-				$("#CashArea").remove();
-			': ''; 
+				$("#CashArea").remove();'); 
 		?>
 	})
 

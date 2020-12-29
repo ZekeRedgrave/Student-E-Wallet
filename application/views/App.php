@@ -173,6 +173,10 @@
 					case "ADMIN":
 						echo 'var DownloadBlob = ["timeline", "account", "employee"]';
 						break;
+
+					case "3RD-PARTY":
+						echo 'var DownloadBlob = ["bank"]';
+						break;
 					
 					default:
 						// code...

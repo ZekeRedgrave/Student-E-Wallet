@@ -146,7 +146,7 @@ class Transaction extends CI_Controller {
 		if(isset($_GET['item'])) {
 			if(!empty($_GET['item'])) {
 				// This is for Cashier Only
-				if($_SESSION["AccountType"] == "CASHIER") {
+				if($_SESSION["AccountType"] == "CASHIER" || $_SESSION["AccountType"] == "3RD-PARTY") {
 					if($_GET['item'] != 0) {
 						if($this->db->query("Select Count(*) as x from Transaction")->result()[0]->x != 0) {
 							$data['isError'] = false;

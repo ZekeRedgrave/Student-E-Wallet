@@ -18,6 +18,7 @@
 									<option value="ADMIN">ADMIN</option>
 									<option value="DEPARTMENT">DEPARTMENT</option>
 									<option value="CASHIER">CASHIER</option>
+									<option value="3RD-PARTY">3RD-PARTY (CASHIER)</option>
 								</select>
 							</div>
 							<div class="d-flex flex-column ml-2" style="width: 100%">
@@ -37,18 +38,35 @@
 							</div>
 						</div>
 
-						<button id="RegisterCreate_NextButton" onclick="new Register().Create_NextButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mt-2" style="background: #333333; color: #7289da; width: 125px;">Next</button>
+						<button id="RegisterCreate_NextButton" onclick="new Register().Create_NextButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mt-2" style="width: 125px;">Next</button>
 					</div>
 				</div>
 				<!-- End of Step 1 -->
 				<!-- Step 2 -->
 				<div id="Create_StepArea2" class="d-flex flex-column hide">
-					<div class="p-0 ml-2 mb-4" style="color: #7289da; min-width: 125px; font-weight: bold;">VERIFICATION CODE</div>
+					<div class="p-0 ml-2 mb-4" style="min-width: 125px; font-weight: bold;">VERIFICATION CODE</div>
 
 					<h6 class="ml-2 mb-1 mr-2" style="font-size: 14px; font-weight: bold;">To get your Verification Code, check your Email Account name <span id="Create_EmailLabel2"></span> and if the Verification Code is already send to your Inbox.</h6>
 					<div class="d-flex flex-row mb-4">
 						<input id="Create_Codebox" type="number" placeholder="Ex. 15730500" class="border-0 rounded p-3" style="width: 100%; height: 50px;">
-						<button onclick="new Register().Create_ResendButton2()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1" style="width: 200px; height: 50px;">RESEND CODE</button>
+						<button onclick="new Register().Create_ResendButton2()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1 red" style="width: 200px; height: 50px;">RESEND CODE</button>
+					</div>
+
+					<div class="p-0 ml-2 mt-4" style="min-width: 125px; font-weight: bold;">SELECT PARTY INVOLVED</div>
+					<div class="d-flex flex-row pt-2 pb-2 pl-4 pr-4 mb-4" style="width: 100%">
+						<div onclick="new Register().Create_SchoolRadio()" class="d-flex flex-row" style="width: 25%; cursor: pointer;">
+							<div>
+								<input id="Create_SchoolRadio" type="radio" name="" checked="checked" style="min-width: 25px; max-width: 25px;">
+							</div>
+							<div style="min-width: 125px; max-width: 125px;">School Only</div>
+						</div>
+						<div id="_Create_OtherArea" onclick="new Register().Create_OtherRadio()" class="d-flex flex-row hide" style="width: 25%; cursor: pointer;">
+							<div>
+								<input id="Create_OtherRadio" type="radio" name="" style="min-width: 25px; max-width: 25px;">
+							</div>
+							<div style="min-width: 125px; max-width: 125px;">3rd Party Only</div>
+						</div>
+						<div style="width: 100%"></div>
 					</div>
 
 					<div class="d-flex flex-column rounded p-3 mb-2 shadow">
@@ -57,25 +75,47 @@
 							<div class="d-flex flex-row" style="width: 100%">
 								<div class="d-flex flex-row rounded mr-2" style="width: 100%">
 									<input id="Create_Lastnamebox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Lastname">
-									<div class="d-flex align-items-end pb-3">,</div>
-									<input id="Create_Firstnamebox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Firstname">
+									<input id="Create_Firstnamebox" class="border-0 rounded p-3 ml-1" style="width: 100%;" placeholder="Firstname">
 								</div>
 								<input id="Create_Middlenamebox" class="border-0 rounded p-3" style="width: 200px;" placeholder="Middlename">
 							</div>
 						</div>
+						<!-- Step 2 (Non-3rd Party Edition) -->
+						<div id="Create_SchoolArea" class="hide" style="width: 100%">
+							<div class="d-flex flex-row mb-4" style="width: 100%">
+								<div class="d-flex flex-column" style="width: 300px;">
+									<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">School Position</h4>
+									<input id="Create_Positionbox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Ex. Cashier, Director, ......">
+								</div>
+								<div class="d-flex flex-column ml-1" style="width: 100%">
+									<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">School Department</h4>
+									<input id="Create_Departmentbox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Ex. IT Department, .......">
+								</div>
+							</div>
 
-						<div class="d-flex flex-row mb-4" style="width: 100%">
-							<div class="d-flex flex-column" style="width: 300px;">
-								<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Position</h4>
-								<input id="Create_Positionbox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Ex. Cashier, Director, ......">
-							</div>
-							<div class="d-flex flex-column ml-1" style="width: 100%">
-								<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Department</h4>
-								<input id="Create_Departmentbox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Ex. IT Department, .......">
-							</div>
+							<h6 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">School Employee ID</h6>
+							<input id="Create_IDbox" type="number" placeholder="Ex. 15730500" class="border-0 rounded p-3" style="width: 100%;">
 						</div>
+						<!-- End of Step 2 (Non-3rd Party Edition) -->
+						<!-- Step 2 (3rd Party Edition) -->
+						<div id="Create_OtherArea" style="width: 100%">
+							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Name</h4>
+							<input id="Create_CNbox" class="border-0 rounded p-3 mb-2" style="width: 100%;" placeholder="Ex. Zeke Mega Company">
 
-						<div class="d-flex flex-row mb-4" style="width: 100%">
+							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Business ID / Licence</h4>
+							<input id="Create_CBbox" class="border-0 rounded p-3 mb-2" style="width: 100%;" placeholder="Ex. 123-ASDS-31SD-31A">
+
+							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Position</h4>
+							<input id="Create_CPbox" class="border-0 rounded p-3 mb-2" style="width: 100%;" placeholder="Ex. Director of Something, Accounting.....">
+
+							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Department</h4>
+							<input id="Create_CDbox" class="border-0 rounded p-3 mb-2" style="width: 100%;" placeholder="Ex. IT Department, Accounting Department.....">
+
+							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Employee ID</h4>
+							<input id="Create_CEbox" class="border-0 rounded p-3" style="width: 100%;" placeholder="Ex. 415D48G0">
+						</div>
+						<!-- End of Step 2 (3rd Party Edition) -->
+						<div class="d-flex flex-row mt-4 mb-4" style="width: 100%">
 							<div class="d-flex flex-column" style="width: 300px;">
 								<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Age</h4>
 								<input id="Create_Agebox" type="number" class="border-0 rounded p-3" style="width: 100%; height: 50px;" placeholder="Ex. 69">
@@ -91,12 +131,9 @@
 
 						<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Contact Number (Optional)</h4>
 						<input id="Create_Contactbox" type="number" class="mb-4 border-0 rounded p-3" style="width: 100%;" placeholder="Ex. +639123456789">
-
-						<h6 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Employee ID</h6>
-						<input id="Create_IDbox" type="number" placeholder="Ex. 15730500" class="border-0 rounded p-3" style="width: 100%;">
 					</div>
 
-					<div class="d-flex flex-row mb-5">
+					<div class="d-flex flex-row mt-4 mb-5">
 						<button onclick="new Register().Create_DoneButton()" id="RegisterCreate_DoneButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4" style="width: 125px;">DONE</button>
 						<button onclick="new Register().Create_BackButton()" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 ml-1 red" style="width: 125px;">BACK</button>
 					</div>
@@ -189,6 +226,8 @@
 			var Create_TypeButton = $("#Create_TypeButton option:selected")
 			var RegisterCreate_NextButton = $("#RegisterCreate_NextButton")
 
+			var _Create_OtherArea = $("#_Create_OtherArea")
+
 			if(Create_Emailbox.val() != "" && Create_Usernamebox.val() != "" && Create_Passwordbox.val() != "" && Create_Repeatbox.val() != "") {
 				if(Create_Passwordbox.val() == Create_Repeatbox.val()) {
 					RegisterCreate_NextButton.attr('disabled', 'disabled')
@@ -208,6 +247,9 @@
 							if(!data.isError) {
 								$("#Create_StepArea1").addClass('hide')
 								$("#Create_StepArea2").removeClass('hide')
+
+								if(Create_TypeButton.val() == "3RD-PARTY") _Create_OtherArea.removeClass('hide')
+								else _Create_OtherArea.addClass('hide')
 
 								RegisterCreate_NextButton.removeAttr('disabled')
 							}
@@ -242,6 +284,32 @@
 
 				ErrorDisplay = "Error: "
 			}
+		}
+
+		this.Create_SchoolRadio = function() {
+			$("#Create_SchoolArea").removeClass('hide')
+			$("#Create_OtherArea").addClass('hide')
+
+			var Create_SchoolRadio = $("#Create_SchoolRadio")
+			var Create_OtherRadio = $("#Create_OtherRadio")
+
+			if(Create_SchoolRadio.is(':checked') == true) Create_OtherRadio.prop('checked', false)
+
+			Create_SchoolRadio.attr('checked', 'checked')
+			Create_OtherRadio.removeAttr('checked')
+		}
+
+		this.Create_OtherRadio = function() {
+			$("#Create_OtherArea").removeClass('hide')
+			$("#Create_SchoolArea").addClass('hide')
+
+			var Create_SchoolRadio = $("#Create_SchoolRadio")
+			var Create_OtherRadio = $("#Create_OtherRadio")
+
+			if(Create_OtherRadio.is(':checked') == true) Create_SchoolRadio.prop('checked', false)
+
+			Create_OtherRadio.attr('checked', 'checked')
+			Create_SchoolRadio.removeAttr('checked')
 		}
 
 		this.Create_BackButton = function() {
@@ -280,8 +348,18 @@
 			var Create_Firstnamebox = $("#Create_Firstnamebox")
 			var Create_Middlenamebox = $("#Create_Middlenamebox")
 
+			var Create_SchoolRadio = $("#Create_SchoolRadio")
+			var Create_OtherRadio = $("#Create_OtherRadio")
+
+			// Step 2 (Non-3rd Party Edition)
 			var Create_Positionbox = $("#Create_Positionbox")
 			var Create_Departmentbox = $("#Create_Departmentbox")
+			// Step 2 (3rd Party Edition)
+			var Create_CNbox = $("#Create_CNbox")
+			var Create_CBbox = $("#Create_CBbox")
+			var Create_CPbox = $("#Create_CPbox")
+			var Create_CDbox = $("#Create_CDbox")
+			var Create_CEbox = $("#Create_CEbox")
 
 			var Create_Agebox = $("#Create_Agebox")
 			var Create_Genderbox = $("#Create_Genderbox option:selected")
@@ -291,48 +369,117 @@
 
 			var RegisterCreate_DoneButton = $("#RegisterCreate_DoneButton")
 
-			if(Create_Codebox.val() != "" && Create_Lastnamebox.val() != "" && Create_Firstnamebox.val() != "" && Create_Middlenamebox.val() != "" && Create_Positionbox.val() != "" && Create_Departmentbox.val() != "" && Create_Agebox.val() != "" && Create_IDbox.val() != "") {
-				RegisterCreate_DoneButton.attr('disabled', 'disabled')
 
-				$.ajax({
-					url: window.location.href.replace("/Access", "")+ "/RegisterAdmin/Create_DoneButton", 
-					method: 'POST',
-					data: {
-				 		RegisterCode: Create_Codebox.val(),
-				 		RegisterName: JSON.stringify({
-				 			"Lastname": Create_Lastnamebox.val(),
-				 			"Firstname": Create_Firstnamebox.val(),
-				 			"Middlename": Create_Middlenamebox.val()
-				 		}),
-				 		RegisterPosition: Create_Positionbox.val(),
-				 		RegisterDepartment: Create_Departmentbox.val(),
-				 		RegisterAge: Create_Agebox.val(),
-				 		RegisterGender: Create_Genderbox.val(),
-				 		RegisterContact: Create_Contactbox.val(),
-				 		RegisterEI: Create_IDbox.val()
-					},
-					dataType: 'json',
-					success: function(data) {
-						if(!data.isError) {
-							$("#Create_StepArea2").addClass('hide')
-							$("#Create_StepArea3").removeClass('hide')
+			if(Create_Codebox.val() != "" && Create_Lastnamebox.val() != "" && Create_Firstnamebox.val() != "" && Create_Middlenamebox.val() != "" && Create_Agebox.val() != "") {
+				var data = {}
+				
+				if(Create_SchoolRadio.is(':checked') == true) {
+					if(Create_Positionbox.val() != "" && Create_Departmentbox.val() != "" && Create_IDbox.val() != "") {
+						data = {
+							RegisterCode: Create_Codebox.val(),
+						 	RegisterName: JSON.stringify({
+						 		"Lastname": Create_Lastnamebox.val(),
+						 		"Firstname": Create_Firstnamebox.val(),
+						 		"Middlename": Create_Middlenamebox.val()
+						 	}),
 
-							RegisterCreate_DoneButton.removeAttr('disabled')
+						 	RegisterPosition: Create_Positionbox.val(),
+						 	RegisterDepartment: Create_Departmentbox.val(),
+						 	RegisterEI: Create_IDbox.val(),
+
+						 	RegisterAge: Create_Agebox.val(),
+						 	RegisterGender: Create_Genderbox.val(),
+						 	RegisterContact: Create_Contactbox.val(),
+						 	PartyInvolved: "SCHOOL"
 						}
-						else {
-							alert(data.ErrorDisplay)
-
-							RegisterCreate_DoneButton.removeAttr('disabled')
-						}
-					},
-					error: function(ex) {
-				 		console.log('Error: ' + JSON.stringify(ex, null, 2))
-
-				 		alert("Error: Unexpected Error Occur!")
-
-				 		RegisterCreate_DoneButton.removeAttr('disabled')
 					}
-				})
+					else {
+						var ErrorDisplay = "Error: "
+
+						if(Create_Positionbox.val() == "") ErrorDisplay += "(School Position) "
+						if(Create_Departmentbox.val() == "") ErrorDisplay += "(School Department) "
+						if(Create_IDbox.val() == "") ErrorDisplay += "(School Employee ID) "
+
+						ErrorDisplay += "is Empty!"
+
+						alert(ErrorDisplay)
+
+						ErrorDisplay = "Error: "
+					}
+				}
+				else if(Create_OtherRadio.is(':checked') == true) {
+					if(Create_CNbox.val() != "" && Create_CBbox.val() != "" && Create_CPbox.val() != "" && Create_CDbox.val() != "" && Create_CEbox.val() != "") {
+						data = {
+							RegisterCode: Create_Codebox.val(),
+						 	RegisterName: JSON.stringify({
+						 		"Lastname": Create_Lastnamebox.val(),
+						 		"Firstname": Create_Firstnamebox.val(),
+						 		"Middlename": Create_Middlenamebox.val()
+						 	}),
+
+						 	RegisterLicence: Create_CBbox.val(),
+						 	RegisterCompany: Create_CNbox.val(),
+						 	RegisterPosition: Create_CPbox.val(),
+						 	RegisterDepartment: Create_CDbox.val(),
+						 	RegisterEI: Create_CEbox.val(),
+
+						 	RegisterAge: Create_Agebox.val(),
+						 	RegisterGender: Create_Genderbox.val(),
+						 	RegisterContact: Create_Contactbox.val(),
+						 	
+						 	PartyInvolved: "3RD-PARTY"
+						}
+					}
+					else {
+						var ErrorDisplay = "Error: "
+
+						if(Create_CNbox.val() == "") ErrorDisplay += "(Company Name) "
+						if(Create_CBbox.val() == "") ErrorDisplay += "(Company Business ID / Licence) "
+						if(Create_CPbox.val() == "") ErrorDisplay += "(Company Position) "
+						if(Create_CDbox.val() == "") ErrorDisplay += "(Company Department) "
+						if(Create_CEbox.val() == "") ErrorDisplay += "(Company Employee ID) "
+
+						ErrorDisplay += "is Empty!"
+
+						alert(ErrorDisplay)
+
+						ErrorDisplay = "Error: "
+					}
+				}
+
+				console.log(Object.keys(data).length)
+
+				if(Object.keys(data).length != 0) {
+					RegisterCreate_DoneButton.attr('disabled', 'disabled')
+
+					$.ajax({
+						url: window.location.href.replace("/Access", "")+ "/RegisterAdmin/Create_DoneButton", 
+						method: 'POST',
+						data: data,
+						dataType: 'json',
+						success: function(data) {
+							if(!data.isError) {
+								$("#Create_StepArea2").addClass('hide')
+								$("#Create_StepArea3").removeClass('hide')
+
+								RegisterCreate_DoneButton.removeAttr('disabled')
+							}
+							else {
+								alert(data.ErrorDisplay)
+
+								RegisterCreate_DoneButton.removeAttr('disabled')
+							}
+						},
+						error: function(ex) {
+					 		console.log('Error: ' + JSON.stringify(ex, null, 2))
+
+					 		alert("Error: Unexpected Error Occur!")
+
+					 		RegisterCreate_DoneButton.removeAttr('disabled')
+						}
+					})
+				}
+				else alert("Please Fill All the Forms Before Hit Done")
 			}
 			else {
 				var ErrorDisplay = "Error: "
@@ -341,9 +488,6 @@
 				if(Create_Lastnamebox.val() == "") ErrorDisplay += "(Lastname) "
 				if(Create_Firstnamebox.val() == "") ErrorDisplay += "(Firstname) "
 				if(Create_Middlenamebox.val() == "") ErrorDisplay += "(Middlename) "
-				if(Create_Positionbox.val() == "") ErrorDisplay += "(Position) "
-				if(Create_Departmentbox.val() == "") ErrorDisplay += "(Department) "
-				if(Create_IDbox.val() == "") ErrorDisplay += "(Employee ID) "
 
 				ErrorDisplay += "is Empty!"
 

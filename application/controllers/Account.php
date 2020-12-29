@@ -255,7 +255,13 @@ class Account extends CI_Controller {
 
 	function View_ProfileLoad() {
 		$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'] ." and AccountType='" .$_SESSION['AccountType']. "'")->result()[0];
-		$ProfileQuery = ($AccountQuery->StudentID != 0 ? $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0] : $this->db->query("Select * from Employee where EmployeeID=". $AccountQuery->EmployeeID)->result()[0]);
+		$ProfileQuery = null;
+
+		if($AccountQuery->StudentID != 0 || $AccountQuery->StudentID != "") $ProfileQuery = $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0];
+		else {
+			if($this->db->query("Select Count(*) as x from Employee where Extra_EmployeeID='" .$AccountQuery->EmployeeID. "'")->result()[0]->x != 0) $ProfileQuery = $this->db->query("Select * from Employee where Extra_EmployeeID='" .$AccountQuery->EmployeeID. "'")->result()[0];
+			else $ProfileQuery = $this->db->query("Select * from Employee where EmployeeID=" .$AccountQuery->EmployeeID)->result()[0];
+		}
 
 		$data["isError"] = false;
 		$data["AccountImage"] = $AccountQuery->AccountImage;
@@ -696,22 +702,6 @@ class Account extends CI_Controller {
 		));
 	}
 
-	function View_TableLoad() {
-		// if(isset($_GET['id']) {
-		// 	if(!empty($_GET['id'])) {
-		// 		echo '0';
-		// 	}
-		// 	else echo json_encode(array(
-		// 		"isError" => true,
-		// 		"ErrorDisplay" => "Error: Unexpected Error Occur!"
-		// 	));
-		// }
-		// else echo json_encode(array(
-		// 	"isError" => true,
-		// 	"ErrorDisplay" => "Error: Unexpected Error Occur!"
-		// ));  
-	}
-
 	function SRCreate_DoneButton() {
 		if(isset($_POST['Lastname']) && isset($_POST['Firstname']) && isset($_POST['Middlename']) && isset($_POST['Gender']) && isset($_POST['Age']) && isset($_POST['Contact']) && isset($_POST['Status']) && isset($_POST['Course']) && isset($_POST['Level'])  && isset($_POST['ID'])) {
 			if(!empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Gender']) && !empty($_POST['Age']) && !empty($_POST['Status']) && !empty($_POST['Course']) && !empty($_POST['Level'])  && !empty($_POST['ID'])) {
@@ -948,19 +938,23 @@ class Account extends CI_Controller {
 	function EmployeeView_SearchButton() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
-				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'])->result()[0]->x == 1) {
-					$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $_GET['id'])->result()[0];
+				if($this->db->query("Select Count(*) as x from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+					$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0];
 
 					$data["isError"] = false;
 					$data["Name"] = json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($EmployeeQuery->Name)->Middlename. ")";
 					$data["Age"] = $EmployeeQuery->Age;
 					$data["Gender"] = $EmployeeQuery->Gender;
+
+					$data["Company"] = $EmployeeQuery->Company == "" ? "N / A" : $EmployeeQuery->Company;
+					$data["Licence"] = $EmployeeQuery->Licence == "" ? "N / A" : $EmployeeQuery->Licence;
 					$data["Position"] = $EmployeeQuery->Position;
 					$data["Department"] = $EmployeeQuery->Department;
+					$data["ID"] = $EmployeeQuery->Extra_EmployeeID != "" ? $EmployeeQuery->Extra_EmployeeID : $EmployeeQuery->EmployeeID;
 					$data["Status"] = ($EmployeeQuery->isRetired == true ? "Retired" : "Non-Retired");
 
-					if($this->db->query("Select Count(*) as x from Account where EmployeeID=". $_GET['id'])->result()[0]->x == 1) {
-						$AccountQuery = $this->db->query("Select * from Account where EmployeeID=". $_GET['id'])->result()[0];
+					if($this->db->query("Select Count(*) as x from Account where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+						$AccountQuery = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0];
 
 						$data["Username"] = $AccountQuery->AccountUsername;
 						$data["Type"] = $AccountQuery->AccountType;
@@ -976,10 +970,44 @@ class Account extends CI_Controller {
 
 					echo json_encode($data);
 				}
-				else echo json_encode(array(
-					"isError" => true,
-					"ErrorDisplay" => "Invalid Employee ID!"
-				));
+				else {
+					if($this->db->query("Select Count(*) as x from Employee where Extra_EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+						$EmployeeQuery = $this->db->query("Select * from Employee where Extra_EmployeeID='" .$_GET['id']. "'")->result()[0];
+
+						$data["isError"] = false;
+						$data["Name"] = json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($EmployeeQuery->Name)->Middlename. ")";
+						$data["Age"] = $EmployeeQuery->Age;
+						$data["Gender"] = $EmployeeQuery->Gender;
+
+						$data["Company"] = $EmployeeQuery->Company == "" ? "N / A" : $EmployeeQuery->Company;
+						$data["Licence"] = $EmployeeQuery->Licence == "" ? "N / A" : $EmployeeQuery->Licence;
+						$data["Position"] = $EmployeeQuery->Position;
+						$data["Department"] = $EmployeeQuery->Department;
+						$data["ID"] = $EmployeeQuery->Extra_EmployeeID != "" ? $EmployeeQuery->Extra_EmployeeID : $EmployeeQuery->EmployeeID;
+						$data["Status"] = ($EmployeeQuery->isRetired == true ? "Retired" : "Non-Retired");
+
+						if($this->db->query("Select Count(*) as x from Account where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+							$AccountQuery = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0];
+
+							$data["Username"] = $AccountQuery->AccountUsername;
+							$data["Type"] = $AccountQuery->AccountType;
+							$data["Email"] = $AccountQuery->AccountEmail;
+							$data["Image"] = $AccountQuery->AccountImage;
+						}
+						else {
+							$data["Username"] = "N / A";
+							$data["Type"] = "N / A";
+							$data["Email"] = "N / A";
+							$data["Image"] = "avatar.png";
+						}
+
+						echo json_encode($data);
+					}
+					else echo json_encode(array(
+						"isError" => true,
+						"ErrorDisplay" => "Invalid Employee ID!"
+					));
+				}
 			}
 			else echo json_encode(array(
 				"isError" => true,
@@ -995,8 +1023,8 @@ class Account extends CI_Controller {
 	function EmployeeView_DeleteButton() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
-				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'])->result()[0]->x == 1) {
-					$AccountQuery = $this->db->query("Select * from Account where EmployeeID=". $_GET['id'])->result()[0];
+				if($this->db->query("Select Count(*) as x from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+					$AccountQuery = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0];
 					$x = include APPPATH.'third_party/SMTPConfig.php';
 
 					// Sending a Verification Key Code to Email Account
@@ -1025,7 +1053,7 @@ class Account extends CI_Controller {
 						$this->db->update("Employee", array(
 							"isRetired" => true
 						), "EmployeeID=". $_GET['id']);
-						$this->db->query("Delete from Account where EmployeeID=". $_GET['id']);
+						$this->db->query("Delete from Account where EmployeeID='" .$_GET['id']. "'");
 						$this->db->insert("Logs", array(
 							"AccountID" => $_SESSION['AccountID'],
 							"LogActivity" => json_encode(array(
@@ -1058,86 +1086,198 @@ class Account extends CI_Controller {
 	}
 
 	function EmployeeEdit_DoneButton() {
-		if(isset($_POST['EmployeeID']) && isset($_POST['Lastname']) && isset($_POST['Firstname']) && isset($_POST['Middlename']) && isset($_POST['Age']) && isset($_POST['Gender']) && isset($_POST['Number']) && isset($_POST['Position']) && isset($_POST['Department']) && isset($_POST['isRetired'])) {
-			if(!empty($_POST['EmployeeID']) && !empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Age']) && !empty($_POST['Gender']) && !empty($_POST['Position']) && !empty($_POST['Department']) && !empty($_POST['isRetired'])) {
-				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['EmployeeID'])->result()[0]->x == 1) {
-					$AccountQuery = $this->db->query("Select * from Account where EmployeeID=". $_POST['EmployeeID'])->result()[0];
-					$x = include APPPATH.'third_party/SMTPConfig.php';
+		if(isset($_POST['EmployeeID']) && isset($_POST['Lastname']) && isset($_POST['Firstname']) && isset($_POST['Middlename']) && isset($_POST['Age']) && isset($_POST['Gender']) && isset($_POST['Number']) && isset($_POST['Position']) && isset($_POST['Department']) && isset($_POST["ID"]) && isset($_POST["PartyInvolved"]) && isset($_POST['isRetired'])) {
+			if(!empty($_POST["PartyInvolved"]) && !empty($_POST['EmployeeID'])) {
+				$AccountQuery = $this->db->query("Select * from Account where EmployeeID=". $_POST['EmployeeID'])->result()[0];
+				$x = include APPPATH.'third_party/SMTPConfig.php';
 
-					// Sending a Verification Key Code to Email Account
-	  				$mail = new PHPMailer();
-					$mail->isSMTP();
-					$mail->Host = 'smtp.gmail.com'; 
-					$mail->SMTPSecure = 'ssl';
-					$mail->SMTPAuth = true;
-					$mail->Username = $x['Email'];
-					$mail->Password = $x['Password'];
-					$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-					$mail->Port = 465;
-					//Recipients
-					$mail->setFrom($x['Email'], "Student EWallet Notifications");
-					$mail->addAddress($AccountQuery->AccountEmail, $AccountQuery->AccountUsername);
-					// Content
-					$mail->isHTML(true);
-					$mail->Subject = 'Notice Information';
-					$mail->Body    = 'Your Employee Account has been officially update by the System Administrator. If there is a problem like Name or etc, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
-					// Send
-					if(!$mail->send())  echo json_encode(array(
-					    "isError" => true,
-					    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
-					));
-					else {
-						$this->db->update("Employee", array(
-							"Name" => json_encode(array(
-								"Lastname" => $_POST['Lastname'],
-								"Firstname" => $_POST['Firstname'],
-								"Middlename" => $_POST['Middlename']
-							)),
-							"Age" => $_POST['Age'],
-							"ContactNumber" => $_POST['Number'],
-							"Position" => $_POST['Position'],
-							"Department" => $_POST['Department'],
-							"isRetired" => $_POST['isRetired']
-						), "EmployeeID=". $_POST['EmployeeID']);
-						$this->db->insert("Logs", array(
-							"AccountID" => $_SESSION['AccountID'],
-							"LogActivity" => json_encode(array(
-								"Page" => "Employee Account",
-								"Action" => "Update an Existing Employee Account"
-							)),
-							"TimeRegister" => date("H:i:s"),
-							"DateRegister" => date("Y-m-d")
+				if($_POST["PartyInvolved"] == "SCHOOL") {
+					if(!empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Age']) && !empty($_POST['Gender']) && !empty($_POST['Position']) && !empty($_POST['Department']) && !empty($_POST['ID']) && !empty($_POST['PartyInvolved']) && !empty($_POST['isRetired'])) {
+						if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['EmployeeID'])->result()[0]->x == 1) {
+							// Sending a Verification Key Code to Email Account
+			  				$mail = new PHPMailer();
+							$mail->isSMTP();
+							$mail->Host = 'smtp.gmail.com'; 
+							$mail->SMTPSecure = 'ssl';
+							$mail->SMTPAuth = true;
+							$mail->Username = $x['Email'];
+							$mail->Password = $x['Password'];
+							$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+							$mail->Port = 465;
+							//Recipients
+							$mail->setFrom($x['Email'], "Student EWallet Notifications");
+							$mail->addAddress($AccountQuery->AccountEmail, $AccountQuery->AccountUsername);
+							// Content
+							$mail->isHTML(true);
+							$mail->Subject = 'Notice Information';
+							$mail->Body    = 'Your Employee Account has been officially update by the System Administrator. If there is a problem like Name or etc, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+							// Send
+							if(!$mail->send())  echo json_encode(array(
+							    "isError" => true,
+							    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+							));
+							else {
+								$this->db->update("Employee", array(
+									"Name" => json_encode(array(
+										"Lastname" => $_POST['Lastname'],
+										"Firstname" => $_POST['Firstname'],
+										"Middlename" => $_POST['Middlename']
+									)),
+									"Age" => $_POST['Age'],
+									"ContactNumber" => $_POST['Number'],
+
+									"Company" => "",
+									"Licence" => "",
+									"Position" => $_POST['Position'],
+									"Department" => $_POST['Department'],
+									"Extra_EmployeeID" => "",
+
+									"PartyInvolved" => $_POST['PartyInvolved'],
+
+									"isRetired" => $_POST['isRetired']
+								), "EmployeeID=". $_POST['EmployeeID']);
+								$this->db->insert("Logs", array(
+									"AccountID" => $_SESSION['AccountID'],
+									"LogActivity" => json_encode(array(
+										"Page" => "Employee Account",
+										"Action" => "Update an Existing Employee Account"
+									)),
+									"TimeRegister" => date("H:i:s"),
+									"DateRegister" => date("Y-m-d")
+								));
+
+								echo json_encode(array(
+									"isError" => false
+								));
+							}
+						}
+						else echo json_encode(array(
+							"isError" => true,
+							"ErrorDisplay" => "Invalid Employee ID!"
 						));
+					}
+					else {
+						$ErrorDisplay = "";
+
+						if(empty($_POST['EmployeeID'])) $ErrorDisplay .= "(Search) ";
+
+						if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
+						if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
+						if(empty($_POST['Middlename'])) $ErrorDisplay .= "(Middlename) ";
+
+						if(empty($_POST['Age'])) $ErrorDisplay .= "(Age) ";
+						if(empty($_POST['Gender'])) $ErrorDisplay .= "(Gender) ";
+
+						if(empty($_POST["PartyInvolved"])) $ErrorDisplay .= "(Party Involved) ";
+						if(empty($_POST['Position'])) $ErrorDisplay .= "(Company Position) ";
+						if(empty($_POST['Department'])) $ErrorDisplay .= "(Company Department) ";
+						if(empty($_POST['ID'])) $ErrorDisplay .= "(Company Employee ID) ";
 
 						echo json_encode(array(
-							"isError" => false
+							"isError" => true,
+							"ErrorDisplay" => $ErrorDisplay ."is Empty!"
+						));
+					}
+				}
+				else if($_POST["PartyInvolved"] == "3RD-PARTY") {
+					if(!empty($_POST['Lastname']) && !empty($_POST['Firstname']) && !empty($_POST['Middlename']) && !empty($_POST['Age']) && !empty($_POST['Gender']) && !empty($_POST['Company']) && !empty($_POST['Licence']) && !empty($_POST['Position']) && !empty($_POST['Department']) && !empty($_POST['ID']) && !empty($_POST['PartyInvolved']) && !empty($_POST['isRetired'])) {
+						if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_POST['EmployeeID'])->result()[0]->x == 1) {
+							// Sending a Verification Key Code to Email Account
+			  				$mail = new PHPMailer();
+							$mail->isSMTP();
+							$mail->Host = 'smtp.gmail.com'; 
+							$mail->SMTPSecure = 'ssl';
+							$mail->SMTPAuth = true;
+							$mail->Username = $x['Email'];
+							$mail->Password = $x['Password'];
+							$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+							$mail->Port = 465;
+							//Recipients
+							$mail->setFrom($x['Email'], "Student EWallet Notifications");
+							$mail->addAddress($AccountQuery->AccountEmail, $AccountQuery->AccountUsername);
+							// Content
+							$mail->isHTML(true);
+							$mail->Subject = 'Notice Information';
+							$mail->Body    = 'Your Employee Account has been officially update by the System Administrator. If there is a problem like Name or etc, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+							// Send
+							if(!$mail->send())  echo json_encode(array(
+							    "isError" => true,
+							    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
+							));
+							else {
+								$this->db->update("Employee", array(
+									"Name" => json_encode(array(
+										"Lastname" => $_POST['Lastname'],
+										"Firstname" => $_POST['Firstname'],
+										"Middlename" => $_POST['Middlename']
+									)),
+									"Age" => $_POST['Age'],
+									"ContactNumber" => $_POST['Number'],
+
+									"Company" => $_POST['Company'],
+									"Licence" => $_POST['Company'],
+									"Position" => $_POST['Position'],
+									"Department" => $_POST['Department'],
+									"Extra_EmployeeID" => $_POST['ID'],
+
+									"PartyInvolved" => $_POST['PartyInvolved'],
+
+									"isRetired" => $_POST['isRetired']
+								), "EmployeeID=". $_POST['EmployeeID']);
+								$this->db->insert("Logs", array(
+									"AccountID" => $_SESSION['AccountID'],
+									"LogActivity" => json_encode(array(
+										"Page" => "Employee Account",
+										"Action" => "Update an Existing Employee Account"
+									)),
+									"TimeRegister" => date("H:i:s"),
+									"DateRegister" => date("Y-m-d")
+								));
+
+								echo json_encode(array(
+									"isError" => false
+								));
+							}
+						}
+						else echo json_encode(array(
+							"isError" => true,
+							"ErrorDisplay" => "Invalid Employee ID!"
+						));
+					}
+					else {
+						$ErrorDisplay = "";
+
+						if(empty($_POST['EmployeeID'])) $ErrorDisplay .= "(Search) ";
+
+						if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
+						if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
+						if(empty($_POST['Middlename'])) $ErrorDisplay .= "(Middlename) ";
+
+						if(empty($_POST['Age'])) $ErrorDisplay .= "(Age) ";
+						if(empty($_POST['Gender'])) $ErrorDisplay .= "(Gender) ";
+
+						if(empty($_POST["PartyInvolved"])) $ErrorDisplay .= "(Party Involved) ";
+						if(empty($_POST['Company'])) $ErrorDisplay .= "(Company Name) ";
+						if(empty($_POST['Licence'])) $ErrorDisplay .= "(Company Business ID / Licence) ";
+						if(empty($_POST['Position'])) $ErrorDisplay .= "(Company Position) ";
+						if(empty($_POST['Department'])) $ErrorDisplay .= "(Company Department) ";
+						if(empty($_POST['ID'])) $ErrorDisplay .= "(Company Employee ID) ";
+
+						echo json_encode(array(
+							"isError" => true,
+							"ErrorDisplay" => $ErrorDisplay ."is Empty!"
 						));
 					}
 				}
 				else echo json_encode(array(
 					"isError" => true,
-					"ErrorDisplay" => "Invalid Employee ID!"
+					"ErrorDisplay" => "(Party Involved) is Empty!"
 				));
 			}
-			else {
-				$ErrorDisplay = "";
-
-				if(empty($_POST['EmployeeID'])) $ErrorDisplay .= "(Search) ";
-
-				if(empty($_POST['Lastname'])) $ErrorDisplay .= "(Lastname) ";
-				if(empty($_POST['Firstname'])) $ErrorDisplay .= "(Firstname) ";
-				if(empty($_POST['Middlename'])) $ErrorDisplay .= "(Middlename) ";
-
-				if(empty($_POST['Age'])) $ErrorDisplay .= "(Age) ";
-
-				if(empty($_POST['Position'])) $ErrorDisplay .= "(Position) ";
-				if(empty($_POST['Department'])) $ErrorDisplay .= "(Department) ";
-
-				echo json_encode(array(
-					"isError" => true,
-					"ErrorDisplay" => $ErrorDisplay ."is Empty!"
-				));
-			}
+			else echo json_encode(array(
+				"isError" => true,
+				"ErrorDisplay" => "Please Select Party Involved First!"
+			));		
 		}
 		else echo json_encode(array(
 			"isError" => true,
@@ -1148,23 +1288,52 @@ class Account extends CI_Controller {
 	function EmployeeEdit_SearchButton() {
 		if(isset($_GET['id'])) {
 			if(!empty($_GET['id'])) {
-				if($this->db->query("Select Count(*) as x from Employee where EmployeeID=". $_GET['id'])->result()[0]->x == 1) {
-					$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID=". $_GET['id'])->result()[0];
+				if($this->db->query("Select Count(*) as x from Employee where Extra_EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+					$EmployeeQuery = $this->db->query("Select * from Employee where Extra_EmployeeID='" .$_GET['id']. "'")->result()[0];
 
 					$data["isError"] = false;
 					$data["Name"] = json_decode($EmployeeQuery->Name);
+
+					$data["Image"] = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0]->AccountImage;
 					$data["Age"] = $EmployeeQuery->Age;
 					$data["Gender"] = $EmployeeQuery->Gender;
+
+					$data["Company"] = $EmployeeQuery->Company;
+					$data["Licence"] = $EmployeeQuery->Licence;
 					$data["Position"] = $EmployeeQuery->Position;
 					$data["Department"] = $EmployeeQuery->Department;
+					$data["ID"] = $EmployeeQuery->Extra_EmployeeID != "" ? $EmployeeQuery->Extra_EmployeeID : $EmployeeQuery->EmployeeID;
+					$data["PartyInvolved"] = $EmployeeQuery->PartyInvolved;
 					$data["isRetired"] = $EmployeeQuery->isRetired;
 
 					echo json_encode($data);
 				}
-				else echo json_encode(array(
-					"isError" => true,
-					"ErrorDisplay" => "Invalid Employee ID!"
-				));
+				else {
+					if($this->db->query("Select Count(*) as x from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
+						$EmployeeQuery = $this->db->query("Select * from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0];
+
+						$data["isError"] = false;
+						$data["Name"] = json_decode($EmployeeQuery->Name);
+
+						$data["Image"] = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0]->AccountImage;
+						$data["Age"] = $EmployeeQuery->Age;
+						$data["Gender"] = $EmployeeQuery->Gender;
+
+						$data["Company"] = $EmployeeQuery->Company;
+						$data["Licence"] = $EmployeeQuery->Licence;
+						$data["Position"] = $EmployeeQuery->Position;
+						$data["Department"] = $EmployeeQuery->Department;
+						$data["ID"] = $EmployeeQuery->Extra_EmployeeID != "" ? $EmployeeQuery->Extra_EmployeeID : $EmployeeQuery->EmployeeID;
+						$data["PartyInvolved"] = $EmployeeQuery->PartyInvolved;
+						$data["isRetired"] = $EmployeeQuery->isRetired;
+
+						echo json_encode($data);
+					}
+					else echo json_encode(array(
+						"isError" => true,
+						"ErrorDisplay" => "Invalid Employee ID!"
+					));
+				}
 			}
 			else echo json_encode(array(
 				"isError" => true,

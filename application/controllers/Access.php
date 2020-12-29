@@ -61,15 +61,6 @@ class Access extends CI_Controller {
 						break;
 
 					case "app":
-						// $this->db->insert("Logs", array(
-						// 	"AccountID" => $_SESSION['AccountID'],
-						// 	"LogActivity" => json_encode(array(
-						// 		"Page" => "App",
-						// 		"Action" => "View"
-						// 	)),
-						// 	"TimeRegister" => date("H:i:s"),
-						// 	"DateRegister" => date("Y-m-d")
-						// ));
 						$this->load->view("App", $data);
 						break;
 

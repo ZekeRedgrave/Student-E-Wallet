@@ -153,7 +153,7 @@
 </div>
 <!-- End of Store Dynamic Form Area -->
 <!-- Cart Area -->
-<div id="StoreView_CartArea" class="position-fixed" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
+<div id="StoreView_CartArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
 	<div class="d-flex justify-content-center pt-4 pb-4" style="background: #00000099; width: 100%; height: 100%">
 		<div class="container" style="width: 100%; height: 100%">
 			<div id="View_CartArea" class="d-flex flex-column companyLabel" style="background: white; width: 100%; height: 100%;">
