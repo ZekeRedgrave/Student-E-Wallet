@@ -151,6 +151,7 @@
 				<thead style="width: 100%">
 					<tr class="d-flex flex-row align-items-center" style="width: 100%;">
 						<th class="border-0" style="min-width: 200px; width: 100%; font-weight: bold;">Request Name</th>
+						<th class="border-0" style="min-width: 200px; width: 100%; font-weight: bold;">Quantity</th>
 						<th class="border-0" style="min-width: 200px; width: 100%; font-weight: bold;">Student Name</th>
 						<th class="border-0" style="min-width: 200px; width: 100%; font-weight: bold;">Student ID</th>
 						<th class="border-0 red-text" style="min-width: 200px; width: 100%; font-weight: bold;">Status</th>
@@ -195,6 +196,7 @@
 								var HTML = `
 									<tr id="` +data.RecordArray[x].RequestID+ `" class="d-flex flex-row align-items-center border-bottom" style="width: 100%;">
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].RequestName+ `</th>
+										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].Quantity+ `</th>
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentName+ `</th>
 										<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentID+ `</th>
 										<th class="border-0 red-text" style="min-width: 200px; width: 100%">` +data.RecordArray[x].Status+ `</th>
@@ -253,6 +255,7 @@
 										var HTML = `
 											<tr id="` +data.RecordArray[x].RequestID+ `" class="d-flex flex-row align-items-center" style="width: 100%; border-bottom: 1px solid #333333">
 												<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].RequestName+ `</th>
+												<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].Quantity+ `</th>
 												<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentName+ `</th>
 												<th class="border-0" style="min-width: 200px; width: 100%">` +data.RecordArray[x].StudentID+ `</th>
 												<th class="border-0 red-text" style="min-width: 200px; width: 100%">` +data.RecordArray[x].Status+ `</th>

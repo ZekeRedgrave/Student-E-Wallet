@@ -59,7 +59,28 @@
 			</div>
 
 			<div class="ml-4">
-				<div class="ml-2" style="width: 100%; font-weight: bold; ">EMPLOYEE ACCOUNT</div>
+				<div class="ml-2" style="width: 100%; font-weight: bold; ">EMPLOYEE LOGS</div>
+				<div id="EmployeeView_LogLoad" style="width: 100%; height: 92.75%; overflow: hidden; overflow-y: scroll;">
+
+					<!-- <div class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom" title="Timeline" style="cursor: zoom-in;">
+						<div>
+							<img class="rounded-circle" src="http://localhost/Ewallet/avatar/avatar.png" width="50px" height="50px">
+						</div>
+						<div class="ml-3">
+							<div style="font-weight: bold;">Name</div>
+							<div style="margin-top: -5px; font-weight: bold; font-size: 12px;">Type - Activity</div>
+						</div>
+					</div> -->
+
+					<h4 class="d-flex justify-content-center align-items-center p-4" style="height: 100%; word-break: break-all;">
+						<div style="min-width: 200px; max-width: 200px;">
+							The Log Box is Full of Nothing but Darkness and Emptiness!
+						</div>
+					</h4>
+
+				</div>
+
+				<div class="mt-4 ml-2" style="width: 100%; font-weight: bold; ">EMPLOYEE ACCOUNT</div>
 				<div class="p-4">
 					<h6 class="ml-2 mb-1" style="margin: 0; font-size: 12px; font-weight: bold;">Username</h6>
 					<div id="EmployeeView_UsernameLabel" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 mb-4 companyInput" style="width: 100%">XXX-XXX-XXX</div>
@@ -75,9 +96,29 @@
 						<button onclick="new Employee().View_DeleteButton()" id="EmployeeView_DeleteButton" class="border-0 rounded pt-2 pb-2 pl-4 pr-4 red" title="Input the Employee ID First on Searchbox Before Deleting the Employee Account Permanently" style="width: 200px;">Delete Permanently</button>
 					</div>
 				</div>
+
+				<div style="min-height: 100px; max-height: 100px;"></div>
 			</div>
 		</div>
 	</div>
+
+	<!-- <div class="" style="width: 100%; height: 100%; overflow: hidden; overflow-y: scroll;">
+		<div class="ml-2 pt-4 pb-4" style="width: 100%; font-weight: bold; ">LIST OF EMPLOYEE</div>
+
+		<div>
+			<div class="pb-1 pl-4 pr-4 border-bottom" style="">DEPARTMENT</div>
+
+			<div class="container mb-2">
+				<div class="row pt-2">
+					<div class="companyBackground" style="min-width: 250px; max-width: 250px; height: 375px; overflow-y: hidden;">
+						<div class="d-flex justify-content-center" style="width: 100%">
+							<img src="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
 </div>
 
 <div id="Employee_EditArea" class="position-fixed hide" style="top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%">
@@ -204,6 +245,8 @@
 			var EmployeeView_TypeLabel = $("#EmployeeView_TypeLabel")
 			var EmployeeView_EmailLabel = $("#EmployeeView_EmailLabel")
 
+			var EmployeeView_LogLoad = $("#EmployeeView_LogLoad")
+
 			if(EmployeeView_Searchbox.val() != "") {
 				$.ajax({
 					url: window.location.href.replace("Access", "")+ "Account/EmployeeView_SearchButton?id="+ EmployeeView_Searchbox.val(), 
@@ -228,6 +271,31 @@
 							EmployeeView_UsernameLabel.text(data.Username)
 							EmployeeView_TypeLabel.text(data.Type)
 							EmployeeView_EmailLabel.text(data.Email)
+
+							if(!data.isEmpty) {
+								EmployeeView_LogLoad.html('')
+
+								for(var x in data.LogArray) {
+									EmployeeView_LogLoad.append(`
+										<div class="d-flex flex-row pt-2 pb-2 pl-3 pr-3 border-bottom" title="Timeline" style="cursor: zoom-in;">
+											<div>
+												<img class="rounded-circle" src="` +(window.location.href.replace("index.php/Access", "avatar/")+ data.LogArray[x].Image)+ `" width="50px" height="50px">
+											</div>
+											<div class="ml-3">
+												<div style="font-weight: bold;">` +data.LogArray[x].Name+ `</div>
+												<div style="margin-top: -5px; font-weight: bold; font-size: 12px;">` +data.LogArray[x].Type+ ` - ` +data.LogArray[x].Activity+ `</div>
+											</div>
+										</div>
+									`)
+								}
+							}
+							else EmployeeView_LogLoad.html(`
+								<h4 class="d-flex justify-content-center align-items-center p-4" style="height: 100%; word-break: break-all;">
+									<div style="min-width: 200px; max-width: 200px;">
+										The Log Box is Full of Nothing but Darkness and Emptiness!
+									</div>
+								</h4>
+							`)
 						}
 						else alert(data.ErrorDisplay)
 					},

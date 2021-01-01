@@ -41,7 +41,10 @@
 					<thead>
 						<tr>
 							<td class="border-0" style="font-weight: bold;">Student Name</td>
-							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Name</td>
+							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Item Name</td>
+							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Quantity</td>
+							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Price</td>
+							<td class="border-0" style="color: #375692; min-width: 150px; max-width: 150px; font-weight: bold;">Pre-Total</td>
 							<td class="border-0" style="color: #e91e63; font-weight: bold;">Transaction Type</td>
 							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
 						</tr>
@@ -396,6 +399,9 @@
 								<td>N / A</td>
 								<td>N / A</td>
 								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
+								<td>N / A</td>
 							</tr>
 						`)
 					}
@@ -422,7 +428,10 @@
 							<tr id="ViewTransaction_RecordID` +id+ `" onclick="new Record().View_InfoButton(` +id+ `)" title="Click for more info!" class="border-bottom button-hover" style="cursor: pointer;">
 								<td class="border-0" style="word-break: break-all;">`+ data.StudentName +`</td>
 								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionName +`</td>
-								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionType +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.Quantity +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.Price +`</td>
+								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.PreTotal +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionType +`</td>
 								<td class="border-0" style="word-break: break-all;">`+ data.Timeline +`</td>
 							</tr>
 						`
@@ -455,6 +464,11 @@
 									<tr id="ViewTransaction_RecordID` +data.TransactionArray[x].TransactionID+ `" onclick="new Record().View_InfoButton(` +data.TransactionArray[x].TransactionID+ `)" class="border-bottom button-hover" style="cursor: pointer;">
 										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].StudentName +`</td>
 										<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionArray[x].TransactionName +`</td>
+
+										<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionArray[x].Quantity +`</td>
+										<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionArray[x].Price +`</td>
+										<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionArray[x].PreTotal +`</td>
+										
 										<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionArray[x].TransactionType +`</td>
 										<td class="border-0" style="word-break: break-all;">`+ data.TransactionArray[x].Timeline +`</td>
 									</tr>

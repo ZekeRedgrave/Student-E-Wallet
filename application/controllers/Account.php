@@ -255,13 +255,7 @@ class Account extends CI_Controller {
 
 	function View_ProfileLoad() {
 		$AccountQuery = $this->db->query("Select * from Account where AccountID=". $_SESSION['AccountID'] ." and AccountType='" .$_SESSION['AccountType']. "'")->result()[0];
-		$ProfileQuery = null;
-
-		if($AccountQuery->StudentID != 0 || $AccountQuery->StudentID != "") $ProfileQuery = $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0];
-		else {
-			if($this->db->query("Select Count(*) as x from Employee where Extra_EmployeeID='" .$AccountQuery->EmployeeID. "'")->result()[0]->x != 0) $ProfileQuery = $this->db->query("Select * from Employee where Extra_EmployeeID='" .$AccountQuery->EmployeeID. "'")->result()[0];
-			else $ProfileQuery = $this->db->query("Select * from Employee where EmployeeID=" .$AccountQuery->EmployeeID)->result()[0];
-		}
+		$ProfileQuery = $AccountQuery->StudentID != 0 ? $this->db->query("Select * from Student where StudentID=". $AccountQuery->StudentID)->result()[0] : $ProfileQuery = $this->db->query("Select * from Employee where EmployeeID=" .$AccountQuery->EmployeeID)->result()[0];
 
 		$data["isError"] = false;
 		$data["AccountImage"] = $AccountQuery->AccountImage;
@@ -968,6 +962,26 @@ class Account extends CI_Controller {
 						$data["Image"] = "avatar.png";
 					}
 
+					$data["LogArray"] = [];
+					$data["isEmpty"] = false;
+
+					if($this->db->query("Select Count(*) as x from Account where EmployeeID=" .$_GET['id'])->result()[0]->x != 0) {
+						$AccountQuery = $this->db->query("Select * from Account where EmployeeID=" .$_GET['id'])->result()[0];
+
+						if($this->db->query("Select Count(*) as x from Logs where AccountID=" .$AccountQuery->AccountID)->result()[0]->x != 0) {
+							foreach ($this->db->query("Select * from Logs where AccountID=" .$AccountQuery->AccountID)->result() as $value) {
+								array_push($data["LogArray"], array(
+									"Name" => json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($EmployeeQuery->Name)->Middlename. ")",
+									"Image" => $AccountQuery->AccountImage,
+									"Type" => json_decode($value->LogActivity)->Page,
+									"Activity" => json_decode($value->LogActivity)->Action
+								));
+							}
+						}
+						else $data["isEmpty"] = true;
+					}
+					else $data["isEmpty"] = true;
+
 					echo json_encode($data);
 				}
 				else {
@@ -1000,6 +1014,26 @@ class Account extends CI_Controller {
 							$data["Email"] = "N / A";
 							$data["Image"] = "avatar.png";
 						}
+
+						$data["LogArray"] = [];
+						$data["isEmpty"] = false;
+
+						if($this->db->query("Select Count(*) as x from Account where EmployeeID=" .$_GET['id'])->result()[0]->x != 0) {
+							$AccountQuery = $this->db->query("Select * from Account where EmployeeID=" .$_GET['id'])->result()[0];
+
+							if($this->db->query("Select Count(*) as x from Logs where AccountID=" .$AccountQuery->AccountID)->result()[0]->x != 0) {
+								foreach ($this->db->query("Select * from Logs where AccountID=" .$AccountQuery->AccountID)->result() as $value) {
+									array_push($data["LogArray"], array(
+										"Name" => json_decode($EmployeeQuery->Name)->Lastname. ", " .json_decode($EmployeeQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($EmployeeQuery->Name)->Middlename, 0, 1)). ". (" .json_decode($EmployeeQuery->Name)->Middlename. ")",
+										"Image" => $AccountQuery->AccountImage,
+										"Type" => json_decode($value->LogActivity)->Page,
+										"Activity" => json_decode($value->LogActivity)->Action
+									));
+								}
+							}
+							else $data["isEmpty"] = true;
+						}
+						else $data["isEmpty"] = true;
 
 						echo json_encode($data);
 					}
@@ -1053,7 +1087,13 @@ class Account extends CI_Controller {
 						$this->db->update("Employee", array(
 							"isRetired" => true
 						), "EmployeeID=". $_GET['id']);
-						$this->db->query("Delete from Account where EmployeeID='" .$_GET['id']. "'");
+						$this->db->update("Account", array(
+							"EmployeeID" => 0,
+							"AccountUsername" => "",
+							"AccountEmail" => "",
+							"AccountPassword" => "",
+							"isDeleted" => true
+						), "EmployeeID=". $_GET['id']);
 						$this->db->insert("Logs", array(
 							"AccountID" => $_SESSION['AccountID'],
 							"LogActivity" => json_encode(array(

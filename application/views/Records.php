@@ -24,7 +24,10 @@
 					<thead>
 						<tr class="border-0">
 							<!-- <td>Student Name</td> -->
-							<td class="border-0" style="color: #375692; font-weight: bold;">Transaction Name</td>
+							<td class="border-0" style="color: #375692; font-weight: bold;">Item Name</td>
+							<td class="border-0" style="color: #375692; font-weight: bold;">Quantity</td>
+							<td class="border-0" style="color: #375692; font-weight: bold;">Price</td>
+							<td class="border-0" style="color: #375692; font-weight: bold;">Pre-Total</td>
 							<td class="border-0" style="color: #e91e63; min-width: 150px; max-width: 150px; font-weight: bold;">Transaction Type</td>
 							<td class="border-0" style="min-width: 125px; max-width: 125px; font-weight: bold;">Timeline</td>
 						</tr>
@@ -134,6 +137,9 @@
 						ViewTransaction_RecordLoad.append(`
 							<tr onclick="new StudentRecord().View_InfoButton(` +id+ `)" id="ViewTransaction_RecordID` +id+ `" class="border-bottom button-hover" title="Click for more info!" style="cursor: pointer">
 								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.TransactionName +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.Quantity +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.Price +`</td>
+								<td class="border-0" style="color: #375692; word-break: break-all;">`+ data.PreTotal +`</td>
 								<td class="border-0" style="color: #e91e63; word-break: break-all;">`+ data.TransactionType +`</td>
 								<td class="border-0 companyLabel" style="word-break: break-all; font-weight: bold">`+ data.Timeline +`</td>
 							</tr>

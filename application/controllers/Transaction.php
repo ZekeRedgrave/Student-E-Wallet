@@ -272,10 +272,34 @@ class Transaction extends CI_Controller {
 				$TransactionQuery = $this->db->query("Select * from Transaction where TransactionID=". $_GET['id'])->result()[0];
 				$StudentQuery = $this->db->query("Select * from Student where StudentID=". $TransactionQuery->StudentID)->result()[0];
 
+				$TransactionDescription = json_decode($TransactionQuery->TransactionDescription);
+
 				$data['isError'] = false;
 				$data['StudentName'] = json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1));
-				$data["TransactionName"] = json_decode($TransactionQuery->TransactionDescription)->TransactionName;
+				$data["TransactionName"] = $TransactionDescription->TransactionName;
 				$data['TransactionType'] = $TransactionQuery->TransactionType;
+
+				if($TransactionQuery->StoreID != 0) {
+					$CartQuery = $this->db->query('Select * from Cart where CartID='. $TransactionQuery->CartID)->result()[0];
+
+					if($TransactionQuery->CartID == $CartQuery->CartID) {
+						foreach (json_decode($CartQuery->CartInfo) as $value) {
+							if($value->StoreID == $TransactionQuery->StoreID) {
+								$data['Quantity'] = $value->Quantity;
+								$data['Price'] = $value->Price;
+								$data['PreTotal'] = $value->PreTotal;
+
+								break;
+							}
+						}
+					}
+				}
+				else {
+					$data['Quantity'] = "N / A";
+					$data['Price'] = $TransactionDescription->TransactionAmount;
+					$data['PreTotal'] = $TransactionDescription->TransactionAmount + $TransactionDescription->TransactionFee;
+				}
+
 				$data['Timeline'] = $TransactionQuery->DateRegister. " " .$TransactionQuery->TimeRegister;
 
 				echo json_encode($data);
@@ -310,7 +334,8 @@ class Transaction extends CI_Controller {
 						"StoreName" => $StoreQuery->StoreTitle,
 						"StorePrice" => $StoreQuery->StorePrice,
 						"PreTotal" => $StoreQuery->StorePrice * $value->Quantity,
-						"StoreQuantity" => $value->Quantity
+						"StoreQuantity" => $value->Quantity,
+						"setQuantity" => $StoreQuery->setQuantity
 					));
 				}
 				if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == "CASHIER") {
@@ -321,7 +346,8 @@ class Transaction extends CI_Controller {
 						"StoreName" => $StoreQuery->StoreTitle,
 						"StorePrice" => $StoreQuery->StorePrice,
 						"PreTotal" => $StoreQuery->StorePrice * $value->Quantity,
-						"StoreQuantity" => $value->Quantity
+						"StoreQuantity" => $value->Quantity,
+						"setQuantity" => $StoreQuery->setQuantity
 					));
 				}
 			}
@@ -523,9 +549,10 @@ class Transaction extends CI_Controller {
 							"TimeRegister" => $TimeRegister
 						));
 
-						if($value["Type"] == "DEPARTMENT") $this->db->insert("Request", array(
+						$this->db->insert("Request", array(
 							"StudentID" =>$AccountQuery->StudentID,
 							"RequestName" => $StoreQuery->StoreTitle,
+							"Quantity" => $value["Quantity"] == 0 ? 1 : $value["Quantity"],
 							"isProcess" => false,
 							"isClaim" => false,
 							"Start_DateRegister" => $DateRegister,
@@ -577,28 +604,81 @@ class Transaction extends CI_Controller {
 					$data['isError'] = false;
 					$data['TransactionArray'] = [];
 
-					if($_SESSION["AccountType"] != "CASHIER") {
-						foreach ($this->db->query("Select * from Transaction where StoreID!=0 and StudentID=". $_GET['id'])->result() as $value) {
-							if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) {
+					if($_SESSION["AccountType"] == "CASHIER") {
+						foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
+							if($value->StoreID != 0) {
+								$CartQuery = $this->db->query('Select * from Cart where CartID='. $value->CartID)->result()[0];
+
+								if($value->CartID == $CartQuery->CartID) {
+									foreach (json_decode($CartQuery->CartInfo) as $value) {
+										if($value->StoreID == $value->StoreID) {
+											array_push($data['TransactionArray'], array(
+												'TransactionID' => $value->TransactionID,
+												'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
+												'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+												'Quantity' => $value->Quantity,
+												"Price" => $value->Price,
+												"PreTotal" => $value->PreTotal,
+												'TransactionType' => $value->TransactionType,
+												'Timeline' => $value->DateRegister. " " .$value->TimeRegister
+											));
+										}
+									}
+								}
+							}
+							else {
+								$TransactionDescription = json_decode($value->TransactionDescription);
 								array_push($data['TransactionArray'], array(
 									'TransactionID' => $value->TransactionID,
 									'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
-									'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+									'TransactionName' => $TransactionDescription->TransactionName,
+									'Quantity' => "N / A",
+									"Price" => $TransactionDescription->TransactionAmount,
+									"PreTotal" => $TransactionDescription->TransactionAmount + $TransactionDescription->TransactionFee,
 									'TransactionType' => $value->TransactionType,
 									'Timeline' => $value->DateRegister. " " .$value->TimeRegister
 								));
 							}
 						}
 					}
-					else {
-						foreach ($this->db->query("Select * from Transaction where StudentID=". $_GET['id'])->result() as $value) {
+					else if($_SESSION["AccountType"] == "3RD-PARTY") {
+						foreach ($this->db->query("Select * from Transaction where StoreID=0 and StudentID=". $_GET['id'])->result() as $value) {
+							$TransactionDescription = json_decode($value->TransactionDescription);
+
 							array_push($data['TransactionArray'], array(
 								'TransactionID' => $value->TransactionID,
 								'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
-								'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+								'TransactionName' => $TransactionDescription->TransactionName,
+								'Quantity' => "N / A",
+								"Price" => $TransactionDescription->TransactionAmount,
+								"PreTotal" => $TransactionDescription->TransactionAmount + $TransactionDescription->TransactionFee,
 								'TransactionType' => $value->TransactionType,
 								'Timeline' => $value->DateRegister. " " .$value->TimeRegister
 							));
+						}
+					}
+					else {
+						foreach ($this->db->query("Select * from Transaction where StoreID!=0 and StudentID=". $_GET['id'])->result() as $value) {
+							if($this->db->query("Select * from Account where AccountID=". $this->db->query("Select * from Store where StoreID=". $value->StoreID)->result()[0]->AccountID)->result()[0]->AccountType == $_SESSION["AccountType"]) {
+								$CartQuery = $this->db->query('Select * from Cart where CartID='. $TransactionQuery->CartID)->result()[0];
+
+								if($TransactionQuery->CartID == $CartQuery->CartID) {
+									foreach (json_decode($CartQuery->CartInfo) as $value) {
+										if($value->StoreID == $TransactionQuery->StoreID) {
+											array_push($data['TransactionArray'], array(
+												'TransactionID' => $value->TransactionID,
+												'StudentName' => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)),
+												'TransactionName' => json_decode($value->TransactionDescription)->TransactionName,
+												'Quantity' => $value->Quantity,
+												"Price" => $value->Price,
+												"PreTotal" => $value->PreTotal,
+												'TransactionType' => $value->TransactionType,
+												'Timeline' => $value->DateRegister. " " .$value->TimeRegister
+											));
+										}
+									}
+								}
+							}
 						}
 					}
 

@@ -81,7 +81,7 @@
 							</div>
 						</div>
 						<!-- Step 2 (Non-3rd Party Edition) -->
-						<div id="Create_SchoolArea" class="hide" style="width: 100%">
+						<div id="Create_SchoolArea" class="" style="width: 100%">
 							<div class="d-flex flex-row mb-4" style="width: 100%">
 								<div class="d-flex flex-column" style="width: 300px;">
 									<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">School Position</h4>
@@ -98,7 +98,7 @@
 						</div>
 						<!-- End of Step 2 (Non-3rd Party Edition) -->
 						<!-- Step 2 (3rd Party Edition) -->
-						<div id="Create_OtherArea" style="width: 100%">
+						<div id="Create_OtherArea" class="hide" style="width: 100%">
 							<h4 class="ml-2 mb-1" style="font-size: 14px; font-weight: bold;">Company Name</h4>
 							<input id="Create_CNbox" class="border-0 rounded p-3 mb-2" style="width: 100%;" placeholder="Ex. Zeke Mega Company">
 

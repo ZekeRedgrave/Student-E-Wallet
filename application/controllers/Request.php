@@ -34,6 +34,7 @@ class Request extends CI_Controller {
 							"RequestName" => $value->RequestName,
 							"StudentName" => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). ".",
 							"StudentID" => $value->StudentID,
+							"Quantity" => $value->Quantity,
 							"Status" => (!$value->isProcess ? "Progress" : ($value->isClaim ? "Already Claimed" : "Waiting for Claim")),
 							"isProcess" => $value->isProcess,
 							"isClaim" => $value->isClaim
@@ -73,6 +74,7 @@ class Request extends CI_Controller {
 							"RequestName" => $value->RequestName,
 							"StudentName" => json_decode($StudentQuery->Name)->Lastname. ", " .json_decode($StudentQuery->Name)->Firstname. " " .strtoupper(substr(json_decode($StudentQuery->Name)->Middlename, 0, 1)). ".",
 							"StudentID" => $value->StudentID,
+							"Quantity" => $value->Quantity,
 							"Status" => (!$value->isProcess ? "Progress" : ($value->isClaim ? "Already Claimed" : "Waiting for Claim")),
 							"isProcess" => $value->isProcess,
 							"isClaim" => $value->isClaim

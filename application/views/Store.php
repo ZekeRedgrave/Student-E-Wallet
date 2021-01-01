@@ -494,6 +494,13 @@
 							StoreCart_DepartmentList = []
 						
 							for(var x in data.Cart_DepartmentArray) {
+								var setQuantity_HTML = ``
+
+								if(data.Cart_DepartmentArray[x].setQuantity == true) setQuantity_HTML += `
+									<button onclick="new StoreCart().View_DRButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
+									<button onclick="new StoreCart().View_DAButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+								`
+
 								CartView_DepartmentLoad.append(`
 									<div id="CartDV_ItemID` +x+ `" class="d-flex flex-row border-bottom pl-4 pr-4 pt-2 pb-2 button-hover" style="width: 100%">
 										<div class="d-flex align-items-center" style="width: 100%;">
@@ -516,10 +523,9 @@
 										</div>
 										<div class="d-flex flex-row">
 											<div class="d-flex flex-row">
-												<input id="CartDV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_DepartmentArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
+												<input id="CartDV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_DepartmentArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" value="1" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
 												<div class="d-flex flex-row ml-2">
-													<button onclick="new StoreCart().View_DRButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
-													<button onclick="new StoreCart().View_DAButton(` +x+ `, ` +data.Cart_DepartmentArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+													` +setQuantity_HTML+ `
 
 													<button onclick="new StoreCart().View_DDButton(` +data.Cart_DepartmentArray[x].StoreID+ `, ` +data.CartID+ `)" id="StoreView_AddButton" class="material-icons p-2 ml-4 rounded red">delete</button>
 												</div>
@@ -543,6 +549,12 @@
 							StoreCart_CashierList = []
 
 							for(var x in data.Cart_CashierArray) {
+								var setQuantity_HTML = ``
+
+								if(data.Cart_CashierArray[x].setQuantity == true) setQuantity_HTML += `<button onclick="new StoreCart().View_CRButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
+									<button onclick="new StoreCart().View_CAButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+								`
+
 								CartView_CashierLoad.append(`
 									<div id="CartCV_ItemID` +x+ `" class="d-flex flex-row border-bottom pl-4 pr-4 pt-2 pb-2 button-hover" style="width: 100%">
 										<div class="d-flex align-items-center" style="width: 100%;">
@@ -565,10 +577,9 @@
 										</div>
 										<div class="d-flex flex-row">
 											<div class="d-flex flex-row">
-												<input id="CartCV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_CashierArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
+												<input id="CartCV_QuantityboxID` +x+ `" type="number" disabled value="` +data.Cart_CashierArray[x].StoreQuantity+ `" class="d-flex align-items-center pl-4 pr-2 pt-2 pb-2 rounded" value="1" style="background: #e8d15f !important; min-width: 150px; max-width: 150px; color: #ffffff !important; font-size: 14px; font-weight: bold;">
 												<div class="d-flex flex-row ml-2">
-													<button onclick="new StoreCart().View_CRButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_RemoveButton" class="material-icons p-2 rounded mr-1">remove</button>
-													<button onclick="new StoreCart().View_CAButton(` +x+ `, ` +data.Cart_CashierArray[x].StorePrice+ `)" id="StoreView_AddButton" class="material-icons p-2 rounded companyBackground">add</button>
+													` +setQuantity_HTML+ `
 
 													<button onclick="new StoreCart().View_CDButton(` +data.Cart_CashierArray[x].StoreID+ `, ` +data.CartID+ `)" id="StoreView_AddButton" class="material-icons p-2 ml-4 rounded red">delete</button>
 												</div>
