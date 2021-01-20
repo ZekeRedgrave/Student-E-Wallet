@@ -149,36 +149,70 @@
 							PaymentView_ItemLoader.html("")
 						
 							for(var x in data.PaymentArray) {
-								if(data.PaymentArray[x].StoreIcon == "") PaymentView_ItemLoader.append(`
-									<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
-										<div class="material-icons d-flex align-items-center">block</div>
-										<div class="ml-4" style="width: 100%">
-											<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
-											<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
-										</div>
-										<div class="d-flex align-items-center">
-											<div class="d-flex flex-row">
-												<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_EditButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Edit Button">edit</button>
-												<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_RemoveButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Delete Button">delete</button>
+								if(data.PaymentArray[x].isDeleted == true) {
+									// if(data.PaymentArray[x].StoreIcon == "") PaymentView_ItemLoader.append(`
+									// 	<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
+									// 		<div class="material-icons d-flex align-items-center">block</div>
+									// 		<div class="ml-4" style="width: 100%">
+									// 			<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
+									// 			<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
+									// 		</div>
+									// 		<div class="d-flex align-items-center">
+									// 			<div class="d-flex flex-row">
+									// 				<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_ShowButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Show All Transaction Record">preview</button>
+									// 				<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_DownloadButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Download Excel File">get_app</button>
+									// 			</div>
+									// 		</div>
+									// 	</div>
+									// `)
+									// else PaymentView_ItemLoader.append(`
+									// 	<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
+									// 		<div class="material-icons d-flex align-items-center">` +data.PaymentArray[x].StoreIcon+ `</div>
+									// 		<div class="ml-4" style="width: 100%">
+									// 			<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
+									// 			<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
+									// 		</div>
+									// 		<div class="d-flex align-items-center">
+									// 			<div class="d-flex flex-row">
+									// 				<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_ShowButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Show All Transaction Record">preview</button>
+									// 				<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_DownloadButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Download Excel File">get_app</button>
+									// 			</div>
+									// 		</div>
+									// 	</div>
+									// `)
+								}
+								else {
+									if(data.PaymentArray[x].StoreIcon == "") PaymentView_ItemLoader.append(`
+										<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
+											<div class="material-icons d-flex align-items-center">block</div>
+											<div class="ml-4" style="width: 100%">
+												<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
+												<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
+											</div>
+											<div class="d-flex align-items-center">
+												<div class="d-flex flex-row">
+													<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_EditButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Edit Button">edit</button>
+													<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_RemoveButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Delete Button">delete</button>
+												</div>
 											</div>
 										</div>
-									</div>
-								`)
-								else PaymentView_ItemLoader.append(`
-									<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
-										<div class="material-icons d-flex align-items-center">` +data.PaymentArray[x].StoreIcon+ `</div>
-										<div class="ml-4" style="width: 100%">
-											<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
-											<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
-										</div>
-										<div class="d-flex align-items-center">
-											<div class="d-flex flex-row">
-												<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_EditButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Edit Button">edit</button>
-												<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_RemoveButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Delete Button">delete</button>
+									`)
+									else PaymentView_ItemLoader.append(`
+										<div id="PaymentView_ItemID` +data.PaymentArray[x].StoreID+ `" class="d-flex flex-row pt-3 pb-3 pl-4 pr-4 border-bottom button-hover" style="width: 100%">
+											<div class="material-icons d-flex align-items-center">` +data.PaymentArray[x].StoreIcon+ `</div>
+											<div class="ml-4" style="width: 100%">
+												<div class="" style="font-weight: bold;">` +data.PaymentArray[x].StoreTitle+ `</div>
+												<div style="margin-top: -5px; font-size: 12px;">` +data.PaymentArray[x].StoreType+ `</div>
+											</div>
+											<div class="d-flex align-items-center">
+												<div class="d-flex flex-row">
+													<button id="PaymentView_EditButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_EditButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 rounded" title="Edit Button">edit</button>
+													<button id="PaymentView_RemoveButtonID` +data.PaymentArray[x].StoreID+ `" onclick="new Payment().View_RemoveButton(` +data.PaymentArray[x].StoreID+ `)" class="material-icons p-2 ml-1 rounded red" title="Delete Button">delete</button>
+												</div>
 											</div>
 										</div>
-									</div>
-								`)
+									`)
+								}
 
 								$("#PaymentView_EditButtonID" +data.PaymentArray[x].StoreID).tooltip()
 								$("#PaymentView_RemoveButtonID" +data.PaymentArray[x].StoreID).tooltip()

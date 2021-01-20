@@ -270,10 +270,6 @@
 						for (var i = 1970; i < new Date().getFullYear() + 20; i++) SettingTopup_Yearbox.append('<option value="' +i+ '">' +i+ '</option>')
 						for (var i = 0; i < 12; i++) SettingTopup_Monthbox.append('<option value="' +i+ '">' +(i+1)+ '</option>')
 					}
-					else {
-						$("#SettingBilling_Area").remove()
-						$("#SettingView_BillingButton").remove()
-					}
 				},
 				error: function(ex) {
 			 		console.log('Error: ' + JSON.stringify(ex, null, 2))

@@ -1059,55 +1059,62 @@ class Account extends CI_Controller {
 			if(!empty($_GET['id'])) {
 				if($this->db->query("Select Count(*) as x from Employee where EmployeeID='" .$_GET['id']. "'")->result()[0]->x == 1) {
 					$AccountQuery = $this->db->query("Select * from Account where EmployeeID='" .$_GET['id']. "'")->result()[0];
-					$x = include APPPATH.'third_party/SMTPConfig.php';
+					
+					if($AccountQuery->Account_AvailableBalance == 0) {
+						$x = include APPPATH.'third_party/SMTPConfig.php';
 
-					// Sending a Verification Key Code to Email Account
-	  				$mail = new PHPMailer();
-					$mail->isSMTP();
-					$mail->Host = 'smtp.gmail.com'; 
-					$mail->SMTPSecure = 'ssl';
-					$mail->SMTPAuth = true;
-					$mail->Username = $x['Email'];
-					$mail->Password = $x['Password'];
-					$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-					$mail->Port = 465;
-					//Recipients
-					$mail->setFrom($x['Email'], "Student EWallet Notifications");
-					$mail->addAddress($AccountQuery->AccountEmail, $AccountQuery->AccountUsername);
-					// Content
-					$mail->isHTML(true);
-					$mail->Subject = 'Notice Information';
-					$mail->Body    = 'Your Employee Account has been officially deleted permanently by the System Administrator. If there is a problem, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
-					// Send
-					if(!$mail->send())  echo json_encode(array(
-					    "isError" => true,
-					    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
-					));
-					else {
-						$this->db->update("Employee", array(
-							"isRetired" => true
-						), "EmployeeID=". $_GET['id']);
-						$this->db->update("Account", array(
-							"EmployeeID" => 0,
-							"AccountUsername" => "",
-							"AccountEmail" => "",
-							"AccountPassword" => "",
-							"isDeleted" => true
-						), "EmployeeID=". $_GET['id']);
-						$this->db->insert("Logs", array(
-							"AccountID" => $_SESSION['AccountID'],
-							"LogActivity" => json_encode(array(
-								"Page" => "Employee Account",
-								"Action" => "Delete Employee Account"
-							)),
-							"TimeRegister" => date("H:i:s"),
-							"DateRegister" => date("Y-m-d")
+						// Sending a Verification Key Code to Email Account
+		  				$mail = new PHPMailer();
+						$mail->isSMTP();
+						$mail->Host = 'smtp.gmail.com'; 
+						$mail->SMTPSecure = 'ssl';
+						$mail->SMTPAuth = true;
+						$mail->Username = $x['Email'];
+						$mail->Password = $x['Password'];
+						$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+						$mail->Port = 465;
+						//Recipients
+						$mail->setFrom($x['Email'], "Student EWallet Notifications");
+						$mail->addAddress($AccountQuery->AccountEmail, $AccountQuery->AccountUsername);
+						// Content
+						$mail->isHTML(true);
+						$mail->Subject = 'Notice Information';
+						$mail->Body    = 'Your Employee Account has been officially deleted permanently by the System Administrator. If there is a problem, please contact the Official Student E-Wallet Staff in the School.<br /><br /><br /><br />Respectfully yours,<br />Student E-Wallet Staff';
+						// Send
+						if(!$mail->send())  echo json_encode(array(
+						    "isError" => true,
+						    "ErrorDisplay" => "The Server cannot send a Notification via Email Address due to Offline Mode or SMTP is broken.\n\nTry Again Later!"
 						));
+						else {
+							$this->db->update("Employee", array(
+								"isRetired" => true
+							), "EmployeeID=". $_GET['id']);
+							$this->db->update("Account", array(
+								"EmployeeID" => 0,
+								"AccountUsername" => "",
+								"AccountEmail" => "",
+								"AccountPassword" => "",
+								"isDeleted" => true
+							), "EmployeeID=". $_GET['id']);
+							$this->db->insert("Logs", array(
+								"AccountID" => $_SESSION['AccountID'],
+								"LogActivity" => json_encode(array(
+									"Page" => "Employee Account",
+									"Action" => "Delete Employee Account"
+								)),
+								"TimeRegister" => date("H:i:s"),
+								"DateRegister" => date("Y-m-d")
+							));
 
-						echo json_encode(array(
-							"isError" => false
-						));
+							echo json_encode(array(
+								"isError" => false
+							));
+						}
 					}
+					else echo json_encode(array(
+						"isError" => true,
+						"ErrorDisplay" => "This is Account cannot deleted yet!. Account Balance is not reached to zero, therefore this account must widthdraw the money first before deleting this account!"
+					));
 				}
 				else echo json_encode(array(
 					"isError" => true,
@@ -1255,7 +1262,7 @@ class Account extends CI_Controller {
 									"ContactNumber" => $_POST['Number'],
 
 									"Company" => $_POST['Company'],
-									"Licence" => $_POST['Company'],
+									"Licence" => $_POST['Licence'],
 									"Position" => $_POST['Position'],
 									"Department" => $_POST['Department'],
 									"Extra_EmployeeID" => $_POST['ID'],

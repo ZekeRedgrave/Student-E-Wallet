@@ -31,7 +31,8 @@ class Payment extends CI_Controller {
 					"isOthers" => $value->isOthers,
 					"isPhysical" => $value->isPhysical,
 					"StorePrice" => $value->StorePrice,
-					"StoreIcon" => $value->StoreIcon
+					"StoreIcon" => $value->StoreIcon,
+					"isDeleted" => $value->isDeleted
 				));
 			}
 

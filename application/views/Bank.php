@@ -330,14 +330,17 @@
 
 			<div class="d-flex flex-row mt-4" style="width: 100%">
 				<div class="d-flex flex-column" style="width: 100%">
-					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;">Student ID</h4>
+					<h4 class="ml-2 mb-1 p-0" style="font-size: 14px; font-weight: bold;"><?php echo $AccountType == "CASHIER" ? 'Student ID / Employee ID' : 'Student ID'  ?> </h4>
 					<div class="d-flex flex-row mb-4">
 						<input id="CashView_Studentbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mr-1" style="background: #333333; color: #ffffff; width: 100%;" type="number" placeholder="XXX-XXX-XXX">
 						<button onclick="new Cash().View_SearchButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2" style="background: #333333; color: #7289da; width: 125px; font-size: 14px; font-weight: bold;">Search</button>
 					</div>
 
 					<h4 class="ml-2 mb-1 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Balance</h4>
-					<h4 id="CashView_BalanceLabel" class="border-0 rounded m-0 pl-4 pr-4 pt-3 pb-3" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+					<h4 id="CashView_BalanceLabel" class="border-0 rounded m-0 mb-4 pl-4 pr-4 pt-3 pb-3" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px; font-weight: bold;">P XXXX.XX</h4>
+
+					<h4 class="ml-2 mb-1 p-0" style="min-width: 100px; font-size: 14px; font-weight: bold;">Amount</h4>
+					<input id="CashView_Amountbox" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-2" style="background: #333333; color: #ffffff; width: 100%; font-size: 14px;" type="number" placeholder="XXX-XXX-XXX">
 
 					<button onclick="new Cash().View_NextButton()" id="CashView_NextButton" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 mb-1 mt-4 companyBackground" style="width: 125px; font-size: 14px; font-weight: bold;">Go!</button>
 					<button onclick="new Cash().View_BackButton()" class="border-0 rounded pl-4 pr-4 pt-2 pb-2 red" style="width: 125px; font-size: 14px; font-weight: bold;">Cancel</button>
@@ -920,14 +923,18 @@
 
 		this.View_NextButton = function() {
 			var CashView_Studentbox = $("#CashView_Studentbox")
+			var CashView_Amountbox = $("#CashView_Amountbox")
 			var CashView_NextButton = $("#CashView_NextButton")
 
-			if(CashView_Studentbox.val() != "") {
+			if(CashView_Studentbox.val() != "" && CashView_Amountbox.val() != "") {
 				CashView_NextButton.attr('disabled', 'disabled')
 
 				$.ajax({
 					url: window.location.href.replace("/Access", "")+ "/Transaction/CashView_NextButton?id=" + CashView_Studentbox.val(), 
 					method: 'POST',
+					data: {
+						Amount: CashView_Amountbox.val()
+					},
 					dataType: 'json',
 					success: function(data) {
 						if(!data.isError) {
@@ -951,7 +958,16 @@
 					}
 				})
 			}
-			else alert("Student ID is Empty!")
+			else {
+				var ErrorDisplay = ""
+
+				if(CashView_Studentbox.val() == "") ErrorDisplay += "(Student ID) "
+				if(CashView_Amountbox.val() == "") ErrorDisplay += "(Amount) "
+
+				alert(ErrorDisplay+ "is Empty!")
+
+				ErrorDisplay = ""
+			}
 		}
 
 		this.View_BackButton = function() {

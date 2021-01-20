@@ -183,9 +183,9 @@ class RegisterStudent extends CI_Controller {
 
     function Create_DoneButton() {
     	if(isset($_POST['RegisterCode']) && isset($_POST['RegisterSI']) && !empty($_POST['RegisterCode']) && !empty($_POST['RegisterSI'])) {
-    		if(json_encode($this->db->query("Select * from Registration where RegisterSI=". $_POST['RegisterSI'] ." and RegisterCode=". $_POST['RegisterCode'])->result()[0]) != 'null') {
+    		if($this->db->query("Select Count(*) as x from Registration where RegisterSI=". $_POST['RegisterSI'] ." and RegisterCode=". $_POST['RegisterCode'])->result()[0]->x != 0) {
     			$this->db->update("Registration", array(
-    				"isApprove" => true
+    				"isApprove" => false
     			), "RegisterSI=". $_POST['RegisterSI']);
 
     			echo json_encode(array(
